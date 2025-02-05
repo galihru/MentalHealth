@@ -251,6 +251,7 @@
 
         .modal-body {
             height: 50vh;
+            overflow: auto
         }
 
         .modal.show .modal-content {
@@ -297,8 +298,7 @@
         /* Cards Container */
         .cards-container {
             display: flex;
-            overflow-x: hidden;
-            scroll-snap-type: x mandatory;
+            overflow-x: auto;
             gap: 20px;
             padding: 10px 0;
             -webkit-overflow-scrolling: touch;
