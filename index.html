@@ -642,6 +642,10 @@
             const eyeLeft = landmarks[159];
             const cheekRaiseLeft = eyeLeft.y - cheekLeft.y;
 
+            if (!landmarks[61] || !landmarks[291] || !landmarks[123] || !landmarks[159]) {
+                return 0;
+            }
+
             return Math.min(1, lipStretch * 2 + cheekRaiseLeft * 3);
         }
 
@@ -753,17 +757,17 @@
             canvasCtx.save();
             canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
             canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
-
-            if (results.multiFaceLandmarks) {
-                const emotions = analyzeEmotions(results.multiFaceLandmarks[0]);
+        
+            if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+                const landmarks = results.multiFaceLandmarks[0];
+                const emotions = analyzeEmotions(landmarks);
                 updateUI(emotions);
-
-                // Gambar landmark wajah
+        
                 results.multiFaceLandmarks.forEach(landmarks => {
                     drawLandmarks(landmarks);
                 });
             }
-
+        
             canvasCtx.restore();
         });
 
@@ -785,8 +789,8 @@
             onFrame: async () => {
                 await faceMesh.send({ image: videoElement });
             },
-            width: 3860,
-            height: 2140
+            width: 640,  // Diubah ke resolusi yang lebih realistis
+            height: 480
         });
 
         camera.start();
