@@ -914,40 +914,47 @@
 
                 // Swipe to close functionality
                 modals.forEach(modal => {
+                    const modalHeader = modal.querySelector('.modal-header');
+                    const modalContent = modal.querySelector('.modal-content');
                     let startY = 0;
                     let currentY = 0;
-
-                    modal.addEventListener('touchstart', (e) => {
+                    let isDragging = false;
+                
+                    modalHeader.addEventListener('touchstart', (e) => {
                         const touch = e.touches[0];
                         startY = touch.clientY;
+                        isDragging = true;
                     });
-
+                
                     modal.addEventListener('touchmove', (e) => {
+                        if (!isDragging) return;
+                
                         const touch = e.touches[0];
                         currentY = touch.clientY;
                         const deltaY = currentY - startY;
-
+                
                         if (deltaY > 0) {
-                            const modalContent = modal.querySelector('.modal-content');
                             modalContent.style.transform = `translateY(${deltaY}px)`;
                             e.preventDefault();
                         }
                     });
-
+                
                     modal.addEventListener('touchend', () => {
+                        if (!isDragging) return;
+                
                         const deltaY = currentY - startY;
-                        const modalContent = modal.querySelector('.modal-content');
-
+                        
                         if (deltaY > 100) {
                             modal.classList.remove('show');
                             document.body.style.overflow = 'scroll';
                         }
-
+                
                         modalContent.style.transform = '';
+                        isDragging = false;
                         startY = 0;
                         currentY = 0;
                     });
-
+                
                     // Close modal when clicking overlay
                     modal.addEventListener('click', (e) => {
                         if (e.target === modal) {
