@@ -82,6 +82,7 @@
             --text-secondary: var(--text-secondary-light);
             --border: var(--border-light);
             --nav-bg: var(--nav-bg-light);
+            overflow: hidden;
         }
 
         /* Tema gelap saat body memiliki kelas .dark-theme */
@@ -94,6 +95,7 @@
             --text-secondary: var(--text-secondary-dark);
             --border: var(--border-dark);
             --nav-bg: var(--nav-bg-dark);
+            overflow: hidden;
         }
 
 
@@ -299,9 +301,14 @@
         .cards-container {
             display: flex;
             overflow-x: auto;
-            gap: 20px;
+            scroll-snap-type: x mandatory;
+            gap: 15px;
             padding: 10px 0;
             -webkit-overflow-scrolling: touch;
+        }
+
+        .cards-container::-webkit-scrollbar {
+            display: none;
         }
 
         .metric-card {
@@ -313,6 +320,7 @@
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
             border: 1px solid var(--border);
             transition: transform 0.3s ease;
+            scroll-snap-align: start;
         }
 
         .metric-card:hover {
