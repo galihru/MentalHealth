@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: #f0f0f0;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            height: calc(100vh - 60px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        video,
+        canvas {
+            position: absolute;
+            transform: scaleX(-1);
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            color: #666;
+            text-decoration: none;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .nav-item.active {
+            color: #2563eb;
+        }
+
+        .nav-item i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .nav-item span {
+            font-size: 12px;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .modal.show {
+            display: block;
+        }
+
+        .modal-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            padding: 20px;
+            border-radius: 20px 20px 0 0;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            height: 80vh;
+        }
+
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-body {
+            height: calc(100% - 60px);
+            overflow-y: auto;
+            padding: 0 5px;
+        }
+
+        /* Cards Container */
+        .cards-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            gap: 15px;
+            padding: 10px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .cards-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Metric Card */
+        .metric-card {
+            flex: 0 0 auto;
+            width: 280px;
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            scroll-snap-align: start;
+        }
+
+        .metric-card.green {
+            background: #E8F5E9;
+        }
+
+        .metric-card.orange {
+            background: #FFF3E0;
+        }
+
+        .metric-card.purple {
+            background: #EDE7F6;
+        }
+
+        .metric-value {
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Graph Card */
+        .graph-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-top: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .graph-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 200px;
+        }
+
+        /* Time Range Selector */
+        .time-range {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+
+        .time-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: #f5f5f5;
+            color: #666;
+            cursor: pointer;
+        }
+
+        .time-btn.active {
+            background: #2563eb;
+            color: white;
+        }
+
+        /* Swipe Indicator */
+        .swipe-indicator {
+            width: 40px;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            margin: -10px auto 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <video id="video" autoplay></video>
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <nav class="bottom-nav">
+        <div class="nav-item active" data-page="home">
+            <i class="fas fa-home"></i>
+            <span>Beranda</span>
+        </div>
+        <div class="nav-item" data-page="history">
+            <i class="fas fa-history"></i>
+            <span>Histori</span>
+        </div>
+        <div class="nav-item" data-page="graph">
+            <i class="fas fa-chart-line"></i>
+            <span>Grafik</span>
+        </div>
+    </nav>
+
+    <!-- History Modal -->
+    <div class="modal" id="historyModal">
+        <div class="modal-content">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Histori Pemantauan</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="cards-container">
+                    <div class="metric-card green">
+                        <div class="metric-label">Heart Rate</div>
+                        <div class="metric-value">95</div>
+                        <div class="metric-label">bpm</div>
+                    </div>
+                    <div class="metric-card orange">
+                        <div class="metric-label">Blood Pressure</div>
+                        <div class="metric-value">121/80</div>
+                        <div class="metric-label">mmHg</div>
+                    </div>
+                    <div class="metric-card purple">
+                        <div class="metric-label">Sleep</div>
+                        <div class="metric-value">6.8</div>
+                        <div class="metric-label">hr/day</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graph Modal -->
+    <div class="modal" id="graphModal">
+        <div class="modal-content">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Grafik Pemantauan</h2>
+                <button class="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="graph-card">
+                    <div class="graph-title">Heart Rate Trend</div>
+                    <div class="chart-container">
+                        <canvas id="heartRateChart"></canvas>
+                    </div>
+                    <div class="time-range">
+                        <button class="time-btn">1D</button>
+                        <button class="time-btn active">1W</button>
+                        <button class="time-btn">1M</button>
+                        <button class="time-btn">1Y</button>
+                    </div>
+                </div>
+
+                <div class="graph-card">
+                    <div class="graph-title">Blood Pressure Trend</div>
+                    <div class="chart-container">
+                        <canvas id="bpChart"></canvas>
+                    </div>
+                    <div class="time-range">
+                        <button class="time-btn">1D</button>
+                        <button class="time-btn active">1W</button>
+                        <button class="time-btn">1M</button>
+                        <button class="time-btn">1Y</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+
+    <script>
+        // Face Detection Code (unchanged)
+        const videoElement = document.getElementById('video');
+        const canvasElement = document.getElementById('canvas');
+        const canvasCtx = canvasElement.getContext('2d');
+
+        function onResults(results) {
+            canvasCtx.save();
+            canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            canvasCtx.drawImage(
+                results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+            if (results.multiFaceLandmarks) {
+                for (const landmarks of results.multiFaceLandmarks) {
+                    drawLandmarks(landmarks);
+                }
+            }
+            canvasCtx.restore();
+        }
+
+        function drawLandmarks(landmarks) {
+            canvasCtx.fillStyle = '#00FF00';
+            for (let i = 0; i < landmarks.length; i++) {
+                const x = landmarks[i].x * canvasElement.width;
+                const y = landmarks[i].y * canvasElement.height;
+
+                canvasCtx.beginPath();
+                canvasCtx.arc(x, y, 2, 0, 2 * Math.PI);
+                canvasCtx.fill();
+            }
+        }
+
+        const faceMesh = new FaceMesh({
+            locateFile: (file) => {
+                return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
+            }
+        });
+
+        faceMesh.setOptions({
+            maxNumFaces: 1,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5
+        });
+
+        faceMesh.onResults(onResults);
+
+        const camera = new Camera(videoElement, {
+            onFrame: async () => {
+                await faceMesh.send({ image: videoElement });
+            },
+            width: 640,
+            height: 480
+        });
+
+        camera.start();
+
+        // Navigation and Modal Code
+        const navItems = document.querySelectorAll('.nav-item');
+        const modals = document.querySelectorAll('.modal');
+        const closeBtns = document.querySelectorAll('.close-btn');
+        const timeButtons = document.querySelectorAll('.time-btn');
+
+        // Initialize Charts
+        function initializeCharts() {
+            // Heart Rate Chart
+            const heartRateCtx = document.getElementById('heartRateChart').getContext('2d');
+            new Chart(heartRateCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Heart Rate',
+                        data: [75, 82, 78, 85, 80, 83, 79],
+                        borderColor: '#4CAF50',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+            // Blood Pressure Chart
+            const bpCtx = document.getElementById('bpChart').getContext('2d');
+            new Chart(bpCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Systolic',
+                        data: [120, 118, 122, 119, 121, 117, 120],
+                        borderColor: '#FF9800',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Diastolic',
+                        data: [80, 79, 82, 81, 80, 78, 80],
+                        borderColor: '#2196F3',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize charts when graph modal is opened
+        document.querySelector('[data-page="graph"]').addEventListener('click', () => {
+            setTimeout(initializeCharts, 300);
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        navItems.forEach(nav => nav.classList.remove('active'));
+                        item.classList.add('active');
+
+                        // Show corresponding modal
+                        const page = item.dataset.page;
+                        if (page === 'history') {
+                            document.getElementById('historyModal').classList.add('show');
+                        } else if (page === 'graph') {
+                            document.getElementById('graphModal').classList.add('show');
+                        }
+                    });
+                });
+
+                // Time range buttons functionality
+                timeButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const parent = btn.closest('.graph-card');
+                        parent.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    });
+                });
+
+                // Close modal functionality
+                closeBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const modal = btn.closest('.modal');
+                        modal.classList.remove('show');
+                    });
+                });
+
+                // Swipe to close functionality
+                modals.forEach(modal => {
+                    let startY = 0;
+                    let currentY = 0;
+
+                    modal.addEventListener('touchstart', (e) => {
+                        const touch = e.touches[0];
+                        startY = touch.clientY;
+                    });
+
+                    modal.addEventListener('touchmove', (e) => {
+                        const touch = e.touches[0];
+                        currentY = touch.clientY;
+                        const deltaY = currentY - startY;
+
+                        if (deltaY > 0) {
+                            const modalContent = modal.querySelector('.modal-content');
+                            modalContent.style.transform = `translateY(${deltaY}px)`;
+                            e.preventDefault();
+                        }
+                    });
+
+                    modal.addEventListener('touchend', () => {
+                        const deltaY = currentY - startY;
+                        const modalContent = modal.querySelector('.modal-content');
+
+                        if (deltaY > 100) {
+                            modal.classList.remove('show');
+                        }
+
+                        modalContent.style.transform = '';
+                        startY = 0;
+                        currentY = 0;
+                    });
+
+                    // Close modal when clicking overlay
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.classList.remove('show');
+                        }
+                    });
+                });
+
+                // Horizontal scroll for cards
+                const cardsContainer = document.querySelector('.cards-container');
+                let isScrolling = false;
+                let startX;
+                let scrollLeft;
+
+                cardsContainer.addEventListener('touchstart', (e) => {
+                    isScrolling = true;
+                    startX = e.touches[0].pageX - cardsContainer.offsetLeft;
+                    scrollLeft = cardsContainer.scrollLeft;
+                });
+
+                cardsContainer.addEventListener('touchmove', (e) => {
+                    if (!isScrolling) return;
+                    e.preventDefault();
+                    const x = e.touches[0].pageX - cardsContainer.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    cardsContainer.scrollLeft = scrollLeft - walk;
+                });
+
+                cardsContainer.addEventListener('touchend', () => {
+                    isScrolling = false;
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
