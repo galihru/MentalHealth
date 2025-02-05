@@ -109,7 +109,7 @@
 
         video,
         canvas {
-            position: absolute;
+            position: fixed;
             transform: scaleX(-1);
             width: 100%;
             height: 100%;
@@ -119,19 +119,21 @@
         }
 
         canvas#bpChart {
+            position: absolute;
             width: 100%;
             height: 100%;
             transform: scaleX(1);
         }
 
         canvas#heartRateChart {
+            position: absolute;
             width: 100%;
             height: 100%;
             transform: scaleX(1);
         }
 
         header {
-            position: relative;
+            position: fixed;
             top: 0;
             left: 0;
             right: 0;
