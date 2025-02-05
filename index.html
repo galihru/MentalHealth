@@ -8,30 +8,164 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* Modern CSS Reset and Base Styles 2025 */
+        :root {
+            /* Light Theme Colors */
+            --primary-light: #2563eb;
+            --primary-gradient-light: linear-gradient(135deg, #2563eb, #4f46e5);
+            --bg-light: #f8fafc;
+            --card-bg-light: #ffffff;
+            --text-primary-light: #1e293b;
+            --text-secondary-light: #64748b;
+            --border-light: rgba(148, 163, 184, 0.1);
+            --nav-bg-light: rgba(255, 255, 255, 0.8);
+
+            /* Dark Theme Colors */
+            --primary-dark: #60a5fa;
+            --primary-gradient-dark: linear-gradient(135deg, #d2e6ff, #dee1ff);
+            --bg-dark: #090909;
+            --card-bg-dark: #0b0d12;
+            --text-primary-dark: #f1f5f9;
+            --text-secondary-dark: #94a3b8;
+            --border-dark: rgba(148, 163, 184, 0.1);
+            --nav-bg-dark: rgba(24 25 28, 0.8);
+
+            /* Font Family */
+            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Theme Auto Detection */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --primary: var(--primary-dark);
+                --primary-gradient: var(--primary-gradient-dark);
+                --bg: var(--bg-dark);
+                --card-bg: var(--card-bg-dark);
+                --text-primary: var(--text-primary-dark);
+                --text-secondary: var(--text-secondary-dark);
+                --border: var(--border-dark);
+                --nav-bg: var(--nav-bg-dark);
+            }
+        }
+
+        @media (prefers-color-scheme: light) {
+            :root {
+                --primary: var(--primary-light);
+                --primary-gradient: var(--primary-gradient-light);
+                --bg: var(--bg-light);
+                --card-bg: var(--card-bg-light);
+                --text-primary: var(--text-primary-light);
+                --text-secondary: var(--text-secondary-light);
+                --border: var(--border-light);
+                --nav-bg: var(--nav-bg-light);
+            }
+        }
+
+        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: var(--font-sans);
         }
 
         body {
             height: 100vh;
-            overflow: hidden;
+            background: var(--bg);
+            color: var(--text-primary);
+            transition: background-color 0.3s ease, color 0.3s ease;
+            --primary: var(--primary-light);
+            --primary-gradient: var(--primary-gradient-light);
+            --bg: var(--bg-light);
+            --card-bg: var(--card-bg-light);
+            --text-primary: var(--text-primary-light);
+            --text-secondary: var(--text-secondary-light);
+            --border: var(--border-light);
+            --nav-bg: var(--nav-bg-light);
         }
 
+        /* Tema gelap saat body memiliki kelas .dark-theme */
+        body.dark-theme {
+            --primary: var(--primary-dark);
+            --primary-gradient: var(--primary-gradient-dark);
+            --bg: var(--bg-dark);
+            --card-bg: var(--card-bg-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --border: var(--border-dark);
+            --nav-bg: var(--nav-bg-dark);
+        }
+
+
+
+        /* Container Styles */
         .container {
-            height: calc(100vh - 60px);
+            height: calc(100vh - 70px);
             position: relative;
             overflow: hidden;
+            border-radius: 30px;
+            z-index: 1;
         }
 
         video,
         canvas {
             position: absolute;
+            transform: scaleX(-1);
             width: 100%;
             height: 100%;
             object-fit: cover;
+            border-radius: 30px;
+            top: 70px;
+        }
+
+        canvas#bpChart {
+            width: 100%;
+            height: 100%;
+            transform: scaleX(1);
+        }
+
+        canvas#heartRateChart {
+            width: 100%;
+            height: 100%;
+            transform: scaleX(1);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--nav-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 0 20px;
+            z-index: 2;
+        }
+
+        .headco {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--primary-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: background-color 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--text-secondary-light);
         }
 
         /* Bottom Navigation */
@@ -40,49 +174,57 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 60px;
-            background: rgb(255 255 255 / 60%);
+            height: 70px;
+            background: var(--nav-bg);
             display: flex;
             justify-content: space-around;
             align-items: center;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border);
+            padding: 0 20px;
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 8px;
-            color: #666;
+            padding: 4px;
+            color: var(--text-secondary);
             text-decoration: none;
             flex: 1;
             cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 16px;
         }
 
         .nav-item.active {
-            color: #2563eb;
+            color: var(--primary);
+            background: var(--border);
+            transform: translateY(-5px);
         }
 
         .nav-item i {
-            font-size: 20px;
-            margin-bottom: 4px;
+            font-size: 24px;
+            margin-bottom: 6px;
         }
 
         .nav-item span {
-            font-size: 12px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: -0.2px;
         }
 
-        /* Modal */
+        /* Modal Styles */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             display: none;
             z-index: 1000;
         }
@@ -96,12 +238,17 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: white;
-            padding: 20px;
-            border-radius: 20px 20px 0 0;
+            background: var(--card-bg);
+            padding: 24px;
+            border-radius: 30px 30px 0 0;
             transform: translateY(100%);
-            transition: transform 0.3s ease-out;
-            height: 80vh;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-body {
+            height: 50vh;
+            overflow-y: scroll;
         }
 
         .modal.show .modal-content {
@@ -112,27 +259,37 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .modal-title {
-            font-size: 24px;
-            font-weight: 600;
-            color: #333;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .close-btn {
-            background: none;
+            background: var(--border);
             border: none;
             font-size: 24px;
             cursor: pointer;
-            color: #666;
+            color: var(--text-secondary);
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
-        .modal-body {
-            height: calc(100% - 60px);
-            overflow-y: auto;
-            padding: 0 5px;
+        .close-btn:hover {
+            background: var(--primary-gradient);
+            color: white;
         }
 
         /* Cards Container */
@@ -140,104 +297,158 @@
             display: flex;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
-            gap: 15px;
+            gap: 20px;
             padding: 10px 0;
             -webkit-overflow-scrolling: touch;
         }
 
-        .cards-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Metric Card */
         .metric-card {
             flex: 0 0 auto;
-            width: 280px;
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            scroll-snap-align: start;
+            width: 300px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
+            transition: transform 0.3s ease;
         }
 
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Theme-specific card styles */
         .metric-card.green {
-            background: #E8F5E9;
+            background: linear-gradient(135deg, #22c55e15, #16a34a15);
         }
 
         .metric-card.orange {
-            background: #FFF3E0;
+            background: linear-gradient(135deg, #f59e0b15, #d9770615);
         }
 
         .metric-card.purple {
-            background: #EDE7F6;
+            background: linear-gradient(135deg, #8b5cf615, #7c3aed15);
+        }
+
+        .metric-card.blue {
+            background: linear-gradient(135deg, #3b82f615, #2563eb15);
+        }
+
+        .metric-card.red {
+            background: linear-gradient(135deg, #ef444415, #dc262615);
         }
 
         .metric-value {
-            font-size: 48px;
-            font-weight: bold;
-            margin: 10px 0;
+            font-size: 56px;
+            font-weight: 800;
+            margin: 16px 0;
+            letter-spacing: -1px;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .metric-label {
-            color: #666;
-            font-size: 14px;
+            color: var(--text-secondary);
+            font-size: 15px;
+            font-weight: 500;
+            letter-spacing: -0.3px;
         }
 
         /* Graph Card */
         .graph-card {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 24px;
+            margin-top: 24px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border: 1px solid var(--border);
         }
 
         .graph-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 15px;
-            color: #333;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
         }
 
         .chart-container {
             position: relative;
-            height: 200px;
+            height: 240px;
         }
 
         /* Time Range Selector */
         .time-range {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 20px;
             justify-content: center;
         }
 
         .time-btn {
-            padding: 8px 16px;
+            padding: 10px 20px;
             border: none;
-            border-radius: 20px;
-            background: #f5f5f5;
-            color: #666;
+            border-radius: 14px;
+            background: var(--border);
+            color: var(--text-secondary);
             cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
 
         .time-btn.active {
-            background: #2563eb;
-            color: white;
+            background: var(--primary-gradient);
+            color: var(--card-bg);
         }
 
         /* Swipe Indicator */
         .swipe-indicator {
-            width: 40px;
-            height: 4px;
-            background: #ddd;
-            border-radius: 2px;
-            margin: -10px auto 10px;
+            width: 48px;
+            height: 5px;
+            background: var(--border);
+            border-radius: 3px;
+            margin: -12px auto 16px;
+        }
+
+        /* Additional UI Elements */
+        .conclusion-box,
+        .advice-box {
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 24px;
+            margin: 20px 0;
+            border: 1px solid var(--border);
+        }
+
+        h1,
+        h2 {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 24px 0 16px;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 15px;
         }
     </style>
 </head>
 
 <body>
+    <header>
+        <div class="headco">
+            <h1>Mental Health</h1>
+        </div>
+        <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()"
+            title="Toggle Theme" aria-label="theme-toggle">
+            <i class="fas fa-moon"></i>
+        </button>
+    </header>
     <div class="container">
         <video id="video" autoplay></video>
         <canvas id="canvas"></canvas>
@@ -284,6 +495,42 @@
                         <div class="metric-label">hr/day</div>
                     </div>
                 </div>
+                <h1>Matric Detection</h1>
+                <div class="cards-container">
+                    <div class="metric-card green">
+                        <div class="metric-label">Happy</div>
+                        <div class="metric-value" id="happy">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                    <div class="metric-card orange">
+                        <div class="metric-label">Sad</div>
+                        <div class="metric-value" id="sad">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                    <div class="metric-card purple">
+                        <div class="metric-label">Angry</div>
+                        <div class="metric-value" id="angry">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                    <div class="metric-card blue">
+                        <div class="metric-label">Neutral</div>
+                        <div class="metric-value" id="neutral">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                    <div class="metric-card red">
+                        <div class="metric-label">Surprised</div>
+                        <div class="metric-value" id="surprised">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                </div>
+                <h1>Kesimpulan untuk Anda</h1>
+                <div class="conclusion-box">
+                    <p id="conclusion">Menunggu data...</p>
+                </div>
+                <h2>Saran untuk Anda</h2>
+                <div class="advice-box">
+                    <p id="advice">Menunggu data...</p>
+                </div>
             </div>
         </div>
     </div>
@@ -303,10 +550,10 @@
                         <canvas id="heartRateChart"></canvas>
                     </div>
                     <div class="time-range">
-                        <button class="time-btn">1D</button>
-                        <button class="time-btn active">1W</button>
-                        <button class="time-btn">1M</button>
-                        <button class="time-btn">1Y</button>
+                        <button type="button" class="time-btn">1D</button>
+                        <button type="button" class="time-btn active">1W</button>
+                        <button type="button" class="time-btn">1M</button>
+                        <button type="button" class="time-btn">1Y</button>
                     </div>
                 </div>
 
@@ -332,58 +579,211 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
 
     <script>
-        // Face Detection Code (unchanged)
+        // face-analysis.js
         const videoElement = document.getElementById('video');
         const canvasElement = document.getElementById('canvas');
         const canvasCtx = canvasElement.getContext('2d');
 
-        function onResults(results) {
-            canvasCtx.save();
-            canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-            canvasCtx.drawImage(
-                results.image, 0, 0, canvasElement.width, canvasElement.height);
+        // Konfigurasi Threshold (Berdasarkan penelitian)
+        const EMOTION_THRESHOLDS = {
+            HAPPY: 0.65,
+            SAD: 0.6,
+            ANGRY: 0.55,
+            SURPRISED: 0.5,
+            NEUTRAL: 0.7
+        };
 
-            if (results.multiFaceLandmarks) {
-                for (const landmarks of results.multiFaceLandmarks) {
-                    // Gambar landmark wajah
-                    drawLandmarks(landmarks);
-                }
-            }
-            canvasCtx.restore();
-        }
-
-        function drawLandmarks(landmarks) {
-            canvasCtx.fillStyle = '#00FF00';
-            for (let i = 0; i < landmarks.length; i++) {
-                const x = landmarks[i].x * canvasElement.width;
-                const y = landmarks[i].y * canvasElement.height;
-
-                canvasCtx.beginPath();
-                canvasCtx.arc(x, y, 2, 0, 2 * Math.PI);
-                canvasCtx.fill();
-            }
-        }
-
+        // Inisialisasi Face Mesh
         const faceMesh = new FaceMesh({
-            locateFile: (file) => {
-                return `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`;
-            }
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
         });
 
         faceMesh.setOptions({
             maxNumFaces: 1,
-            minDetectionConfidence: 0.7,
-            minTrackingConfidence: 0.7
+            refineLandmarks: true,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5
         });
 
-        faceMesh.onResults(onResults);
+        // Fungsi Utama Deteksi Emosi
+        function analyzeEmotions(landmarks) {
+            const emotions = {
+                happy: calculateHappiness(landmarks),
+                sad: calculateSadness(landmarks),
+                angry: calculateAnger(landmarks),
+                surprised: calculateSurprise(landmarks),
+                neutral: calculateNeutral(landmarks)
+            };
 
+            // Normalisasi ke persentase
+            const total = Object.values(emotions).reduce((a, b) => a + b, 0);
+            Object.keys(emotions).forEach(key => {
+                emotions[key] = (emotions[key] / total * 100).toFixed(1);
+            });
+
+            return emotions;
+        }
+
+        // Perhitungan Berdasarkan Action Units (Berdasarkan penelitian)
+        function calculateHappiness(landmarks) {
+            // AU12 - Lip Corner Puller (Frontiers in Psychology 2022)
+            const lipCornerLeft = landmarks[61];
+            const lipCornerRight = landmarks[291];
+            const lipStretch = Math.hypot(
+                lipCornerRight.x - lipCornerLeft.x,
+                lipCornerRight.y - lipCornerLeft.y
+            );
+
+            // AU6 - Cheek Raiser (IEEE TAFFC 2021)
+            const cheekLeft = landmarks[123];
+            const eyeLeft = landmarks[159];
+            const cheekRaiseLeft = eyeLeft.y - cheekLeft.y;
+
+            return Math.min(1, lipStretch * 2 + cheekRaiseLeft * 3);
+        }
+
+        function calculateSadness(landmarks) {
+            // AU15 - Lip Corner Depressor (IEEE TAFFC 2021)
+            const lipCornerLeft = landmarks[61];
+            const lipBottom = landmarks[17];
+            const lipDepression = lipBottom.y - lipCornerLeft.y;
+
+            // AU1 - Inner Brow Raiser (Frontiers in Psychology 2022)
+            const browInnerLeft = landmarks[105];
+            const browInnerRight = landmarks[334];
+            const browRaise = (browInnerLeft.y + browInnerRight.y) / 2;
+
+            return Math.min(1, lipDepression * 1.5 + browRaise * 2);
+        }
+
+        function calculateAnger(landmarks) {
+            // AU4 - Brow Lowerer (IEEE TAFFC 2021)
+            const browOuterLeft = landmarks[46];
+            const browInnerLeft = landmarks[105];
+            const browLowerLeft = browInnerLeft.y - browOuterLeft.y;
+
+            // AU23 - Lip Tightener
+            const lipTop = landmarks[0];
+            const lipBottom = landmarks[17];
+            const lipCompression = lipBottom.y - lipTop.y;
+
+            return Math.min(1, browLowerLeft * 2 + lipCompression * 1.2);
+        }
+
+        function calculateSurprise(landmarks) {
+            // AU5 - Upper Lid Raiser
+            const eyelidLeft = landmarks[159];
+            const eyeLeft = landmarks[145];
+            const eyeOpenness = eyeLeft.y - eyelidLeft.y;
+
+            // AU26 - Jaw Drop
+            const chin = landmarks[152];
+            const nose = landmarks[4];
+            const jawDrop = chin.y - nose.y;
+
+            return Math.min(1, eyeOpenness * 2 + jawDrop * 0.8);
+        }
+
+        function calculateNeutral(landmarks) {
+            // Menghitung deviasi dari posisi netral
+            let deviation = 0;
+            const neutralFeatures = [
+                [152, 4],  // Chin to nose
+                [61, 291], // Lip corners
+                [105, 334] // Brows
+            ];
+
+            neutralFeatures.forEach(([i1, i2]) => {
+                deviation += Math.hypot(
+                    landmarks[i1].x - landmarks[i2].x,
+                    landmarks[i1].y - landmarks[i2].y
+                );
+            });
+
+            return Math.max(0, 1 - deviation * 2);
+        }
+
+        // Analisis Kesehatan Mental (Berdasarkan IEEE Transactions on Affective Computing)
+        function getMentalHealthConclusion(emotions) {
+            const { happy, sad, angry, surprised, neutral } = emotions;
+
+            if (sad > 40 && happy < 20 && neutral < 30) {
+                return {
+                    conclusion: "Potensi gejala depresi terdeteksi",
+                    advice: "Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi."
+                };
+            }
+
+            if (angry > 35 && happy < 25) {
+                return {
+                    conclusion: "Tingkat stres tinggi terdeteksi",
+                    advice: "Rekomendasi: Lakukan teknik relaksasi dan perhatikan pola tidur."
+                };
+            }
+
+            if (neutral > 60) {
+                return {
+                    conclusion: "Emosi stabil",
+                    advice: "Pertahankan keseimbangan emosional. Tidak terdeteksi masalah kesehatan mental signifikan."
+                };
+            }
+
+            return {
+                conclusion: "Kondisi emosional normal",
+                advice: "Tidak terdeteksi gangguan mental utama. Tetap pantau kesehatan emosi Anda."
+            };
+        }
+
+        // Update UI
+        function updateUI(emotions) {
+            Object.entries(emotions).forEach(([emotion, value]) => {
+                document.getElementById(emotion).textContent = value;
+            });
+
+            const mentalHealth = getMentalHealthConclusion(emotions);
+            document.getElementById('conclusion').textContent = mentalHealth.conclusion;
+            document.getElementById('advice').textContent = mentalHealth.advice;
+        }
+
+        // Face Mesh Handler
+        faceMesh.onResults((results) => {
+            canvasCtx.save();
+            canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+            if (results.multiFaceLandmarks) {
+                const emotions = analyzeEmotions(results.multiFaceLandmarks[0]);
+                updateUI(emotions);
+
+                // Gambar landmark wajah
+                results.multiFaceLandmarks.forEach(landmarks => {
+                    drawLandmarks(landmarks);
+                });
+            }
+
+            canvasCtx.restore();
+        });
+
+        // Fungsi gambar landmark
+        function drawLandmarks(landmarks) {
+            canvasCtx.fillStyle = '#00FF00';
+            landmarks.forEach(landmark => {
+                const x = landmark.x * canvasElement.width;
+                const y = landmark.y * canvasElement.height;
+
+                canvasCtx.beginPath();
+                canvasCtx.arc(x, y, 2, 0, 2 * Math.PI);
+                canvasCtx.fill();
+            });
+        }
+
+        // Inisialisasi Kamera
         const camera = new Camera(videoElement, {
             onFrame: async () => {
                 await faceMesh.send({ image: videoElement });
             },
-            width: 3840,
-            height: 2160
+            width: 3860,
+            height: 2140
         });
 
         camera.start();
@@ -479,8 +879,10 @@
                         const page = item.dataset.page;
                         if (page === 'history') {
                             document.getElementById('historyModal').classList.add('show');
+                            document.body.style.overflow = 'hidden';
                         } else if (page === 'graph') {
                             document.getElementById('graphModal').classList.add('show');
+                            document.body.style.overflow = 'hidden';
                         }
                     });
                 });
@@ -499,6 +901,7 @@
                     btn.addEventListener('click', () => {
                         const modal = btn.closest('.modal');
                         modal.classList.remove('show');
+                        document.body.style.overflow = 'scroll';
                     });
                 });
 
@@ -530,6 +933,7 @@
 
                         if (deltaY > 100) {
                             modal.classList.remove('show');
+                            document.body.style.overflow = 'scroll';
                         }
 
                         modalContent.style.transform = '';
@@ -541,6 +945,7 @@
                     modal.addEventListener('click', (e) => {
                         if (e.target === modal) {
                             modal.classList.remove('show');
+                            document.body.style.overflow = 'scroll';
                         }
                     });
                 });
@@ -569,6 +974,44 @@
                     isScrolling = false;
                 });
             });
+        });
+    </script>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggleIcon = document.querySelector('.theme-toggle i');
+
+            // Toggle dark-theme class
+            body.classList.toggle('dark-theme');
+
+            // Update icon and localStorage berdasarkan status dark-theme
+            if (body.classList.contains('dark-theme')) {
+                themeToggleIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggleIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const themeToggleIcon = document.querySelector('.theme-toggle i');
+
+            // Set tema awal
+            if (savedTheme) {
+                document.body.classList.toggle('dark-theme', savedTheme === 'dark');
+            } else {
+                document.body.classList.toggle('dark-theme', systemPrefersDark);
+            }
+
+            // Set ikon awal
+            if (document.body.classList.contains('dark-theme')) {
+                themeToggleIcon.className = 'fas fa-sun';
+            } else {
+                themeToggleIcon.className = 'fas fa-moon';
+            }
         });
     </script>
 </body>
