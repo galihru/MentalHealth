@@ -345,6 +345,7 @@
 
             if (results.multiFaceLandmarks) {
                 for (const landmarks of results.multiFaceLandmarks) {
+                    // Gambar landmark wajah
                     drawLandmarks(landmarks);
                 }
             }
@@ -371,8 +372,8 @@
 
         faceMesh.setOptions({
             maxNumFaces: 1,
-            minDetectionConfidence: 0.5,
-            minTrackingConfidence: 0.5
+            minDetectionConfidence: 0.7,
+            minTrackingConfidence: 0.7
         });
 
         faceMesh.onResults(onResults);
@@ -381,8 +382,8 @@
             onFrame: async () => {
                 await faceMesh.send({ image: videoElement });
             },
-            width: 640,
-            height: 480
+            width: 3840,
+            height: 2160
         });
 
         camera.start();
