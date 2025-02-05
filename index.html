@@ -886,10 +886,8 @@
                         const page = item.dataset.page;
                         if (page === 'history') {
                             document.getElementById('historyModal').classList.add('show');
-                            document.body.style.overflow = 'hidden';
                         } else if (page === 'graph') {
                             document.getElementById('graphModal').classList.add('show');
-                            document.body.style.overflow = 'hidden';
                         }
                     });
                 });
@@ -908,7 +906,6 @@
                     btn.addEventListener('click', () => {
                         const modal = btn.closest('.modal');
                         modal.classList.remove('show');
-                        document.body.style.overflow = 'scroll';
                     });
                 });
 
@@ -946,7 +943,6 @@
                         
                         if (deltaY > 100) {
                             modal.classList.remove('show');
-                            document.body.style.overflow = 'scroll';
                         }
                 
                         modalContent.style.transform = '';
@@ -959,7 +955,6 @@
                     modal.addEventListener('click', (e) => {
                         if (e.target === modal) {
                             modal.classList.remove('show');
-                            document.body.style.overflow = 'scroll';
                         }
                     });
                 });
