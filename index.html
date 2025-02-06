@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" FaceID="">
 
 <head>
     <meta charset="UTF-8">
@@ -593,6 +593,28 @@
         const videoElement = document.getElementById('video');
         const canvasElement = document.getElementById('canvas');
         const canvasCtx = canvasElement.getContext('2d');
+        let lastFaceID = null;
+
+        // Fungsi hash sederhana untuk generate FaceID
+        function djb2Hash(str) {
+            let hash = 5381;
+            for (let i = 0; i < str.length; i++) {
+                hash = (hash * 33) ^ str.charCodeAt(i);
+            }
+            return hash >>> 0; // Konversi ke unsigned 32-bit integer
+        }
+        
+        // Fungsi untuk mengubah landmark wajah menjadi hash unik
+        function generateFaceID(landmarks) {
+            // Normalisasi koordinat landmark dengan presisi 4 digit desimal
+            let hashString = landmarks.map(lm => 
+                lm.x.toFixed(4) + 
+                lm.y.toFixed(4) + 
+                lm.z.toFixed(4)
+            ).join('');
+            
+            return djb2Hash(hashString).toString(16); // Konversi ke hexadecimal
+        }
 
         // Konfigurasi Threshold (Berdasarkan penelitian)
         const EMOTION_THRESHOLDS = {
@@ -765,14 +787,29 @@
             canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
             canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
         
+            let currentFaceID = '';
             if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
                 const landmarks = results.multiFaceLandmarks[0];
+                currentFaceID = generateFaceID(landmarks);
+                
+                // Update FaceID hanya jika berbeda dengan sebelumnya
+                if (currentFaceID !== lastFaceID) {
+                    document.documentElement.setAttribute('FaceID', currentFaceID);
+                    lastFaceID = currentFaceID;
+                }
+        
                 const emotions = analyzeEmotions(landmarks);
                 updateUI(emotions);
         
                 results.multiFaceLandmarks.forEach(landmarks => {
                     drawLandmarks(landmarks);
                 });
+            } else {
+                // Jika tidak ada wajah terdeteksi
+                if (lastFaceID !== null) {
+                    document.documentElement.setAttribute('FaceID', '');
+                    lastFaceID = null;
+                }
             }
         
             canvasCtx.restore();
