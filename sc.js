@@ -77,7 +77,7 @@ async function generateHtml() {
 
  const jsk = "`https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`";
 
-  const hdf = "`<a href='${url}' target='_blank' title='${url}'>${url}</a>`;";
+  const hdf = "<a href='" + url + "' target='_blank' title='" + url + "'>" + url + "</a>";
   let htmlContent = `<!DOCTYPE html>
   <html xml:lang="en" lang="en">
     <head FaceID="">
@@ -533,10 +533,9 @@ function autoLinkify(text) {
     // Regex untuk mendeteksi URL dalam teks
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, (url) => {
-        return return ${hdf}
+        return '<a href="' + url + '" target="_blank" title="' + url + '">' + url + '</a>';
     });
 }
-
 async function updateUI(emotions) {
     Object.entries(emotions).forEach(([emotion, value]) => {
         document.getElementById(emotion).textContent = value;
