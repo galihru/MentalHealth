@@ -1,39 +1,34 @@
-
 name: Auto Deployment
-
 on:
   push:
     branches:
       - main
-
+    paths:
+      - 'index.html'  # Specifically trigger on index.html changes
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      # Checkout the repository
       - name: Checkout repository
         uses: actions/checkout@v4
-        
-      # Set up Git configuration (user info)
-      - name: Set up Git config
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-        
-      # Install dependencies if needed (if your project uses npm, yarn, etc.)
+      
+      # Optional: Setup Node.js if you need build steps
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      # Install dependencies (if needed)
       - name: Install dependencies
         run: npm install
-
-      # Stage changes (e.g., package-lock.json)
-      - name: Stage changes
-        run: git add .
-
-      # Commit the changes if there are any changes to commit
-      - name: Commit changes
-        run: |
-          git commit -m "Automatic deployment commit" || echo "No changes to commit"
-        continue-on-error: true  # In case there's nothing to commit, continue without error
-
-      # Push the changes back to the repository
-      - name: Push changes
-        run: git push origin main
+      
+      # Build step (if you have one)
+      - name: Build project
+        run: npm run build
+      
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./  # Adjust this to your build directory
