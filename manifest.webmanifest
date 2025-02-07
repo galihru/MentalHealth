@@ -34,7 +34,7 @@
             "icons": [
                 {
                     "src": "/MentalHealth/svgs/regular/bell.svg",
-                    "sizes": "131x150"
+                    "sizes": "150x150"
                 }
             ]
         },
@@ -42,7 +42,7 @@
             "name": "Histori",
             "short_name": "Histori",
             "description": "Histori",
-            "url": "https://4211421036.github.io/MentalHealth#historiModal",
+            "url": "https://4211421036.github.io/MentalHealth#historyModal",
             "icons": [
                 {
                     "src": "/MentalHealth/svgs/solid/clock-rotate-left.svg",
