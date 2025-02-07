@@ -506,7 +506,7 @@ function getMentalHealthConclusion(emotions) {
     if (sad > 40 && happy < 20 && neutral < 30) {
         return {
             conclusion: 'Potensi gejala depresi terdeteksi',
-            advice: 'Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi.\nKunjungi Media Sosial Berikut Untuk Berkonsultasi\nhttps://www.instagram.com/peercounselor.unnes?igsh=MXhodHc0bmhpdGdnag=='
+            advice: 'Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi. Kunjungi Media Sosial Berikut Untuk Berkonsultasi https://www.instagram.com/peercounselor.unnes?igsh=MXhodHc0bmhpdGdnag=='
         };
     }
 
