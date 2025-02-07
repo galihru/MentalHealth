@@ -560,7 +560,7 @@
             if (sad > 40 && happy < 20 && neutral < 30) {
                 return {
                     conclusion: "Potensi gejala depresi terdeteksi",
-                    advice: "Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi."
+                    advice: "Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi.\nKunjungi Media Sosial Berikut Untuk Berkonsultasi\nhttps://www.instagram.com/peercounselor.unnes?igsh=MXhodHc0bmhpdGdnag=="
                 };
             }
 
@@ -584,15 +584,32 @@
             };
         }
 
-        // Update UI
-        function updateUI(emotions) {
+        async function autoLinkify(text) {
+            const urlRegex = /(https?:\/\/[^\s]+)/g;
+            const matches = text.match(urlRegex);
+
+            if (!matches) return text;
+
+            let result = text;
+
+            for (const url of matches) {
+                const ogData = await fetchOGData(url);
+                const link = `<a href="${url}" target="_blank" class="og-link">${url}</a>`;
+            }
+
+            return result;
+        }
+
+        async function updateUI(emotions) {
             Object.entries(emotions).forEach(([emotion, value]) => {
                 document.getElementById(emotion).textContent = value;
             });
 
             const mentalHealth = getMentalHealthConclusion(emotions);
-            document.getElementById('conclusion').textContent = mentalHealth.conclusion;
-            document.getElementById('advice').textContent = mentalHealth.advice;
+            document.getElementById("conclusion").textContent = mentalHealth.conclusion;
+
+            const adviceElement = document.getElementById("advice");
+            adviceElement.innerHTML = await autoLinkify(mentalHealth.advice);
         }
 
         // Face Mesh Handler
@@ -1071,7 +1088,7 @@
                 content: `
                 <p>Metric emosional menunjukkan persentase emosi yang terdeteksi dari ekspresi wajah. Ini membantu memahami kondisi emosional pengguna sepanjang waktu.</p>
                 <br>
-                <img src="./infoemo.png" alt="Emotion Metrics" />
+                <img src="https://4211421036.github.io/MentalHealth/ref/infoemo.png" alt="Emotion Metrics" />
                 <p>Gambar 1 Ilustrasi unit tindakan wajah (AU) yang mengindentifikasikan Mental Health. Dari Baris 1 Kiri ke Kanan (AU 1, AU 2 AU 4 AU 5 AU 6 AU 7); Baris 2 Kiri ke Kanan (AU 10 AU 12 AU 14 AU 15 AU 16 AU 18); dan Baris 3 Kiri ke kanan (AU 22 AU 25 AU 26 AU 43).
                 <br>`
             },

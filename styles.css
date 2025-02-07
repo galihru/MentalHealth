@@ -499,6 +499,11 @@ svg {
     padding: 20px;
 }
 
+a {
+    text-decoration: none;
+    color: #e0e0e0;
+}
+
 .hr {
     display: flex;
     justify-content: space-between;
