@@ -12,7 +12,7 @@ function generateHashedFileName(filePath) {
   const fileBuffer = fs.readFileSync(filePath);
   hash.update(fileBuffer);
   const fileHash = hash.digest('hex').slice(0, 8);
-  const extname = path.extname(filePath); // Menyimpan ekstensi file (misalnya .js)
+  const extname = path.extname(filePath);
   const newFileName = `${fileHash}${extname}`;
   const newFilePath = path.join(process.cwd(), newFileName);
 
@@ -56,7 +56,7 @@ async function generateHtml() {
       "img-src 'self' data: https://4211421036.github.io http://4211421036.github.io",
       "default-src 'self' https://4211421036.github.io http://4211421036.github.io",
       `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'strict-dynamic' ${hashedJsFiles
-        .map((file) => `'sha384-${generateIntegrityHash(path.join(process.cwd(), file))}'`)
+        .map((file) => `'sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC'`)
         .join(' ')} https://4211421036.github.io http://4211421036.github.io;`,
       "font-src 'self' https://4211421036.github.io http://4211421036.github.io",
       "media-src 'self' https://4211421036.github.io http://4211421036.github.io",
@@ -133,7 +133,7 @@ async function generateHtml() {
     // Verifikasi hash integritas
     const integrityHash = generateIntegrityHash(filePath);
     htmlContent += `
-      <script src="${hashedFileName}" nonce="${nonce}" integrity="sha384-${integrityHash}" crossorigin="anonymous" defer></script>
+      <script src="${hashedFileName}" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous" defer></script>
     `;
   });
   
