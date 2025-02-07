@@ -1,185 +1,94 @@
 <!DOCTYPE html>
-<html lang="en" FaceID="">
+<html xml:lang="en" lang="en">
 
-<head>
+<head FaceID="">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mental Health</title>
+    <meta name="description"
+        content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta name="keywords" content="mental health, monitoring, health app, face analysis, emotion detection">
+    <meta name="author" content="GALIH RIDHO UTOMO and Ana Maulida">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://4211421036.github.io/MentalHealth">
+    <link rel="icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <meta property="og:title" content="Mental Health">
+    <meta property="og:description"
+        content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta property="og:image" content="https://4211421036.github.io/g4lihru/987654567.png">
+    <meta property="og:url" content="https://4211421036.github.io/MentalHealth">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mental Health">
+    <meta name="twitter:description"
+        content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta name="twitter:image" content="https://4211421036.github.io/g4lihru/987654567.png">
     <style>
-        /* Modern CSS Reset and Base Styles 2025 */
-        :root {
-            /* Light Theme Colors */
-            --primary-light: #2563eb;
-            --primary-gradient-light: linear-gradient(135deg, #2563eb, #4f46e5);
-            --bg-light: #f8fafc;
-            --card-bg-light: #ffffff;
-            --text-primary-light: #1e293b;
-            --text-secondary-light: #64748b;
-            --border-light: rgba(148, 163, 184, 0.1);
-            --nav-bg-light: rgba(255, 255, 255, 0.8);
-
-            /* Dark Theme Colors */
-            --primary-dark: #60a5fa;
-            --primary-gradient-dark: linear-gradient(135deg, #d2e6ff, #dee1ff);
-            --bg-dark: #090909;
-            --card-bg-dark: #0b0d12;
-            --text-primary-dark: #f1f5f9;
-            --text-secondary-dark: #94a3b8;
-            --border-dark: rgba(148, 163, 184, 0.1);
-            --nav-bg-dark: rgba(24 25 28, 0.8);
-
-            /* Font Family */
-            --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-        }
-
-        /* Theme Auto Detection */
-        @media (prefers-color-scheme: dark) {
-            :root {
-                --primary: var(--primary-dark);
-                --primary-gradient: var(--primary-gradient-dark);
-                --bg: var(--bg-dark);
-                --card-bg: var(--card-bg-dark);
-                --text-primary: var(--text-primary-dark);
-                --text-secondary: var(--text-secondary-dark);
-                --border: var(--border-dark);
-                --nav-bg: var(--nav-bg-dark);
-            }
-        }
-
-        @media (prefers-color-scheme: light) {
-            :root {
-                --primary: var(--primary-light);
-                --primary-gradient: var(--primary-gradient-light);
-                --bg: var(--bg-light);
-                --card-bg: var(--card-bg-light);
-                --text-primary: var(--text-primary-light);
-                --text-secondary: var(--text-secondary-light);
-                --border: var(--border-light);
-                --nav-bg: var(--nav-bg-light);
-            }
-        }
-
-        /* Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: var(--font-sans);
-        }
-
-        body {
-            height: 100vh;
-            background: var(--bg);
-            color: var(--text-primary);
-            transition: background-color 0.3s ease, color 0.3s ease;
-            --primary: var(--primary-light);
-            --primary-gradient: var(--primary-gradient-light);
-            --bg: var(--bg-light);
-            --card-bg: var(--card-bg-light);
-            --text-primary: var(--text-primary-light);
-            --text-secondary: var(--text-secondary-light);
-            --border: var(--border-light);
-            --nav-bg: var(--nav-bg-light);
-            overflow: hidden;
-        }
-
-        /* Tema gelap saat body memiliki kelas .dark-theme */
-        body.dark-theme {
-            --primary: var(--primary-dark);
-            --primary-gradient: var(--primary-gradient-dark);
-            --bg: var(--bg-dark);
-            --card-bg: var(--card-bg-dark);
-            --text-primary: var(--text-primary-dark);
-            --text-secondary: var(--text-secondary-dark);
-            --border: var(--border-dark);
-            --nav-bg: var(--nav-bg-dark);
-            overflow: hidden;
-        }
-
-
-
-        /* Container Styles */
-        .container {
-            height: calc(100vh - 70px);
-            position: absolute;
-            overflow: hidden;
-            border-radius: 30px;
-            z-index: 1;
-        }
-
-        video,
-        canvas {
-            position: fixed;
-            transform: scaleX(-1);
-            width: 100%;
-            height: calc(100vh - 140px);
-            object-fit: cover;
-            border-radius: 30px;
-            top: 70px;
-        }
-
-        canvas#bpChart {
-            position: static;
-            width: 100%;
-            height: 100%;
-            transform: scaleX(1);
-        }
-
-        canvas#heartRateChart {
-            position: static;
-            width: 100%;
-            height: 100%;
-            transform: scaleX(1);
-        }
-
-        header {
+        .skeleton-header {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             height: 70px;
-            background: var(--nav-bg);
+            background: #e0e0e0;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border);
             padding: 0 20px;
             z-index: 2;
         }
 
-        .headco {
+        .skeleton-headco {
             display: flex;
-            justify-content: space-between;
-            align-items: start;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .theme-toggle {
-            background: none;
-            border: none;
-            color: var(--primary-light);
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 8px;
+        .skeleton-logo {
+            width: 150px;
+            height: 24px;
+            background: #c0c0c0;
+            border-radius: 4px;
+        }
+
+        .skeleton-device {
+            width: 120px;
+            height: 18px;
+            background: #c0c0c0;
+            border-radius: 4px;
+        }
+
+        .skeleton-controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .skeleton-control-item {
+            width: 35px;
+            height: 35px;
+            background: #c0c0c0;
             border-radius: 50%;
-            transition: background-color 0.3s;
         }
 
-        .theme-toggle:hover {
-            background: var(--text-secondary-light);
+        .skeleton-container {
+            position: absolute;
+            top: 70px;
+            height: calc(100vh - 140px);
+            width: 100%;
+            background: #e0e0e0;
+            border-radius: 30px;
+            top: 0;
         }
 
-        /* Bottom Navigation */
-        .bottom-nav {
+        .skeleton-bottom-nav {
             position: fixed;
             bottom: 0;
             left: 0;
             right: 0;
             height: 70px;
-            background: var(--nav-bg);
+            background: #e0e0e0;
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -190,7 +99,7 @@
             z-index: 2;
         }
 
-        .nav-item {
+        .skeleton-nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -203,291 +112,167 @@
             border-radius: 16px;
         }
 
-        .nav-item.active {
+        .skeleton-nav-item.active {
             color: var(--primary);
             background: var(--border);
             transform: translateY(-5px);
         }
 
-        .nav-item i {
+        .skeleton-nav-item i {
             font-size: 24px;
             margin-bottom: 6px;
         }
 
-        .nav-item span {
+        .skeleton-nav-item span {
             font-size: 13px;
             font-weight: 500;
             letter-spacing: -0.2px;
         }
 
-        /* Modal Styles */
-        .modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: none;
-            z-index: 1000;
+        /* Animation */
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
         }
 
-        .modal.show {
-            display: block;
-        }
-
-        .modal-content {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--card-bg);
-            padding: 24px;
-            border-radius: 30px 30px 0 0;
-            transform: translateY(100%);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .modal-body {
-            height: 50vh;
-            overflow: auto
-        }
-
-        .modal.show .modal-content {
-            transform: translateY(0);
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-        }
-
-        .modal-title {
-            font-size: 28px;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            background: var(--primary-gradient);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .close-btn {
-            background: var(--border);
-            border: none;
-            font-size: 24px;
-            cursor: pointer;
-            color: var(--text-secondary);
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-
-        .close-btn:hover {
-            background: var(--primary-gradient);
-            color: white;
-        }
-
-        /* Cards Container */
-        .cards-container {
-            display: flex;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            gap: 15px;
-            padding: 10px 0;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .cards-container::-webkit-scrollbar {
-            display: none;
-        }
-
-        .metric-card {
-            flex: 0 0 auto;
-            width: 300px;
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border);
-            transition: transform 0.3s ease;
-            scroll-snap-align: start;
-        }
-
-        .metric-card:hover {
-            transform: translateY(-5px);
-        }
-
-        /* Theme-specific card styles */
-        .metric-card.green {
-            background: linear-gradient(135deg, #22c55e15, #16a34a15);
-        }
-
-        .metric-card.orange {
-            background: linear-gradient(135deg, #f59e0b15, #d9770615);
-        }
-
-        .metric-card.purple {
-            background: linear-gradient(135deg, #8b5cf615, #7c3aed15);
-        }
-
-        .metric-card.blue {
-            background: linear-gradient(135deg, #3b82f615, #2563eb15);
-        }
-
-        .metric-card.red {
-            background: linear-gradient(135deg, #ef444415, #dc262615);
-        }
-
-        .metric-value {
-            font-size: 56px;
-            font-weight: 800;
-            margin: 16px 0;
-            letter-spacing: -1px;
-            background: var(--primary-gradient);
-            background-clip: text;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .metric-label {
-            color: var(--text-secondary);
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: -0.3px;
-        }
-
-        /* Graph Card */
-        .graph-card {
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 24px;
-            margin-top: 24px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            border: 1px solid var(--border);
-        }
-
-        .graph-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-            color: var(--text-primary);
-        }
-
-        .chart-container {
+        .skeleton-item {
+            background: linear-gradient(90deg, #eee 25%, #ddd 50%, #eee 75%);
+            background-size: 200% 100%;
+            animation: skeleton-loading 1.5s infinite linear;
+            overflow: hidden;
             position: relative;
-            height: 240px;
-        }
-
-        /* Time Range Selector */
-        .time-range {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-            justify-content: center;
-        }
-
-        .time-btn {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 14px;
-            background: var(--border);
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .time-btn.active {
-            background: var(--primary-gradient);
-            color: var(--card-bg);
-        }
-
-        /* Swipe Indicator */
-        .swipe-indicator {
-            width: 48px;
-            height: 5px;
-            background: var(--border);
-            border-radius: 3px;
-            margin: -12px auto 16px;
-        }
-
-        /* Additional UI Elements */
-        .conclusion-box,
-        .advice-box {
-            background: var(--card-bg);
-            border-radius: 24px;
-            padding: 24px;
-            margin: 20px 0;
-            border: 1px solid var(--border);
-        }
-
-        h1,
-        h2 {
-            font-size: 24px;
-            font-weight: 700;
-            margin: 24px 0 16px;
-            letter-spacing: -0.5px;
-            color: var(--text-primary);
-        }
-
-        p {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            font-size: 15px;
         }
     </style>
 </head>
 
 <body>
-    <header>
+    <div id="skeleton-container">
+        <header class="skeleton-header skeleton-item">
+            <div class="skeleton-headco">
+                <div class="skeleton-logo"></div>
+                <div class="skeleton-device"></div>
+            </div>
+            <div class="skeleton-controls">
+                <div class="skeleton-control-item"></div>
+                <div class="skeleton-control-item"></div>
+            </div>
+        </header>
+        <div class="skeleton-container skeleton-item"></div>
+        <nav class="skeleton-bottom-nav skeleton-item">
+            <div class="skeleton-nav-item active">
+            </div>
+            <div class="skeleton-nav-item">
+            </div>
+            <div class="skeleton-nav-item">
+            </div>
+        </nav>
+    </div>
+    <header aria-label="Main Header">
         <div class="headco">
-            <h1>Mental Health</h1>
+            <h1 class="logos">Mental Health</h1>
+            <device class="device" state="connected/failed/not found" role="button" aria-label="device" accesskey="c">
+                <p role="text">
+                    Nama Device
+                </p>
+            </device>
         </div>
-        <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()"
-            title="Toggle Theme" aria-label="theme-toggle">
-            <i class="fas fa-moon"></i>
-        </button>
+        <div class="controled">
+            <div class="notif" data-page="notifikasi">
+                <i class="fas fa-bell notification-icon" role="tooltip" title="Notifications"></i>
+            </div>
+            <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()"
+                title="Toggle Theme" aria-label="theme-toggle">
+                <i class="fas fa-moon" role="tooltip" title="Theme"></i>
+            </button>
+        </div>
     </header>
-    <div class="container">
-        <video id="video" autoplay></video>
+    <div class="container" role="main" aria-label="Main Content">
+        <video id="video" autoplay>
+            <track kind="captions" srclang="en" label="english_captions">
+        </video>
         <canvas id="canvas"></canvas>
     </div>
 
-    <nav class="bottom-nav">
-        <div class="nav-item active" data-page="home">
+    <nav class="bottom-nav" role="navigation" aria-label="Main Navigation">
+        <div class="nav-item active" data-page="home" role="button" tabindex="0" accesskey="b">
             <i class="fas fa-home"></i>
-            <span>Beranda</span>
+            <span role="tooltip">Beranda</span>
         </div>
-        <div class="nav-item" data-page="graph">
+        <div class="nav-item" data-page="graph" role="button" tabindex="0" accesskey="g">
             <i class="fas fa-chart-line"></i>
-            <span>Grafik</span>
+            <span role="tooltip">Grafik</span>
         </div>
-        <div class="nav-item" data-page="history">
+        <div class="nav-item" data-page="history" role="button" tabindex="0" accesskey="h">
             <i class="fas fa-history"></i>
-            <span>Histori</span>
+            <span role="tooltip">Histori</span>
         </div>
     </nav>
 
-    <!-- History Modal -->
-    <div class="modal" id="historyModal">
+    <div class="modal" id="notifikasiModal" role="dialog" aria-labelledby="notifikasiModalTitle">
+        <div class="modal-content">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title" id="notifikasiModalTitle">Notifikasi</h2>
+                <button class="close-btn" type="button" role="button" accesskey="x"
+                    aria-label="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="nothing">
+                    <svg width="1028" height="1089" viewBox="0 0 1028 1089" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M631 112C676.6 121.6 730 154.333 751 169.5C851.8 223.5 889.333 366.667 895.5 431.5C898.333 499.333 905.1 641.9 909.5 669.5C915 704 927 748.5 954.5 799C982 849.5 997.5 839.5 1014.5 864.5C1031.5 889.5 1028.5 898 1022.5 928.5C1017.7 952.9 986.167 967.333 971 971.5H653.5C653.333 971.167 651.2 976.9 644 1002.5C636.8 1028.1 600.667 1058.5 583.5 1070.5C572.5 1077.17 540.8 1090.1 502 1088.5C453.5 1086.5 427.5 1060.5 405 1040C387 1023.6 375.833 986.833 372.5 970.5C278.333 970.667 82.9 970.9 54.5 970.5C19 970 4 930.5 1 909.5C-2 888.5 7 875.5 15.5 862.5C24 849.5 31 859 68 808.5C97.6 768.1 114.333 700.667 119 672C121.667 645.5 127.5 568 129.5 470C131.5 372 164.333 301.167 180.5 278C200.833 243.5 262 166 344 132C363.396 123.958 381.002 117.688 397 112.804C400 79.1088 408 60 431.5 34C455 8 485.5 0.5 515.5 0.5C545.5 0.5 563 7 596 34C622.4 55.6 630.333 95 631 112Z"
+                            fill="#3C424E" />
+                        <ellipse cx="865.5" cy="275" rx="156.5" ry="155" fill="#3C424E" />
+                        <rect x="786.419" y="331.973" width="192.421" height="30.514" rx="15.257"
+                            transform="rotate(-45 786.419 331.973)" fill="white" />
+                        <rect width="192.421" height="30.514" rx="15.257"
+                            transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 943.639 332.062)" fill="white" />
+                        <path
+                            d="M505 96C478.6 95.6 450.667 100.167 440 102.5C446 63.5 478 37 529 43.5C569.8 48.7 584.667 84.6667 587 102C580 100.667 563.3 97.8 552.5 97C539 96 538 96.5 505 96Z"
+                            fill="white" />
+                        <path
+                            d="M501.782 975.536C466.941 976.123 430.077 969.423 416 966C423.918 1023.22 466.15 1062.1 533.456 1052.56C587.301 1044.93 606.921 992.164 610 966.734C600.762 968.69 578.722 972.896 564.469 974.069C546.653 975.536 545.333 974.803 501.782 975.536Z"
+                            fill="white" />
+                    </svg>
+                    <h2>Tidak ada notifikasi</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="deviceModal" role="dialog" aria-labelledby="deviceModalTitle">
+        <div class="modal-content">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Device</h2>
+                <button class="close-btn" role="button" type="button" aria-label="close-btn"
+                    accesskey="x">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="historyModal" role="dialog" aria-labelledby="historyModalTitle">
         <div class="modal-content">
             <div class="swipe-indicator"></div>
             <div class="modal-header">
                 <h2 class="modal-title">Histori Pemantauan</h2>
-                <button class="close-btn">&times;</button>
+                <button class="close-btn" role="button" type="button" aria-label="close-btn"
+                    accesskey="x">&times;</button>
             </div>
             <div class="modal-body">
+                <div class="hr">
+                    <h1>Realtime Sensor</h1>
+                    <i class="fa-solid fa-circle-info" data-modal="sensor"></i>
+                </div>
                 <div class="cards-container">
                     <div class="metric-card green">
                         <div class="metric-label">Heart Rate</div>
@@ -505,7 +290,10 @@
                         <div class="metric-label">hr/day</div>
                     </div>
                 </div>
-                <h1>Matric Detection</h1>
+                <div class="hr">
+                    <h1>Matric Emosional</h1>
+                    <i class="fa-solid fa-circle-info" data-modal="emosional"></i>
+                </div>
                 <div class="cards-container">
                     <div class="metric-card green">
                         <div class="metric-label">Happy</div>
@@ -545,38 +333,44 @@
         </div>
     </div>
 
-    <!-- Graph Modal -->
-    <div class="modal" id="graphModal">
+    <div class="modal" id="graphModal" role="dialog" aria-labelledby="graphModalTitle">
         <div class="modal-content">
             <div class="swipe-indicator"></div>
             <div class="modal-header">
                 <h2 class="modal-title">Grafik Pemantauan</h2>
-                <button class="close-btn">&times;</button>
+                <button class="close-btn" role="button" type="button" aria-label="close-btn"
+                    accesskey="x">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="graph-card">
-                    <div class="graph-title">Heart Rate Trend</div>
+                    <div class="hr">
+                        <div class="graph-title">Heart Rate Trend</div>
+                        <i class="fa-solid fa-circle-info" data-modal="heartrate"></i>
+                    </div>
                     <div class="chart-container">
                         <canvas id="heartRateChart"></canvas>
                     </div>
                     <div class="time-range">
-                        <button type="button" class="time-btn">1D</button>
-                        <button type="button" class="time-btn active">1W</button>
-                        <button type="button" class="time-btn">1M</button>
-                        <button type="button" class="time-btn">1Y</button>
+                        <button type="button" class="time-btn" accesskey="d" aria-label="time-btn">1D</button>
+                        <button type="button" class="time-btn active" accesskey="w" aria-label="time-btn">1W</button>
+                        <button type="button" class="time-btn" accesskey="m" aria-label="time-btn">1M</button>
+                        <button type="button" class="time-btn" accesskey="y" aria-label="time-btn">1Y</button>
                     </div>
                 </div>
 
                 <div class="graph-card">
-                    <div class="graph-title">Blood Pressure Trend</div>
+                    <div class="hr">
+                        <div class="graph-title">Blood Pressure Trend</div>
+                        <i class="fa-solid fa-circle-info" data-modal="blood"></i>
+                    </div>
                     <div class="chart-container">
                         <canvas id="bpChart"></canvas>
                     </div>
                     <div class="time-range">
-                        <button class="time-btn">1D</button>
-                        <button class="time-btn active">1W</button>
-                        <button class="time-btn">1M</button>
-                        <button class="time-btn">1Y</button>
+                        <button class="time-btn" type="button" accesskey="d" aria-label="d">1D</button>
+                        <button type="button" class="time-btn active" accesskey="w" aria-label="time-btn">1W</button>
+                        <button class="time-btn" type="button" accesskey="m" aria-label="m">1M</button>
+                        <button class="time-btn" type="button" accesskey="y" aria-label="y">1Y</button>
                     </div>
                 </div>
             </div>
@@ -589,6 +383,10 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
 
     <script>
+        window.onload = function () {
+            const skeletonContainer = document.getElementById('skeleton-container');
+            skeletonContainer.parentNode.removeChild(skeletonContainer);
+        };
         // face-analysis.js
         const videoElement = document.getElementById('video');
         const canvasElement = document.getElementById('canvas');
@@ -603,16 +401,16 @@
             }
             return hash >>> 0; // Konversi ke unsigned 32-bit integer
         }
-        
+
         // Fungsi untuk mengubah landmark wajah menjadi hash unik
         function generateFaceID(landmarks) {
             // Normalisasi koordinat landmark dengan presisi 4 digit desimal
-            let hashString = landmarks.map(lm => 
-                lm.x.toFixed(4) + 
-                lm.y.toFixed(4) + 
+            let hashString = landmarks.map(lm =>
+                lm.x.toFixed(4) +
+                lm.y.toFixed(4) +
                 lm.z.toFixed(4)
             ).join('');
-            
+
             return djb2Hash(hashString).toString(16); // Konversi ke hexadecimal
         }
 
@@ -786,21 +584,21 @@
             canvasCtx.save();
             canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
             canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
-        
+
             let currentFaceID = '';
             if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
                 const landmarks = results.multiFaceLandmarks[0];
                 currentFaceID = generateFaceID(landmarks);
-                
+
                 // Update FaceID hanya jika berbeda dengan sebelumnya
                 if (currentFaceID !== lastFaceID) {
                     document.documentElement.setAttribute('FaceID', currentFaceID);
                     lastFaceID = currentFaceID;
                 }
-        
+
                 const emotions = analyzeEmotions(landmarks);
                 updateUI(emotions);
-        
+
                 results.multiFaceLandmarks.forEach(landmarks => {
                     drawLandmarks(landmarks);
                 });
@@ -811,7 +609,7 @@
                     lastFaceID = null;
                 }
             }
-        
+
             canvasCtx.restore();
         });
 
@@ -845,6 +643,33 @@
         const closeBtns = document.querySelectorAll('.close-btn');
         const timeButtons = document.querySelectorAll('.time-btn');
         const currentFaceID = document.documentElement.getAttribute('FaceID');
+        // Bluetooth Handling
+        const deviceElement = document.querySelector('.device');
+        const deviceModal = document.getElementById('deviceModal');
+        const modalBody = deviceModal.querySelector('.modal-body');
+        const modalBodyID = document.getElementById('modalBody');
+        let bluetoothDevice = null;
+
+        // Tambahkan ini di bagian atas kode JS
+        const notifIcon = document.querySelector('.notif');
+        const notifikasiModal = document.getElementById('notifikasiModal');
+
+        // Handle klik ikon notifikasi
+        notifIcon.addEventListener('click', () => {
+            notifikasiModal.classList.add('show');
+        });
+
+        // Cek dukungan Web Bluetooth API
+        if (!navigator.bluetooth) {
+            deviceElement.setAttribute('state', 'not found');
+            console.error('Browser tidak mendukung Web Bluetooth API');
+        }
+
+        // Handle klik device
+        deviceElement.addEventListener('click', async () => {
+            deviceModal.classList.add('show');
+            await scanDevices();
+        });
 
         // Initialize Charts
         function initializeCharts() {
@@ -961,41 +786,41 @@
                     let startY = 0;
                     let currentY = 0;
                     let isDragging = false;
-                
+
                     modalHeader.addEventListener('touchstart', (e) => {
                         const touch = e.touches[0];
                         startY = touch.clientY;
                         isDragging = true;
                     });
-                
+
                     modal.addEventListener('touchmove', (e) => {
                         if (!isDragging) return;
-                
+
                         const touch = e.touches[0];
                         currentY = touch.clientY;
                         const deltaY = currentY - startY;
-                
+
                         if (deltaY > 0) {
                             modalContent.style.transform = `translateY(${deltaY}px)`;
                             e.preventDefault();
                         }
                     });
-                
+
                     modal.addEventListener('touchend', () => {
                         if (!isDragging) return;
-                
+
                         const deltaY = currentY - startY;
-                        
+
                         if (deltaY > 100) {
                             modal.classList.remove('show');
                         }
-                
+
                         modalContent.style.transform = '';
                         isDragging = false;
                         startY = 0;
                         currentY = 0;
                     });
-                
+
                     // Close modal when clicking overlay
                     modal.addEventListener('click', (e) => {
                         if (e.target === modal) {
@@ -1028,6 +853,300 @@
                     isScrolling = false;
                 });
             });
+        });
+
+        // Pindahkan fungsi swipe-to-close ke luar loop navItems
+        modals.forEach(modal => {
+            const modalHeader = modal.querySelector('.modal-header');
+            const modalContent = modal.querySelector('.modal-content');
+            let startY = 0;
+            let currentY = 0;
+            let isDragging = false;
+
+            modalHeader.addEventListener('touchstart', (e) => {
+                const touch = e.touches[0];
+                startY = touch.clientY;
+                isDragging = true;
+            });
+
+            modal.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+
+                const touch = e.touches[0];
+                currentY = touch.clientY;
+                const deltaY = currentY - startY;
+
+                if (deltaY > 0) {
+                    modalContent.style.transform = `translateY(${deltaY}px)`;
+                    modalContent.style.transition = 'transform 0.1s'; // Tambahkan transisi halus
+                    e.preventDefault();
+                }
+            });
+
+            modal.addEventListener('touchend', () => {
+                if (!isDragging) return;
+
+                const deltaY = currentY - startY;
+                modalContent.style.transition = 'transform 0.3s'; // Transisi saat menutup
+
+                if (deltaY > 100) {
+                    modal.classList.remove('show');
+                    modalContent.style.transform = 'translateY(100%)';
+                    setTimeout(() => {
+                        modalContent.style.transform = '';
+                        modalContent.style.transition = '';
+                    }, 300);
+                } else {
+                    modalContent.style.transform = '';
+                }
+
+                isDragging = false;
+                startY = 0;
+                currentY = 0;
+            });
+
+            // Handle klik overlay
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+        });
+        // Scan perangkat Bluetooth
+        async function scanDevices() {
+            try {
+                modalBodyID.innerHTML = '<div class="loading">Mencari perangkat...</div>';
+
+                // Filter berdasarkan nama ESP32 atau service UUID
+                bluetoothDevice = await navigator.bluetooth.requestDevice({
+                    acceptAllDevices: true,
+                    optionalServices: ['4fafc201-1fb5-459e-8fcc-c5c9c331914b'] // Ganti dengan service UUID ESP32
+                });
+
+                updateDeviceStatus('connected');
+                setupDisconnectHandler();
+                connectToDevice();
+            } catch (error) {
+                console.error('Error:', error);
+                if (error.name === 'NotFoundError') {
+                    updateDeviceStatus('not found');
+                } else {
+                    updateDeviceStatus('failed');
+                }
+            }
+        }
+        // Update status device
+        function updateDeviceStatus(status, deviceName = 'MentalHealthDevice') {
+            deviceElement.setAttribute('state', status);
+            deviceElement.textContent = deviceName; // Update nama perangkat
+            deviceModal.classList.remove('show');
+        }
+
+        // Handle disconnect
+        function setupDisconnectHandler() {
+            bluetoothDevice.addEventListener('gattserverdisconnected', () => {
+                updateDeviceStatus('failed');
+                // Reset nilai sensor
+                resetSensorData();
+            });
+        }
+
+        // Koneksi ke device
+        async function connectToDevice() {
+            try {
+                const server = await bluetoothDevice.gatt.connect();
+                const service = await server.getPrimaryService('4fafc201-1fb5-459e-8fcc-c5c9c331914b'); // Ganti dengan service UUID
+                const characteristic = await service.getCharacteristic('beb5483e-36e1-4688-b7f5-ea07361b26a8'); // Ganti dengan characteristic UUID
+
+                // Listen for sensor data updates
+                await characteristic.startNotifications();
+                characteristic.addEventListener('characteristicvaluechanged', handleSensorData);
+            } catch (error) {
+                console.error('Koneksi gagal:', error);
+                updateDeviceStatus('failed');
+            }
+        }
+
+        // Handle data sensor
+        function handleSensorData(event) {
+            const value = event.target.value;
+            // Parsing data dari ESP32 (sesuaikan dengan format data Anda)
+            const data = {
+                heartRate: value.getUint8(0),
+                bloodPressure: `${value.getUint8(1)}/${value.getUint8(2)}`,
+                sleep: value.getFloat32(3)
+            };
+
+            // Update UI
+            updateSensorData(data);
+            updateCharts(data);
+        }
+        // Update tampilan sensor
+        function updateSensorData(data) {
+            document.querySelector('.metric-card.green .metric-value').textContent = data.heartRate;
+            document.querySelector('.metric-card.orange .metric-value').textContent = data.bloodPressure;
+            document.querySelector('.metric-card.purple .metric-value').textContent = data.sleep.toFixed(1);
+        }
+
+        // Reset data sensor
+        function resetSensorData() {
+            const resetValues = {
+                heartRate: '--',
+                bloodPressure: '--/--',
+                sleep: '0.0'
+            };
+            updateSensorData(resetValues);
+        }
+
+        // Update grafik
+        function updateCharts(data) {
+            // Implementasi update chart sesuai data sensor
+            // Contoh:
+            const chart = Chart.getChart('heartRateChart');
+            if (chart) {
+                chart.data.datasets[0].data.push(data.heartRate);
+                chart.data.labels.push(new Date().toLocaleTimeString());
+                chart.update();
+            }
+        }
+        // Pindahkan close button handler ke luar loop
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modal = btn.closest('.modal');
+                modal.classList.remove('show');
+            });
+        });
+
+        // Modal content data
+        const modalContents = {
+            blood: {
+                title: "Informasi Blood Pressure",
+                content: "Blood pressure atau tekanan darah adalah tekanan yang dialami dinding pembuluh darah saat darah dipompa oleh jantung ke seluruh tubuh. Pengukuran normal adalah 120/80 mmHg."
+            },
+            emosional: {
+                title: "Informasi Metric Emosional",
+                content: `
+                <p>Metric emosional menunjukkan persentase emosi yang terdeteksi dari ekspresi wajah. Ini membantu memahami kondisi emosional pengguna sepanjang waktu.</p>
+                <br>
+                <img src="./infoemo.png" alt="Emotion Metrics" />
+                <p>Gambar 1 Ilustrasi unit tindakan wajah (AU) yang mengindentifikasikan Mental Health. Dari Baris 1 Kiri ke Kanan (AU 1, AU 2 AU 4 AU 5 AU 6 AU 7); Baris 2 Kiri ke Kanan (AU 10 AU 12 AU 14 AU 15 AU 16 AU 18); dan Baris 3 Kiri ke kanan (AU 22 AU 25 AU 26 AU 43).
+                <br>`
+            },
+            sensor: {
+                title: "Informasi Realtime Sensor",
+                content: "Sensor realtime menampilkan data kesehatan terkini seperti detak jantung, tekanan darah, dan durasi tidur yang diukur menggunakan sensor yang terhubung."
+            },
+            heartrate: {
+                title: "Informasi Heart Rate",
+                content: "Sensor realtime menampilkan data kesehatan terkini seperti detak jantung, tekanan darah, dan durasi tidur yang diukur menggunakan sensor yang terhubung."
+            }
+        };
+
+        // Initialize modal functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const infoIcons = document.querySelectorAll('.fa-circle-info');
+            let startY = 0;
+            let currentModal = null;
+
+            // Create modal for each info icon
+            infoIcons.forEach(icon => {
+                icon.addEventListener('click', function () {
+                    const modalType = this.getAttribute('data-modal');
+                    const modalContent = modalContents[modalType];
+
+                    if (!modalContent) return;
+
+                    // Create or update modal
+                    let modal = document.querySelector(`.modal[data-type="${modalType}"]`);
+
+                    if (!modal) {
+                        modal = createModal(modalType, modalContent);
+                        document.body.appendChild(modal);
+                    }
+
+                    currentModal = modal;
+                    modal.classList.add('active');
+                });
+            });
+
+            // Function to create modal
+            function createModal(type, content) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.setAttribute('data-type', type);
+
+                modal.innerHTML = `
+                    <div class="modal-content" data-type="${type}-content">
+                        <div class="swipe-indicator"></div>
+                        <div class="modal-header">
+                            <h2 class="modal-title">${content.title}</h2>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            ${content.content}
+                        </div>
+                    </div>
+                `;
+
+                // Add event listeners for swipe
+                modal.addEventListener('touchstart', handleTouchStart, false);
+                modal.addEventListener('touchmove', handleTouchMove, false);
+                modal.addEventListener('touchend', handleTouchEnd, false);
+
+                // Close button functionality
+                modal.querySelector('.close-btn').addEventListener('click', () => {
+                    closeAndRemoveModal(modal);
+                });
+
+                return modal;
+            }
+
+            // Function to close and remove modal
+            function closeAndRemoveModal(modal) {
+                modal.classList.remove('active');
+                // Tunggu animasi selesai sebelum menghapus modal
+                setTimeout(() => {
+                    if (modal && modal.parentNode) {
+                        modal.parentNode.removeChild(modal);
+                    }
+                    if (currentModal === modal) {
+                        currentModal = null;
+                    }
+                }, 300); // Sesuaikan dengan durasi animasi CSS
+            }
+
+            // Touch event handlers
+            function handleTouchStart(e) {
+                startY = e.touches[0].clientY;
+            }
+
+            function handleTouchMove(e) {
+                if (!startY) return;
+
+                const currentY = e.touches[0].clientY;
+                const diff = currentY - startY;
+
+                if (diff > 0) { // Only allow downward swipe
+                    e.preventDefault();
+                    const modalContent = this.querySelector('.modal-content');
+                    modalContent.style.transform = `translateY(${diff}px)`;
+                }
+            }
+
+            function handleTouchEnd(e) {
+                if (!currentModal) return;
+
+                const modalContent = currentModal.querySelector('.modal-content');
+                const currentY = e.changedTouches[0].clientY;
+                const diff = currentY - startY;
+
+                if (diff > 100) { // If swiped down more than 100px, close the modal
+                    closeAndRemoveModal(currentModal);
+                }
+
+                modalContent.style.transform = '';
+                startY = null;
+            }
         });
     </script>
     <script>
