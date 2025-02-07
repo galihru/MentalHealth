@@ -2,7 +2,7 @@ name: Update Nonce and Deploy
 
 on:
   schedule:
-    - cron: '*/5 * * * *' # Menjalankan setiap 1 menit, sesuaikan dengan kebutuhan Anda.
+    - cron: '*/5 * * * *'
   push:
     branches:
       - main
