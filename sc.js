@@ -387,7 +387,7 @@ const EMOTION_THRESHOLDS = {
 
 // Inisialisasi Face Mesh
 const faceMesh = new FaceMesh({
-    locateFile: (file) => `{jsk}`
+    locateFile: (file) => ${jsk}
 });
 
 faceMesh.setOptions({
@@ -534,7 +534,7 @@ function autoLinkify(text) {
     // Regex untuk mendeteksi URL dalam teks
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, (url) => {
-        return `{hdf}`;
+        return ${hdf};
     });
 }
 
