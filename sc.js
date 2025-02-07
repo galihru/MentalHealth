@@ -605,6 +605,7 @@ const camera = new Camera(videoElement, {
 
 camera.start();
     </script>
+    <script nonce="${nonce}" scr="https://4211421036.github.io/MentalHealth/modal.js"></script>
     <script nonce="${nonce}">function toggleTheme(){const e=document.body,t=document.querySelector(".theme-toggle i");e.classList.toggle("dark-theme"),e.classList.contains("dark-theme")?(t.className="fas fa-sun",localStorage.setItem("theme","dark")):(t.className="fas fa-moon",localStorage.setItem("theme","light"))}document.addEventListener("DOMContentLoaded",(()=>{const e=localStorage.getItem("theme"),t=window.matchMedia("(prefers-color-scheme: dark)").matches,a=document.querySelector(".theme-toggle i");e?document.body.classList.toggle("dark-theme","dark"===e):document.body.classList.toggle("dark-theme",t),document.body.classList.contains("dark-theme")?a.className="fas fa-sun":a.className="fas fa-moon"}));</script>
       <script nonce="${nonce}">
         if ('serviceWorker' in navigator) {
