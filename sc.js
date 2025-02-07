@@ -19,7 +19,7 @@ function generateHashedFileName(filePath) {
   if (!fs.existsSync(newFilePath)) {
     fs.copyFileSync(filePath, newFilePath);
   }
-
+https://github.com/4211421036/MentalHealth/edit/main/sc.js
   return newFileName;
 }
 
@@ -385,7 +385,7 @@ async function generateHtml() {
         }
         console.log('Generated automatic on: ${new Date().toLocaleString()}');
       </script>
-      <!-- page generated automatic: ${new Date().toLocaleString()} -->
+      <!-- page generated automatic by: ${new Date().toLocaleString()} -->
     </body>
   </html>`;
 
