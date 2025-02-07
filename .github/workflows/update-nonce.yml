@@ -58,6 +58,5 @@ jobs:
         else
           git add *.min.js
           git commit -m "Update index.html with dynamic nonce"
-          git commit -m "Add minified JS files"
           git push
         fi
