@@ -8,7 +8,26 @@ function generateNonce() {
     return crypto.randomBytes(16).toString('base64');
 }
 
-// Fungsi untuk memproses HTML (Minify + Nonce)
+// Auto-generate back/forward cache handling script
+const bfcacheScript = `
+window.addEventListener('pageshow', function(event) {
+    if (event.persisted) {
+        console.log('Page restored from bfcache');
+    }
+});
+
+window.addEventListener('pagehide', function(event) {
+    console.log('Page is being unloaded');
+});
+
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        console.log('Page hidden, prepare for restoration');
+    }
+});
+`;
+
+// Fungsi untuk memproses HTML (Minify + Nonce + bfcache script)
 function processHTML(inputFilePath, outputFilePath) {
     try {
         // Baca file HTML
@@ -31,6 +50,11 @@ function processHTML(inputFilePath, outputFilePath) {
         htmlContent = htmlContent.replace(/nonce="([^"]+)"/g, '');
         htmlContent = htmlContent.replace(/<script(.*?)>/g, `<script$1 nonce="${nonce}">`);
 
+        // Tambahkan script bfcache hanya jika belum ada
+        if (!htmlContent.includes('Page restored from bfcache')) {
+            htmlContent = htmlContent.replace('</body>', `<script nonce="${nonce}">${bfcacheScript}</script></body>`);
+        }
+
         // Minifikasi HTML, termasuk inline JS & CSS
         const minifiedHTML = minify(htmlContent, {
             collapseWhitespace: true,
@@ -44,7 +68,7 @@ function processHTML(inputFilePath, outputFilePath) {
         // Simpan output ke file baru
         fs.writeFileSync(outputFilePath, minifiedHTML, 'utf8');
 
-        console.log(`Minifikasi selesai. Hasil disimpan di: ${outputFilePath}`);
+        console.log(`Minifikasi selesai & bfcache script ditambahkan. Hasil disimpan di: ${outputFilePath}`);
     } catch (error) {
         console.error('Terjadi kesalahan:', error);
     }
