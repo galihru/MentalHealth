@@ -82,6 +82,7 @@ body {
     --ico-notification: var(--ico-notification-light);
     --link: var(--link-light);
     overflow: hidden;
+    font-size: 14px;
 }
 
 /* Tema gelap saat body memiliki kelas .dark-theme */
@@ -467,8 +468,7 @@ header {
     border: 1px solid var(--border);
 }
 
-h1,
-h2 {
+h1, h2, h3, h4, h5, h6 {
     font-size: 24px;
     font-weight: 700;
     margin: 24px 0 16px;
@@ -476,10 +476,10 @@ h2 {
     color: var(--text-primary);
 }
 
-p {
+p, a, li {
+    font-size: 14px; /* Ensure paragraph text, links, and list items are legible */
     color: var(--text-secondary);
     line-height: 1.6;
-    font-size: 15px;
 }
 
 svg {
