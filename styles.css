@@ -101,6 +101,128 @@ body.dark-theme {
     overflow: hidden;
 }
 
+.skeleton-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: #e0e0e0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    z-index: 2;
+}
+
+.skeleton-headco {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.skeleton-logo {
+    width: 150px;
+    height: 24px;
+    background: #c0c0c0;
+    border-radius: 4px;
+}
+
+.skeleton-device {
+    width: 120px;
+    height: 18px;
+    background: #c0c0c0;
+    border-radius: 4px;
+}
+
+.skeleton-controls {
+    display: flex;
+    gap: 15px;
+}
+
+.skeleton-control-item {
+    width: 35px;
+    height: 35px;
+    background: #c0c0c0;
+    border-radius: 50%;
+}
+
+.skeleton-container {
+    position: absolute;
+    top: 70px;
+    height: calc(100vh - 140px);
+    width: 100%;
+    background: #e0e0e0;
+    border-radius: 30px;
+    top: 0;
+}
+
+.skeleton-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: #e0e0e0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    padding: 0 20px;
+    z-index: 2;
+}
+
+.skeleton-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    flex: 1;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 16px;
+}
+
+.skeleton-nav-item.active {
+    color: var(--primary);
+    background: var(--border);
+    transform: translateY(-5px);
+}
+
+.skeleton-nav-item i {
+    font-size: 24px;
+    margin-bottom: 6px;
+}
+
+.skeleton-nav-item span {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: -0.2px;
+}
+
+/* Animation */
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}
+
+.skeleton-item {
+    background: linear-gradient(90deg, #eee 25%, #ddd 50%, #eee 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite linear;
+    overflow: hidden;
+    position: relative;
+}
+
 .no-notification-icon {
     width: 32px;
     height: 32px;
