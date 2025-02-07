@@ -112,11 +112,11 @@ async function generateHtml() {
       <script type="application/ld+json" nonce="${nonce}">
         ${JSON.stringify(structuredData, null, 2)}
       </script>
+      </head>
   `;
 
   // Menambahkan style inline dengan nonce
   htmlContent += `
-    </head>
     <body>
     <div id="skeleton-container">
         <header class="skeleton-header skeleton-item">
