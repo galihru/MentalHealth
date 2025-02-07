@@ -348,7 +348,7 @@ async function generateHtml() {
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" nonce="${nonce}" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" nonce="${nonce}" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" nonce="${nonce}" crossorigin="anonymous"></script>
-    <script nonce="${nonce">
+    <script nonce="${nonce}">
         // face-analysis.js
 const videoElement = document.getElementById('video');
 const canvasElement = document.getElementById('canvas');
