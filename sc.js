@@ -19,7 +19,6 @@ function generateHashedFileName(filePath) {
   if (!fs.existsSync(newFilePath)) {
     fs.copyFileSync(filePath, newFilePath);
   }
-https://github.com/4211421036/MentalHealth/edit/main/sc.js
   return newFileName;
 }
 
