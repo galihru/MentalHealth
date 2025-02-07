@@ -584,19 +584,12 @@
             };
         }
 
-        async function autoLinkify(text) {
+        function autoLinkify(text) {
+            // Regex untuk mendeteksi URL dalam teks
             const urlRegex = /(https?:\/\/[^\s]+)/g;
-            const matches = text.match(urlRegex);
-
-            if (!matches) return text;
-
-            let result = text;
-
-            for (const url of matches) {
-                const link = `<a href="${url}" target="_blank" class="og-link">${url}</a>`;
-            }
-
-            return result;
+            return text.replace(urlRegex, (url) => {
+                return `<a href="${url}" target="_blank" title="${url}">${url}</a>`;
+            });
         }
 
         async function updateUI(emotions) {
@@ -605,12 +598,12 @@
             });
 
             const mentalHealth = getMentalHealthConclusion(emotions);
-            document.getElementById("conclusion").textContent = mentalHealth.conclusion;
+            document.getElementById('conclusion').textContent = mentalHealth.conclusion;
 
-            const adviceElement = document.getElementById("advice");
-            adviceElement.innerHTML = await autoLinkify(mentalHealth.advice);
+            // Konversi URL dalam teks menjadi <a>
+            const adviceElement = document.getElementById('advice');
+            adviceElement.innerHTML = autoLinkify(mentalHealth.advice);
         }
-
         // Face Mesh Handler
         faceMesh.onResults((results) => {
             canvasCtx.save();
