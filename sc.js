@@ -66,6 +66,8 @@ async function generateHtml() {
       "worker-src 'self' blob: https://4211421036.github.io http://4211421036.github.io"
   ].join('; ');
 
+ const integrityHash = generateIntegrityHash(filePath);
+
  const structuredData = {
       "@context": "https://schema.org",
       "@type": "WebSite",
@@ -145,7 +147,6 @@ async function generateHtml() {
     }
   });
 
-  const integrityHash = generateIntegrityHash(filePath);
   // Menambahkan style inline dengan nonce
   htmlContent += `
     </head>
