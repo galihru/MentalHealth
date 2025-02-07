@@ -6,5 +6,60 @@
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#4CAF50",
-    "orientation": "portrait"
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/logo/192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/logo/512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/345677.png",
+            "sizes": "637x436",
+            "type": "image/png"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Notifikasi",
+            "short_name": "Notifikasi",
+            "description": "Notifikasi",
+            "url": "https://4211421036.github.io/MentalHealth#notifikasiModal",
+            "icons": [
+                {
+                    "src": "/svgs/regular/bell.svg",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Histori",
+            "short_name": "Histori",
+            "description": "Histori",
+            "url": "https://4211421036.github.io/MentalHealth#historiModal",
+            "icons": [
+                {
+                    "src": "/svgs/solid/clock-rotate-left.svg",
+                    "sizes": "192x192"
+                }
+            ]
+        },
+        {
+            "name": "Grafik",
+            "short_name": "Grafik",
+            "description": "Grafik Pemantauan",
+            "url": "https://4211421036.github.io/MentalHealth#graphModal",
+            "icons": [
+                {
+                    "src": "/svgs/solid/chart-line.svg",
+                    "sizes": "192x192"
+                }
+            ]
+        }
+    ]
 }

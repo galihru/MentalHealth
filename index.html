@@ -12,8 +12,10 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://4211421036.github.io/MentalHealth">
     <link rel="icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
-    <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="none" onload="if(media!=='all')media='all'">
-    <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css" media="none" onload="if(media!=='all')media='all'">
+    <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="none"
+        onload="if(media!=='all')media='all'">
+    <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css" media="none"
+        onload="if(media!=='all')media='all'">
     <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
     <meta property="og:title" content="Mental Health">
     <meta property="og:description"
@@ -667,11 +669,38 @@
         // Tambahkan ini di bagian atas kode JS
         const notifIcon = document.querySelector('.notif');
         const notifikasiModal = document.getElementById('notifikasiModal');
+        const historyModal = document.getElementById('historyModal');
+        const grafikModal = document.getElementById('graphModal');
 
         // Handle klik ikon notifikasi
         notifIcon.addEventListener('click', () => {
             notifikasiModal.classList.add('show');
         });
+
+        // Show modal if URL contains hash with modal ID
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash;
+            if (hash === '#notifikasiModal') {
+                notifikasiModal.classList.add('show');
+            }
+            if (hash === '#historyModal') {
+                history.classList.add('show');
+            }
+            if (hash === '#graphModal') {
+                grafikModal.classList.add('show');
+            }
+        });
+
+        // Check hash on page load
+        if (window.location.hash === '#notifikasiModal') {
+            notifikasiModal.classList.add('show');
+        }
+        if (window.location.hash === '#historyModal') {
+            historyModal.classList.add('show');
+        }
+        if (window.location.hash === '#graphModal') {
+            grafikModal.classList.add('show');
+        }
 
         // Cek dukungan Web Bluetooth API
         if (!navigator.bluetooth) {
