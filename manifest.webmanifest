@@ -34,7 +34,7 @@
             "icons": [
                 {
                     "src": "/MentalHealth/svgs/regular/bell.svg",
-                    "sizes": "192x192"
+                    "sizes": "131x150"
                 }
             ]
         },
@@ -46,7 +46,7 @@
             "icons": [
                 {
                     "src": "/MentalHealth/svgs/solid/clock-rotate-left.svg",
-                    "sizes": "192x192"
+                    "sizes": "150x150"
                 }
             ]
         },
@@ -58,7 +58,7 @@
             "icons": [
                 {
                     "src": "/MentalHealth/svgs/solid/chart-line.svg",
-                    "sizes": "192x192"
+                    "sizes": "150x150"
                 }
             ]
         }
