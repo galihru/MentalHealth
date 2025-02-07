@@ -1,0 +1,10 @@
+{
+    "name": "Mental Health App",
+    "short_name": "MentalHealth",
+    "description": "An app to support mental health and well-being.",
+    "start_url": "/index.html",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4CAF50",
+    "orientation": "portrait"
+}

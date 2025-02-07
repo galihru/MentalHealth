@@ -25,6 +25,7 @@
     <meta name="twitter:description"
         content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta name="twitter:image" content="https://4211421036.github.io/g4lihru/987654567.png">
+    <link rel="manifest" href="manifest.webmanifest">
     <style>
         .skeleton-header {
             position: fixed;
@@ -382,6 +383,19 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
 
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then((registration) => {
+                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                    })
+                    .catch((err) => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
     <script>
         window.onload = function () {
             const skeletonContainer = document.getElementById('skeleton-container');
