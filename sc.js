@@ -30,6 +30,12 @@ function generateIntegrityHash(filePath) {
   return hash.digest('base64');
 }
 
+function generateIntegrityHashas() {
+  const hash = crypto.createHash('sha384');
+  hash.update();
+  return hash.digest('base64');
+}
+
 function generateInlineScriptHash(scriptContent) {
   const hash = crypto.createHash('sha256');
   hash.update(scriptContent);
@@ -66,7 +72,7 @@ async function generateHtml() {
       "worker-src 'self' blob: https://4211421036.github.io http://4211421036.github.io"
   ].join('; ');
 
- const integrityHash = generateIntegrityHash();
+ const integrityHash = generateIntegrityHashas();
 
  const structuredData = {
       "@context": "https://schema.org",
