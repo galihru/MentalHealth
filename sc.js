@@ -355,7 +355,6 @@ const canvasElement = document.getElementById('canvas');
 const canvasCtx = canvasElement.getContext('2d');
 let lastFaceID = null;
 
-// Fungsi hash sederhana untuk generate FaceID
 function djb2Hash(str) {
     let hash = 5381;
     for (let i = 0; i < str.length; i++) {
