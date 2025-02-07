@@ -76,11 +76,11 @@ async function generateHtml() {
   };
 
   const jsk = {
-    "`https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`",
+    "`https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`"
   };
 
   const hdf = {
-    "`<a href="${url}" target="_blank" title="${url}">${url}</a>`",
+    "`<a href="${url}" target="_blank" title="${url}">${url}</a>`"
   };
 
   let htmlContent = `<!DOCTYPE html>
