@@ -55,9 +55,7 @@ async function generateHtml() {
       "base-uri 'self'",
       "img-src 'self' data: https://4211421036.github.io http://4211421036.github.io",
       "default-src 'self' https://4211421036.github.io http://4211421036.github.io",
-      `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'strict-dynamic' ${hashedJsFiles
-        .map((file) => `'sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC'`)
-        .join(' ')} https://4211421036.github.io http://4211421036.github.io;`,
+      `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'strict-dynamic' https://4211421036.github.io http://4211421036.github.io; https://cdn.jsdelivr.net;`,
       "font-src 'self' https://4211421036.github.io http://4211421036.github.io",
       "media-src 'self' https://4211421036.github.io http://4211421036.github.io",
       "connect-src 'self' https://4211421036.github.io http://4211421036.github.io",
@@ -106,7 +104,7 @@ async function generateHtml() {
         onload="if(media!=='all')media='all'" nonce="${nonce}">
     <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css" media="none"
         onload="if(media!=='all')media='all'" nonce="${nonce}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" nonce="${nonce}" crossorigin="anonymous" defer></script>
     <meta property="og:title" content="Mental Health">
     <meta property="og:description"
         content="A comprehensive mental health monitoring application using modern web technologies.">
@@ -133,7 +131,7 @@ async function generateHtml() {
     // Verifikasi hash integritas
     const integrityHash = generateIntegrityHash(filePath);
     htmlContent += `
-      <script src="${hashedFileName}" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous" defer></script>
+      <script src="${hashedFileName}" nonce="${nonce}" crossorigin="anonymous" defer></script>
     `;
   });
   
@@ -375,10 +373,10 @@ async function generateHtml() {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" nonce="${nonce}"  crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" nonce="${nonce}" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" nonce="${nonce}" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" nonce="${nonce}" crossorigin="anonymous"></script>
       <script nonce="${nonce}">
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/MentalHealth/sw.js')
