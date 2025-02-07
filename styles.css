@@ -8,6 +8,7 @@
     --text-secondary-light: #64748b;
     --border-light: rgba(148, 163, 184, 0.1);
     --nav-bg-light: rgba(255, 255, 255, 0.8);
+    --link-light: #131b2c;
     --ico-notification-light: black;
 
     /* Dark Theme Colors */
@@ -19,6 +20,7 @@
     --text-secondary-dark: #94a3b8;
     --border-dark: rgba(148, 163, 184, 0.1);
     --nav-bg-dark: rgba(24 25 28, 0.8);
+    --link-dark: #e0e0e0;
     --ico-notification-dark: light;
 
     /* Font Family */
@@ -37,6 +39,7 @@
         --border: var(--border-dark);
         --nav-bg: var(--nav-bg-dark);
         --ico-notification: var(--ico-notification-light);
+        --link: var(--link-dark);
     }
 }
 
@@ -51,6 +54,7 @@
         --border: var(--border-light);
         --nav-bg: var(--nav-bg-light);
         --ico-notification: var(--ico-notification-light);
+        --link: var(--link-light);
     }
 }
 
@@ -501,7 +505,7 @@ svg {
 
 a {
     text-decoration: none;
-    color: #e0e0e0;
+    color: var(--link);
 }
 
 .hr {
