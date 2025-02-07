@@ -77,7 +77,7 @@ async function generateHtml() {
 
  const jsk = "`https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`";
 
-  const hdf = "`<a href='${url}' target='_blank' title='${url}'>${url}</a>`";
+  const hdf = (url) => `<a href='${url}' target='_blank' title='${url}'>${url}</a>`;
   let htmlContent = `<!DOCTYPE html>
   <html xml:lang="en" lang="en">
     <head FaceID="">
@@ -533,7 +533,7 @@ function autoLinkify(text) {
     // Regex untuk mendeteksi URL dalam teks
     const urlRegex = /(https?:\/\/[^\s]+)/g;
     return text.replace(urlRegex, (url) => {
-        return ${hdf};
+        return return ${hdf(url)};
     });
 }
 
