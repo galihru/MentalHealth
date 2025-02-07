@@ -8,24 +8,37 @@ function generateNonce() {
     return crypto.randomBytes(16).toString('base64');
 }
 
-// Fungsi untuk meminifikasi HTML dan menambahkan nonce ke <script>
+// Fungsi untuk memproses HTML (Minify + Nonce)
 function processHTML(inputFilePath, outputFilePath) {
     try {
         // Baca file HTML
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
 
-        // Tambahkan nonce ke semua tag <script>
-        const nonce = generateNonce();
+        // Cari semua nonce yang ada di file
+        let nonceMatches = [...htmlContent.matchAll(/nonce="([^"]+)"/g)].map(match => match[1]);
+
+        let nonce;
+        if (nonceMatches.length === 0) {
+            // Jika tidak ada nonce, buat nonce baru
+            nonce = generateNonce();
+        } else {
+            // Jika ada lebih dari satu nonce berbeda, hapus semua dan buat satu nonce baru
+            const uniqueNonces = new Set(nonceMatches);
+            nonce = uniqueNonces.size > 1 ? generateNonce() : nonceMatches[0];
+        }
+
+        // Hapus semua nonce lama dan ganti dengan satu nonce baru
+        htmlContent = htmlContent.replace(/nonce="([^"]+)"/g, '');
         htmlContent = htmlContent.replace(/<script(.*?)>/g, `<script$1 nonce="${nonce}">`);
 
-        // Minifikasi HTML
+        // Minifikasi HTML, termasuk inline JS & CSS
         const minifiedHTML = minify(htmlContent, {
             collapseWhitespace: true,
             removeComments: true,
             removeRedundantAttributes: true,
             removeEmptyAttributes: true,
-            minifyJS: true,
-            minifyCSS: true
+            minifyJS: true,  // Minify inline JavaScript
+            minifyCSS: true, // Minify inline CSS
         });
 
         // Simpan output ke file baru
