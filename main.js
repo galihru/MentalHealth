@@ -39,7 +39,7 @@ const EMOTION_THRESHOLDS = {
 };
 
 // Inisialisasi Face Mesh
-const faceMesh = new FaceMesh({
+const faceMesh = new FaceMesh.FaceMesh({
     locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
 });
 
