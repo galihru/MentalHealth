@@ -49,7 +49,6 @@ async function generateHtml() {
     return generateHashedFileName(originalPath); // Nama hash file, tidak perlu membuat salinan
   });
 
-  // CSP dengan strict-dynamic
   const cspContent = [
       `style-src 'self' 'nonce-${nonce}' 'unsafe-inline' https://4211421036.github.io http://4211421036.github.io`,
       "object-src 'none'",
@@ -104,9 +103,9 @@ async function generateHtml() {
     <link rel="canonical" href="https://4211421036.github.io/MentalHealth/">
     <link rel="icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
     <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="none"
-        onload="if(media!=='all')media='all'">
+        onload="if(media!=='all')media='all'" nonce="${nonce}">
     <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css" media="none"
-        onload="if(media!=='all')media='all'">
+        onload="if(media!=='all')media='all'" nonce="${nonce}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js" nonce="${nonce}" integrity="sha384-${integrityHash}" crossorigin="anonymous" defer></script>
     <meta property="og:title" content="Mental Health">
     <meta property="og:description"
