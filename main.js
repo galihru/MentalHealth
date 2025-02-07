@@ -10,7 +10,6 @@ const canvasElement = document.getElementById('canvas');
 const canvasCtx = canvasElement.getContext('2d');
 let lastFaceID = null;
 
-// Fungsi hash sederhana untuk generate FaceID
 function djb2Hash(str) {
     let hash = 5381;
     for (let i = 0; i < str.length; i++) {
@@ -19,7 +18,6 @@ function djb2Hash(str) {
     return hash >>> 0; // Konversi ke unsigned 32-bit integer
 }
 
-// Fungsi untuk mengubah landmark wajah menjadi hash unik
 function generateFaceID(landmarks) {
     // Normalisasi koordinat landmark dengan presisi 4 digit desimal
     let hashString = landmarks.map(lm =>
