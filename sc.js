@@ -505,28 +505,28 @@ function getMentalHealthConclusion(emotions) {
 
     if (sad > 40 && happy < 20 && neutral < 30) {
         return {
-            conclusion: "Potensi gejala depresi terdeteksi",
-            advice: "Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi.\nKunjungi Media Sosial Berikut Untuk Berkonsultasi\nhttps://www.instagram.com/peercounselor.unnes?igsh=MXhodHc0bmhpdGdnag=="
+            conclusion: 'Potensi gejala depresi terdeteksi',
+            advice: 'Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi.\nKunjungi Media Sosial Berikut Untuk Berkonsultasi\nhttps://www.instagram.com/peercounselor.unnes?igsh=MXhodHc0bmhpdGdnag=='
         };
     }
 
     if (angry > 35 && happy < 25) {
         return {
-            conclusion: "Tingkat stres tinggi terdeteksi",
-            advice: "Rekomendasi: Lakukan teknik relaksasi dan perhatikan pola tidur."
+            conclusion: 'Tingkat stres tinggi terdeteksi',
+            advice: 'Rekomendasi: Lakukan teknik relaksasi dan perhatikan pola tidur.'
         };
     }
 
     if (neutral > 60) {
         return {
             conclusion: "Emosi stabil",
-            advice: "Pertahankan keseimbangan emosional. Tidak terdeteksi masalah kesehatan mental signifikan."
+            advice: 'Pertahankan keseimbangan emosional. Tidak terdeteksi masalah kesehatan mental signifikan.'
         };
     }
 
     return {
-        conclusion: "Kondisi emosional normal",
-        advice: "Tidak terdeteksi gangguan mental utama. Tetap pantau kesehatan emosi Anda."
+        conclusion: 'Kondisi emosional normal',
+        advice: 'Tidak terdeteksi gangguan mental utama. Tetap pantau kesehatan emosi Anda.'
     };
 }
 
