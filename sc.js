@@ -75,8 +75,12 @@ async function generateHtml() {
       }
   };
 
-  const structuredDataJS = {
-      "const videoElement=document.getElementById('video'),canvasElement=document.getElementById('canvas'),canvasCtx=canvasElement.getContext('2d');let lastFaceID=null;function djb2Hash(e){let a=5381;for(let n=0;n<e.length;n++)a=33*a^e.charCodeAt(n);return a>>>0}function generateFaceID(e){return djb2Hash(e.map((e=>e.x.toFixed(4)+e.y.toFixed(4)+e.z.toFixed(4))).join('')).toString(16)}const EMOTION_THRESHOLDS={HAPPY:.65,SAD:.6,ANGRY:.55,SURPRISED:.5,NEUTRAL:.7},faceMesh=new FaceMesh({locateFile:e=>`https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${e}`});function analyzeEmotions(e){const a={happy:calculateHappiness(e),sad:calculateSadness(e),angry:calculateAnger(e),surprised:calculateSurprise(e),neutral:calculateNeutral(e)},n=Object.values(a).reduce(((e,a)=>e+a),0);return Object.keys(a).forEach((e=>{a[e]=(a[e]/n*100).toFixed(1)})),a}function calculateHappiness(e){const a=e[61],n=e[291],t=Math.hypot(n.x-a.x,n.y-a.y),c=e[123],s=e[159].y-c.y;return e[61]&&e[291]&&e[123]&&e[159]?Math.min(1,2*t+3*s):0}function calculateSadness(e){const a=e[61],n=e[17].y-a.y,t=e[105],c=e[334],s=(t.y+c.y)/2;return Math.min(1,1.5*n+2*s)}function calculateAnger(e){const a=e[46],n=e[105].y-a.y,t=e[0],c=e[17].y-t.y;return Math.min(1,2*n+1.2*c)}function calculateSurprise(e){const a=e[159],n=e[145].y-a.y,t=e[152],c=e[4],s=t.y-c.y;return Math.min(1,2*n+.8*s)}function calculateNeutral(e){let a=0;return[[152,4],[61,291],[105,334]].forEach((([n,t])=>{a+=Math.hypot(e[n].x-e[t].x,e[n].y-e[t].y)})),Math.max(0,1-2*a)}function getMentalHealthConclusion(e){const{happy:a,sad:n,angry:t,surprised:c,neutral:s}=e;return n>40&&a<20&&s<30?{conclusion:'Potensi gejala depresi terdeteksi',advice:'Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi.\nKunjungi Media Sosial Berikut Untuk Berkonsultasi\nhttps://www.instagram.com/peercounselor.unnes?igsh=MXhodHc0bmhpdGdnag=='}:t>35&&a<25?{conclusion:'Tingkat stres tinggi terdeteksi',advice:'Rekomendasi: Lakukan teknik relaksasi dan perhatikan pola tidur.'}:s>60?{conclusion:'Emosi stabil',advice:'Pertahankan keseimbangan emosional. Tidak terdeteksi masalah kesehatan mental signifikan.'}:{conclusion:'Kondisi emosional normal',advice:'Tidak terdeteksi gangguan mental utama. Tetap pantau kesehatan emosi Anda.'}}function autoLinkify(e){return e.replace(/(https?:\/\/[^\s]+)/g,(e=>`<a href='${e}' target='_blank' title='${e}'>${e}</a>`))}async function updateUI(e){Object.entries(e).forEach((([e,a])=>{document.getElementById(e).textContent=a}));const a=getMentalHealthConclusion(e);document.getElementById('conclusion').textContent=a.conclusion;document.getElementById('advice').innerHTML=autoLinkify(a.advice)}function drawLandmarks(e){canvasCtx.fillStyle='#00FF00',e.forEach((e=>{const a=e.x*canvasElement.width,n=e.y*canvasElement.height;canvasCtx.beginPath(),canvasCtx.arc(a,n,1,0,1*Math.PI),canvasCtx.fill()}))}faceMesh.setOptions({maxNumFaces:1,refineLandmarks:!0,minDetectionConfidence:.5,minTrackingConfidence:.5}),faceMesh.onResults((e=>{canvasCtx.save(),canvasCtx.clearRect(0,0,canvasElement.width,canvasElement.height),canvasCtx.drawImage(e.image,0,0,canvasElement.width,canvasElement.height);let a='';if(e.multiFaceLandmarks&&e.multiFaceLandmarks.length>0){const n=e.multiFaceLandmarks[0];a=generateFaceID(n),a!==lastFaceID&&(document.documentElement.setAttribute('FaceID',a),lastFaceID=a);updateUI(analyzeEmotions(n)),e.multiFaceLandmarks.forEach((e=>{drawLandmarks(e)}))}else null!==lastFaceID&&(document.documentElement.setAttribute('FaceID',''),lastFaceID=null);canvasCtx.restore()}));const camera=new Camera(videoElement,{onFrame:async()=>{await faceMesh.send({image:videoElement})},width:640,height:480});camera.start();",
+  const jsk = {
+    "`https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`",
+  };
+
+  const hdf = {
+    "`<a href="${url}" target="_blank" title="${url}">${url}</a>`",
   };
 
   let htmlContent = `<!DOCTYPE html>
@@ -349,7 +353,265 @@ async function generateHtml() {
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" nonce="${nonce}" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" nonce="${nonce}" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" nonce="${nonce}" crossorigin="anonymous"></script>
-    <script nonce="${nonce">${structuredDataJS}
+    <script nonce="${nonce">
+        // face-analysis.js
+const videoElement = document.getElementById('video');
+const canvasElement = document.getElementById('canvas');
+const canvasCtx = canvasElement.getContext('2d');
+let lastFaceID = null;
+
+// Fungsi hash sederhana untuk generate FaceID
+function djb2Hash(str) {
+    let hash = 5381;
+    for (let i = 0; i < str.length; i++) {
+        hash = (hash * 33) ^ str.charCodeAt(i);
+    }
+    return hash >>> 0; // Konversi ke unsigned 32-bit integer
+}
+
+// Fungsi untuk mengubah landmark wajah menjadi hash unik
+function generateFaceID(landmarks) {
+    // Normalisasi koordinat landmark dengan presisi 4 digit desimal
+    let hashString = landmarks.map(lm =>
+        lm.x.toFixed(4) +
+        lm.y.toFixed(4) +
+        lm.z.toFixed(4)
+    ).join('');
+
+    return djb2Hash(hashString).toString(16); // Konversi ke hexadecimal
+}
+
+// Konfigurasi Threshold (Berdasarkan penelitian)
+const EMOTION_THRESHOLDS = {
+    HAPPY: 0.65,
+    SAD: 0.6,
+    ANGRY: 0.55,
+    SURPRISED: 0.5,
+    NEUTRAL: 0.7
+};
+
+// Inisialisasi Face Mesh
+const faceMesh = new FaceMesh({
+    locateFile: (file) => `{jsk}`
+});
+
+faceMesh.setOptions({
+    maxNumFaces: 1,
+    refineLandmarks: true,
+    minDetectionConfidence: 0.5,
+    minTrackingConfidence: 0.5
+});
+
+// Fungsi Utama Deteksi Emosi
+function analyzeEmotions(landmarks) {
+    const emotions = {
+        happy: calculateHappiness(landmarks),
+        sad: calculateSadness(landmarks),
+        angry: calculateAnger(landmarks),
+        surprised: calculateSurprise(landmarks),
+        neutral: calculateNeutral(landmarks)
+    };
+
+    // Normalisasi ke persentase
+    const total = Object.values(emotions).reduce((a, b) => a + b, 0);
+    Object.keys(emotions).forEach(key => {
+        emotions[key] = (emotions[key] / total * 100).toFixed(1);
+    });
+
+    return emotions;
+}
+
+// Perhitungan Berdasarkan Action Units (Berdasarkan penelitian)
+function calculateHappiness(landmarks) {
+    // AU12 - Lip Corner Puller (Frontiers in Psychology 2022)
+    const lipCornerLeft = landmarks[61];
+    const lipCornerRight = landmarks[291];
+    const lipStretch = Math.hypot(
+        lipCornerRight.x - lipCornerLeft.x,
+        lipCornerRight.y - lipCornerLeft.y
+    );
+
+    // AU6 - Cheek Raiser (IEEE TAFFC 2021)
+    const cheekLeft = landmarks[123];
+    const eyeLeft = landmarks[159];
+    const cheekRaiseLeft = eyeLeft.y - cheekLeft.y;
+
+    if (!landmarks[61] || !landmarks[291] || !landmarks[123] || !landmarks[159]) {
+        return 0;
+    }
+
+    return Math.min(1, lipStretch * 2 + cheekRaiseLeft * 3);
+}
+
+function calculateSadness(landmarks) {
+    // AU15 - Lip Corner Depressor (IEEE TAFFC 2021)
+    const lipCornerLeft = landmarks[61];
+    const lipBottom = landmarks[17];
+    const lipDepression = lipBottom.y - lipCornerLeft.y;
+
+    // AU1 - Inner Brow Raiser (Frontiers in Psychology 2022)
+    const browInnerLeft = landmarks[105];
+    const browInnerRight = landmarks[334];
+    const browRaise = (browInnerLeft.y + browInnerRight.y) / 2;
+
+    return Math.min(1, lipDepression * 1.5 + browRaise * 2);
+}
+
+function calculateAnger(landmarks) {
+    // AU4 - Brow Lowerer (IEEE TAFFC 2021)
+    const browOuterLeft = landmarks[46];
+    const browInnerLeft = landmarks[105];
+    const browLowerLeft = browInnerLeft.y - browOuterLeft.y;
+
+    // AU23 - Lip Tightener
+    const lipTop = landmarks[0];
+    const lipBottom = landmarks[17];
+    const lipCompression = lipBottom.y - lipTop.y;
+
+    return Math.min(1, browLowerLeft * 2 + lipCompression * 1.2);
+}
+
+function calculateSurprise(landmarks) {
+    // AU5 - Upper Lid Raiser
+    const eyelidLeft = landmarks[159];
+    const eyeLeft = landmarks[145];
+    const eyeOpenness = eyeLeft.y - eyelidLeft.y;
+
+    // AU26 - Jaw Drop
+    const chin = landmarks[152];
+    const nose = landmarks[4];
+    const jawDrop = chin.y - nose.y;
+
+    return Math.min(1, eyeOpenness * 2 + jawDrop * 0.8);
+}
+
+function calculateNeutral(landmarks) {
+    // Menghitung deviasi dari posisi netral
+    let deviation = 0;
+    const neutralFeatures = [
+        [152, 4],  // Chin to nose
+        [61, 291], // Lip corners
+        [105, 334] // Brows
+    ];
+
+    neutralFeatures.forEach(([i1, i2]) => {
+        deviation += Math.hypot(
+            landmarks[i1].x - landmarks[i2].x,
+            landmarks[i1].y - landmarks[i2].y
+        );
+    });
+
+    return Math.max(0, 1 - deviation * 2);
+}
+
+// Analisis Kesehatan Mental (Berdasarkan IEEE Transactions on Affective Computing)
+function getMentalHealthConclusion(emotions) {
+    const { happy, sad, angry, surprised, neutral } = emotions;
+
+    if (sad > 40 && happy < 20 && neutral < 30) {
+        return {
+            conclusion: "Potensi gejala depresi terdeteksi",
+            advice: "Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi.\nKunjungi Media Sosial Berikut Untuk Berkonsultasi\nhttps://www.instagram.com/peercounselor.unnes?igsh=MXhodHc0bmhpdGdnag=="
+        };
+    }
+
+    if (angry > 35 && happy < 25) {
+        return {
+            conclusion: "Tingkat stres tinggi terdeteksi",
+            advice: "Rekomendasi: Lakukan teknik relaksasi dan perhatikan pola tidur."
+        };
+    }
+
+    if (neutral > 60) {
+        return {
+            conclusion: "Emosi stabil",
+            advice: "Pertahankan keseimbangan emosional. Tidak terdeteksi masalah kesehatan mental signifikan."
+        };
+    }
+
+    return {
+        conclusion: "Kondisi emosional normal",
+        advice: "Tidak terdeteksi gangguan mental utama. Tetap pantau kesehatan emosi Anda."
+    };
+}
+
+function autoLinkify(text) {
+    // Regex untuk mendeteksi URL dalam teks
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    return text.replace(urlRegex, (url) => {
+        return `{hdf}`;
+    });
+}
+
+async function updateUI(emotions) {
+    Object.entries(emotions).forEach(([emotion, value]) => {
+        document.getElementById(emotion).textContent = value;
+    });
+
+    const mentalHealth = getMentalHealthConclusion(emotions);
+    document.getElementById('conclusion').textContent = mentalHealth.conclusion;
+
+    // Konversi URL dalam teks menjadi <a>
+    const adviceElement = document.getElementById('advice');
+    adviceElement.innerHTML = autoLinkify(mentalHealth.advice);
+}
+// Face Mesh Handler
+faceMesh.onResults((results) => {
+    canvasCtx.save();
+    canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+    let currentFaceID = '';
+    if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+        const landmarks = results.multiFaceLandmarks[0];
+        currentFaceID = generateFaceID(landmarks);
+
+        // Update FaceID hanya jika berbeda dengan sebelumnya
+        if (currentFaceID !== lastFaceID) {
+            document.documentElement.setAttribute('FaceID', currentFaceID);
+            lastFaceID = currentFaceID;
+        }
+
+        const emotions = analyzeEmotions(landmarks);
+        updateUI(emotions);
+
+        results.multiFaceLandmarks.forEach(landmarks => {
+            drawLandmarks(landmarks);
+        });
+    } else {
+        // Jika tidak ada wajah terdeteksi
+        if (lastFaceID !== null) {
+            document.documentElement.setAttribute('FaceID', '');
+            lastFaceID = null;
+        }
+    }
+
+    canvasCtx.restore();
+});
+
+// Fungsi gambar landmark
+function drawLandmarks(landmarks) {
+    canvasCtx.fillStyle = '#00FF00';
+    landmarks.forEach(landmark => {
+        const x = landmark.x * canvasElement.width;
+        const y = landmark.y * canvasElement.height;
+
+        canvasCtx.beginPath();
+        canvasCtx.arc(x, y, 1, 0, 1 * Math.PI); // Radius diperkecil
+        canvasCtx.fill();
+    });
+}
+
+// Inisialisasi Kamera
+const camera = new Camera(videoElement, {
+    onFrame: async () => {
+        await faceMesh.send({ image: videoElement });
+    },
+    width: 640,  // Diubah ke resolusi yang lebih realistis
+    height: 480
+});
+
+camera.start();
     </script>
     <script nonce="${nonce}">function toggleTheme(){const e=document.body,t=document.querySelector(".theme-toggle i");e.classList.toggle("dark-theme"),e.classList.contains("dark-theme")?(t.className="fas fa-sun",localStorage.setItem("theme","dark")):(t.className="fas fa-moon",localStorage.setItem("theme","light"))}document.addEventListener("DOMContentLoaded",(()=>{const e=localStorage.getItem("theme"),t=window.matchMedia("(prefers-color-scheme: dark)").matches,a=document.querySelector(".theme-toggle i");e?document.body.classList.toggle("dark-theme","dark"===e):document.body.classList.toggle("dark-theme",t),document.body.classList.contains("dark-theme")?a.className="fas fa-sun":a.className="fas fa-moon"}));</script>
       <script nonce="${nonce}">
