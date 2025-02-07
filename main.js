@@ -1,3 +1,5 @@
+import { FaceMesh } from 'https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js';
+
 window.onload = function () {
     const skeletonContainer = document.getElementById('skeleton-container');
     skeletonContainer.parentNode.removeChild(skeletonContainer);
