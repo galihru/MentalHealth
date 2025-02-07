@@ -33,7 +33,7 @@
             "url": "https://4211421036.github.io/MentalHealth#notifikasiModal",
             "icons": [
                 {
-                    "src": "/svgs/regular/bell.svg",
+                    "src": "/MentalHealth/svgs/regular/bell.svg",
                     "sizes": "192x192"
                 }
             ]
@@ -45,7 +45,7 @@
             "url": "https://4211421036.github.io/MentalHealth#historiModal",
             "icons": [
                 {
-                    "src": "/svgs/solid/clock-rotate-left.svg",
+                    "src": "/MentalHealth/svgs/solid/clock-rotate-left.svg",
                     "sizes": "192x192"
                 }
             ]
@@ -57,7 +57,7 @@
             "url": "https://4211421036.github.io/MentalHealth#graphModal",
             "icons": [
                 {
-                    "src": "/svgs/solid/chart-line.svg",
+                    "src": "/MentalHealth/svgs/solid/chart-line.svg",
                     "sizes": "192x192"
                 }
             ]
