@@ -30,12 +30,6 @@ function generateIntegrityHash(filePath) {
   return hash.digest('base64');
 }
 
-function generateIntegrityHashas() {
-  const hash = crypto.createHash('sha384');
-  hash.update();
-  return hash.digest('base64');
-}
-
 function generateInlineScriptHash(scriptContent) {
   const hash = crypto.createHash('sha256');
   hash.update(scriptContent);
@@ -71,8 +65,6 @@ async function generateHtml() {
       "manifest-src 'self' https://4211421036.github.io http://4211421036.github.io",
       "worker-src 'self' blob: https://4211421036.github.io http://4211421036.github.io"
   ].join('; ');
-
- const integrityHash = generateIntegrityHashas();
 
  const structuredData = {
       "@context": "https://schema.org",
@@ -114,7 +106,7 @@ async function generateHtml() {
         onload="if(media!=='all')media='all'" nonce="${nonce}">
     <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css" media="none"
         onload="if(media!=='all')media='all'" nonce="${nonce}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js" nonce="${nonce}" integrity="sha384-${integrityHash}" crossorigin="anonymous" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous" defer></script>
     <meta property="og:title" content="Mental Health">
     <meta property="og:description"
         content="A comprehensive mental health monitoring application using modern web technologies.">
@@ -383,10 +375,10 @@ async function generateHtml() {
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" nonce="${nonce}" integrity="sha384-${integrityHash}" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" nonce="${nonce}" integrity="sha384-${integrityHash}" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" nonce="${nonce}" integrity="sha384-${integrityHash}" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" nonce="${nonce}" integrity="sha384-${integrityHash}" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js" nonce="${nonce}" integrity="sha384-vsrfeLOOY6KuIYKDlmVH5UiBmgIdB1oEf7p01YgWHuqmOHfZr374+odEv96n9tNC" crossorigin="anonymous"></script>
       <script nonce="${nonce}">
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.register('/MentalHealth/sw.js')
