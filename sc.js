@@ -55,7 +55,7 @@ async function generateHtml() {
       "base-uri 'self'",
       "img-src 'self' data: https://4211421036.github.io http://4211421036.github.io",
       "default-src 'self' https://4211421036.github.io http://4211421036.github.io",
-      `script-src 'self' 'unsafe-inline' 'nonce-${nonce}' 'strict-dynamic' https://4211421036.github.io http://4211421036.github.io; https://cdn.jsdelivr.net;`,
+      `script-src 'self' 'unsafe-inline' 'strict-dynamic' https://4211421036.github.io http://4211421036.github.io; https://cdn.jsdelivr.net;`,
       "font-src 'self' https://4211421036.github.io http://4211421036.github.io",
       "media-src 'self' https://4211421036.github.io http://4211421036.github.io",
       "connect-src 'self' https://4211421036.github.io http://4211421036.github.io",
