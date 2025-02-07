@@ -56,7 +56,6 @@ jobs:
         if git diff --cached --quiet; then
           echo "No changes to commit"
         else
-          git add *.min.js
           git commit -m "Update index.html with dynamic nonce"
           git push
         fi
