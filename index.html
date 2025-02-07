@@ -593,7 +593,6 @@
             let result = text;
 
             for (const url of matches) {
-                const ogData = await fetchOGData(url);
                 const link = `<a href="${url}" target="_blank" class="og-link">${url}</a>`;
             }
 
