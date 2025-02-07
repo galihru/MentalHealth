@@ -145,6 +145,7 @@ async function generateHtml() {
     }
   });
 
+  const integrityHash = generateIntegrityHash(filePath);
   // Menambahkan style inline dengan nonce
   htmlContent += `
     </head>
