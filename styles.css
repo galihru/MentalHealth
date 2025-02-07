@@ -80,6 +80,7 @@ body {
     --border: var(--border-light);
     --nav-bg: var(--nav-bg-light);
     --ico-notification: var(--ico-notification-light);
+    --link: var(--link-light);
     overflow: hidden;
 }
 
@@ -95,6 +96,7 @@ body.dark-theme {
     --nav-bg: var(--nav-bg-dark);
     --ico-notification: var(--ico-notification-dark);
     --notifikasi: var(--ico-notification-dark);
+    --link: var(--link-dark);
     overflow: hidden;
 }
 
