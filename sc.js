@@ -8,7 +8,6 @@ function generateNonce() {
     return crypto.randomBytes(16).toString('base64');
 }
 
-// Auto-generate back/forward cache handling script
 const bfcacheScript = `
 window.addEventListener('pageshow', function(event) {
     if (event.persisted) {
