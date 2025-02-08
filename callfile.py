@@ -8,7 +8,6 @@ def extract_filenames(folder_path, output_file):
                 f.write(f'\"\{folder_path}\{relative_path}",\n')
     print(f"Nama file berhasil disimpan dalam {output_file}")
 
-# Ganti 'path_to_folder' dengan lokasi folder yang ingin Anda ekstrak
 folder_path = "svgs"
 output_file = r"C:\Users\asus\OneDrive - mail.unnes.ac.id\Documents\GitHub\MentalHealth\nama_file.txt"
 
