@@ -10,6 +10,15 @@
     --nav-bg-light: rgba(255, 255, 255, 0.8);
     --link-light: #131b2c;
     --ico-notification-light: black;
+    --skeleton-bg-light: #e0e0e0;
+    --skeleton-item-bg-light: #c0c0c0;
+    --skeleton-item-highlight-light: #ddd;
+    --border-light: #ccc;
+    --skeleton-item-bg-i-light: #eee;
+    --text-secondary-light-sk: #666;
+    --primary-skeleton-light: #333;
+    --border-active-light: rgb(229 229 229);
+    --color-active-light: rgb(0 80 255);
 
     /* Dark Theme Colors */
     --primary-dark: #60a5fa;
@@ -22,6 +31,16 @@
     --nav-bg-dark: rgba(24 25 28, 0.8);
     --link-dark: #e0e0e0;
     --ico-notification-dark: light;
+    --skeleton-bg-dark: #333;
+    --skeleton-item-bg-dark: #555;
+    --skeleton-item-highlight-dark: #444;
+    --border-dark: #666;
+    --skeleton-item-bg-i-dark: #777;
+    --text-secondary-dark-sk: #aaa;
+    --primary-dark-skeleton: #fff;
+    --border-active-dark: rgb(35 35 35);
+    --color-active-dark: #8fc1ff;
+    
 
     /* Font Family */
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -40,6 +59,15 @@
         --nav-bg: var(--nav-bg-dark);
         --ico-notification: var(--ico-notification-light);
         --link: var(--link-dark);
+        --skeleton-bg: var(--skeleton-bg-dark);
+        --skeleton-item-bg: var(--skeleton-item-bg-dark);
+        --skeleton-item-highlight: var(--skeleton-item-highlight-dark);
+        --border: var(--border-dark);
+        --skeleton-item-bg-i: var(--skeleton-item-bg-i-dark);
+        --text-secondary-sk: var(--text-secondary-dark-sk);
+        --primary-sk: var(--primary-dark-skeleton);
+        --border-active: var(--border-active-dark);
+        --color-active: var(--color-active-dark);
     }
 }
 
@@ -55,6 +83,15 @@
         --nav-bg: var(--nav-bg-light);
         --ico-notification: var(--ico-notification-light);
         --link: var(--link-light);
+        --skeleton-bg: var(--skeleton-bg-light);
+        --skeleton-item-bg: var(--skeleton-item-bg-light);
+        --skeleton-item-highlight: var(--skeleton-item-highlight-light);
+        --border: var(--border-light);
+        --skeleton-item-bg-i: var(--skeleton-item-bg-i-light);
+        --text-secondary-sk: var(--text-secondary-light-sk);
+        --primary-sk: var(--primary-skeleton-light);
+        --border-active: var(--border-active-light);
+        --color-active: var(--color-active-light);
     }
 }
 
@@ -81,6 +118,15 @@ body {
     --nav-bg: var(--nav-bg-light);
     --ico-notification: var(--ico-notification-light);
     --link: var(--link-light);
+    --skeleton-bg: var(--skeleton-bg-light);
+    --skeleton-item-bg: var(--skeleton-item-bg-light);
+    --skeleton-item-highlight: var(--skeleton-item-highlight-light);
+    --border: var(--border-light);
+    --skeleton-item-bg-i: var(--skeleton-item-bg-i-light);
+    --text-secondary-sk: var(--text-secondary-light-sk);
+    --primary-sk: var(--primary-skeleton-light);
+    --border-active: var(--border-active-light);
+    --color-active: var(--color-active-light);
     overflow: hidden;
     font-size: 14px;
 }
@@ -98,6 +144,15 @@ body.dark-theme {
     --ico-notification: var(--ico-notification-dark);
     --notifikasi: var(--ico-notification-dark);
     --link: var(--link-dark);
+    --skeleton-bg: var(--skeleton-bg-dark);
+    --skeleton-item-bg: var(--skeleton-item-bg-dark);
+    --skeleton-item-highlight: var(--skeleton-item-highlight-dark);
+    --border: var(--border-dark);
+    --skeleton-item-bg-i: var(--skeleton-item-bg-i-dark);
+    --text-secondary-sk: var(--text-secondary-dark-sk);
+    --primary-sk: var(--primary-dark-skeleton);
+    --border-active: var(--border-active-dark);
+    --color-active: var(--color-active-dark);
     overflow: hidden;
 }
 
@@ -107,12 +162,12 @@ body.dark-theme {
     left: 0;
     right: 0;
     height: 70px;
-    background: #e0e0e0;
+    background: var(--skeleton-bg);
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 0 20px;
-    z-index: 2;
+    z-index: 1002;
 }
 
 .skeleton-headco {
@@ -124,14 +179,14 @@ body.dark-theme {
 .skeleton-logo {
     width: 150px;
     height: 24px;
-    background: #c0c0c0;
+    background: var(--skeleton-item-bg);
     border-radius: 4px;
 }
 
 .skeleton-device {
     width: 120px;
     height: 18px;
-    background: #c0c0c0;
+    background: var(--skeleton-item-bg);
     border-radius: 4px;
 }
 
@@ -143,7 +198,7 @@ body.dark-theme {
 .skeleton-control-item {
     width: 35px;
     height: 35px;
-    background: #c0c0c0;
+    background: var(--skeleton-item-bg);
     border-radius: 50%;
 }
 
@@ -152,7 +207,7 @@ body.dark-theme {
     top: 70px;
     height: calc(100vh - 140px);
     width: 100%;
-    background: #e0e0e0;
+    background: var(--skeleton-bg);
     border-radius: 30px;
     top: 0;
 }
@@ -163,7 +218,7 @@ body.dark-theme {
     left: 0;
     right: 0;
     height: 70px;
-    background: #e0e0e0;
+    background: var(--skeleton-bg);
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -171,7 +226,7 @@ body.dark-theme {
     -webkit-backdrop-filter: blur(20px);
     border-top: 1px solid var(--border);
     padding: 0 20px;
-    z-index: 2;
+    z-index: 1002;
 }
 
 .skeleton-nav-item {
@@ -179,27 +234,34 @@ body.dark-theme {
     flex-direction: column;
     align-items: center;
     padding: 4px;
-    color: var(--text-secondary);
+    color: var(--text-secondary-sk);
     text-decoration: none;
     flex: 1;
+    height: 55px;
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 16px;
 }
 
 .skeleton-nav-item.active {
-    color: var(--primary);
+    color: var(--primary-sk);
     background: var(--border);
     transform: translateY(-5px);
 }
 
-.skeleton-nav-item i {
-    font-size: 24px;
+.skeleton-nav-item-i {
+    width: 34px;
+    height: 34px;
     margin-bottom: 6px;
+    border-radius: 6px;
+    background: var(--skeleton-item-bg-i);
 }
 
-.skeleton-nav-item span {
-    font-size: 13px;
+.skeleton-nav-item-span {
+    width: 53px;
+    height: 13px;
+    border-radius: 20px;
+    background: var(--skeleton-item-bg);
     font-weight: 500;
     letter-spacing: -0.2px;
 }
@@ -216,7 +278,7 @@ body.dark-theme {
 }
 
 .skeleton-item {
-    background: linear-gradient(90deg, #eee 25%, #ddd 50%, #eee 75%);
+    background: linear-gradient(90deg, var(--skeleton-item-bg) 25%, var(--skeleton-item-highlight) 50%, var(--skeleton-item-bg) 75%);
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite linear;
     overflow: hidden;
@@ -362,8 +424,8 @@ header {
 }
 
 .nav-item.active {
-    color: var(--primary);
-    background: var(--border);
+    color: var(--color-active);
+    background: var(--border-active);
     transform: translateY(-5px);
 }
 
