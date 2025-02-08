@@ -74,7 +74,7 @@ function processHTML(inputFilePath, outputFilePath) {
 }
 
 // Contoh penggunaan
-const inputPath = path.resolve('index.html');  // Ubah sesuai dengan lokasi file input
+const inputPath = path.resolve('prerelease.html');  // Ubah sesuai dengan lokasi file input
 const outputPath = path.resolve('index.html'); // Lokasi file output
 
 processHTML(inputPath, outputPath);
