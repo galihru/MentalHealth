@@ -325,6 +325,13 @@ canvas#bpChart {
     transform: scaleX(1);
 }
 
+canvas#voidChart {
+    position: static;
+    width: 100%;
+    height: 100%;
+    transform: scaleX(1);
+}
+
 canvas#heartRateChart {
     position: static;
     width: 100%;
