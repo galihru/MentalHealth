@@ -383,6 +383,24 @@ body.dark-theme {
     /* Warna ikon notifikasi untuk tema gelap */
 }
 
+.btn {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}`;
+
 /* Container Styles */
 .container {
     height: calc(100vh - 70px);
