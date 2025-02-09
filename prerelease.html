@@ -219,6 +219,7 @@
         </div>
     </header>
     <div class="container" role="main" id="main-content" aria-label="Main Content">
+        <img style="nocam" id="nocam" src="https://4211421036.github.io/MentalHealth/nocam.png" alt="nocam">
         <video id="video" autoplay></video>
         <canvas id="canvas"></canvas>
     </div>
@@ -469,6 +470,171 @@
             });
         });
     </script>
+    <script>
+        // Modal styling
+        const modalStyle = `
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        
+        .modal-content {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            border-radius: 20px 20px 0 0;
+            transform: translateY(0);
+            transition: transform 0.3s ease-out;
+        }
+        
+        .swipe-indicator {
+            width: 40px;
+            height: 4px;
+            background-color: #ddd;
+            border-radius: 2px;
+            margin: 10px auto;
+        }
+        
+        .modal-header {
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .btn {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }`;
+        
+        // Add styles to document
+        const styleSheet = document.createElement('style');
+        const nocamID = document.getElementById('nocam');
+        styleSheet.textContent = modalStyle;
+        document.head.appendChild(styleSheet);
+        
+        class CameraPermissionModal {
+            constructor() {
+                this.modal = document.getElementById('cameraModal');
+                this.modalContent = this.modal.querySelector('.modal-content');
+                this.modalBody = this.modal.querySelector('.modal-body');
+                this.closeBtn = this.modal.querySelector('.close-btn');
+                
+                this.setupModal();
+                this.setupSwipeHandling();
+                this.setupButtons();
+                
+                // Check if camera permission was previously granted
+                const cameraPermissionGranted = localStorage.getItem('cameraPermissionGranted');
+                if (!cameraPermissionGranted) {
+                    this.showModal();
+                }
+            }
+        
+            setupModal() {
+                // Set up modal content
+                this.modalBody.innerHTML = `
+                    <h3>Aktifkan Camera buat Analisis Mental Health</h3>
+                    <p>Kami membutuhkan akses kamera untuk melakukan analisis mental health</p>
+                    <button class="btn btn-primary" id="enableCamera">Yaa Aktifkan Camera</button>
+                    <button class="btn btn-secondary" id="disableCamera">Tidak Aktifkan Camera</button>
+                `;
+            }
+        
+            setupSwipeHandling() {
+                let startY = 0;
+                let currentY = 0;
+        
+                this.modalContent.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                });
+        
+                this.modalContent.addEventListener('touchmove', (e) => {
+                    currentY = e.touches[0].clientY;
+                    const diff = currentY - startY;
+                    
+                    if (diff > 0) { // Only allow downward swipe
+                        this.modalContent.style.transform = `translateY(${diff}px)`;
+                    }
+                });
+        
+                this.modalContent.addEventListener('touchend', () => {
+                    const diff = currentY - startY;
+                    if (diff > 150) { // If swiped down more than 150px
+                        this.requestCameraPermission();
+                    } else {
+                        this.modalContent.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+        
+            setupButtons() {
+                const enableBtn = document.getElementById('enableCamera');
+                const disableBtn = document.getElementById('disableCamera');
+                
+                enableBtn.addEventListener('click', () => this.requestCameraPermission());
+                disableBtn.addEventListener('click', () => this.hideModal());
+                this.closeBtn.addEventListener('click', () => this.requestCameraPermission());
+            }
+        
+            async requestCameraPermission() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    localStorage.setItem('cameraPermissionGranted', 'true');
+                    this.hideAndRemoveModal();
+                    // Stop the stream since we just needed permission
+                    stream.getTracks().forEach(track => track.stop());
+                } catch (error) {
+                    console.error('Camera permission denied:', error);
+                    this.showModal();
+                }
+            }
+        
+            showModal() {
+                this.modal.style.display = 'block';
+            }
+        
+            hideModal() {
+                this.modal.style.display = 'none';
+            }
+        
+            hideAndRemoveModal() {
+                this.hideModal();
+                this.modal.parentNode.removeChild(this.modal);
+                nocamID.parentNode.removeChild(nocamID)
+            }
+        }
+        
+        // Initialize the modal
+        document.addEventListener('DOMContentLoaded', () => {
+            new CameraPermissionModal();
+        });
     <script>
         // Add smooth scrolling for skip links
         document.querySelectorAll('.skip-link').forEach(link => {
