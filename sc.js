@@ -109,7 +109,7 @@ function collectClassesAndIds(htmlContent, cssPaths, jsPaths = []) {
     });
 
     // Dynamic HTML (e.g., innerHTML)
-     jsContent.replace(/\.(innerHTML|outerHTML)\s*=\s*["']([^"']*)["']/g, (_, prop, html) => {
+    jsContent.replace(/\.(innerHTML|outerHTML)\s*=\s*["']([^"']*)["']/g, (_, prop, html) => {
       // Ekstrak class dari string HTML menggunakan regex
       html.replace(/class="([^"]*)"/g, (_, classAttr) => {
         classAttr.split(/\s+/).forEach(c => classes.add(c));
@@ -119,6 +119,7 @@ function collectClassesAndIds(htmlContent, cssPaths, jsPaths = []) {
       html.replace(/id="([^"]*)"/g, (_, idAttr) => {
         ids.add(idAttr);
       });
+    });
   });
 
   return { classes: Array.from(classes), ids: Array.from(ids) };
@@ -177,9 +178,11 @@ function processHTML(inputFilePath, outputFilePath) {
         
         // 4. Ganti class dan ID di CSS
         cssFiles.forEach(cssPath => {
-          let cssContent = fs.readFileSync(cssPath, 'utf8');
-          cssContent = processCSS(cssContent, classMapping, idMapping);
-          fs.writeFileSync(cssPath, cssContent);
+          if (fs.existsSync(cssPath)) {
+            let cssContent = fs.readFileSync(cssPath, 'utf8');
+            cssContent = processCSS(cssContent, classMapping, idMapping);
+            fs.writeFileSync(cssPath, cssContent);
+          }
         });
 
         // 6. Proses inline JavaScript di HTML
