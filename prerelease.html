@@ -481,13 +481,6 @@
                     
                     // Menyimpan output console.table ke dalam string
                     const tableString = console.table(profiles);
-                    
-                    // Menghapus indeks dari string tabel
-                    const tableWithoutIndex = tableString.replace(/^\s*\d+\s+/gm, '');
-                    
-                    // Menampilkan tabel tanpa indeks
-                    console.log(tableWithoutIndex);
-                    // Log clickable links separately
                     profiles.forEach(profile => {
                         console.log(`%c${profile.name}: %c${profile.url}`, "font-weight: bold;", "color: blue; text-decoration: underline;");
                     });
