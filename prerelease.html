@@ -1,30 +1,37 @@
 <!doctype html>
+<html>
 <html lang="id">
-
 <head faceid="">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Mental Health</title>
+    <meta name="description" content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta name="description"
         content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta name="keywords" content="mental health, monitoring, health app, face analysis, emotion detection">
     <meta name="author" content="GALIH RIDHO UTOMO and Ana Maulida">
     <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Language" content="en">
     <link rel="canonical" href="https://4211421036.github.io/MentalHealth/">
+    <meta name="color-scheme" content="dark light" />
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <link rel="preload" href="https://4211421036.github.io/g4lihru/987654567.png" as="image" type="image/x-icon">
     <link rel="shortcut icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
+    <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css">
     <link rel="icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
-    <link rel="preload" href="https://4211421036.github.io/MentalHealth/style.css" as="style">
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://4211421036.github.io/MentalHealth/styles.css" as="style">
     <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="all"
         onload='"all"!==media&&(media="none")'>
-    <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/style.css" media="all"
+    <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css" media="all"
         onload='"all"!==media&&(media="none")'>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" crossorigin="anonymous" defer="defer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns" crossorigin="anonymous" defer="defer"></script>
     <meta property="og:title" content="Mental Health">
+    <meta property="og:description" content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta property="og:description"
         content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta property="og:image" content="https://4211421036.github.io/g4lihru/987654567.png">
@@ -43,6 +50,7 @@
     <meta name="twitter:image:alt" content="Mental Health">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Mental Health">
+    <meta name="twitter:description" content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta name="twitter:description"
         content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta name="twitter:image" content="https://4211421036.github.io/g4lihru/987654567.png">
@@ -52,23 +60,22 @@
         (function () {
             // Override default loading behavior
             window.stop = function () { return; };
-
             // Force favicon
             function forceFavicon() {
                 var links = document.querySelectorAll("link[rel*='icon']");
                 links.forEach(function (link) {
                     link.href = 'https://4211421036.github.io/g4lihru/987654567.png';
+                    link.as = 'image'
                 });
-
                 // Add if not exists
                 if (!links.length) {
                     var link = document.createElement('link');
                     link.rel = 'icon';
                     link.href = 'https://4211421036.github.io/g4lihru/987654567.png';
+                    link.as = 'image'
                     document.head.appendChild(link);
                 }
             }
-
             // Prevent loading indicator
             function preventLoadingIcon() {
                 forceFavicon();
@@ -83,19 +90,15 @@
                     };
                 }
             }
-
             // Execute immediately
             preventLoadingIcon();
-
             // Monitor and maintain
             const events = ['load', 'DOMContentLoaded', 'readystatechange', 'beforeunload'];
             events.forEach(function (event) {
                 window.addEventListener(event, preventLoadingIcon, true);
             });
-
             // Continuous monitoring
             setInterval(preventLoadingIcon, 50);
-
             // Handle navigation events
             document.addEventListener('visibilitychange', preventLoadingIcon);
             window.addEventListener('pageshow', preventLoadingIcon);
@@ -104,11 +107,11 @@
     </script>
     <noscript>
         <meta http-equiv="refresh" content="10">
+        <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css">
         <style>
             .js-required {
                 display: none;
             }
-
             .no-js-message {
                 display: block;
                 background: #ffeb3b;
@@ -128,12 +131,40 @@
             }
         });
     </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "name": "Mental Health",
+          "operatingSystem": "ANDROID",
+          "applicationCategory": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": 5.0,
+            "ratingCount": 8864
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": 0,
+            "priceCurrency": "USD"
+          }
     <style>
         .no-js-message {
             display: none;
         }
+    </script>
     </style>
     <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mental Health Face Recognition",
+            "url": "https://4211421036.github.io/MentalHealth/",
+            "description": "A mental health website using face recognition technology to provide personalized support.",
+            "author": [
+              {
+                "@type": "Person",
+                "name": "GALIH RIDHO UTOMO"
             {
               "@context": "https://schema.org",
               "@type": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
@@ -145,12 +176,21 @@
                 "ratingValue": 5.0,
                 "ratingCount": 8864
               },
+              {
+                "@type": "Person",
+                "name": "Ana Maulida"
               "offers": {
                 "@type": "Offer",
                 "price": 0,
                 "priceCurrency": "USD"
               }
+            ],
+            "publisher": {
+              "@type": "Organization",
+              "name": "FMIPA UNNES"
             }
+        }
+    </script>
             </script>
     <script type="application/ld+json">{
     "@context": "https://schema.org",
@@ -174,7 +214,6 @@
     }
   }</script>
 </head>
-
 <body>
     <div id="skeleton-container">
         <header class="skeleton-header skeleton-item">
@@ -203,34 +242,55 @@
             </div>
         </nav>
     </div>
+    <div role="meter" id="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" value="0"></div>
+    <div class="progress-container" role="progressbar" id="progress" aria-labelledby="progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" value="0" title="progress bar">
+        <div class="progress-bar" id="progress-bar"></div>
     <div class="progress-container" role="progressbar" id="progress" aria-labelledby="progress"
         title="Loading progress">
         <div class="progress-bar">
         </div>
     </div>
     <noscript>
+        <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css">
         <div class="no-js-message">
+            <p>For a better experience, please enable JavaScript in your browser.</p>
+            <p>The page will be refreshed every 10 seconds to update the data.</p>
             <p>Untuk pengalaman yang lebih baik, mohon aktifkan JavaScript di browser Anda.</p>
             <p>Halaman akan direfresh setiap 10 detik untuk memperbarui data.</p>
         </div>
     </noscript>
     <div class="skip-link-wrapper">
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        <a href="#main-nav" class="skip-link">Skip to main navigation</a>
         <a href="#main-content" class="skip-link" lang="en">Skip to main content</a>
         <a href="#main-nav" class="skip-link" lang="en">Skip to main navigation</a>
     </div>
     <header aria-label="Main Header">
         <div class="headco">
+            <h1 class="logos">Mental Health</h1>
             <h1 class="logos" lang="en">Mental Health</h1>
             <device class="device" state="connected/failed/not found" role="button" aria-label="device" accesskey="c">
+                <p role="text">Device Name</p>
                 <p role="text">
                     Nama Device
                 </p>
             </device>
         </div>
         <div class="controled">
+            <div class="ntf">
+                <div class="notif" data-page="notifikasi">
+                    <i class="fas fa-bell notification-icon" role="tooltip" title="Notifications"></i>
+                </div>
+                <p role="text" aria-hidden="true">Notifications</p>
             <div class="notif" data-page="notifikasi">
                 <i class="fas fa-bell notification-icon" role="tooltip" title="Notifications"></i>
             </div>
+            <div class="thm">
+                <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="theme-toggle">
+                    <i class="fas fa-moon" role="tooltip" title="Theme"></i>
+                </button>
+                <p role="text" aria-hidden="true">Theme</p>
+            </div
             <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()"
                 title="Toggle Theme" aria-label="theme-toggle">
                 <i class="fas fa-moon" role="tooltip" title="Theme"></i>
@@ -238,31 +298,39 @@
         </div>
     </header>
     <div class="container" role="main" id="main-content" aria-label="Main Content">
+        <div class="nocam" id="nocam">
+            <img class="camlog" src="https://4211421036.github.io/MentalHealth/nocam.png" srcset="https://4211421036.github.io/MentalHealth/nocam@1x.png 1x, https://4211421036.github.io/MentalHealth/nocam@2x.png 2x, https://4211421036.github.io/MentalHealth/nocam@3x.png 3x" sizes="150px" width="150" height="148" alt="nocam">
+        </div>
+        <video id="video" autoplay></video>
         <video id="video" autoplay>
             <track kind="captions" srclang="en" label="english_captions">
         </video>
         <canvas id="canvas"></canvas>
     </div>
-
     <nav class="bottom-nav" id="main-nav" role="navigation" aria-label="Main Navigation">
         <div class="nav-item active" data-page="home" role="button" tabindex="0" accesskey="b">
             <i class="fas fa-home"></i>
+            <span role="tooltip">Home</span>
             <span role="tooltip">Beranda</span>
         </div>
         <div class="nav-item" data-page="graph" role="button" tabindex="0" accesskey="g">
             <i class="fas fa-chart-line"></i>
+            <span role="tooltip">Graphic</span>
             <span role="tooltip">Grafik</span>
         </div>
         <div class="nav-item" data-page="history" role="button" tabindex="0" accesskey="h">
             <i class="fas fa-history"></i>
+            <span role="tooltip">History</span>
             <span role="tooltip">Histori</span>
         </div>
     </nav>
-
+    <div class="modal" id="notifikasiModal" role="dialog" title="notifikasiModal">
     <div class="modal" id="notifikasiModal" role="dialog" aria-labelledby="notifikasiModalTitle">
         <div class="modal-content">
             <div class="swipe-indicator"></div>
             <div class="modal-header">
+                <h2 class="modal-title" id="notifikasiModalTitle">Notifications</h2>
+                <button class="close-btn" type="button" role="button" accesskey="x" aria-label="close-btn">&times;</button>
                 <h2 class="modal-title" id="notifikasiModalTitle">Notifikasi</h2>
                 <button class="close-btn" type="button" role="button" accesskey="x"
                     aria-label="close-btn">&times;</button>
@@ -286,103 +354,136 @@
                             d="M501.782 975.536C466.941 976.123 430.077 969.423 416 966C423.918 1023.22 466.15 1062.1 533.456 1052.56C587.301 1044.93 606.921 992.164 610 966.734C600.762 968.69 578.722 972.896 564.469 974.069C546.653 975.536 545.333 974.803 501.782 975.536Z"
                             fill="white" />
                     </svg>
+                    <h2>No notification</h2>
                     <h2>Tidak ada notifikasi</h2>
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="modal" id="cameraModal" role="dialog" title="camera request">
+        <div class="modal-content" id="contentModal">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Aktifkan Kamera</h2>
+                <button class="close-btn" type="button" role="button" aria-label="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>Aktifkan Camera buat Analisis Mental Health</h3>
+                <p>Kami membutuhkan akses kamera untuk melakukan analisis mental health. Jika sudah diizinkan silakan tekan button Yaa atau button &times;. Bisa juga ditutup dengan swipe pemberitahuan ini</p>
+                <button class="btn btn-primary" id="enableCamera" title="Yaa" type="button" role="button">Yaa</button>
+                <button class="btn btn-secondary" id="disableCamera" title="No" type="button" role="button">Tidak Aktifkan Camera</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="deviceModal" role="dialog" title="deviceModal">
     <div class="modal" id="deviceModal" role="dialog" aria-labelledby="deviceModalTitle">
         <div class="modal-content">
             <div class="swipe-indicator"></div>
             <div class="modal-header">
+                <h2 class="modal-title">Device</h2>
+                <button class="close-btn" role="button" type="button" aria-label="close-btn" accesskey="x">&times;</button>
                 <h2 class="modal-title" lang="en">Device</h2>
                 <button class="close-btn" role="button" type="button" aria-label="close-btn"
                     accesskey="x">&times;</button>
             </div>
             <div class="modal-body" id="modalBody">
-
             </div>
         </div>
     </div>
-
+    <div class="modal" id="historyModal" role="dialog" title="historyModal">
     <div class="modal" id="historyModal" role="dialog" aria-labelledby="historyModalTitle">
         <div class="modal-content">
             <div class="swipe-indicator"></div>
             <div class="modal-header">
+                <h2 class="modal-title">Monitoring History</h2>
                 <h2 class="modal-title">Histori Pemantauan</h2>
                 <button class="close-btn" role="button" type="button" aria-label="close-btn"
                     accesskey="x">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="hr">
+                    <h1>Realtime Sensor</h1>
                     <h1 lang="en">Realtime Sensor</h1>
                     <i class="fa-solid fa-circle-info" data-modal="sensor"></i>
                 </div>
                 <div class="cards-container">
                     <div class="metric-card green">
+                        <div class="metric-label">Heart Rate</div>
                         <div class="metric-label" lang="en">Heart Rate</div>
                         <div class="metric-value">95</div>
                         <div class="metric-label">bpm</div>
                     </div>
                     <div class="metric-card orange">
+                        <div class="metric-label">Blood Pressure</div>
                         <div class="metric-label" lang="en">Blood Pressure</div>
                         <div class="metric-value">121/80</div>
                         <div class="metric-label">mmHg</div>
                     </div>
                     <div class="metric-card purple">
+                        <div class="metric-label">Sleep</div>
                         <div class="metric-label" lang="en">Sleep</div>
                         <div class="metric-value">6.8</div>
                         <div class="metric-label">hr/day</div>
                     </div>
                 </div>
                 <div class="hr">
+                    <h1>Emotion Metric</h1>
                     <h1>Matric Emosional</h1>
                     <i class="fa-solid fa-circle-info" data-modal="emosional"></i>
                 </div>
                 <div class="cards-container">
                     <div class="metric-card green">
+                        <div class="metric-label">Happy</div>
                         <div class="metric-label" lang="en">Happy</div>
                         <div class="metric-value" id="happy">-</div>
                         <div class="metric-label">%</div>
                     </div>
                     <div class="metric-card orange">
+                        <div class="metric-label">Sad</div>
                         <div class="metric-label" lang="en">Sad</div>
                         <div class="metric-value" id="sad">-</div>
                         <div class="metric-label">%</div>
                     </div>
                     <div class="metric-card purple">
+                        <div class="metric-label">Angry</div>
                         <div class="metric-label" lang="en">Angry</div>
                         <div class="metric-value" id="angry">-</div>
                         <div class="metric-label">%</div>
                     </div>
                     <div class="metric-card blue">
+                        <div class="metric-label">Neutral</div>
                         <div class="metric-label" lang="en">Neutral</div>
                         <div class="metric-value" id="neutral">-</div>
                         <div class="metric-label">%</div>
                     </div>
                     <div class="metric-card red">
+                        <div class="metric-label">Surprised</div>
                         <div class="metric-label" lang="en">Surprised</div>
                         <div class="metric-value" id="surprised">-</div>
                         <div class="metric-label">%</div>
                     </div>
                 </div>
+                <h1>Conclusion for you</h1>
                 <h1>Kesimpulan untuk Anda</h1>
                 <div class="conclusion-box">
+                    <p id="conclusion">Waiting for data...</p>
                     <p id="conclusion">Menunggu data...</p>
                 </div>
+                <h2>Advice for you</h2>
                 <h2>Saran untuk Anda</h2>
                 <div class="advice-box">
+                    <p id="advice">Waiting for data...</p>
                     <p id="advice">Menunggu data...</p>
                 </div>
             </div>
         </div>
     </div>
-
+    <div class="modal" id="graphModal" role="dialog" title="graphModal">
     <div class="modal" id="graphModal" role="dialog" aria-labelledby="graphModalTitle">
         <div class="modal-content">
             <div class="swipe-indicator"></div>
             <div class="modal-header">
+                <h2 class="modal-title">Monitoring Chart</h2>
                 <h2 class="modal-title">Grafik Pemantauan</h2>
                 <button class="close-btn" role="button" type="button" aria-label="close-btn"
                     accesskey="x">&times;</button>
@@ -390,6 +491,7 @@
             <div class="modal-body">
                 <div class="graph-card">
                     <div class="hr">
+                        <div class="graph-title">Heart Rate Trend</div>
                         <div class="graph-title" lang="en">Heart Rate Trend</div>
                         <i class="fa-solid fa-circle-info" data-modal="heartrate"></i>
                     </div>
@@ -406,6 +508,7 @@
 
                 <div class="graph-card">
                     <div class="hr">
+                        <div class="graph-title">Blood Pressure Trend</div>
                         <div class="graph-title" lang="en">Blood Pressure Trend</div>
                         <i class="fa-solid fa-circle-info" data-modal="blood"></i>
                     </div>
@@ -421,6 +524,7 @@
                 </div>
                 <div class="graph-card">
                     <div class="hr">
+                        <div class="graph-title">Voice Analysis</div>
                         <div class="graph-title" lang="en">Voice Analysis</div>
                         <i class="fa-solid fa-circle-info" data-modal="voice"></i>
                     </div>
@@ -437,7 +541,6 @@
             </div>
         </div>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
@@ -445,34 +548,213 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('progress');
+            const meter = document.getElementById('meter');
+    
             const progressBar = document.querySelector('.progress-bar');
             let progress = 0;
-
+    
+            // Fungsi untuk memperbarui atribut aksesibilitas
+            function updateAccessibility() {
+                progressContainer.setAttribute('aria-valuenow', progress);
+                progressContainer.setAttribute('value', progress);
+                meter.setAttribute('aria-valuenow', progress);
+            }
+    
             // Initial progress
             setTimeout(() => {
                 progress = 30;
                 progressBar.style.width = `${progress}%`;
+                updateAccessibility();
             }, 10);
-
+    
+            // Simulasi loading progress
             // Simulate loading progress
             const loadingInterval = setInterval(() => {
                 if (progress < 90) {
                     progress += Math.random() * 15;
+                    if (progress > 100) progress = 100; // Pastikan tidak lebih dari 100
                     progressBar.style.width = `${progress}%`;
+                    updateAccessibility();
                 }
             }, 300);
-
+    
             // Complete loading
             window.addEventListener('load', () => {
                 clearInterval(loadingInterval);
+                progress = 100;
                 progressBar.style.width = '100%';
-
+                updateAccessibility();
+    
                 setTimeout(() => {
+                    progress = 0;
                     progressBar.style.width = '0';
+                    updateAccessibility();
+                    console.log("%c Profile of this website creator!", "color:#2dc9ac;")
+                    const profiles = {
+                            "GALIH RIDHO UTOMO": {
+                        
+                                Mail: "g4lihru@students.unnes.ac.id",
+                            },                
+                            "Ana Maulida": {
+                        
+                                Mail: "anamaulida@students.unnes.ac.id",
+                            },
+                        };
+                    const tableString = console.table(profiles);
+                    console.log("Follow We!\nGALIH RIDHO UTOMO https://instagram.com/galih_ridho_utomo\nAna Maulida https://instagram.com/anma1505")
                     progressBar.parentNode.removeChild(progressBar);
                 }, 500);
             });
         });
+    </script>
+    <script>
+        class CameraPermissionModal {
+            constructor() {
+                this.modal = document.getElementById('cameraModal');
+                this.nocamElement = document.getElementById('nocam');
+                this.modalContent = document.getElementById('contentModal');
+                
+                // Set initial transform style
+                if (this.modalContent) {
+                    this.modalContent.style.transform = 'translateY(0px)';
+                }
+                
+                this.checkCameraPermission();
+            }
+        
+            async checkCameraPermission() {
+                try {
+                    const result = await navigator.permissions.query({ name: 'camera' });
+                    this.handlePermissionState(result.state);
+                } catch (error) {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                        this.handlePermissionGranted();
+                        stream.getTracks().forEach(track => track.stop());
+                    } catch (err) {
+                        this.handlePermissionDenied();
+                    }
+                }
+            }
+        
+            handlePermissionState(state) {
+                if (state === 'granted') {
+                    this.handlePermissionGranted();
+                } else {
+                    this.handlePermissionDenied();
+                }
+            }
+        
+            handlePermissionGranted() {
+                localStorage.setItem('cameraPermissionGranted', 'true');
+                this.hideElements();
+                // Reload halaman setelah izin diberikan
+                
+            }
+        
+            handlePermissionDenied() {
+                localStorage.setItem('cameraPermissionGranted', 'false');
+                this.showElements();
+                this.initializeModal();
+            }
+        
+            hideElements() {
+                if (this.modal) this.modal.style.display = 'none';
+                if (this.nocamElement) this.nocamElement.style.display = 'none';
+            }
+        
+            showElements() {
+                if (this.modal) this.modal.style.display = 'block';
+                if (this.modalContent) {
+                    this.modalContent.style.transform = 'translateY(0px)';
+                }
+            }
+        
+            initializeModal() {
+                if (!this.modal) return;
+        
+                this.modalContent = document.getElementById('contentModal');
+                this.modalBody = this.modal.querySelector('.modal-body');
+                this.closeBtn = this.modal.querySelector('.close-btn');
+        
+                if (this.modalContent) {
+                    this.modalContent.style.transform = 'translateY(0px)';
+                }
+        
+                this.setupSwipeHandling();
+                this.setupButtons();
+            }
+        
+            setupSwipeHandling() {
+                let startY = 0;
+                let currentY = 0;
+        
+                this.modalContent.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                });
+        
+                this.modalContent.addEventListener('touchmove', (e) => {
+                    currentY = e.touches[0].clientY;
+                    const diff = currentY - startY;
+                    if (diff > 0) this.modalContent.style.transform = `translateY(${diff}px)`;
+                });
+        
+                this.modalContent.addEventListener('touchend', () => {
+                    const diff = currentY - startY;
+                    if (diff > 150) {
+                        this.requestCameraPermission();
+                        // Reload setelah swipe
+                        
+                    } else {
+                        this.modalContent.style.transform = 'translateY(0px)';
+                    }
+                });
+            }
+        
+            setupButtons() {
+                const enableBtn = document.getElementById('enableCamera');
+                const disableBtn = document.getElementById('disableCamera');
+        
+                enableBtn?.addEventListener('click', () => {
+                    this.requestCameraPermission();
+                    // Reload setelah mengklik enable
+                    
+                });
+                
+                disableBtn?.addEventListener('click', () => {
+                    localStorage.setItem('cameraPermissionGranted', 'false');
+                    this.showElements();
+                    this.hideModal();
+                    // Reload setelah mengklik disable
+                    
+                });
+                
+                this.closeBtn?.addEventListener('click', () => {
+                    this.requestCameraPermission();
+                    // Reload setelah mengklik close
+                    
+                });
+            }
+        
+            async requestCameraPermission() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    this.handlePermissionGranted();
+                    stream.getTracks().forEach(track => track.stop());
+                } catch (error) {
+                    console.error('Izin kamera ditolak:', error);
+                    this.handlePermissionDenied();
+                }
+            }
+        
+            hideModal() {
+                if (this.modal) this.modal.style.display = 'none';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => new CameraPermissionModal());
     </script>
     <script>
         // Add smooth scrolling for skip links
