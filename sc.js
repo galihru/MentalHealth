@@ -25,9 +25,168 @@ document.addEventListener('visibilitychange', function() {
 });
 `;
 
+function generateHashMapping(items) {
+  const mapping = {};
+  for (const item of items) {
+    const hash = crypto.createHash('sha1').update(item).digest('hex').substring(0, 8);
+    mapping[item] = `c-${hash}`;
+  }
+  return mapping;
+}
+
+function collectClassesAndIds(htmlContent, cssPaths, jsPaths = []) {
+  const classes = new Set();
+  const ids = new Set();
+
+  // Ambil class dan ID dari HTML
+  htmlContent.replace(/class="([^"]*)"/g, (_, classAttr) => {
+    classAttr.split(/\s+/).forEach(c => c && classes.add(c));
+  });
+  htmlContent.replace(/id="([^"]*)"/g, (_, idAttr) => {
+    ids.add(idAttr);
+  });
+
+  // Ambil class dan ID dari CSS
+  cssPaths.forEach(cssPath => {
+    const cssContent = fs.readFileSync(cssPath, 'utf8');
+    cssContent.replace(/\.([a-zA-Z0-9_-]+)(?=[^{}]*{)/g, (_, className) => {
+      classes.add(className);
+    });
+    cssContent.replace(/#([a-zA-Z0-9_-]+)(?=[^{}]*{)/g, (_, idName) => {
+      ids.add(idName);
+    });
+  });
+
+  // Ambil class dan ID dari JS (inline dan eksternal)
+  const jsContents = [
+    // Inline JS
+    ...(htmlContent.match(/<script\b[^>]*>([\s\S]*?)<\/script>/gi) || []).map(match => {
+      return match.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '$1');
+    }),
+    // JS eksternal
+    ...jsPaths.map(jsPath => fs.readFileSync(jsPath, 'utf8'))
+  ];
+
+  jsContents.forEach(jsContent => {
+    if (!jsContent) return; // Skip jika konten JS kosong
+
+    // ClassList methods
+    jsContent.replace(/\.classList\.(add|remove|toggle|contains|replace|item)\(["']([^"']+)["']\)/g, (_, method, className) => {
+      classes.add(className);
+    });
+
+    // Query selectors
+    jsContent.replace(/\.(querySelector|querySelectorAll)\(["']([.#][a-zA-Z0-9_-]+)["']\)/g, (_, method, selector) => {
+      if (selector.startsWith('.')) {
+        classes.add(selector.slice(1));
+      } else if (selector.startsWith('#')) {
+        ids.add(selector.slice(1));
+      }
+    });
+
+    // getElementById
+    jsContent.replace(/\.getElementById\(["']([^"']+)["']\)/g, (_, idName) => {
+      ids.add(idName);
+    });
+
+    // getAttribute/setAttribute (id/class)
+    jsContent.replace(/\.(getAttribute|setAttribute)\(["'](id|class)["'],\s*["']([^"']+)["']\)/g, (_, method, attrType, value) => {
+      if (attrType === 'class') {
+        value.split(/\s+/).forEach(c => classes.add(c));
+      } else {
+        ids.add(value);
+      }
+    });
+
+    // Element.matches, closest
+    jsContent.replace(/\.(matches|closest)\(["']([.#][a-zA-Z0-9_-]+)["']\)/g, (_, method, selector) => {
+      if (selector.startsWith('.')) {
+        classes.add(selector.slice(1));
+      } else if (selector.startsWith('#')) {
+        ids.add(selector.slice(1));
+      }
+    });
+
+    // Dynamic HTML (e.g., innerHTML)
+    jsContent.replace(/\.(innerHTML|outerHTML)\s*=\s*["']([^"']*)["']/g, (_, prop, html) => {
+      // Ekstrak class dari string HTML menggunakan regex
+      html.replace(/class="([^"]*)"/g, (_, classAttr) => {
+        classAttr.split(/\s+/).forEach(c => classes.add(c));
+      });
+      
+      // Ekstrak ID dari string HTML menggunakan regex
+      html.replace(/id="([^"]*)"/g, (_, idAttr) => {
+        ids.add(idAttr);
+      });
+    });
+  });
+
+  return { classes: Array.from(classes), ids: Array.from(ids) };
+}
+
+// Fungsi untuk memproses dan mengganti class dan ID di CSS
+function processCSS(cssContent, classMapping, idMapping) {
+  cssContent = cssContent.replace(/\.([a-zA-Z0-9_-]+)/g, (match, className) => {
+    return classMapping[className] ? `.${classMapping[className]}` : match;
+  });
+  cssContent = cssContent.replace(/#([a-zA-Z0-9_-]+)/g, (match, idName) => {
+    return idMapping[idName] ? `#${idMapping[idName]}` : match;
+  });
+  return cssContent;
+}
+
+// Fungsi untuk memproses dan mengganti class dan ID di JS
+function processJS(jsContent, classMapping, idMapping) {
+  jsContent = jsContent.replace(/\.classList\.(add|remove|toggle|contains)\(["']([^"']+)["']\)/g, (_, method, className) => {
+    return `.classList.${method}("${classMapping[className] || className}")`;
+  });
+  jsContent = jsContent.replace(/document\.(querySelector|getElementById)\(["']([^"']+)["']\)/g, (_, method, selector) => {
+    if (method === 'getElementById') {
+      return `document.getElementById("${idMapping[selector] || selector}")`;
+    } else if (selector.startsWith('.')) {
+      return `document.querySelector(".${classMapping[selector.slice(1)] || selector.slice(1)}")`;
+    } else if (selector.startsWith('#')) {
+      return `document.querySelector("#${idMapping[selector.slice(1)] || selector.slice(1)}")`;
+    }
+    return match;
+  });
+  return jsContent;
+}
+
 function processHTML(inputFilePath, outputFilePath) {
     try {
+         const cssFiles = ['style.css', 'css/all.min.css', 'css/all.css', 'css/brands.min.css', 'css/brands.css', 'css/fontawesome.min.css', 'css/fontawesome.css', 'css/regular.min.css', 'css/regular.css', 'css/solid.min.css', 'css/solid.css', 'css/svg-with-js.min.css', 'css/svg-with-js.css', 'css/v4-font-face.min.css', 'css/v4-font-face.css', 'css/v4-shims.css', 'css/v4-shims.min.css', 'css/v5-font-face.css', 'css/v5-font-face.min.css'].map(file => path.resolve(file));
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
+        
+        // 1. Kumpulkan semua class dan ID
+        const { classes, ids } = collectClassesAndIds(htmlContent, cssFiles);
+        
+        // 2. Buat mapping hash untuk class dan ID
+        const classMapping = generateHashMapping(classes);
+        const idMapping = generateHashMapping(ids);
+        
+        // 3. Ganti class dan ID di HTML
+        htmlContent = htmlContent.replace(/class="([^"]*)"/g, (match, classAttr) => {
+          const newClasses = classAttr.split(/\s+/).map(c => classMapping[c] || c).join(' ');
+          return `class="${newClasses}"`;
+        });
+        htmlContent = htmlContent.replace(/id="([^"]*)"/g, (match, idAttr) => {
+          return `id="${idMapping[idAttr] || idAttr}"`;
+        });
+        
+        // 4. Ganti class dan ID di CSS
+        cssFiles.forEach(cssPath => {
+          if (fs.existsSync(cssPath)) {
+            let cssContent = fs.readFileSync(cssPath, 'utf8');
+            cssContent = processCSS(cssContent, classMapping, idMapping);
+            fs.writeFileSync(cssPath, cssContent);
+          }
+        });
+
+        // 6. Proses inline JavaScript di HTML
+        htmlContent = htmlContent.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, (match, scriptContent) => {
+          return `<script>${processJS(scriptContent, classMapping, idMapping)}</script>`;
+        });
         
         // 1. Atribut lang & xml:lang
         htmlContent = htmlContent.replace(/<html\s*([^>]*)>/i, (match, attributes) => {
