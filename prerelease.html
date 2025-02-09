@@ -181,11 +181,10 @@
             </div>
         </nav>
     </div>
-    <div role="meter" value="100"></div>
+    <div role="meter" id="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
     <div class="progress-container" role="progressbar" id="progress" aria-labelledby="progress"
-        title="Loading progress">
-        <div class="progress-bar" id="progress-bar">
-        </div>
+        aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" title="Loading progress">
+        <div class="progress-bar" id="progress-bar"></div>
     </div>
     <noscript>
         <div class="no-js-message">
@@ -426,31 +425,47 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const progressBar = document.querySelector('.progress-bar');
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('progress');
+            const meter = document.getElementById('meter');
+    
             let progress = 0;
-
+    
+            // Fungsi untuk memperbarui atribut aksesibilitas
+            function updateAccessibility() {
+                progressContainer.setAttribute('aria-valuenow', progress);
+                progressContainer.setAttribute('value', progress);
+                meter.setAttribute('aria-valuenow', progress);
+            }
+    
             // Initial progress
             setTimeout(() => {
                 progress = 30;
                 progressBar.style.width = `${progress}%`;
+                updateAccessibility();
             }, 10);
-
-            // Simulate loading progress
+    
+            // Simulasi loading progress
             const loadingInterval = setInterval(() => {
                 if (progress < 90) {
                     progress += Math.random() * 15;
+                    if (progress > 100) progress = 100; // Pastikan tidak lebih dari 100
                     progressBar.style.width = `${progress}%`;
-                    progressBar.setAttribute('value', `'${progress}%'`);
+                    updateAccessibility();
                 }
             }, 300);
-
-            // Complete loading
+    
+            // Saat halaman selesai dimuat
             window.addEventListener('load', () => {
                 clearInterval(loadingInterval);
+                progress = 100;
                 progressBar.style.width = '100%';
-
+                updateAccessibility();
+    
                 setTimeout(() => {
+                    progress = 0;
                     progressBar.style.width = '0';
+                    updateAccessibility();
                 }, 500);
             });
         });
