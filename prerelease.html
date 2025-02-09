@@ -491,33 +491,28 @@
         this.nocamElement = document.getElementById('nocam');
         this.modalContent = document.getElementById('contentModal');
         
-        // Set initial transform style
         if (this.modalContent) {
             this.modalContent.style.transform = 'translateY(0px)';
         }
         
-        this.checkCameraPermission();
-    }
-
-    async checkCameraPermission() {
-        try {
-            const result = await navigator.permissions.query({ name: 'camera' });
-            this.handlePermissionState(result.state);
-        } catch (error) {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                this.handlePermissionGranted();
-                stream.getTracks().forEach(track => track.stop());
-            } catch (err) {
-                this.handlePermissionDenied();
-            }
+        // Cek apakah sudah pernah memberikan izin sebelumnya
+        const hasPermission = localStorage.getItem('cameraPermissionGranted');
+        
+        if (hasPermission === 'true') {
+            this.hideElements();
+        } else {
+            this.showElements();
+            this.initializeModal();
         }
     }
 
-    handlePermissionState(state) {
-        if (state === 'granted') {
+    async requestCameraPermission() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            stream.getTracks().forEach(track => track.stop());
             this.handlePermissionGranted();
-        } else {
+        } catch (error) {
+            console.error('Izin kamera ditolak:', error);
             this.handlePermissionDenied();
         }
     }
@@ -532,7 +527,6 @@
     handlePermissionDenied() {
         localStorage.setItem('cameraPermissionGranted', 'false');
         this.showElements();
-        this.initializeModal();
     }
 
     hideElements() {
@@ -580,8 +574,6 @@
             const diff = currentY - startY;
             if (diff > 150) {
                 this.requestCameraPermission();
-                // Reload setelah swipe
-                setTimeout(() => window.location.reload(), 500);
             } else {
                 this.modalContent.style.transform = 'translateY(0px)';
             }
@@ -594,34 +586,17 @@
 
         enableBtn?.addEventListener('click', () => {
             this.requestCameraPermission();
-            // Reload setelah mengklik enable
-            setTimeout(() => window.location.reload(), 500);
         });
         
         disableBtn?.addEventListener('click', () => {
             localStorage.setItem('cameraPermissionGranted', 'false');
-            this.showElements();
-            this.hideModal();
-            // Reload setelah mengklik disable
+            this.hideElements();
             setTimeout(() => window.location.reload(), 500);
         });
         
         this.closeBtn?.addEventListener('click', () => {
             this.requestCameraPermission();
-            // Reload setelah mengklik close
-            setTimeout(() => window.location.reload(), 500);
         });
-    }
-
-    async requestCameraPermission() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            this.handlePermissionGranted();
-            stream.getTracks().forEach(track => track.stop());
-        } catch (error) {
-            console.error('Izin kamera ditolak:', error);
-            this.handlePermissionDenied();
-        }
     }
 
     hideModal() {
