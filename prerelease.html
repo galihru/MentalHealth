@@ -184,7 +184,8 @@
     </div>
     <div class="progress-container" role="progressbar" id="progress" aria-labelledby="progress"
         title="Loading progress">
-        <div role="meter" class="progress-bar">
+        <div role="meter" value="100"></div>
+        <div class="progress-bar" id="progress-bar">
         </div>
     </div>
     <noscript>
@@ -433,7 +434,6 @@
             setTimeout(() => {
                 progress = 30;
                 progressBar.style.width = `${progress}%`;
-                progressBar.setAttribute('value', `'${progress}%'`);
             }, 10);
 
             // Simulate loading progress
@@ -452,7 +452,6 @@
 
                 setTimeout(() => {
                     progressBar.style.width = '0';
-                    progressBar.setAttribute('value', `'${progress}%'`);
                 }, 500);
             });
         });
