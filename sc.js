@@ -30,7 +30,6 @@ function processHTML(inputFilePath, outputFilePath) {
         // Baca file HTML
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
 
-        // 1. Pastikan atribut lang dan xml:lang ada dan valid
         htmlContent = htmlContent.replace(/<html\s*([^>]*)>/i, (match, attributes) => {
             // Hapus atribut lang/xml:lang yang ada
             let filteredAttrs = attributes
