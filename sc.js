@@ -3,6 +3,7 @@ import path from 'path';
 import crypto from 'crypto';
 import { minify } from 'html-minifier';
 
+// Fungsi untuk menghasilkan nonce acak
 function generateNonce() {
     return crypto.randomBytes(16).toString('base64');
 }
@@ -28,6 +29,7 @@ document.addEventListener('visibilitychange', function() {
 // Fungsi untuk memproses HTML (Minify + Nonce + bfcache script)
 function processHTML(inputFilePath, outputFilePath) {
     try {
+        // Baca file HTML
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
 
         // 1. Pastikan atribut lang dan xml:lang ada dan valid
