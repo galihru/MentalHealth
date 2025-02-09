@@ -475,18 +475,15 @@
                     const profiles = {
                             "GALIH RIDHO UTOMO": {
                         
-                                instagram: "https://www.instagram.com/galih_ridho_utomo/",
+                                Mail: "g4lihru@students.unnes.ac.id",
                             },                
                             "Ana Maulida": {
                         
-                                instagram: "https://www.instagram.com/anma1505/",
+                                Mail: "anamaulida@students.unnes.ac.id",
                             },
                         };
-                    // Menyimpan output console.table ke dalam string
                     const tableString = console.table(profiles);
-                    profiles.forEach(profile => {
-                        console.log(`%c${profile.name}: %c${profile.url}`, "font-weight: bold;", "color: blue; text-decoration: underline;");
-                    });
+                    console.log("Follow We!\nGALIH RIDHO UTOMO https://instagram.com/galih_ridho_utomo\nAna Maulida https://instagram.com/anma1505")
                     progressBar.parentNode.removeChild(progressBar);
                 }, 500);
             });
