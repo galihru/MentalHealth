@@ -434,7 +434,7 @@
             setTimeout(() => {
                 progress = 30;
                 progressBar.style.width = `${progress}%`;
-                progressBar.setAttribute('tabindex', `'${progress}%'`);
+                progressBar.setAttribute('value', `'${progress}%'`);
             }, 10);
 
             // Simulate loading progress
@@ -442,7 +442,7 @@
                 if (progress < 90) {
                     progress += Math.random() * 15;
                     progressBar.style.width = `${progress}%`;
-                    progressBar.setAttribute('tabindex', `'${progress}%'`);
+                    progressBar.setAttribute('value', `'${progress}%'`);
                 }
             }, 300);
 
@@ -453,7 +453,7 @@
 
                 setTimeout(() => {
                     progressBar.style.width = '0';
-                    progressBar.setAttribute('tabindex', `'${progress}%'`);
+                    progressBar.setAttribute('value', `'${progress}%'`);
                 }, 500);
             });
         });
