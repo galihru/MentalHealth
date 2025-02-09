@@ -486,136 +486,150 @@
     </script>
     <script>
         class CameraPermissionModal {
-            constructor() {
-                this.modal = document.getElementById('cameraModal');
-                this.nocamElement = document.getElementById('nocam');
-                this.modalContent = document.getElementById('contentModal');
-                
-                // Set initial transform style
-                if (this.modalContent) {
-                    this.modalContent.style.transform = 'translateY(0px)';
-                }
-                
-                this.checkCameraPermission();
-            }
+    constructor() {
+        this.modal = document.getElementById('cameraModal');
+        this.nocamElement = document.getElementById('nocam');
+        this.modalContent = document.getElementById('contentModal');
         
-            async checkCameraPermission() {
-                try {
-                    const result = await navigator.permissions.query({ name: 'camera' });
-                    this.handlePermissionState(result.state);
-                } catch (error) {
-                    try {
-                        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                        this.handlePermissionGranted();
-                        stream.getTracks().forEach(track => track.stop());
-                    } catch (err) {
-                        this.handlePermissionDenied();
-                    }
-                }
-            }
-        
-            handlePermissionState(state) {
-                if (state === 'granted') {
-                    this.handlePermissionGranted();
-                } else {
-                    this.handlePermissionDenied();
-                }
-            }
-        
-            handlePermissionGranted() {
-                localStorage.setItem('cameraPermissionGranted', 'true');
-                this.hideElements();
-            }
-        
-            handlePermissionDenied() {
-                localStorage.setItem('cameraPermissionGranted', 'false');
-                this.showElements();
-                this.initializeModal();
-            }
-        
-            hideElements() {
-                if (this.modal) this.modal.style.display = 'none';
-                if (this.nocamElement) this.nocamElement.style.display = 'none';
-            }
-        
-            showElements() {
-                if (this.modal) this.modal.style.display = 'block';
-                if (this.modalContent) {
-                    this.modalContent.style.transform = 'translateY(0px)';
-                }
-            }
-        
-            initializeModal() {
-                if (!this.modal) return;
-        
-                // Set modalContent explicitly again to ensure it's properly initialized
-                this.modalContent = document.getElementById('contentModal');
-                this.modalBody = this.modal.querySelector('.modal-body');
-                this.closeBtn = this.modal.querySelector('.close-btn');
-        
-                // Ensure transform style is set
-                if (this.modalContent) {
-                    this.modalContent.style.transform = 'translateY(0px)';
-                }
-        
-                this.setupSwipeHandling();
-                this.setupButtons();
-            }
-        
-            setupSwipeHandling() {
-                let startY = 0;
-                let currentY = 0;
-        
-                this.modalContent.addEventListener('touchstart', (e) => {
-                    startY = e.touches[0].clientY;
-                });
-        
-                this.modalContent.addEventListener('touchmove', (e) => {
-                    currentY = e.touches[0].clientY;
-                    const diff = currentY - startY;
-                    if (diff > 0) this.modalContent.style.transform = `translateY(${diff}px)`;
-                });
-        
-                this.modalContent.addEventListener('touchend', () => {
-                    const diff = currentY - startY;
-                    if (diff > 150) {
-                        this.requestCameraPermission();
-                    } else {
-                        this.modalContent.style.transform = 'translateY(0px)';
-                    }
-                });
-            }
-        
-            setupButtons() {
-                const enableBtn = document.getElementById('enableCamera');
-                const disableBtn = document.getElementById('disableCamera');
-        
-                enableBtn?.addEventListener('click', () => this.requestCameraPermission());
-                disableBtn?.addEventListener('click', () => {
-                    localStorage.setItem('cameraPermissionGranted', 'false');
-                    this.showElements();
-                    this.hideModal();
-                });
-                this.closeBtn?.addEventListener('click', () => this.requestCameraPermission());
-            }
-        
-            async requestCameraPermission() {
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                    this.handlePermissionGranted();
-                    stream.getTracks().forEach(track => track.stop());
-                } catch (error) {
-                    console.error('Izin kamera ditolak:', error);
-                    this.handlePermissionDenied();
-                }
-            }
-        
-            hideModal() {
-                if (this.modal) this.modal.style.display = 'none';
-            }
+        // Set initial transform style
+        if (this.modalContent) {
+            this.modalContent.style.transform = 'translateY(0px)';
         }
         
-        document.addEventListener('DOMContentLoaded', () => new CameraPermissionModal());
+        this.checkCameraPermission();
+    }
+
+    async checkCameraPermission() {
+        try {
+            const result = await navigator.permissions.query({ name: 'camera' });
+            this.handlePermissionState(result.state);
+        } catch (error) {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                this.handlePermissionGranted();
+                stream.getTracks().forEach(track => track.stop());
+            } catch (err) {
+                this.handlePermissionDenied();
+            }
+        }
+    }
+
+    handlePermissionState(state) {
+        if (state === 'granted') {
+            this.handlePermissionGranted();
+        } else {
+            this.handlePermissionDenied();
+        }
+    }
+
+    handlePermissionGranted() {
+        localStorage.setItem('cameraPermissionGranted', 'true');
+        this.hideElements();
+        // Reload halaman setelah izin diberikan
+        window.location.reload();
+    }
+
+    handlePermissionDenied() {
+        localStorage.setItem('cameraPermissionGranted', 'false');
+        this.showElements();
+        this.initializeModal();
+    }
+
+    hideElements() {
+        if (this.modal) this.modal.style.display = 'none';
+        if (this.nocamElement) this.nocamElement.style.display = 'none';
+    }
+
+    showElements() {
+        if (this.modal) this.modal.style.display = 'block';
+        if (this.modalContent) {
+            this.modalContent.style.transform = 'translateY(0px)';
+        }
+    }
+
+    initializeModal() {
+        if (!this.modal) return;
+
+        this.modalContent = document.getElementById('contentModal');
+        this.modalBody = this.modal.querySelector('.modal-body');
+        this.closeBtn = this.modal.querySelector('.close-btn');
+
+        if (this.modalContent) {
+            this.modalContent.style.transform = 'translateY(0px)';
+        }
+
+        this.setupSwipeHandling();
+        this.setupButtons();
+    }
+
+    setupSwipeHandling() {
+        let startY = 0;
+        let currentY = 0;
+
+        this.modalContent.addEventListener('touchstart', (e) => {
+            startY = e.touches[0].clientY;
+        });
+
+        this.modalContent.addEventListener('touchmove', (e) => {
+            currentY = e.touches[0].clientY;
+            const diff = currentY - startY;
+            if (diff > 0) this.modalContent.style.transform = `translateY(${diff}px)`;
+        });
+
+        this.modalContent.addEventListener('touchend', () => {
+            const diff = currentY - startY;
+            if (diff > 150) {
+                this.requestCameraPermission();
+                // Reload setelah swipe
+                setTimeout(() => window.location.reload(), 500);
+            } else {
+                this.modalContent.style.transform = 'translateY(0px)';
+            }
+        });
+    }
+
+    setupButtons() {
+        const enableBtn = document.getElementById('enableCamera');
+        const disableBtn = document.getElementById('disableCamera');
+
+        enableBtn?.addEventListener('click', () => {
+            this.requestCameraPermission();
+            // Reload setelah mengklik enable
+            setTimeout(() => window.location.reload(), 500);
+        });
+        
+        disableBtn?.addEventListener('click', () => {
+            localStorage.setItem('cameraPermissionGranted', 'false');
+            this.showElements();
+            this.hideModal();
+            // Reload setelah mengklik disable
+            setTimeout(() => window.location.reload(), 500);
+        });
+        
+        this.closeBtn?.addEventListener('click', () => {
+            this.requestCameraPermission();
+            // Reload setelah mengklik close
+            setTimeout(() => window.location.reload(), 500);
+        });
+    }
+
+    async requestCameraPermission() {
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            this.handlePermissionGranted();
+            stream.getTracks().forEach(track => track.stop());
+        } catch (error) {
+            console.error('Izin kamera ditolak:', error);
+            this.handlePermissionDenied();
+        }
+    }
+
+    hideModal() {
+        if (this.modal) this.modal.style.display = 'none';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => new CameraPermissionModal());
     </script>
     <script>
         // Add smooth scrolling for skip links
