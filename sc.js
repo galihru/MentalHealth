@@ -114,7 +114,7 @@ function processHTML(inputFilePath, outputFilePath) {
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
         
         // 1. Kumpulkan semua class dan ID
-        const { classes, ids } = collectClassesAndIds(htmlContent, cssFiles, jsFiles);
+        const { classes, ids } = collectClassesAndIds(htmlContent, cssFiles);
         
         // 2. Buat mapping hash untuk class dan ID
         const classMapping = generateHashMapping(classes);
@@ -134,13 +134,6 @@ function processHTML(inputFilePath, outputFilePath) {
           let cssContent = fs.readFileSync(cssPath, 'utf8');
           cssContent = processCSS(cssContent, classMapping, idMapping);
           fs.writeFileSync(cssPath, cssContent);
-        });
-
-        // 5. Ganti class dan ID di JS
-        jsFiles.forEach(jsPath => {
-          let jsContent = fs.readFileSync(jsPath, 'utf8');
-          jsContent = processJS(jsContent, classMapping, idMapping);
-          fs.writeFileSync(jsPath, jsContent);
         });
 
         // 6. Proses inline JavaScript di HTML
