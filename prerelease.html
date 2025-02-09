@@ -215,15 +215,19 @@
             </device>
         </div>
         <div class="controled">
-            <div class="notif" data-page="notifikasi">
-                <i class="fas fa-bell notification-icon" role="tooltip" title="Notifications"></i>
+            <div class="ntf">
+                <div class="notif" data-page="notifikasi">
+                    <i class="fas fa-bell notification-icon" role="tooltip" title="Notifications"></i>
+                </div>
                 <caption>Notifications</caption>
             </div>
-            <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()"
-                title="Toggle Theme" aria-label="theme-toggle">
-                <i class="fas fa-moon" role="tooltip" title="Theme"></i>
+            <div class="thm">
+                <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()"
+                    title="Toggle Theme" aria-label="theme-toggle">
+                    <i class="fas fa-moon" role="tooltip" title="Theme"></i>
+                </button>
                 <caption>Theme</caption>
-            </button>
+            </div
         </div>
     </header>
     <div class="container" role="main" id="main-content" aria-label="Main Content">
