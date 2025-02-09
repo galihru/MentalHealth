@@ -448,6 +448,12 @@ header {
     align-items: center;
 }
 
+.thm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .theme-toggle {
     background: none;
     border: none;
@@ -457,13 +463,16 @@ header {
     padding: 8px;
     border-radius: 12px;
     transition: background-color 0.3s;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .theme-toggle:hover {
     background: var(--text-secondary-light);
+}
+
+.ntf {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .notif {
@@ -474,9 +483,6 @@ header {
     cursor: pointer;
     padding: 8px;
     border-radius: 12px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     transition: background-color 0.3s;
 }
 
