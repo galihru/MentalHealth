@@ -19,6 +19,7 @@
     --primary-skeleton-light: #333;
     --border-active-light: rgb(229 229 229);
     --color-active-light: rgb(0 80 255);
+    --background-cam-light: #cfcfcf;
 
     /* Dark Theme Colors */
     --primary-dark: #60a5fa;
@@ -40,6 +41,7 @@
     --primary-dark-skeleton: #fff;
     --border-active-dark: rgb(35 35 35);
     --color-active-dark: #8fc1ff;
+    --background-cam-dark: #474747
     
 
     /* Font Family */
@@ -68,6 +70,7 @@
         --primary-sk: var(--primary-dark-skeleton);
         --border-active: var(--border-active-dark);
         --color-active: var(--color-active-dark);
+        --background-cam: var(--background-cam-dark);
     }
 }
 
@@ -92,6 +95,7 @@
         --primary-sk: var(--primary-skeleton-light);
         --border-active: var(--border-active-light);
         --color-active: var(--color-active-light);
+        --background-cam: var(--background-cam-light);
     }
 }
 
@@ -127,6 +131,7 @@ body {
     --primary-sk: var(--primary-skeleton-light);
     --border-active: var(--border-active-light);
     --color-active: var(--color-active-light);
+    --background-cam: var(--background-cam-light);
     overflow: hidden;
     font-size: 14px;
 }
@@ -153,6 +158,7 @@ body.dark-theme {
     --primary-sk: var(--primary-dark-skeleton);
     --border-active: var(--border-active-dark);
     --color-active: var(--color-active-dark);
+    --background-cam: var(--background-cam-dark);
     overflow: hidden;
 }
 
@@ -395,7 +401,7 @@ body.dark-theme {
     border-radius: 30px;
     top: 70px;
     z-index: 2;
-    background: #474747;
+    background: var(--background-cam);
     align-items: center;
     display: flex;
     justify-content: center;
