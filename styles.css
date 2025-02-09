@@ -20,6 +20,8 @@
     --border-active-light: rgb(229 229 229);
     --color-active-light: rgb(0 80 255);
     --background-cam-light: #cfcfcf;
+    --button-p-light: #255181;
+    --button-t-light: white;
 
     /* Dark Theme Colors */
     --primary-dark: #60a5fa;
@@ -42,6 +44,8 @@
     --border-active-dark: rgb(35 35 35);
     --color-active-dark: #8fc1ff;
     --background-cam-dark: #474747
+    --button-p-dark: white;
+    --button-t-light: #255181;
     
 
     /* Font Family */
@@ -71,6 +75,8 @@
         --border-active: var(--border-active-dark);
         --color-active: var(--color-active-dark);
         --background-cam: var(--background-cam-dark);
+        --button-p: var(--button-p-dark);
+        --button-t: var(--button-t-dark);
     }
 }
 
@@ -96,6 +102,8 @@
         --border-active: var(--border-active-light);
         --color-active: var(--color-active-light);
         --background-cam: var(--background-cam-light);
+        --button-p: var(--button-p-light);
+        --button-t: var(--button-t-light);
     }
 }
 
@@ -132,6 +140,8 @@ body {
     --border-active: var(--border-active-light);
     --color-active: var(--color-active-light);
     --background-cam: var(--background-cam-light);
+    --button-p: var(--button-p-light);
+    --button-t: var(--button-t-light);
     overflow: hidden;
     font-size: 14px;
 }
@@ -159,6 +169,8 @@ body.dark-theme {
     --border-active: var(--border-active-dark);
     --color-active: var(--color-active-dark);
     --background-cam: var(--background-cam-dark);
+    --button-p: var(--button-p-dark);
+    --button-t: var(--button-t-dark);
     overflow: hidden;
 }
 
@@ -301,8 +313,8 @@ body.dark-theme {
 }
 
 .skip-link {
-    background: #4a90e2;
-    color: white;
+    background: var(--button-p);
+    color: var(--button-t);
     font-weight: 700;
     left: 50%;
     padding: 8px 16px;
@@ -392,8 +404,8 @@ body.dark-theme {
 }
 
 .btn-primary {
-    background-color: #007bff;
-    color: white;
+    background: var(--button-p);
+    color: var(--button-t);
 }
 
 .btn-secondary {
