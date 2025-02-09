@@ -35,7 +35,7 @@ function generateHashMapping(items) {
 }
 
 // Fungsi untuk mengumpulkan semua class dan ID dari HTML, CSS, dan JS
-function collectClassesAndIds(htmlContent, cssPaths, jsPaths) {
+function collectClassesAndIds(htmlContent, cssPaths, jsPaths = []) {
   const classes = new Set();
   const ids = new Set();
 
@@ -47,7 +47,7 @@ function collectClassesAndIds(htmlContent, cssPaths, jsPaths) {
     ids.add(idAttr);
   });
 
-  // Ambil class dari CSS
+  // Ambil class dan ID dari CSS
   cssPaths.forEach(cssPath => {
     const cssContent = fs.readFileSync(cssPath, 'utf8');
     cssContent.replace(/\.([a-zA-Z0-9_-]+)(?=[^{}]*{)/g, (_, className) => {
@@ -58,20 +58,67 @@ function collectClassesAndIds(htmlContent, cssPaths, jsPaths) {
     });
   });
 
-  // Ambil class dan ID dari JS
-  jsPaths.forEach(jsPath => {
-    const jsContent = fs.readFileSync(jsPath, 'utf8');
-    jsContent.replace(/\.classList\.(add|remove|toggle|contains)\(["']([^"']+)["']\)/g, (_, method, className) => {
+  // Ambil class dan ID dari JS (inline dan eksternal)
+  const jsContents = [
+    // Inline JS
+    ...(htmlContent.match(/<script\b[^>]*>([\s\S]*?)<\/script>/gi) || []).map(match => {
+      return match.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, '$1');
+    }),
+    // JS eksternal
+    ...jsPaths.map(jsPath => fs.readFileSync(jsPath, 'utf8'))
+  ];
+
+  jsContents.forEach(jsContent => {
+    if (!jsContent) return; // Skip jika konten JS kosong
+
+    // ClassList methods
+    jsContent.replace(/\.classList\.(add|remove|toggle|contains|replace|item)\(["']([^"']+)["']\)/g, (_, method, className) => {
       classes.add(className);
     });
-    jsContent.replace(/document\.(querySelector|getElementById)\(["']([^"']+)["']\)/g, (_, method, selector) => {
-      if (method === 'getElementById') {
-        ids.add(selector);
-      } else if (selector.startsWith('.')) {
+
+    // Query selectors
+    jsContent.replace(/\.(querySelector|querySelectorAll)\(["']([.#][a-zA-Z0-9_-]+)["']\)/g, (_, method, selector) => {
+      if (selector.startsWith('.')) {
         classes.add(selector.slice(1));
       } else if (selector.startsWith('#')) {
         ids.add(selector.slice(1));
       }
+    });
+
+    // getElementById
+    jsContent.replace(/\.getElementById\(["']([^"']+)["']\)/g, (_, idName) => {
+      ids.add(idName);
+    });
+
+    // getAttribute/setAttribute (id/class)
+    jsContent.replace(/\.(getAttribute|setAttribute)\(["'](id|class)["'],\s*["']([^"']+)["']\)/g, (_, method, attrType, value) => {
+      if (attrType === 'class') {
+        value.split(/\s+/).forEach(c => classes.add(c));
+      } else {
+        ids.add(value);
+      }
+    });
+
+    // Element.matches, closest
+    jsContent.replace(/\.(matches|closest)\(["']([.#][a-zA-Z0-9_-]+)["']\)/g, (_, method, selector) => {
+      if (selector.startsWith('.')) {
+        classes.add(selector.slice(1));
+      } else if (selector.startsWith('#')) {
+        ids.add(selector.slice(1));
+      }
+    });
+
+    // Dynamic HTML (e.g., innerHTML)
+    jsContent.replace(/\.(innerHTML|outerHTML)\s*=\s*["'][^"']*["']/g, (match) => {
+      const htmlPart = match.replace(/^[^=]+=/, '').trim();
+      const tempDiv = document.createElement('div');
+      tempDiv.innerHTML = htmlPart;
+      tempDiv.querySelectorAll('[class]').forEach(el => {
+        el.getAttribute('class').split(/\s+/).forEach(c => classes.add(c));
+      });
+      tempDiv.querySelectorAll('[id]').forEach(el => {
+        ids.add(el.getAttribute('id'));
+      });
     });
   });
 
