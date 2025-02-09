@@ -581,7 +581,7 @@
                     if (diff > 150) {
                         this.requestCameraPermission();
                         // Reload setelah swipe
-                        setTimeout(() => window.location.reload(), 500);
+                        window.location.reload();
                     } else {
                         this.modalContent.style.transform = 'translateY(0px)';
                     }
@@ -595,7 +595,7 @@
                 enableBtn?.addEventListener('click', () => {
                     this.requestCameraPermission();
                     // Reload setelah mengklik enable
-                    setTimeout(() => window.location.reload(), 500);
+                    window.location.reload();
                 });
                 
                 disableBtn?.addEventListener('click', () => {
@@ -603,13 +603,13 @@
                     this.showElements();
                     this.hideModal();
                     // Reload setelah mengklik disable
-                    setTimeout(() => window.location.reload(), 500);
+                    window.location.reload();
                 });
                 
                 this.closeBtn?.addEventListener('click', () => {
                     this.requestCameraPermission();
                     // Reload setelah mengklik close
-                    setTimeout(() => window.location.reload(), 500);
+                    window.location.reload();
                 });
             }
         
