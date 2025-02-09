@@ -25,66 +25,10 @@ document.addEventListener('visibilitychange', function() {
 });
 `;
 
-function generateClassMapping(classes) {
-  const mapping = {};
-  for (const className of classes) {
-    const hash = crypto.createHash('sha1').update(className).digest('hex').substring(0, 8);
-    mapping[className] = `c-${hash}`;
-  }
-  return mapping;
-}
-
-// Fungsi untuk mengumpulkan semua class dari HTML dan CSS
-function collectClasses(htmlContent, cssPaths) {
-  const classes = new Set();
-
-  // Ambil class dari HTML
-  htmlContent.replace(/class="([^"]*)"/g, (_, classAttr) => {
-    classAttr.split(/\s+/).forEach(c => c && classes.add(c));
-  });
-
-  // Ambil class dari CSS
-  cssPaths.forEach(cssPath => {
-    const cssContent = fs.readFileSync(cssPath, 'utf8');
-    cssContent.replace(/\.([a-zA-Z0-9_-]+)(?=[^{}]*{)/g, (_, className) => {
-      classes.add(className);
-    });
-  });
-
-  return Array.from(classes);
-}
-
-// Fungsi untuk memproses dan mengganti class di CSS
-function processCSS(cssContent, mapping) {
-  return cssContent.replace(/\.([a-zA-Z0-9_-]+)/g, (match, className) => {
-    return mapping[className] ? `.${mapping[className]}` : match;
-  });
-}
-
 // Fungsi untuk memproses HTML (Minify + Nonce + bfcache script)
 function processHTML(inputFilePath, outputFilePath) {
     try {
-        const cssFiles = ['styles.css', 'css/all.min.css', 'css/all.css', 'css/brands.min.css', 'css/brands.css', 'css/fontawesome.min.css', 'css/fontawesome.css', 'css/regular.min.css', 'css/regular.css', 'css/solid.min.css', 'css/solid.css', 'css/svg-with-js.min.css', 'css/svg-with-js.css', 'css/v4-font-face.min.css', 'css/v4-font-face.css', 'css/v4-shims.css', 'css/v4-shims.min.css', 'css/v5-font-face.css', 'css/v5-font-face.min.css'].map(file => path.resolve(file));
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
-        
-        // 1. Kumpulkan semua class
-        const allClasses = collectClasses(htmlContent, cssFiles);
-        
-        // 2. Buat mapping hash
-        const classMapping = generateClassMapping(allClasses);
-        
-        // 3. Ganti class di HTML
-        htmlContent = htmlContent.replace(/class="([^"]*)"/g, (match, classAttr) => {
-          const newClasses = classAttr.split(/\s+/).map(c => classMapping[c] || c).join(' ');
-          return `class="${newClasses}"`;
-        });
-        
-        // 4. Ganti class di CSS
-        cssFiles.forEach(cssPath => {
-          let cssContent = fs.readFileSync(cssPath, 'utf8');
-          cssContent = processCSS(cssContent, classMapping);
-          fs.writeFileSync(cssPath, cssContent);
-        });
 
         // 1. Pastikan atribut lang dan xml:lang ada dan valid
         htmlContent = htmlContent.replace(/<html\s*([^>]*)>/i, (match, attributes) => {
