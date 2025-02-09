@@ -65,7 +65,7 @@ function processCSS(cssContent, mapping) {
 // Fungsi untuk memproses HTML (Minify + Nonce + bfcache script)
 function processHTML(inputFilePath, outputFilePath) {
     try {
-        const cssFiles = ['styles.css', 'css/all.min.css', 'css/all.css', 'css/brands.min.css', 'css/brands.css', 'css/fontawesome.min.css', 'css/fontawesome.css', 'css/regular.min.css', 'css/regular.css', 'css/solid.min.css', 'css/solid.css', 'css/svg-with-js.min.css', 'css/svg-with-js.css', 'css/v4-font-face.min.css', 'css/v4-font-face.css', 'v4-shims.css', 'v4-shims.min.css', 'v5-font-face.css', 'v5-font-face.min.css'].map(file => path.resolve(file));
+        const cssFiles = ['styles.css', 'css/all.min.css', 'css/all.css', 'css/brands.min.css', 'css/brands.css', 'css/fontawesome.min.css', 'css/fontawesome.css', 'css/regular.min.css', 'css/regular.css', 'css/solid.min.css', 'css/solid.css', 'css/svg-with-js.min.css', 'css/svg-with-js.css', 'css/v4-font-face.min.css', 'css/v4-font-face.css', 'css/v4-shims.css', 'css/v4-shims.min.css', 'css/v5-font-face.css', 'css/v5-font-face.min.css'].map(file => path.resolve(file));
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
         
         // 1. Kumpulkan semua class
