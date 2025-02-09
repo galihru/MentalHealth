@@ -474,7 +474,7 @@
                     progress = 0;
                     progressBar.style.width = '0';
                     updateAccessibility();
-                    const header = "Profile Author this website";
+                    const header = "Profile Author this website!";
                     const profiles = [
                       { name: "Galih Ridho Utomo", url: "https://www.instagram.com/galih_ridho_utomo/" },
                       { name: "Ana Maulida", url: "https://www.instagram.com/anma1505/" }
@@ -485,7 +485,6 @@
                     profiles.forEach(profile => {
                       console.log(`${profile.name}\t${profile.url}`);
                     });
-
                     progressBar.parentNode.removeChild(progressBar);
                 }, 500);
             });
