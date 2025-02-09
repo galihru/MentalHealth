@@ -1,0 +1,4 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdnjs.cloudflare.com https://github.com; style-src 'self' 'unsafe-inline' https://github.com; img-src 'self' data: https:; font-src 'self' https://github.com; connect-src 'self' https://api.github.com; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests; block-all-mixed-content"
