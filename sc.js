@@ -3,7 +3,6 @@ import path from 'path';
 import crypto from 'crypto';
 import { minify } from 'html-minifier';
 
-// Fungsi untuk menghasilkan nonce acak
 function generateNonce() {
     return crypto.randomBytes(16).toString('base64');
 }
