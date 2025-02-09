@@ -488,146 +488,146 @@
     </script>
     <script>
         class CameraPermissionModal {
-    constructor() {
-        this.modal = document.getElementById('cameraModal');
-        this.nocamElement = document.getElementById('nocam');
-        
-        // Immediately check camera permission status
-        this.checkCameraPermission();
-    }
-
-    async checkCameraPermission() {
-        // Check localStorage first
-        const storedPermission = localStorage.getItem('cameraPermissionGranted');
-        
-        if (storedPermission === 'true') {
-            // If permission was previously granted, remove elements
-            this.removeAllElements();
-            return;
-        }
-
-        // If no stored permission, check actual camera permission
-        try {
-            const result = await navigator.permissions.query({ name: 'camera' });
-            if (result.state === 'granted') {
-                localStorage.setItem('cameraPermissionGranted', 'true');
-                this.removeAllElements();
-            } else {
-                // Initialize modal if camera not yet granted
-                this.initializeModal();
+            constructor() {
+                this.modal = document.getElementById('cameraModal');
+                this.nocamElement = document.getElementById('nocam');
+                
+                // Immediately check camera permission status
+                this.checkCameraPermission();
             }
-        } catch (error) {
-            // Fallback to getUserMedia if permissions API not supported
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                localStorage.setItem('cameraPermissionGranted', 'true');
-                this.removeAllElements();
-                stream.getTracks().forEach(track => track.stop());
-            } catch (err) {
-                this.initializeModal();
+        
+            async checkCameraPermission() {
+                // Check localStorage first
+                const storedPermission = localStorage.getItem('cameraPermissionGranted');
+                
+                if (storedPermission === 'true') {
+                    // If permission was previously granted, remove elements
+                    this.removeAllElements();
+                    return;
+                }
+        
+                // If no stored permission, check actual camera permission
+                try {
+                    const result = await navigator.permissions.query({ name: 'camera' });
+                    if (result.state === 'granted') {
+                        localStorage.setItem('cameraPermissionGranted', 'true');
+                        this.removeAllElements();
+                    } else {
+                        // Initialize modal if camera not yet granted
+                        this.initializeModal();
+                    }
+                } catch (error) {
+                    // Fallback to getUserMedia if permissions API not supported
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                        localStorage.setItem('cameraPermissionGranted', 'true');
+                        this.removeAllElements();
+                        stream.getTracks().forEach(track => track.stop());
+                    } catch (err) {
+                        this.initializeModal();
+                    }
+                }
+            }
+        
+            initializeModal() {
+                if (!this.modal) return;
+        
+                this.modalContent = this.modal.querySelector('.modal-content');
+                this.modalBody = this.modal.querySelector('.modal-body');
+                this.closeBtn = this.modal.querySelector('.close-btn');
+        
+                this.setupSwipeHandling();
+                this.setupButtons();
+                this.showModal();
+            }
+        
+            setupSwipeHandling() {
+                if (!this.modalContent) return;
+        
+                let startY = 0;
+                let currentY = 0;
+        
+                this.modalContent.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                });
+        
+                this.modalContent.addEventListener('touchmove', (e) => {
+                    currentY = e.touches[0].clientY;
+                    const diff = currentY - startY;
+                    
+                    if (diff > 0) {
+                        this.modalContent.style.transform = `translateY(${diff}px)`;
+                    }
+                });
+        
+                this.modalContent.addEventListener('touchend', () => {
+                    const diff = currentY - startY;
+                    if (diff > 150) {
+                        this.requestCameraPermission();
+                    } else {
+                        this.modalContent.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+        
+            setupButtons() {
+                const enableBtn = document.getElementById('enableCamera');
+                const disableBtn = document.getElementById('disableCamera');
+                
+                if (enableBtn) {
+                    enableBtn.addEventListener('click', () => this.requestCameraPermission());
+                }
+                
+                if (disableBtn) {
+                    disableBtn.addEventListener('click', () => this.hideModal());
+                }
+                
+                if (this.closeBtn) {
+                    this.closeBtn.addEventListener('click', () => this.requestCameraPermission());
+                }
+            }
+        
+            async requestCameraPermission() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    localStorage.setItem('cameraPermissionGranted', 'true');
+                    this.removeAllElements();
+                    stream.getTracks().forEach(track => track.stop());
+                } catch (error) {
+                    console.error('Camera permission denied:', error);
+                    this.showModal();
+                }
+            }
+        
+            removeAllElements() {
+                // Remove modal
+                if (this.modal && this.modal.parentNode) {
+                    this.modal.parentNode.removeChild(this.modal);
+                }
+                
+                // Remove nocam element
+                if (this.nocamElement && this.nocamElement.parentNode) {
+                    this.nocamElement.parentNode.removeChild(this.nocamElement);
+                }
+            }
+        
+            showModal() {
+                if (this.modal) {
+                    this.modal.style.display = 'block';
+                }
+            }
+        
+            hideModal() {
+                if (this.modal) {
+                    this.modal.style.display = 'none';
+                }
             }
         }
-    }
-
-    initializeModal() {
-        if (!this.modal) return;
-
-        this.modalContent = this.modal.querySelector('.modal-content');
-        this.modalBody = this.modal.querySelector('.modal-body');
-        this.closeBtn = this.modal.querySelector('.close-btn');
-
-        this.setupSwipeHandling();
-        this.setupButtons();
-        this.showModal();
-    }
-
-    setupSwipeHandling() {
-        if (!this.modalContent) return;
-
-        let startY = 0;
-        let currentY = 0;
-
-        this.modalContent.addEventListener('touchstart', (e) => {
-            startY = e.touches[0].clientY;
+        
+        // Initialize when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new CameraPermissionModal();
         });
-
-        this.modalContent.addEventListener('touchmove', (e) => {
-            currentY = e.touches[0].clientY;
-            const diff = currentY - startY;
-            
-            if (diff > 0) {
-                this.modalContent.style.transform = `translateY(${diff}px)`;
-            }
-        });
-
-        this.modalContent.addEventListener('touchend', () => {
-            const diff = currentY - startY;
-            if (diff > 150) {
-                this.requestCameraPermission();
-            } else {
-                this.modalContent.style.transform = 'translateY(0)';
-            }
-        });
-    }
-
-    setupButtons() {
-        const enableBtn = document.getElementById('enableCamera');
-        const disableBtn = document.getElementById('disableCamera');
-        
-        if (enableBtn) {
-            enableBtn.addEventListener('click', () => this.requestCameraPermission());
-        }
-        
-        if (disableBtn) {
-            disableBtn.addEventListener('click', () => this.hideModal());
-        }
-        
-        if (this.closeBtn) {
-            this.closeBtn.addEventListener('click', () => this.requestCameraPermission());
-        }
-    }
-
-    async requestCameraPermission() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            localStorage.setItem('cameraPermissionGranted', 'true');
-            this.removeAllElements();
-            stream.getTracks().forEach(track => track.stop());
-        } catch (error) {
-            console.error('Camera permission denied:', error);
-            this.showModal();
-        }
-    }
-
-    removeAllElements() {
-        // Remove modal
-        if (this.modal && this.modal.parentNode) {
-            this.modal.parentNode.removeChild(this.modal);
-        }
-        
-        // Remove nocam element
-        if (this.nocamElement && this.nocamElement.parentNode) {
-            this.nocamElement.parentNode.removeChild(this.nocamElement);
-        }
-    }
-
-    showModal() {
-        if (this.modal) {
-            this.modal.style.display = 'block';
-        }
-    }
-
-    hideModal() {
-        if (this.modal) {
-            this.modal.style.display = 'none';
-        }
-    }
-}
-
-// Initialize when DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
-    new CameraPermissionModal();
-});
     </script>
     <script>
         // Add smooth scrolling for skip links
