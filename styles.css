@@ -46,9 +46,6 @@
     --background-cam-dark: #474747
     --button-p-dark: #ffff;
     --button-t-dark: #255181;
-    
-
-    /* Font Family */
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -142,6 +139,7 @@ body {
     --background-cam: var(--background-cam-light);
     --button-p: var(--button-p-light);
     --button-t: var(--button-t-light);
+    --button-p-dark: #ffff;
     overflow: hidden;
     font-size: 14px;
 }
