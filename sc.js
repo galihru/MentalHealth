@@ -25,7 +25,6 @@ document.addEventListener('visibilitychange', function() {
 });
 `;
 
-// Fungsi untuk memproses HTML (Minify + Nonce + bfcache script)
 function processHTML(inputFilePath, outputFilePath) {
     try {
         // Baca file HTML
@@ -152,18 +151,8 @@ function processHTML(inputFilePath, outputFilePath) {
             removeComments: true,
             removeRedundantAttributes: true,
             removeEmptyAttributes: true,
-            minifyJS: true,
-            minifyCSS: true,
-            collapseBooleanAttributes: true,
-            removeScriptTypeAttributes: true,
-            removeStyleLinkTypeAttributes: true,
-            useShortDoctype: true,
-            removeOptionalTags: false,
-            removeTagWhitespace: false,
-            processConditionalComments: true,
-            removeAttributeQuotes: true,
-            sortAttributes: true,
-            sortClassName: true,
+            minifyJS: true,  // Minify inline JavaScript
+            minifyCSS: true, // Minify inline CSS
         });
 
         // Simpan output ke file baru
