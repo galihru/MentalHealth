@@ -25,9 +25,131 @@ document.addEventListener('visibilitychange', function() {
 });
 `;
 
+// Fungsi untuk generate hash nama class dan ID
+function generateHashMapping(items) {
+  const mapping = {};
+  for (const item of items) {
+    const hash = crypto.createHash('sha1').update(item).digest('hex').substring(0, 8);
+    mapping[item] = `c-${hash}`;
+  }
+  return mapping;
+}
+
+// Fungsi untuk mengumpulkan semua class dan ID dari HTML, CSS, dan JS
+function collectClassesAndIds(htmlContent, cssPaths, jsPaths) {
+  const classes = new Set();
+  const ids = new Set();
+
+  // Ambil class dan ID dari HTML
+  htmlContent.replace(/class="([^"]*)"/g, (_, classAttr) => {
+    classAttr.split(/\s+/).forEach(c => c && classes.add(c));
+  });
+  htmlContent.replace(/id="([^"]*)"/g, (_, idAttr) => {
+    ids.add(idAttr);
+  });
+
+  // Ambil class dari CSS
+  cssPaths.forEach(cssPath => {
+    const cssContent = fs.readFileSync(cssPath, 'utf8');
+    cssContent.replace(/\.([a-zA-Z0-9_-]+)(?=[^{}]*{)/g, (_, className) => {
+      classes.add(className);
+    });
+    cssContent.replace(/#([a-zA-Z0-9_-]+)(?=[^{}]*{)/g, (_, idName) => {
+      ids.add(idName);
+    });
+  });
+
+  // Ambil class dan ID dari JS
+  jsPaths.forEach(jsPath => {
+    const jsContent = fs.readFileSync(jsPath, 'utf8');
+    jsContent.replace(/\.classList\.(add|remove|toggle|contains)\(["']([^"']+)["']\)/g, (_, method, className) => {
+      classes.add(className);
+    });
+    jsContent.replace(/document\.(querySelector|getElementById)\(["']([^"']+)["']\)/g, (_, method, selector) => {
+      if (method === 'getElementById') {
+        ids.add(selector);
+      } else if (selector.startsWith('.')) {
+        classes.add(selector.slice(1));
+      } else if (selector.startsWith('#')) {
+        ids.add(selector.slice(1));
+      }
+    });
+  });
+
+  return { classes: Array.from(classes), ids: Array.from(ids) };
+}
+
+// Fungsi untuk memproses dan mengganti class dan ID di CSS
+function processCSS(cssContent, classMapping, idMapping) {
+  cssContent = cssContent.replace(/\.([a-zA-Z0-9_-]+)/g, (match, className) => {
+    return classMapping[className] ? `.${classMapping[className]}` : match;
+  });
+  cssContent = cssContent.replace(/#([a-zA-Z0-9_-]+)/g, (match, idName) => {
+    return idMapping[idName] ? `#${idMapping[idName]}` : match;
+  });
+  return cssContent;
+}
+
+// Fungsi untuk memproses dan mengganti class dan ID di JS
+function processJS(jsContent, classMapping, idMapping) {
+  jsContent = jsContent.replace(/\.classList\.(add|remove|toggle|contains)\(["']([^"']+)["']\)/g, (_, method, className) => {
+    return `.classList.${method}("${classMapping[className] || className}")`;
+  });
+  jsContent = jsContent.replace(/document\.(querySelector|getElementById)\(["']([^"']+)["']\)/g, (_, method, selector) => {
+    if (method === 'getElementById') {
+      return `document.getElementById("${idMapping[selector] || selector}")`;
+    } else if (selector.startsWith('.')) {
+      return `document.querySelector(".${classMapping[selector.slice(1)] || selector.slice(1)}")`;
+    } else if (selector.startsWith('#')) {
+      return `document.querySelector("#${idMapping[selector.slice(1)] || selector.slice(1)}")`;
+    }
+    return match;
+  });
+  return jsContent;
+}
+
+// Fungsi untuk memproses HTML (Minify + Nonce + bfcache script)
 function processHTML(inputFilePath, outputFilePath) {
     try {
+        const cssFiles = ['style.css', 'css/all.min.css', 'css/all.css', 'css/brands.min.css', 'css/brands.css', 'css/fontawesome.min.css', 'css/fontawesome.css', 'css/regular.min.css', 'css/regular.css', 'css/solid.min.css', 'css/solid.css', 'css/svg-with-js.min.css', 'css/svg-with-js.css', 'css/v4-font-face.min.css', 'css/v4-font-face.css', 'css/v4-shims.css', 'css/v4-shims.min.css', 'css/v5-font-face.css', 'css/v5-font-face.min.css'].map(file => path.resolve(file));
+        const jsFiles = ['script.js'].map(file => path.resolve(file)); // Tambahkan file JS Anda di sini
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
+        
+        // 1. Kumpulkan semua class dan ID
+        const { classes, ids } = collectClassesAndIds(htmlContent, cssFiles, jsFiles);
+        
+        // 2. Buat mapping hash untuk class dan ID
+        const classMapping = generateHashMapping(classes);
+        const idMapping = generateHashMapping(ids);
+        
+        // 3. Ganti class dan ID di HTML
+        htmlContent = htmlContent.replace(/class="([^"]*)"/g, (match, classAttr) => {
+          const newClasses = classAttr.split(/\s+/).map(c => classMapping[c] || c).join(' ');
+          return `class="${newClasses}"`;
+        });
+        htmlContent = htmlContent.replace(/id="([^"]*)"/g, (match, idAttr) => {
+          return `id="${idMapping[idAttr] || idAttr}"`;
+        });
+        
+        // 4. Ganti class dan ID di CSS
+        cssFiles.forEach(cssPath => {
+          let cssContent = fs.readFileSync(cssPath, 'utf8');
+          cssContent = processCSS(cssContent, classMapping, idMapping);
+          fs.writeFileSync(cssPath, cssContent);
+        });
+
+        // 5. Ganti class dan ID di JS
+        jsFiles.forEach(jsPath => {
+          let jsContent = fs.readFileSync(jsPath, 'utf8');
+          jsContent = processJS(jsContent, classMapping, idMapping);
+          fs.writeFileSync(jsPath, jsContent);
+        });
+
+        // 6. Proses inline JavaScript di HTML
+        htmlContent = htmlContent.replace(/<script\b[^>]*>([\s\S]*?)<\/script>/gi, (match, scriptContent) => {
+          return `<script>${processJS(scriptContent, classMapping, idMapping)}</script>`;
+        });
+
         // 1. Atribut lang & xml:lang
         htmlContent = htmlContent.replace(/<html\s*([^>]*)>/i, (match, attributes) => {
             let filteredAttrs = attributes
