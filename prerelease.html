@@ -479,7 +479,9 @@
                       { name: "Ana Maulida", url: "https://www.instagram.com/anma1505/" }
                     ];
                     
-                    console.table(profiles);
+                    console.log("Name\t\t\t\tURL");
+                    profiles.forEach(profile => {
+                      console.log(`${profile.name}\t${profile.url}`);});
                     progressBar.parentNode.removeChild(progressBar);
                 }, 500);
             });
