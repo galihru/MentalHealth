@@ -1,5 +1,5 @@
 <!doctype html>
-<html xml:lang="en" lang="en" dir="ltr">
+<html lang="id">
 
 <head faceid="">
     <meta charset="UTF-8">
@@ -11,7 +11,14 @@
     <meta name="author" content="GALIH RIDHO UTOMO and Ana Maulida">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://4211421036.github.io/MentalHealth/">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <link rel="preload" href="https://4211421036.github.io/g4lihru/987654567.png" as="image" type="image/x-icon">
+    <link rel="shortcut icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
     <link rel="icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://4211421036.github.io/MentalHealth/styles.css" as="style">
     <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="all"
         onload='"all"!==media&&(media="none")'>
     <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/styles.css" media="all"
@@ -42,6 +49,60 @@
     <meta name="twitter:image" content="https://4211421036.github.io/g4lihru/987654567.png">
     <link rel="manifest" href="https://4211421036.github.io/MentalHealth/manifest.webmanifest">
     <link rel="apple-touch-icon" href="https://4211421036.github.io/g4lihru/987654567.png">
+    <script type="text/javascript">
+        (function () {
+            // Override default loading behavior
+            window.stop = function () { return; };
+
+            // Force favicon
+            function forceFavicon() {
+                var links = document.querySelectorAll("link[rel*='icon']");
+                links.forEach(function (link) {
+                    link.href = 'https://4211421036.github.io/g4lihru/987654567.png';
+                });
+
+                // Add if not exists
+                if (!links.length) {
+                    var link = document.createElement('link');
+                    link.rel = 'icon';
+                    link.href = 'https://4211421036.github.io/g4lihru/987654567.png';
+                    document.head.appendChild(link);
+                }
+            }
+
+            // Prevent loading indicator
+            function preventLoadingIcon() {
+                forceFavicon();
+                if (window.chrome) {
+                    window.chrome.loadTimes = function () {
+                        return {
+                            firstPaintTime: 0,
+                            firstPaintAfterLoadTime: 0,
+                            finishLoadTime: 0,
+                            requestTime: performance.now()
+                        };
+                    };
+                }
+            }
+
+            // Execute immediately
+            preventLoadingIcon();
+
+            // Monitor and maintain
+            const events = ['load', 'DOMContentLoaded', 'readystatechange', 'beforeunload'];
+            events.forEach(function (event) {
+                window.addEventListener(event, preventLoadingIcon, true);
+            });
+
+            // Continuous monitoring
+            setInterval(preventLoadingIcon, 50);
+
+            // Handle navigation events
+            document.addEventListener('visibilitychange', preventLoadingIcon);
+            window.addEventListener('pageshow', preventLoadingIcon);
+            window.addEventListener('focus', preventLoadingIcon);
+        })();
+    </script>
     <script type="application/ld+json">
             {
               "@context": "https://schema.org",
@@ -112,9 +173,19 @@
             </div>
         </nav>
     </div>
+    <div class="progress-container" role="progressbar" id="progress" aria-labelledby="progress"
+        title="Loading progress">
+        <div class="progress-bar">
+        </div>
+    </div>
+
+    <div class="skip-link-wrapper">
+        <a href="#main-content" class="skip-link" lang="en">Skip to main content</a>
+        <a href="#main-nav" class="skip-link" lang="en">Skip to main navigation</a>
+    </div>
     <header aria-label="Main Header">
         <div class="headco">
-            <h1 class="logos">Mental Health</h1>
+            <h1 class="logos" lang="en">Mental Health</h1>
             <device class="device" state="connected/failed/not found" role="button" aria-label="device" accesskey="c">
                 <p role="text">
                     Nama Device
@@ -131,14 +202,14 @@
             </button>
         </div>
     </header>
-    <div class="container" role="main" aria-label="Main Content">
+    <div class="container" role="main" id="main-content" aria-label="Main Content">
         <video id="video" autoplay>
             <track kind="captions" srclang="en" label="english_captions">
         </video>
         <canvas id="canvas"></canvas>
     </div>
 
-    <nav class="bottom-nav" role="navigation" aria-label="Main Navigation">
+    <nav class="bottom-nav" id="main-nav" role="navigation" aria-label="Main Navigation">
         <div class="nav-item active" data-page="home" role="button" tabindex="0" accesskey="b">
             <i class="fas fa-home"></i>
             <span role="tooltip">Beranda</span>
@@ -190,7 +261,7 @@
         <div class="modal-content">
             <div class="swipe-indicator"></div>
             <div class="modal-header">
-                <h2 class="modal-title">Device</h2>
+                <h2 class="modal-title" lang="en">Device</h2>
                 <button class="close-btn" role="button" type="button" aria-label="close-btn"
                     accesskey="x">&times;</button>
             </div>
@@ -210,22 +281,22 @@
             </div>
             <div class="modal-body">
                 <div class="hr">
-                    <h1>Realtime Sensor</h1>
+                    <h1 lang="en">Realtime Sensor</h1>
                     <i class="fa-solid fa-circle-info" data-modal="sensor"></i>
                 </div>
                 <div class="cards-container">
                     <div class="metric-card green">
-                        <div class="metric-label">Heart Rate</div>
+                        <div class="metric-label" lang="en">Heart Rate</div>
                         <div class="metric-value">95</div>
                         <div class="metric-label">bpm</div>
                     </div>
                     <div class="metric-card orange">
-                        <div class="metric-label">Blood Pressure</div>
+                        <div class="metric-label" lang="en">Blood Pressure</div>
                         <div class="metric-value">121/80</div>
                         <div class="metric-label">mmHg</div>
                     </div>
                     <div class="metric-card purple">
-                        <div class="metric-label">Sleep</div>
+                        <div class="metric-label" lang="en">Sleep</div>
                         <div class="metric-value">6.8</div>
                         <div class="metric-label">hr/day</div>
                     </div>
@@ -236,27 +307,27 @@
                 </div>
                 <div class="cards-container">
                     <div class="metric-card green">
-                        <div class="metric-label">Happy</div>
+                        <div class="metric-label" lang="en">Happy</div>
                         <div class="metric-value" id="happy">-</div>
                         <div class="metric-label">%</div>
                     </div>
                     <div class="metric-card orange">
-                        <div class="metric-label">Sad</div>
+                        <div class="metric-label" lang="en">Sad</div>
                         <div class="metric-value" id="sad">-</div>
                         <div class="metric-label">%</div>
                     </div>
                     <div class="metric-card purple">
-                        <div class="metric-label">Angry</div>
+                        <div class="metric-label" lang="en">Angry</div>
                         <div class="metric-value" id="angry">-</div>
                         <div class="metric-label">%</div>
                     </div>
                     <div class="metric-card blue">
-                        <div class="metric-label">Neutral</div>
+                        <div class="metric-label" lang="en">Neutral</div>
                         <div class="metric-value" id="neutral">-</div>
                         <div class="metric-label">%</div>
                     </div>
                     <div class="metric-card red">
-                        <div class="metric-label">Surprised</div>
+                        <div class="metric-label" lang="en">Surprised</div>
                         <div class="metric-value" id="surprised">-</div>
                         <div class="metric-label">%</div>
                     </div>
@@ -284,7 +355,7 @@
             <div class="modal-body">
                 <div class="graph-card">
                     <div class="hr">
-                        <div class="graph-title">Heart Rate Trend</div>
+                        <div class="graph-title" lang="en">Heart Rate Trend</div>
                         <i class="fa-solid fa-circle-info" data-modal="heartrate"></i>
                     </div>
                     <div class="chart-container">
@@ -300,7 +371,7 @@
 
                 <div class="graph-card">
                     <div class="hr">
-                        <div class="graph-title">Blood Pressure Trend</div>
+                        <div class="graph-title" lang="en">Blood Pressure Trend</div>
                         <i class="fa-solid fa-circle-info" data-modal="blood"></i>
                     </div>
                     <div class="chart-container">
@@ -315,7 +386,7 @@
                 </div>
                 <div class="graph-card">
                     <div class="hr">
-                        <div class="graph-title">Voice Analysis</div>
+                        <div class="graph-title" lang="en">Voice Analysis</div>
                         <i class="fa-solid fa-circle-info" data-modal="voice"></i>
                     </div>
                     <div class="chart-container">
@@ -336,6 +407,61 @@
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const progressBar = document.querySelector('.progress-bar');
+            let progress = 0;
+
+            // Initial progress
+            setTimeout(() => {
+                progress = 30;
+                progressBar.style.width = `${progress}%`;
+            }, 10);
+
+            // Simulate loading progress
+            const loadingInterval = setInterval(() => {
+                if (progress < 90) {
+                    progress += Math.random() * 15;
+                    progressBar.style.width = `${progress}%`;
+                }
+            }, 300);
+
+            // Complete loading
+            window.addEventListener('load', () => {
+                clearInterval(loadingInterval);
+                progressBar.style.width = '100%';
+
+                setTimeout(() => {
+                    progressBar.style.width = '0';
+                    progressBar.parentNode.removeChild(progressBar);
+                }, 500);
+            });
+        });
+    </script>
+    <script>
+        // Add smooth scrolling for skip links
+        document.querySelectorAll('.skip-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    targetElement.setAttribute('tabindex', '-1');
+                    targetElement.focus();
+
+                    // Remove tabindex after focus
+                    targetElement.addEventListener('blur', function () {
+                        this.removeAttribute('tabindex');
+                    }, { once: true });
+
+                    // Smooth scroll to the element
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
 
     <script>
         window.onload = function () {
@@ -561,7 +687,7 @@
 
                 // Update FaceID hanya jika berbeda dengan sebelumnya
                 if (currentFaceID !== lastFaceID) {
-                    document.documentElement.setAttribute('FaceID', currentFaceID);
+                    document.head.setAttribute('FaceID', currentFaceID);
                     lastFaceID = currentFaceID;
                 }
 
@@ -574,7 +700,7 @@
             } else {
                 // Jika tidak ada wajah terdeteksi
                 if (lastFaceID !== null) {
-                    document.documentElement.setAttribute('FaceID', '');
+                    document.head.setAttribute('FaceID', '');
                     lastFaceID = null;
                 }
             }
