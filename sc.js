@@ -26,6 +26,25 @@ document.addEventListener('visibilitychange', function() {
 });
 `;
 
+// Daftar ARIA roles dan atribut wajibnya
+const ariaRoleRequirements = {
+    'button': { 'aria-pressed': 'false' },
+    'checkbox': { 'aria-checked': 'false' },
+    'slider': { 
+        'aria-valuemin': '0',
+        'aria-valuemax': '100',
+        'aria-valuenow': '50'
+    },
+    'combobox': {
+        'aria-expanded': 'false',
+        'aria-controls': 'dropdown-list'
+    },
+    'progressbar': {
+        'aria-valuemin': '0',
+        'aria-valuemax': '100',
+        'aria-valuenow': '0'
+    }
+};
 // Fungsi untuk memproses HTML (Minify + Nonce + bfcache script)
 function processHTML(inputFilePath, outputFilePath) {
     try {
@@ -123,6 +142,23 @@ function processHTML(inputFilePath, outputFilePath) {
                 innerContent = innerContent.replace(/<div\b([^>]*)>/gi, `<div$1 role="tab">`);
             }
             return `<div${attrs1} role="tablist"${attrs2}>${innerContent}</div>`;
+        });
+
+        // 7. Tambahkan atribut aria-* yang wajib untuk setiap role
+        Object.entries(ariaRoleRequirements).forEach(([role, requiredAttrs]) => {
+            const regex = new RegExp(`<([^\\s>]+)\\b([^>]*)\\brole=["']${role}["']([^>]*)>`, 'gi');
+            htmlContent = htmlContent.replace(regex, (match, tagName, attrs1, attrs2) => {
+                let allAttrs = `${attrs1} ${attrs2}`.trim();
+                
+                // Tambahkan atribut yang belum ada
+                Object.entries(requiredAttrs).forEach(([attr, defaultValue]) => {
+                    if (!new RegExp(`\\b${attr}=["']`).test(allAttrs)) {
+                        allAttrs += ` ${attr}="${defaultValue}"`;
+                    }
+                });
+
+                return `<${tagName} ${allAttrs}>`;
+            });
         });
 
         // Cari semua nonce yang ada di file
