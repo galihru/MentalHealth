@@ -285,6 +285,10 @@ body.dark-theme {
     position: relative;
 }
 
+.no-js-message {
+    display: none;
+}
+
 .skip-link-wrapper {
     position: relative;
     z-index: 1000;
