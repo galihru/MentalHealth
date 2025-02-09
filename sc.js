@@ -84,7 +84,7 @@ function processHTML(inputFilePath, outputFilePath) {
             const allAttrs = `${attrs1} ${attrs2}`.trim();
             // Cek apakah sudah ada aria-label atau aria-labelledby
             if (!/(aria-label|aria-labelledby)=["']/.test(allAttrs)) {
-                return `<${tagName}${attrs1} role="meter" aria-label="Progress meter"${attrs2}>`;
+                return `<${tagName}${attrs1} role="meter" aria-label="progress-bar" aria-labelledby="progress-bar"${attrs2}>`;
             }
             return match;
         });
