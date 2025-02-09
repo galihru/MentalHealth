@@ -69,6 +69,25 @@ function processHTML(inputFilePath, outputFilePath) {
             return `<div class="modal" ${allAttrs}>`;
         });
 
+        // 4. Perbaiki hubungan parent-child ARIA roles
+        // Contoh: role="menu" harus memiliki child dengan role="menuitem"
+        htmlContent = htmlContent.replace(/<ul\b([^>]*)\brole=["']menu["']([^>]*)>([\s\S]*?)<\/ul>/gi, (match, attrs1, attrs2, innerContent) => {
+            // Periksa apakah ada child dengan role="menuitem"
+            if (!/<li\b[^>]*\brole=["']menuitem["']/gi.test(innerContent)) {
+                innerContent = innerContent.replace(/<li\b([^>]*)>/gi, `<li$1 role="menuitem">`);
+            }
+            return `<ul${attrs1} role="menu"${attrs2}>${innerContent}</ul>`;
+        });
+
+        // Contoh: role="tablist" harus memiliki child dengan role="tab"
+        htmlContent = htmlContent.replace(/<div\b([^>]*)\brole=["']tablist["']([^>]*)>([\s\S]*?)<\/div>/gi, (match, attrs1, attrs2, innerContent) => {
+            // Periksa apakah ada child dengan role="tab"
+            if (!/<div\b[^>]*\brole=["']tab["']/gi.test(innerContent)) {
+                innerContent = innerContent.replace(/<div\b([^>]*)>/gi, `<div$1 role="tab">`);
+            }
+            return `<div${attrs1} role="tablist"${attrs2}>${innerContent}</div>`;
+        });
+
         // Cari semua nonce yang ada di file
         let nonceMatches = [...htmlContent.matchAll(/nonce="([^"]+)"/g)].map(match => match[1]);
 
