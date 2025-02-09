@@ -111,7 +111,6 @@ function processJS(jsContent, classMapping, idMapping) {
 function processHTML(inputFilePath, outputFilePath) {
     try {
         const cssFiles = ['style.css', 'css/all.min.css', 'css/all.css', 'css/brands.min.css', 'css/brands.css', 'css/fontawesome.min.css', 'css/fontawesome.css', 'css/regular.min.css', 'css/regular.css', 'css/solid.min.css', 'css/solid.css', 'css/svg-with-js.min.css', 'css/svg-with-js.css', 'css/v4-font-face.min.css', 'css/v4-font-face.css', 'css/v4-shims.css', 'css/v4-shims.min.css', 'css/v5-font-face.css', 'css/v5-font-face.min.css'].map(file => path.resolve(file));
-        const jsFiles = ['script.js'].map(file => path.resolve(file)); // Tambahkan file JS Anda di sini
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
         
         // 1. Kumpulkan semua class dan ID
