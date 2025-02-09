@@ -21,7 +21,7 @@
     --color-active-light: rgb(0 80 255);
     --background-cam-light: #cfcfcf;
     --button-p-light: #255181;
-    --button-t-light: white;
+    --button-t-light: #ffffff;
 
     /* Dark Theme Colors */
     --primary-dark: #60a5fa;
@@ -44,8 +44,8 @@
     --border-active-dark: rgb(35 35 35);
     --color-active-dark: #8fc1ff;
     --background-cam-dark: #474747
-    --button-p-dark: white;
-    --button-t-light: #255181;
+    --button-p-dark: #ffffff;
+    --button-t-dark: #255181;
     
 
     /* Font Family */
