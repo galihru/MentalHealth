@@ -484,7 +484,10 @@
                     
                     // Menghapus indeks dari string tabel
                     const tableWithoutIndex = tableString.replace(/^\s*\d+\s+/gm, '');
-                    
+                    // Log clickable links separately
+                    profiles.forEach(profile => {
+                        console.log(`%c${profile.name}: %c${profile.url}`, "font-weight: bold;", "color: blue; text-decoration: underline;");
+                    });
                     // Menampilkan tabel tanpa indeks
                     console.log(tableWithoutIndex);
                     progressBar.parentNode.removeChild(progressBar);
