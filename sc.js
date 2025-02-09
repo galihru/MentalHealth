@@ -34,7 +34,6 @@ function generateHashMapping(items) {
   return mapping;
 }
 
-// Fungsi untuk mengumpulkan semua class dan ID dari HTML, CSS, dan JS
 function collectClassesAndIds(htmlContent, cssPaths, jsPaths = []) {
   const classes = new Set();
   const ids = new Set();
