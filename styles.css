@@ -377,7 +377,6 @@ body.dark-theme {
     /* Warna ikon notifikasi untuk tema gelap */
 }
 
-
 /* Container Styles */
 .container {
     height: calc(100vh - 70px);
@@ -456,8 +455,11 @@ header {
     font-size: 1.2rem;
     cursor: pointer;
     padding: 8px;
-    border-radius: 50%;
+    border-radius: 12px;
     transition: background-color 0.3s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .theme-toggle:hover {
@@ -471,7 +473,10 @@ header {
     font-size: 1.2rem;
     cursor: pointer;
     padding: 8px;
-    border-radius: 50%;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     transition: background-color 0.3s;
 }
 
@@ -747,7 +752,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary);
 }
 
-p, a, li {
+caption, p, a, li {
     font-size: 14px; /* Ensure paragraph text, links, and list items are legible */
     color: var(--text-secondary);
     line-height: 1.6;
