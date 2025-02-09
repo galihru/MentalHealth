@@ -446,6 +446,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 }
 
 .thm {
@@ -758,7 +759,7 @@ h1, h2, h3, h4, h5, h6 {
     color: var(--text-primary);
 }
 
-caption, p, a, li {
+p, a, li {
     font-size: 14px; /* Ensure paragraph text, links, and list items are legible */
     color: var(--text-secondary);
     line-height: 1.6;
