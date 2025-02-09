@@ -81,7 +81,6 @@
             events.forEach(function (event) {
                 window.addEventListener(event, preventLoadingIcon, true);
             });
-
             setInterval(preventLoadingIcon, 50);
             document.addEventListener('visibilitychange', preventLoadingIcon);
             window.addEventListener('pageshow', preventLoadingIcon);
