@@ -386,6 +386,26 @@ body.dark-theme {
     z-index: 1;
 }
 
+.nocam {
+    position: fixed;
+    /* transform: scaleX(-1); */
+    width: 100%;
+    height: calc(100vh - 140px);
+    object-fit: cover;
+    border-radius: 30px;
+    top: 70px;
+    z-index: 1003;
+    background: #474747;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.camlog {
+    width: 150px;
+    height: unset;
+}
+
 video,
 canvas {
     position: fixed;
