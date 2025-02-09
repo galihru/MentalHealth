@@ -525,7 +525,7 @@
                 localStorage.setItem('cameraPermissionGranted', 'true');
                 this.hideElements();
                 // Reload halaman setelah izin diberikan
-                window.location.reload();
+                
             }
         
             handlePermissionDenied() {
@@ -580,7 +580,7 @@
                     if (diff > 150) {
                         this.requestCameraPermission();
                         // Reload setelah swipe
-                        window.location.reload();
+                        
                     } else {
                         this.modalContent.style.transform = 'translateY(0px)';
                     }
@@ -594,7 +594,7 @@
                 enableBtn?.addEventListener('click', () => {
                     this.requestCameraPermission();
                     // Reload setelah mengklik enable
-                    window.location.reload();
+                    
                 });
                 
                 disableBtn?.addEventListener('click', () => {
@@ -602,13 +602,13 @@
                     this.showElements();
                     this.hideModal();
                     // Reload setelah mengklik disable
-                    window.location.reload();
+                    
                 });
                 
                 this.closeBtn?.addEventListener('click', () => {
                     this.requestCameraPermission();
                     // Reload setelah mengklik close
-                    window.location.reload();
+                    
                 });
             }
         
