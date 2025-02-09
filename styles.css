@@ -439,7 +439,8 @@ body.dark-theme {
 
 .camlog {
     width: 150px;
-    height: unset;
+    max-width: 100%;
+    height: auto;
 }
 
 video,
