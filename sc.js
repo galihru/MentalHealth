@@ -32,6 +32,17 @@ function processHTML(inputFilePath, outputFilePath) {
         // Baca file HTML
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
 
+        // 1. Tambahkan/mutakhirkan atribut lang dan xml:lang
+        htmlContent = htmlContent.replace(/<html\s*([^>]*)>/i, (match, attributes) => {
+            // Hapus atribut lang/xml:lang yang ada
+            let filteredAttrs = attributes
+                .replace(/\s+(lang|xml:lang)=["'][^"']*["']/gi, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            
+            return `<html ${filteredAttrs} lang="en" xml:lang="en">`;
+        });
+
         // Cari semua nonce yang ada di file
         let nonceMatches = [...htmlContent.matchAll(/nonce="([^"]+)"/g)].map(match => match[1]);
 
