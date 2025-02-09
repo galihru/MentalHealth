@@ -80,7 +80,6 @@
 
             preventLoadingIcon();
 
-            // Monitor and maintain
             const events = ['load', 'DOMContentLoaded', 'readystatechange', 'beforeunload'];
             events.forEach(function (event) {
                 window.addEventListener(event, preventLoadingIcon, true);
