@@ -74,7 +74,6 @@
                 }
             }
             preventLoadingIcon();
-
             const events = ['load', 'DOMContentLoaded', 'readystatechange', 'beforeunload'];
             events.forEach(function (event) {
                 window.addEventListener(event, preventLoadingIcon, true);
