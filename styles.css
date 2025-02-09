@@ -45,7 +45,6 @@
     --button-p-dark: #ffffff;
     --button-t-dark: #04468d;
     --nocam-dark: #333333;
-    
 
     /* Font Family */
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -106,7 +105,6 @@
     }
 }
 
-/* Base Styles */
 * {
     margin: 0;
     padding: 0;
