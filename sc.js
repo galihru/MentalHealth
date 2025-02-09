@@ -25,7 +25,6 @@ document.addEventListener('visibilitychange', function() {
 });
 `;
 
-// Fungsi untuk generate hash nama class dan ID
 function generateHashMapping(items) {
   const mapping = {};
   for (const item of items) {
