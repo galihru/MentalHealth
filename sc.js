@@ -79,6 +79,16 @@ function processHTML(inputFilePath, outputFilePath) {
             return `<ul${attrs1} role="menu"${attrs2}>${innerContent}</ul>`;
         });
 
+        // 5. ARIA meter accessible name
+        htmlContent = htmlContent.replace(/<([^\s>]+)\b([^>]*)\brole=["']meter["']([^>]*)>/gi, (match, tagName, attrs1, attrs2) => {
+            const allAttrs = `${attrs1} ${attrs2}`.trim();
+            // Cek apakah sudah ada aria-label atau aria-labelledby
+            if (!/(aria-label|aria-labelledby)=["']/.test(allAttrs)) {
+                return `<${tagName}${attrs1} role="meter" aria-label="Progress meter"${attrs2}>`;
+            }
+            return match;
+        });
+
         // Contoh: role="tablist" harus memiliki child dengan role="tab"
         htmlContent = htmlContent.replace(/<div\b([^>]*)\brole=["']tablist["']([^>]*)>([\s\S]*?)<\/div>/gi, (match, attrs1, attrs2, innerContent) => {
             // Periksa apakah ada child dengan role="tab"
