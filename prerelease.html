@@ -466,6 +466,7 @@
                     progress = 0;
                     progressBar.style.width = '0';
                     updateAccessibility();
+                    progressBar.parentNode.removeChild(progressBar);
                 }, 500);
             });
         });
