@@ -89,6 +89,33 @@ function processHTML(inputFilePath, outputFilePath) {
             return match;
         });
 
+         // 6. Perbaiki duplikat ARIA IDs
+        const idMap = new Map(); // Untuk menyimpan mapping ID lama ke ID baru
+        let idCounter = 1;
+
+        // Cari semua ID yang ada di dokumen
+        const allIds = new Set([...htmlContent.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]));
+
+        // Periksa duplikat dan buat ID baru jika diperlukan
+        htmlContent = htmlContent.replace(/\bid=["']([^"']+)["']/gi, (match, idValue) => {
+            if (allIds.has(idValue)) {
+                allIds.delete(idValue); // Hapus ID dari set setelah pertama kali ditemukan
+                return match; // Pertahankan ID pertama
+            } else {
+                // Buat ID baru yang unik
+                const newId = `${idValue}-${idCounter++}`;
+                idMap.set(idValue, newId);
+                return `id="${newId}"`;
+            }
+        });
+
+        // Perbarui referensi ARIA yang menggunakan ID yang diubah
+        idMap.forEach((newId, oldId) => {
+            htmlContent = htmlContent.replace(new RegExp(`(aria-labelledby|aria-describedby)=["'](.*?)\\b${oldId}\\b(.*?)["']`, 'gi'), (match, attr, before, after) => {
+                return `${attr}="${before}${newId}${after}"`;
+            });
+        });
+
         // Contoh: role="tablist" harus memiliki child dengan role="tab"
         htmlContent = htmlContent.replace(/<div\b([^>]*)\brole=["']tablist["']([^>]*)>([\s\S]*?)<\/div>/gi, (match, attrs1, attrs2, innerContent) => {
             // Periksa apakah ada child dengan role="tab"
