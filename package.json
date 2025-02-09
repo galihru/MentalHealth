@@ -4,7 +4,9 @@
   "description": "Mental Health App",
   "main": "sc.js",
   "scripts": {
-    "start": "node sc.js"
+    "start": "node sc.js",
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
   },
   "dependencies": {
     "crypto": "^1.0.1",
