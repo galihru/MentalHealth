@@ -486,125 +486,125 @@
     </script>
     <script>
         class CameraPermissionModal {
-    constructor() {
-        this.modal = document.getElementById('cameraModal');
-        this.nocamElement = document.getElementById('nocam');
-        this.modalContent = document.getElementById('contentModal');
-        
-        if (this.modalContent) {
-            this.modalContent.style.transform = 'translateY(0px)';
-        }
-        
-        // Cek apakah sudah pernah memberikan izin sebelumnya
-        const hasPermission = localStorage.getItem('cameraPermissionGranted');
-        
-        if (hasPermission === 'true') {
-            this.hideElements();
-        } else {
-            this.showElements();
-            this.initializeModal();
-        }
-    }
-
-    async requestCameraPermission() {
-        try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-            stream.getTracks().forEach(track => track.stop());
-            this.handlePermissionGranted();
-        } catch (error) {
-            console.error('Izin kamera ditolak:', error);
-            this.handlePermissionDenied();
-        }
-    }
-
-    handlePermissionGranted() {
-        localStorage.setItem('cameraPermissionGranted', 'true');
-        this.hideElements();
-        // Reload halaman setelah izin diberikan
-        window.location.reload();
-    }
-
-    handlePermissionDenied() {
-        localStorage.setItem('cameraPermissionGranted', 'false');
-        this.showElements();
-    }
-
-    hideElements() {
-        if (this.modal) this.modal.style.display = 'none';
-        if (this.nocamElement) this.nocamElement.style.display = 'none';
-    }
-
-    showElements() {
-        if (this.modal) this.modal.style.display = 'block';
-        if (this.modalContent) {
-            this.modalContent.style.transform = 'translateY(0px)';
-        }
-    }
-
-    initializeModal() {
-        if (!this.modal) return;
-
-        this.modalContent = document.getElementById('contentModal');
-        this.modalBody = this.modal.querySelector('.modal-body');
-        this.closeBtn = this.modal.querySelector('.close-btn');
-
-        if (this.modalContent) {
-            this.modalContent.style.transform = 'translateY(0px)';
-        }
-
-        this.setupSwipeHandling();
-        this.setupButtons();
-    }
-
-    setupSwipeHandling() {
-        let startY = 0;
-        let currentY = 0;
-
-        this.modalContent.addEventListener('touchstart', (e) => {
-            startY = e.touches[0].clientY;
-        });
-
-        this.modalContent.addEventListener('touchmove', (e) => {
-            currentY = e.touches[0].clientY;
-            const diff = currentY - startY;
-            if (diff > 0) this.modalContent.style.transform = `translateY(${diff}px)`;
-        });
-
-        this.modalContent.addEventListener('touchend', () => {
-            const diff = currentY - startY;
-            if (diff > 150) {
-                this.requestCameraPermission();
-            } else {
-                this.modalContent.style.transform = 'translateY(0px)';
+            constructor() {
+                this.modal = document.getElementById('cameraModal');
+                this.nocamElement = document.getElementById('nocam');
+                this.modalContent = document.getElementById('contentModal');
+                
+                if (this.modalContent) {
+                    this.modalContent.style.transform = 'translateY(0px)';
+                }
+                
+                // Cek apakah sudah pernah memberikan izin sebelumnya
+                const hasPermission = localStorage.getItem('cameraPermissionGranted');
+                
+                if (hasPermission === 'true') {
+                    this.hideElements();
+                } else {
+                    this.showElements();
+                    this.initializeModal();
+                }
             }
-        });
-    }
-
-    setupButtons() {
-        const enableBtn = document.getElementById('enableCamera');
-        const disableBtn = document.getElementById('disableCamera');
-
-        enableBtn?.addEventListener('click', () => {
-            this.requestCameraPermission();
-        });
         
-        disableBtn?.addEventListener('click', () => {
-            localStorage.setItem('cameraPermissionGranted', 'false');
-            this.hideElements();
-            setTimeout(() => window.location.reload(), 500);
-        });
+            async requestCameraPermission() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    stream.getTracks().forEach(track => track.stop());
+                    this.handlePermissionGranted();
+                } catch (error) {
+                    console.error('Izin kamera ditolak:', error);
+                    this.handlePermissionDenied();
+                }
+            }
         
-        this.closeBtn?.addEventListener('click', () => {
-            this.requestCameraPermission();
-        });
-    }
-
-    hideModal() {
-        if (this.modal) this.modal.style.display = 'none';
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => new CameraPermissionModal());
+            handlePermissionGranted() {
+                localStorage.setItem('cameraPermissionGranted', 'true');
+                this.hideElements();
+                // Reload halaman setelah izin diberikan
+                window.location.reload();
+            }
+        
+            handlePermissionDenied() {
+                localStorage.setItem('cameraPermissionGranted', 'false');
+                this.showElements();
+            }
+        
+            hideElements() {
+                if (this.modal) this.modal.style.display = 'none';
+                if (this.nocamElement) this.nocamElement.style.display = 'none';
+            }
+        
+            showElements() {
+                if (this.modal) this.modal.style.display = 'block';
+                if (this.modalContent) {
+                    this.modalContent.style.transform = 'translateY(0px)';
+                }
+            }
+        
+            initializeModal() {
+                if (!this.modal) return;
+        
+                this.modalContent = document.getElementById('contentModal');
+                this.modalBody = this.modal.querySelector('.modal-body');
+                this.closeBtn = this.modal.querySelector('.close-btn');
+        
+                if (this.modalContent) {
+                    this.modalContent.style.transform = 'translateY(0px)';
+                }
+        
+                this.setupSwipeHandling();
+                this.setupButtons();
+            }
+        
+            setupSwipeHandling() {
+                let startY = 0;
+                let currentY = 0;
+        
+                this.modalContent.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                });
+        
+                this.modalContent.addEventListener('touchmove', (e) => {
+                    currentY = e.touches[0].clientY;
+                    const diff = currentY - startY;
+                    if (diff > 0) this.modalContent.style.transform = `translateY(${diff}px)`;
+                });
+        
+                this.modalContent.addEventListener('touchend', () => {
+                    const diff = currentY - startY;
+                    if (diff > 150) {
+                        this.requestCameraPermission();
+                    } else {
+                        this.modalContent.style.transform = 'translateY(0px)';
+                    }
+                });
+            }
+        
+            setupButtons() {
+                const enableBtn = document.getElementById('enableCamera');
+                const disableBtn = document.getElementById('disableCamera');
+        
+                enableBtn?.addEventListener('click', () => {
+                    this.requestCameraPermission();
+                });
+                
+                disableBtn?.addEventListener('click', () => {
+                    localStorage.setItem('cameraPermissionGranted', 'false');
+                    this.hideElements();
+                    setTimeout(() => window.location.reload(), 500);
+                });
+                
+                this.closeBtn?.addEventListener('click', () => {
+                    this.requestCameraPermission();
+                });
+            }
+        
+            hideModal() {
+                if (this.modal) this.modal.style.display = 'none';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => new CameraPermissionModal());
     </script>
     <script>
         // Add smooth scrolling for skip links
