@@ -52,6 +52,23 @@ function processHTML(inputFilePath, outputFilePath) {
             return `<video${videoAttrs}>${innerContent}</video>`;
         });
 
+        // 3. Pastikan elemen dengan role="dialog" atau role="alertdialog" memiliki accessible name
+        htmlContent = htmlContent.replace(/<div\b([^>]*)\bclass=["']modal["']([^>]*)>/gi, (match, attrs1, attrs2) => {
+            // Gabungkan semua atribut
+            let allAttrs = `${attrs1} ${attrs2}`.trim();
+
+            // Periksa apakah role="dialog" atau role="alertdialog" ada
+            if (/role=["'](dialog|alertdialog)["']/gi.test(allAttrs)) {
+                // Periksa apakah sudah ada aria-labelledby atau aria-label
+                if (!/(aria-labelledby|aria-label)=["'][^"']*["']/gi.test(allAttrs)) {
+                    // Tambahkan aria-labelledby dengan ID default jika tidak ada
+                    allAttrs += ` aria-labelledby="modal-title"`;
+                }
+            }
+
+            return `<div class="modal" ${allAttrs}>`;
+        });
+
         // Cari semua nonce yang ada di file
         let nonceMatches = [...htmlContent.matchAll(/nonce="([^"]+)"/g)].map(match => match[1]);
 
