@@ -26,7 +26,6 @@ document.addEventListener('visibilitychange', function() {
 });
 `;
 
-// Fungsi untuk generate hash nama class
 function generateClassMapping(classes) {
   const mapping = {};
   for (const className of classes) {
