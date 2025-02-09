@@ -3,6 +3,7 @@ import path from 'path';
 import crypto from 'crypto';
 import { minify } from 'html-minifier';
 
+// Fungsi untuk menghasilkan nonce acak
 function generateNonce() {
     return crypto.randomBytes(16).toString('base64');
 }
@@ -25,102 +26,11 @@ document.addEventListener('visibilitychange', function() {
 });
 `;
 
+// Fungsi untuk memproses HTML (Minify + Nonce + bfcache script)
 function processHTML(inputFilePath, outputFilePath) {
     try {
         // Baca file HTML
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
-
-        htmlContent = htmlContent.replace(/<html\s*([^>]*)>/i, (match, attributes) => {
-            // Hapus atribut lang/xml:lang yang ada
-            let filteredAttrs = attributes
-                .replace(/\s+(lang|xml:lang)=["'][^"']*["']/gi, '')
-                .replace(/\s+/g, ' ')
-                .trim();
-            
-            return `<html ${filteredAttrs} lang="en" xml:lang="en">`;
-        });
-
-        // 2. Pastikan tag <video> memiliki <track kind="captions">
-        htmlContent = htmlContent.replace(/<video\b([^>]*)>([\s\S]*?)<\/video>/gi, (match, videoAttrs, innerContent) => {
-            // Jika tidak ada <track kind="captions">, tambahkan
-            if (!/<track\s[^>]*kind=["']captions["']/gi.test(innerContent)) {
-                innerContent += `<track kind="captions" src="https://4211421036.github.io/MentalHealth/en.vtt" srclang="en" label="English">`;
-            }
-            return `<video${videoAttrs}>${innerContent}</video>`;
-        });
-
-        // 3. Pastikan elemen dengan role="dialog" atau role="alertdialog" memiliki accessible name
-        htmlContent = htmlContent.replace(/<div\b([^>]*)\bclass=["']modal["']([^>]*)>/gi, (match, attrs1, attrs2) => {
-            // Gabungkan semua atribut
-            let allAttrs = `${attrs1} ${attrs2}`.trim();
-
-            // Periksa apakah role="dialog" atau role="alertdialog" ada
-            if (/role=["'](dialog|alertdialog)["']/gi.test(allAttrs)) {
-                // Periksa apakah sudah ada aria-labelledby atau aria-label
-                if (!/(aria-labelledby|aria-label)=["'][^"']*["']/gi.test(allAttrs)) {
-                    // Tambahkan aria-labelledby dengan ID default jika tidak ada
-                    allAttrs += ` aria-labelledby="modal-title"`;
-                }
-            }
-
-            return `<div class="modal" ${allAttrs}>`;
-        });
-
-        // 4. Perbaiki hubungan parent-child ARIA roles
-        // Contoh: role="menu" harus memiliki child dengan role="menuitem"
-        htmlContent = htmlContent.replace(/<ul\b([^>]*)\brole=["']menu["']([^>]*)>([\s\S]*?)<\/ul>/gi, (match, attrs1, attrs2, innerContent) => {
-            // Periksa apakah ada child dengan role="menuitem"
-            if (!/<li\b[^>]*\brole=["']menuitem["']/gi.test(innerContent)) {
-                innerContent = innerContent.replace(/<li\b([^>]*)>/gi, `<li$1 role="menuitem">`);
-            }
-            return `<ul${attrs1} role="menu"${attrs2}>${innerContent}</ul>`;
-        });
-
-        // 5. ARIA meter accessible name
-        htmlContent = htmlContent.replace(/<([^\s>]+)\b([^>]*)\brole=["']meter["']([^>]*)>/gi, (match, tagName, attrs1, attrs2) => {
-            const allAttrs = `${attrs1} ${attrs2}`.trim();
-            // Cek apakah sudah ada aria-label atau aria-labelledby
-            if (!/(aria-label|aria-labelledby)=["']/.test(allAttrs)) {
-                return `<${tagName}${attrs1} role="meter" aria-label="progress-bar" aria-labelledby="progress-bar"${attrs2}>`;
-            }
-            return match;
-        });
-
-         // 6. Perbaiki duplikat ARIA IDs
-        const idMap = new Map(); // Untuk menyimpan mapping ID lama ke ID baru
-        let idCounter = 1;
-
-        // Cari semua ID yang ada di dokumen
-        const allIds = new Set([...htmlContent.matchAll(/\bid=["']([^"']+)["']/gi)].map(match => match[1]));
-
-        // Periksa duplikat dan buat ID baru jika diperlukan
-        htmlContent = htmlContent.replace(/\bid=["']([^"']+)["']/gi, (match, idValue) => {
-            if (allIds.has(idValue)) {
-                allIds.delete(idValue); // Hapus ID dari set setelah pertama kali ditemukan
-                return match; // Pertahankan ID pertama
-            } else {
-                // Buat ID baru yang unik
-                const newId = `${idValue}-${idCounter++}`;
-                idMap.set(idValue, newId);
-                return `id="${newId}"`;
-            }
-        });
-
-        // Perbarui referensi ARIA yang menggunakan ID yang diubah
-        idMap.forEach((newId, oldId) => {
-            htmlContent = htmlContent.replace(new RegExp(`(aria-labelledby|aria-describedby)=["'](.*?)\\b${oldId}\\b(.*?)["']`, 'gi'), (match, attr, before, after) => {
-                return `${attr}="${before}${newId}${after}"`;
-            });
-        });
-
-        // Contoh: role="tablist" harus memiliki child dengan role="tab"
-        htmlContent = htmlContent.replace(/<div\b([^>]*)\brole=["']tablist["']([^>]*)>([\s\S]*?)<\/div>/gi, (match, attrs1, attrs2, innerContent) => {
-            // Periksa apakah ada child dengan role="tab"
-            if (!/<div\b[^>]*\brole=["']tab["']/gi.test(innerContent)) {
-                innerContent = innerContent.replace(/<div\b([^>]*)>/gi, `<div$1 role="tab">`);
-            }
-            return `<div${attrs1} role="tablist"${attrs2}>${innerContent}</div>`;
-        });
 
         // Cari semua nonce yang ada di file
         let nonceMatches = [...htmlContent.matchAll(/nonce="([^"]+)"/g)].map(match => match[1]);
