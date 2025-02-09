@@ -109,17 +109,16 @@ function collectClassesAndIds(htmlContent, cssPaths, jsPaths = []) {
     });
 
     // Dynamic HTML (e.g., innerHTML)
-    jsContent.replace(/\.(innerHTML|outerHTML)\s*=\s*["'][^"']*["']/g, (match) => {
-      const htmlPart = match.replace(/^[^=]+=/, '').trim();
-      const tempDiv = document.createElement('div');
-      tempDiv.innerHTML = htmlPart;
-      tempDiv.querySelectorAll('[class]').forEach(el => {
-        el.getAttribute('class').split(/\s+/).forEach(c => classes.add(c));
+     jsContent.replace(/\.(innerHTML|outerHTML)\s*=\s*["']([^"']*)["']/g, (_, prop, html) => {
+      // Ekstrak class dari string HTML menggunakan regex
+      html.replace(/class="([^"]*)"/g, (_, classAttr) => {
+        classAttr.split(/\s+/).forEach(c => classes.add(c));
       });
-      tempDiv.querySelectorAll('[id]').forEach(el => {
-        ids.add(el.getAttribute('id'));
+      
+      // Ekstrak ID dari string HTML menggunakan regex
+      html.replace(/id="([^"]*)"/g, (_, idAttr) => {
+        ids.add(idAttr);
       });
-    });
   });
 
   return { classes: Array.from(classes), ids: Array.from(ids) };
