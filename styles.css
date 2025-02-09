@@ -394,7 +394,7 @@ body.dark-theme {
     object-fit: cover;
     border-radius: 30px;
     top: 70px;
-    z-index: 1003;
+    z-index: 2;
     background: #474747;
     align-items: center;
     display: flex;
