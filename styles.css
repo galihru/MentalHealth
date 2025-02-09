@@ -19,6 +19,9 @@
     --primary-skeleton-light: #333;
     --border-active-light: rgb(229 229 229);
     --color-active-light: rgb(0 80 255);
+    --button-p-light: #04468d;
+    --button-t-light: #ffffff;
+    --nocam-light: #e5e5e5;
 
     /* Dark Theme Colors */
     --primary-dark: #60a5fa;
@@ -30,7 +33,7 @@
     --border-dark: rgba(148, 163, 184, 0.1);
     --nav-bg-dark: rgba(24 25 28, 0.8);
     --link-dark: #e0e0e0;
-    --ico-notification-dark: light;
+    --ico-notification-dark: #ffffff;
     --skeleton-bg-dark: #333;
     --skeleton-item-bg-dark: #555;
     --skeleton-item-highlight-dark: #444;
@@ -40,6 +43,9 @@
     --primary-dark-skeleton: #fff;
     --border-active-dark: rgb(35 35 35);
     --color-active-dark: #8fc1ff;
+    --button-p-dark: #ffffff;
+    --button-t-dark: #04468d;
+    --nocam-dark: #333333;
     
 
     /* Font Family */
@@ -68,6 +74,9 @@
         --primary-sk: var(--primary-dark-skeleton);
         --border-active: var(--border-active-dark);
         --color-active: var(--color-active-dark);
+        --button-t: var(--button-t-dark);
+        --button-p: var(--button-p-dark);
+        --nocam: var(--nocam-dark;
     }
 }
 
@@ -92,6 +101,9 @@
         --primary-sk: var(--primary-skeleton-light);
         --border-active: var(--border-active-light);
         --color-active: var(--color-active-light);
+        --button-t: var(--button-t-light);
+        --button-p: var(--button-p-light);
+        --nocam: var(--nocam-dark);
     }
 }
 
@@ -127,6 +139,10 @@ body {
     --primary-sk: var(--primary-skeleton-light);
     --border-active: var(--border-active-light);
     --color-active: var(--color-active-light);
+    --notifikasi: var(--ico-notification-light)
+    --button-t: var(--button-t-light);
+    --button-p: var(--button-p-light);
+    --nocam: var(--nocam-light);
     overflow: hidden;
     font-size: 14px;
 }
@@ -153,6 +169,9 @@ body.dark-theme {
     --primary-sk: var(--primary-dark-skeleton);
     --border-active: var(--border-active-dark);
     --color-active: var(--color-active-dark);
+    --button-t: var(--button-t-dark);
+    --button-p: var(--button-p-dark);
+    --nocam: var(--nocam-dark);
     overflow: hidden;
 }
 
@@ -297,6 +316,39 @@ body.dark-theme {
     /* Warna ikon notifikasi untuk tema gelap */
 }
 
+.nocam {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    transform: scaleX(-1);
+    width: 100%;
+    height: calc(100vh - 140px);
+    object-fit: cover;
+    border-radius: 30px;
+    top: 70px;
+    background: var(--nocam);
+}
+
+.camlog {
+    hight: auto;
+    width: 150px;
+    max-width: 100%;
+}
+
+.ntf {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.thm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 
 /* Container Styles */
 .container {
@@ -367,6 +419,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 }
 
 .theme-toggle {
@@ -376,7 +429,7 @@ header {
     font-size: 1.2rem;
     cursor: pointer;
     padding: 8px;
-    border-radius: 50%;
+    border-radius: 15px;
     transition: background-color 0.3s;
 }
 
@@ -391,12 +444,30 @@ header {
     font-size: 1.2rem;
     cursor: pointer;
     padding: 8px;
-    border-radius: 50%;
+    border-radius: 15px;
     transition: background-color 0.3s;
 }
 
 .notif:hover {
     background: var(--text-secondary-light);
+}
+
+.btn {
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background-color: var(--button-p);
+    color: var(--button-t);
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
 }
 
 /* Bottom Navigation */
