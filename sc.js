@@ -8,11 +8,70 @@ function generateNonce() {
 }
 
 const bfcacheScript = `
+// User Timing API measurements
+performance.mark('app-init-start');
+
+// Lazy loading handler for third-party resources
+function loadThirdParty(element) {
+    const actualSrc = element.dataset.src;
+    const actualType = element.dataset.type;
+    
+    if (actualType === 'script') {
+        const script = document.createElement('script');
+        script.src = actualSrc;
+        script.async = true;
+        element.parentNode.replaceChild(script, element);
+    } else if (actualType === 'iframe') {
+        const iframe = document.createElement('iframe');
+        iframe.src = actualSrc;
+        Object.assign(iframe, {
+            width: element.dataset.width || '100%',
+            height: element.dataset.height || '100%',
+            frameborder: '0'
+        });
+        element.parentNode.replaceChild(iframe, element);
+    }
+    
+    performance.mark('third-party-load-' + actualSrc);
+    performance.measure('third-party-loading', 'app-init-start', 'third-party-load-' + actualSrc);
+}
+
+// Intersection Observer for lazy loading
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            loadThirdParty(entry.target);
+            observer.unobserve(entry.target);
+        }
+    });
+}, {
+    rootMargin: '50px'
+});
 window.addEventListener('pageshow', function(event) {
+    performance.mark('pageshow-start');
     if (event.persisted) {
         console.log('Page restored from bfcache');
+        performance.measure('bfcache-restoration', 'pageshow-start');
     }
 });
+
+window.addEventListener('load', function() {
+    performance.mark('page-load-complete');
+    performance.measure('total-page-load', 'app-init-start', 'page-load-complete');
+    
+    // Initialize lazy loading
+    document.querySelectorAll('[data-lazy]').forEach(element => {
+        observer.observe(element);
+    });
+});
+
+// Send performance metrics to analytics
+function sendPerformanceMetrics() {
+    const metrics = performance.getEntriesByType('measure');
+    console.log('Performance metrics:', metrics);
+    // Here you could send these metrics to your analytics service
+}
+
 
 window.addEventListener('pagehide', function(event) {
     console.log('Page is being unloaded');
@@ -20,6 +79,9 @@ window.addEventListener('pagehide', function(event) {
 
 document.addEventListener('visibilitychange', function() {
     if (document.visibilityState === 'hidden') {
+        performance.mark('page-hide');
+        performance.measure('page-visible-duration', 'app-init-start', 'page-hide');
+        sendPerformanceMetrics();
         console.log('Page hidden, prepare for restoration');
     }
 });
@@ -93,6 +155,25 @@ function processHTML(inputFilePath, outputFilePath) {
                 return `${attr}="${before}${newId}${after}"`;
             });
         });
+
+        htmlContent = htmlContent.replace(
+            /<script\s+src="(https?:\/\/[^"]+)"([^>]*)>/gi,
+            (match, src, attrs) => {
+                if (src.includes('analytics') || src.includes('tracking') || src.includes('ads')) {
+                    return `<div data-lazy data-type="script" data-src="${src}" style="display:none;"></div>`;
+                }
+                return match;
+            }
+        );
+
+        htmlContent = htmlContent.replace(
+            /<iframe\s+src="(https?:\/\/[^"]+)"([^>]*)>/gi,
+            (match, src, attrs) => {
+                const width = attrs.match(/width="([^"]+)"/) ? attrs.match(/width="([^"]+)"/)[1] : '100%';
+                const height = attrs.match(/height="([^"]+)"/) ? attrs.match(/height="([^"]+)"/)[1] : '100%';
+                return `<div data-lazy data-type="iframe" data-src="${src}" data-width="${width}" data-height="${height}" class="lazy-iframe-placeholder"></div>`;
+            }
+        );
 
         // Cari semua nonce yang ada di file
         let nonceMatches = [...htmlContent.matchAll(/nonce="([^"]+)"/g)].map(match => match[1]);
