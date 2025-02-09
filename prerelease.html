@@ -474,11 +474,16 @@
                     progressBar.style.width = '0';
                     updateAccessibility();
                     console.log("%c Profile of this website creator!", "color:#2dc9ac;")
-                    const profiles = [
-                      { name: "Galih Ridho Utomo", url: "https://www.instagram.com/galih_ridho_utomo/" },
-                      { name: "Ana Maulida", url: "https://www.instagram.com/anma1505/" }
-                    ];
-                    
+                    const profiles = {
+                            GALIH RIDHO UTOMO: {
+                        
+                                instagram: "https://www.instagram.com/galih_ridho_utomo/",
+                            },                
+                            Ana Maulida: {
+                        
+                                instagram: "https://www.instagram.com/anma1505/",
+                            },
+                        };
                     // Menyimpan output console.table ke dalam string
                     const tableString = console.table(profiles);
                     profiles.forEach(profile => {
