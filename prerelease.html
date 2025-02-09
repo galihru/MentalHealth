@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="id" xml-lang="id" xmlns="http://www.w3.org/1999/xhtml">
 
 <head faceid="">
     <meta charset="UTF-8">
@@ -103,6 +103,37 @@
             window.addEventListener('focus', preventLoadingIcon);
         })();
     </script>
+    <noscript>
+        <meta http-equiv="refresh" content="10">
+        <style>
+            .js-required {
+                display: none;
+            }
+
+            .no-js-message {
+                display: block;
+                background: #ffeb3b;
+                padding: 1rem;
+                text-align: center;
+                margin: 1rem;
+                border-radius: 4px;
+            }
+        </style>
+    </noscript>
+    <script>
+        // Remove meta refresh if JavaScript is enabled
+        window.addEventListener('DOMContentLoaded', function () {
+            const metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
+            if (metaRefresh) {
+                metaRefresh.remove();
+            }
+        });
+    </script>
+    <style>
+        .no-js-message {
+            display: none;
+        }
+    </style>
     <script type="application/ld+json">
             {
               "@context": "https://schema.org",
@@ -178,7 +209,12 @@
         <div class="progress-bar">
         </div>
     </div>
-
+    <noscript>
+        <div class="no-js-message">
+            <p>Untuk pengalaman yang lebih baik, mohon aktifkan JavaScript di browser Anda.</p>
+            <p>Halaman akan direfresh setiap 10 detik untuk memperbarui data.</p>
+        </div>
+    </noscript>
     <div class="skip-link-wrapper">
         <a href="#main-content" class="skip-link" lang="en">Skip to main content</a>
         <a href="#main-nav" class="skip-link" lang="en">Skip to main navigation</a>
