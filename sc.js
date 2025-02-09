@@ -32,7 +32,7 @@ function processHTML(inputFilePath, outputFilePath) {
         // Baca file HTML
         let htmlContent = fs.readFileSync(inputFilePath, 'utf8');
 
-        // 1. Tambahkan/mutakhirkan atribut lang dan xml:lang
+        // 1. Pastikan atribut lang dan xml:lang ada dan valid
         htmlContent = htmlContent.replace(/<html\s*([^>]*)>/i, (match, attributes) => {
             // Hapus atribut lang/xml:lang yang ada
             let filteredAttrs = attributes
@@ -41,6 +41,15 @@ function processHTML(inputFilePath, outputFilePath) {
                 .trim();
             
             return `<html ${filteredAttrs} lang="en" xml:lang="en">`;
+        });
+
+        // 2. Pastikan tag <video> memiliki <track kind="captions">
+        htmlContent = htmlContent.replace(/<video\b([^>]*)>([\s\S]*?)<\/video>/gi, (match, videoAttrs, innerContent) => {
+            // Jika tidak ada <track kind="captions">, tambahkan
+            if (!/<track\s[^>]*kind=["']captions["']/gi.test(innerContent)) {
+                innerContent += `<track kind="captions" src="https://4211421036.github.io/MentalHealth/en.vtt" srclang="en" label="English">`;
+            }
+            return `<video${videoAttrs}>${innerContent}</video>`;
         });
 
         // Cari semua nonce yang ada di file
