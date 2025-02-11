@@ -221,7 +221,7 @@ body.dark-theme {
 .skeleton-container {
     position: absolute;
     top: 70px;
-    height: calc(100vh - 140px);
+    height: calc(100vh - 165px);
     width: 100%;
     background: var(--skeleton-bg);
     border-radius: 30px;
@@ -551,17 +551,20 @@ header {
 footer {
   background: var(--nav-bg);
   color: var(--text-secondary);
-  padding: 20px 0;
+  padding: 0;
   text-align: center;
   justify-content: center;
   backdrop-filter: blur(20px);
   border-top: 1px solid var(--border);
+  position: fixed;
+  display: flex;
+  bottom: 0px;
 }
 
 /* Bottom Navigation */
 .bottom-nav {
     position: fixed;
-    bottom: 0;
+    bottom: 27px;
     left: 0;
     right: 0;
     height: 70px;
