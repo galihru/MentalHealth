@@ -138,7 +138,7 @@ body {
     --button-t: var(--button-t-light);
     --button-p-dark: #ffff;
     overflow: hidden;
-    font-size: 14px;
+    font-size: 20px;
     line-height: 1.6; /* Improves readability */
 }
 
@@ -168,7 +168,7 @@ body.dark-theme {
     --button-p: var(--button-p-dark);
     --button-t: var(--button-t-dark);
     overflow: hidden;
-    font-size: 14px;
+    font-size: 20px;
     line-height: 1.6; /* Improves readability */
 }
 
@@ -514,7 +514,7 @@ header {
     background: none;
     border: none;
     color: var(--primary-light);
-    font-size: 14px;
+    font-size: 20px;
     line-height: 1.6;
     cursor: pointer;
     padding: 8px;
@@ -591,7 +591,7 @@ header {
 }
 
 .nav-item span {
-    font-size: 13px;
+    font-size: 17px;
     font-weight: 500;
     letter-spacing: -0.2px;
 }
@@ -737,7 +737,7 @@ header {
 
 .metric-label {
     color: var(--text-secondary);
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 500;
     letter-spacing: -0.3px;
 }
@@ -817,7 +817,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 p, a, li {
-    font-size: 14px; /* Ensure paragraph text, links, and list items are legible */
+    font-size: 16px; /* Ensure paragraph text, links, and list items are legible */
     color: var(--text-secondary);
     line-height: 1.6;
 }
