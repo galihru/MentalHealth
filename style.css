@@ -554,6 +554,8 @@ footer {
   padding: 20px 0;
   text-align: center;
   justify-content: center;
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
 }
 
 /* Bottom Navigation */
