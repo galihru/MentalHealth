@@ -548,24 +548,9 @@ header {
     background: var(--text-secondary-light);
 }
 
-footer {
-  background: var(--nav-bg);
-  color: var(--text-secondary);
-  padding: 0;
-  text-align: center;
-  justify-content: center;
-  backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border);
-  position: fixed;
-  display: flex;
-  bottom: 0px;
-  width: -webkit-fill-available;
-}
-
-/* Bottom Navigation */
 .bottom-nav {
     position: fixed;
-    bottom: 26.59px;
+    bottom: 0;
     left: 0;
     right: 0;
     height: 70px;
