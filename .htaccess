@@ -1,14 +1,9 @@
 RewriteEngine On
 RewriteCond %{HTTPS} off
 RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-### activate mod_expires
 ExpiresActive On
-### Expire .gif's 1 month from when they're accessed
 ExpiresByType image/gif A2592000
-### Expire everything else 1 day from when it's last modified
-### (this uses the Alternative syntax)
 ExpiresDefault "modification plus 1 day"
-### Apply a Cache-Control header to index.html
 <Files index.html>
 Header append Cache-Control "public, must-revalidate"
 </Files>
