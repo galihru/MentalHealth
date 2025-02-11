@@ -106,6 +106,8 @@
     padding: 0;
     box-sizing: border-box;
     font-family: var(--font-sans);
+    font-size: 20px;
+    line-height: 1.6;
 }
 
 body {
@@ -138,10 +140,9 @@ body {
     --button-p-dark: #ffff;
     overflow: hidden;
     font-size: 20px;
-    line-height: 1.6; /* Improves readability */
+    line-height: 1.6;
 }
 
-/* Tema gelap saat body memiliki kelas .dark-theme */
 body.dark-theme {
     --primary: var(--primary-dark);
     --primary-gradient: var(--primary-gradient-dark);
