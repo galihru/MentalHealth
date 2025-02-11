@@ -106,7 +106,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: var(--font-sans);
-    font-size: 20px;
+    font-size: 14px;
     line-height: 1.6;
 }
 
@@ -139,7 +139,7 @@ body {
     --button-t: var(--button-t-light);
     --button-p-dark: #ffff;
     overflow: hidden;
-    font-size: 20px;
+    font-size: 14px;
     line-height: 1.6;
 }
 
@@ -168,7 +168,7 @@ body.dark-theme {
     --button-p: var(--button-p-dark);
     --button-t: var(--button-t-dark);
     overflow: hidden;
-    font-size: 20px;
+    font-size: 14px;
     line-height: 1.6; /* Improves readability */
 }
 
