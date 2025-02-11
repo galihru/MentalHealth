@@ -548,6 +548,14 @@ header {
     background: var(--text-secondary-light);
 }
 
+footer {
+  background: var(--nav-bg);
+  color: var(--text-secondary);
+  padding: 20px 0;
+  text-align: center;
+  justify-content: center;
+}
+
 /* Bottom Navigation */
 .bottom-nav {
     position: fixed;
