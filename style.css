@@ -1,5 +1,4 @@
 :root {
-    /* Light Theme Colors */
     --primary-light: #2563eb;
     --primary-gradient-light: linear-gradient(135deg, #2563eb, #4f46e5);
     --bg-light: #f8fafc;
@@ -22,8 +21,6 @@
     --background-cam-light: #cfcfcf;
     --button-p-light: #255181;
     --button-t-light: #ffffff;
-
-    /* Dark Theme Colors */
     --primary-dark: #60a5fa;
     --primary-gradient-dark: linear-gradient(135deg, #d2e6ff, #dee1ff);
     --bg-dark: #090909;
