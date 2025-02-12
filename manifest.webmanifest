@@ -1,0 +1,66 @@
+{
+    "id": "MentalHealth",
+    "name": "Mental Health App",
+    "short_name": "MentalHealth",
+    "description": "An app to support mental health and well-being.",
+    "start_url": "/MentalHealth",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#4CAF50",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "/logo/192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/logo/512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        },
+        {
+            "src": "/345677.png",
+            "sizes": "637x436",
+            "type": "image/png"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Notifikasi",
+            "short_name": "Notifikasi",
+            "description": "Notifikasi",
+            "url": "https://4211421036.github.io/MentalHealth#notifikasiModal",
+            "icons": [
+                {
+                    "src": "/MentalHealth/svgs/regular/bell.svg",
+                    "sizes": "131x150"
+                }
+            ]
+        },
+        {
+            "name": "Histori",
+            "short_name": "Histori",
+            "description": "Histori",
+            "url": "https://4211421036.github.io/MentalHealth#historyModal",
+            "icons": [
+                {
+                    "src": "/MentalHealth/svgs/solid/clock-rotate-left.svg",
+                    "sizes": "150x150"
+                }
+            ]
+        },
+        {
+            "name": "Grafik",
+            "short_name": "Grafik",
+            "description": "Grafik Pemantauan",
+            "url": "https://4211421036.github.io/MentalHealth#graphModal",
+            "icons": [
+                {
+                    "src": "/MentalHealth/svgs/solid/chart-line.svg",
+                    "sizes": "150x150"
+                }
+            ]
+        }
+    ]
+}

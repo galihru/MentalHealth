@@ -1,0 +1,2042 @@
+f<!doctype html>
+<html>
+<head faceid="">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Mental Health</title>
+    <meta name="description" content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta name="keywords" content="mental health, monitoring, health app, face analysis, emotion detection">
+    <meta name="author" content="GALIH RIDHO UTOMO and Ana Maulida">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Cache-Control" content="max-age=180, public, must-revalidate">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <link rel="canonical" href="https://4211421036.github.io/MentalHealth/">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="color-scheme" content="dark light" />
+    <meta property="og:title" content="Mental Health">
+    <meta property="og:description" content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta property="og:image" content="https://4211421036.github.io/g4lihru/987654567.png">
+    <meta property="og:url" content="https://4211421036.github.io/MentalHealth">
+    <meta property="og:image:width" content="425">
+    <meta property="og:image:height" content="425">
+    <meta property="og:type" content="website">
+    <meta http-equiv="default-style" content="Light Dark">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="id_ID">
+    <meta property="og:site_name" content="Mental Health">
+    <meta name="twitter:site" content="@ITBGRU">
+    <meta name="twitter:creator" content="@ITBGRU">
+    <meta name="twitter:domain" content="4211421036.github.io">
+    <meta name="twitter:url" content="https://4211421036.github.io/MentalHealth">
+    <meta name="twitter:image:src" content="https://4211421036.github.io/g4lihru/987654567.png">
+    <meta name="twitter:image:alt" content="Mental Health">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mental Health">
+    <meta name="twitter:description" content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta name="twitter:image" content="https://4211421036.github.io/g4lihru/987654567.png">
+    <link rel="preload" href="https://4211421036.github.io/g4lihru/987654567.png" as="image" type="image/x-icon">
+    <link rel="shortcut icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
+    <link rel="icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
+    <link rel="preload" href="https://4211421036.github.io/MentalHealth/style.css" as="style">
+    <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="all" onload='"all"!==media&&(media="none")'>
+    <link rel="stylesheet" href="https://4211421036.github.io/MentalHealth/style.css" media="all" onload='"all"!==media&&(media="none")'>
+    <link rel="manifest" href="https://4211421036.github.io/MentalHealth/manifest.webmanifest">
+    <link rel="apple-touch-icon" href="https://4211421036.github.io/g4lihru/987654567.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" crossorigin="anonymous" defer="defer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns" crossorigin="anonymous" defer="defer"></script>
+    <script type="text/javascript">
+        (function () {
+            window.stop = function () { return; };
+            function forceFavicon() {
+                var links = document.querySelectorAll("link[rel*='icon']");
+                links.forEach(function (link) {
+                    link.href = 'https://4211421036.github.io/g4lihru/987654567.png';
+                    link.as = 'image';
+                });
+                if (!links.length) {
+                    var link = document.createElement('link');
+                    link.rel = 'icon';
+                    link.href = 'https://4211421036.github.io/g4lihru/987654567.png';
+                    link.as = 'image';
+                    document.head.appendChild(link);
+                }
+            }
+            function preventLoadingIcon() {
+                forceFavicon();
+                if (window.chrome) {
+                    window.chrome.loadTimes = function () {
+                        return {
+                            firstPaintTime: 0,
+                            firstPaintAfterLoadTime: 0,
+                            finishLoadTime: 0,
+                            requestTime: performance.now()
+                        };
+                    };
+                }
+            }
+            preventLoadingIcon();
+            const events = ['load', 'DOMContentLoaded', 'readystatechange', 'beforeunload'];
+            events.forEach(function (event) {
+                window.addEventListener(event, preventLoadingIcon, true);
+            });
+            setInterval(preventLoadingIcon, 50);
+            document.addEventListener('visibilitychange', preventLoadingIcon);
+            window.addEventListener('pageshow', preventLoadingIcon);
+            window.addEventListener('focus', preventLoadingIcon);
+        })();
+    </script>
+    <noscript>
+        <meta http-equiv="refresh" content="10">
+        <style>
+            .js-required {
+                display: none;
+            }
+            .no-js-message {
+                display: block;
+                background: #ffeb3b;
+                padding: 1rem;
+                text-align: center;
+                margin: 1rem;
+                border-radius: 4px;
+            }
+        </style>
+    </noscript>
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            const metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
+            if (metaRefresh) {
+                metaRefresh.remove();
+            }
+        });
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "name": "Mental Health",
+          "operatingSystem": "ANDROID",
+          "applicationCategory": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": 5.0,
+            "ratingCount": 8864
+        {
+          "@context": "https://schema.org",
+          "@type": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "name": "Mental Health",
+          "operatingSystem": "ANDROID",
+          "applicationCategory": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": 5.0,
+            "ratingCount": 8864
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": 0,
+            "priceCurrency": "USD"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mental Health Face Recognition",
+            "url": "https://4211421036.github.io/MentalHealth/",
+            "description": "A mental health website using face recognition technology to provide personalized support.",
+            "author": [
+              {
+                "@type": "Person",
+                "name": "GALIH RIDHO UTOMO"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": 0,
+                "priceCurrency": "USD"
+              {
+                "@type": "Person",
+                "name": "Ana Maulida"
+              }
+            ],
+            "publisher": {
+              "@type": "Organization",
+              "name": "FMIPA UNNES"
+            }
+        }
+    </script>
+    <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Mental Health Face Recognition",
+    "url": "https://4211421036.github.io/MentalHealth/",
+    "description": "A mental health website using face recognition technology to provide personalized support.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "GALIH RIDHO UTOMO"
+      },
+      {
+        "@type": "Person",
+        "name": "Ana Maulida"
+      }
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "FMIPA UNNES"
+    }
+  }</script>
+</head>
+<body>
+    <div id="skeleton-container">
+        <header class="skeleton-header skeleton-item">
+            <div class="skeleton-headco">
+                <div class="skeleton-logo"></div>
+                <div class="skeleton-device"></div>
+            </div>
+            <div class="skeleton-controls">
+                <div class="skeleton-control-item"></div>
+                <div class="skeleton-control-item"></div>
+            </div>
+        </header>
+        <div class="skeleton-container skeleton-item"></div>
+        <nav class="skeleton-bottom-nav skeleton-item">
+            <div class="skeleton-nav-item active">
+                <div class="skeleton-nav-item-i"></div>
+                <div class="skeleton-nav-item-span"></div>
+            </div>
+            <div class="skeleton-nav-item">
+                <div class="skeleton-nav-item-i"></div>
+                <div class="skeleton-nav-item-span"></div>
+            </div>
+            <div class="skeleton-nav-item">
+                <div class="skeleton-nav-item-i"></div>
+                <div class="skeleton-nav-item-span"></div>
+            </div>
+        </nav>
+    </div>
+    <div role="meter" id="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" value="0"></div>
+    <div class="progress-container" role="progressbar" id="progress" aria-labelledby="progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" value="0" title="progress bar">
+        <div class="progress-bar" id="progress-bar"></div>
+    </div>
+    <noscript>
+        <div class="no-js-message">
+            <p>For a better experience, please enable JavaScript in your browser.</p>
+            <p>The page will be refreshed every 10 seconds to update the data.</p>
+        </div>
+    </noscript>
+    <div class="skip-link-wrapper">
+        <a href="#main-content" class="skip-link">Skip to main content</a>
+        <a href="#main-nav" class="skip-link">Skip to main navigation</a>
+    </div>
+    <header aria-label="Main Header">
+        <div class="headco">
+            <h1 class="logos">Mental Health</h1>
+            <device class="device" state="connected/failed/not found" role="button" aria-label="device" accesskey="c" aria-pressed="false">
+                <p role="text">Device Name</p>
+            </device>
+        </div>
+        <div class="controled">
+            <div class="ntf">
+                <div class="notif" data-page="notifikasi">
+                    <i class="fas fa-bell notification-icon" role="tooltip" title="Notifications"></i>
+                </div>
+                <p role="text" aria-hidden="true">Notifications</p>
+            </div>
+            <div class="thm">
+                <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="theme-toggle">
+                    <i class="fas fa-moon" role="tooltip" title="Theme"></i>
+                </button>
+                <p role="text" aria-hidden="true">Theme</p>
+            </div
+        </div>
+    </header>
+    <div class="container" role="main" id="main-content" aria-label="Main Content">
+        <div class="nocam" id="nocam">
+            <img class="camlog" src="https://4211421036.github.io/MentalHealth/nocam.png" alt="nocam" srcset="https://4211421036.github.io/MentalHealth/nocam@1x.png 1x, https://4211421036.github.io/MentalHealth/nocam@2x.png 2x, https://4211421036.github.io/MentalHealth/nocam@3x.png 3x" sizes="150px" width="150" height="148">
+        </div>
+        <video id="video" autoplay></video>
+        <canvas id="canvas"></canvas>
+    </div>
+    <nav class="bottom-nav" id="main-nav" role="navigation" aria-label="Main Navigation">
+        <div class="nav-item active" data-page="home" role="button" tabindex="0" accesskey="b" aria-pressed="false">
+            <i class="fas fa-home"></i>
+            <span role="tooltip">Home</span>
+        </div>
+        <div class="nav-item" data-page="graph" role="button" tabindex="0" accesskey="g" aria-pressed="false">
+            <i class="fas fa-chart-line"></i>
+            <span role="tooltip">Graphic</span>
+        </div>
+        <div class="nav-item" data-page="history" role="button" tabindex="0" accesskey="h">
+            <i class="fas fa-history"></i>
+            <span role="tooltip">History</span>
+        </div>
+    </nav>
+    <div class="modal" id="notifikasiModal" role="dialog" title="notifikasiModal">
+        <div class="modal-content">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title" id="notifikasiModalTitle">Notifications</h2>
+                <button class="close-btn" type="button" role="button" accesskey="x" aria-label="close-btn">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="nothing">
+                    <svg width="1028" height="1089" viewBox="0 0 1028 1089" fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M631 112C676.6 121.6 730 154.333 751 169.5C851.8 223.5 889.333 366.667 895.5 431.5C898.333 499.333 905.1 641.9 909.5 669.5C915 704 927 748.5 954.5 799C982 849.5 997.5 839.5 1014.5 864.5C1031.5 889.5 1028.5 898 1022.5 928.5C1017.7 952.9 986.167 967.333 971 971.5H653.5C653.333 971.167 651.2 976.9 644 1002.5C636.8 1028.1 600.667 1058.5 583.5 1070.5C572.5 1077.17 540.8 1090.1 502 1088.5C453.5 1086.5 427.5 1060.5 405 1040C387 1023.6 375.833 986.833 372.5 970.5C278.333 970.667 82.9 970.9 54.5 970.5C19 970 4 930.5 1 909.5C-2 888.5 7 875.5 15.5 862.5C24 849.5 31 859 68 808.5C97.6 768.1 114.333 700.667 119 672C121.667 645.5 127.5 568 129.5 470C131.5 372 164.333 301.167 180.5 278C200.833 243.5 262 166 344 132C363.396 123.958 381.002 117.688 397 112.804C400 79.1088 408 60 431.5 34C455 8 485.5 0.5 515.5 0.5C545.5 0.5 563 7 596 34C622.4 55.6 630.333 95 631 112Z"
+                            fill="#3C424E" />
+                        <ellipse cx="865.5" cy="275" rx="156.5" ry="155" fill="#3C424E" />
+                        <rect x="786.419" y="331.973" width="192.421" height="30.514" rx="15.257"
+                            transform="rotate(-45 786.419 331.973)" fill="white" />
+                        <rect width="192.421" height="30.514" rx="15.257"
+                            transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 943.639 332.062)" fill="white" />
+                        <path
+                            d="M505 96C478.6 95.6 450.667 100.167 440 102.5C446 63.5 478 37 529 43.5C569.8 48.7 584.667 84.6667 587 102C580 100.667 563.3 97.8 552.5 97C539 96 538 96.5 505 96Z"
+                            fill="white" />
+                        <path
+                            d="M501.782 975.536C466.941 976.123 430.077 969.423 416 966C423.918 1023.22 466.15 1062.1 533.456 1052.56C587.301 1044.93 606.921 992.164 610 966.734C600.762 968.69 578.722 972.896 564.469 974.069C546.653 975.536 545.333 974.803 501.782 975.536Z"
+                            fill="white" />
+                    </svg>
+                    <h2>No notification</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="cameraModal" role="dialog" title="camera request">
+        <div class="modal-content" id="contentModal">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Aktifkan Kamera</h2>
+                <button class="close-btn" type="button" role="button" aria-label="close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <h3>Aktifkan Camera buat Analisis Mental Health</h3>
+                <p>Kami membutuhkan akses kamera untuk melakukan analisis mental health. Jika sudah diizinkan silakan tekan button Yaa atau button &times;. Bisa juga ditutup dengan swipe pemberitahuan ini</p>
+                <button class="btn btn-primary" id="enableCamera" title="Yaa" type="button" role="button">Yaa</button>
+                <button class="btn btn-secondary" id="disableCamera" title="No" type="button" role="button">Tidak Aktifkan Camera</button>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="deviceModal" role="dialog" title="deviceModal">
+        <div class="modal-content">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Device</h2>
+                <button class="close-btn" role="button" type="button" aria-label="close-btn" accesskey="x">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="historyModal" role="dialog" title="historyModal">
+        <div class="modal-content">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Monitoring History</h2>
+                <button class="close-btn" role="button" type="button" aria-label="close-btn"
+                    accesskey="x">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="hr">
+                    <h1>Realtime Sensor</h1>
+                    <i class="fa-solid fa-circle-info" data-modal="sensor"></i>
+                </div>
+                <div class="cards-container">
+                    <div class="metric-card green">
+                        <div class="metric-label">Heart Rate</div>
+                        <div class="metric-value">95</div>
+                        <div class="metric-label">bpm</div>
+                    </div>
+                    <div class="metric-card orange">
+                        <div class="metric-label">Blood Pressure</div>
+                        <div class="metric-value">121/80</div>
+                        <div class="metric-label">mmHg</div>
+                    </div>
+                    <div class="metric-card purple">
+                        <div class="metric-label">Sleep</div>
+                        <div class="metric-value">6.8</div>
+                        <div class="metric-label">hr/day</div>
+                    </div>
+                </div>
+                <div class="hr">
+                    <h1>Emotion Metric</h1>
+                    <i class="fa-solid fa-circle-info" data-modal="emosional"></i>
+                </div>
+                <div class="cards-container">
+                    <div class="metric-card green">
+                        <div class="metric-label">Happy</div>
+                        <div class="metric-value" id="happy">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                    <div class="metric-card orange">
+                        <div class="metric-label">Sad</div>
+                        <div class="metric-value" id="sad">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                    <div class="metric-card purple">
+                        <div class="metric-label">Angry</div>
+                        <div class="metric-value" id="angry">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                    <div class="metric-card blue">
+                        <div class="metric-label">Neutral</div>
+                        <div class="metric-value" id="neutral">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                    <div class="metric-card red">
+                        <div class="metric-label">Surprised</div>
+                        <div class="metric-value" id="surprised">-</div>
+                        <div class="metric-label">%</div>
+                    </div>
+                </div>
+                <h1>Conclusion for you</h1>
+                <div class="conclusion-box">
+                    <p id="conclusion">Waiting for data...</p>
+                </div>
+                <h2>Advice for you</h2>
+                <div class="advice-box">
+                    <p id="advice">Waiting for data...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="graphModal" role="dialog" title="graphModal">
+        <div class="modal-content">
+            <div class="swipe-indicator"></div>
+            <div class="modal-header">
+                <h2 class="modal-title">Monitoring Chart</h2>
+                <button class="close-btn" role="button" type="button" aria-label="close-btn" accesskey="x">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="graph-card">
+                    <div class="hr">
+                        <div class="graph-title">Heart Rate Trend</div>
+                        <i class="fa-solid fa-circle-info" data-modal="heartrate"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="heartRateChart"></canvas>
+                    </div>
+                    <div class="time-range">
+                        <button type="button" class="time-btn" accesskey="d" aria-label="time-btn">1D</button>
+                        <button type="button" class="time-btn active" accesskey="w" aria-label="time-btn">1W</button>
+                        <button type="button" class="time-btn" accesskey="m" aria-label="time-btn">1M</button>
+                        <button type="button" class="time-btn" accesskey="y" aria-label="time-btn">1Y</button>
+                    </div>
+                </div>
+
+                <div class="graph-card">
+                    <div class="hr">
+                        <div class="graph-title">Blood Pressure Trend</div>
+                        <i class="fa-solid fa-circle-info" data-modal="blood"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="bpChart"></canvas>
+                    </div>
+                    <div class="time-range">
+                        <button class="time-btn" type="button" accesskey="d" aria-label="d">1D</button>
+                        <button type="button" class="time-btn active" accesskey="w" aria-label="time-btn">1W</button>
+                        <button class="time-btn" type="button" accesskey="m" aria-label="m">1M</button>
+                        <button class="time-btn" type="button" accesskey="y" aria-label="y">1Y</button>
+                    </div>
+                </div>
+                <div class="graph-card">
+                    <div class="hr">
+                        <div class="graph-title">Voice Analysis</div>
+                        <i class="fa-solid fa-circle-info" data-modal="voice"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="voidChart"></canvas>
+                    </div>
+                    <div class="time-range">
+                        <button class="time-btn" type="button" accesskey="d" aria-label="d">1D</button>
+                        <button type="button" class="time-btn active" accesskey="w" aria-label="time-btn">1W</button>
+                        <button class="time-btn" type="button" accesskey="m" aria-label="m">1M</button>
+                        <button class="time-btn" type="button" accesskey="y" aria-label="y">1Y</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('progress');
+            const meter = document.getElementById('meter');
+
+            let progress = 0;
+
+            function updateAccessibility() {
+                progressContainer.setAttribute('aria-valuenow', progress);
+                progressContainer.setAttribute('value', progress);
+                meter.setAttribute('aria-valuenow', progress);
+            }
+
+            // Initial progress
+            setTimeout(() => {
+                progress = 30;
+                progressBar.style.width = `${progress}%`;
+                updateAccessibility();
+            }, 10);
+
+            // Simulasi loading progress
+            const loadingInterval = setInterval(() => {
+                if (progress < 90) {
+                    progress += Math.random() * 15;
+                    if (progress > 100) progress = 100; // Pastikan tidak lebih dari 100
+                    progressBar.style.width = `${progress}%`;
+                    updateAccessibility();
+                }
+            }, 300);
+
+            window.addEventListener('load', () => {
+                clearInterval(loadingInterval);
+                progress = 100;
+                progressBar.style.width = '100%';
+                updateAccessibility();
+
+                setTimeout(() => {
+                    progress = 0;
+                    progressBar.style.width = '0';
+                    updateAccessibility();
+                    console.log("%c Profile of this website creator!", "color:#2dc9ac;")
+                    const profiles = {
+                            "GALIH RIDHO UTOMO": {
+
+                                Mail: "g4lihru@students.unnes.ac.id",
+                            },                
+                            "Ana Maulida": {
+
+                                Mail: "anamaulida@students.unnes.ac.id",
+                            },
+                        };
+                    const tableString = console.table(profiles);
+                    console.log("Follow We!\nGALIH RIDHO UTOMO https://instagram.com/galih_ridho_utomo\nAna Maulida https://instagram.com/anma1505")
+                    progressBar.parentNode.removeChild(progressBar);
+                }, 500);
+            });
+        });
+    </script>
+    <script>
+        class CameraPermissionModal {
+            constructor() {
+                this.modal = document.getElementById('cameraModal');
+                this.nocamElement = document.getElementById('nocam');
+                this.modalContent = document.getElementById('contentModal');
+
+                // Set initial transform style
+                if (this.modalContent) {
+                    this.modalContent.style.transform = 'translateY(0px)';
+                }
+
+                this.checkCameraPermission();
+            }
+
+            async checkCameraPermission() {
+                try {
+                    const result = await navigator.permissions.query({ name: 'camera' });
+                    this.handlePermissionState(result.state);
+                } catch (error) {
+                    try {
+                        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                        this.handlePermissionGranted();
+                        stream.getTracks().forEach(track => track.stop());
+                    } catch (err) {
+                        this.handlePermissionDenied();
+                    }
+                }
+            }
+
+            handlePermissionState(state) {
+                if (state === 'granted') {
+                    this.handlePermissionGranted();
+                } else {
+                    this.handlePermissionDenied();
+                }
+            }
+
+            handlePermissionGranted() {
+                localStorage.setItem('cameraPermissionGranted', 'true');
+                this.hideElements();
+                // Reload halaman setelah izin diberikan
+
+            }
+
+            handlePermissionDenied() {
+                localStorage.setItem('cameraPermissionGranted', 'false');
+                this.showElements();
+                this.initializeModal();
+            }
+
+            hideElements() {
+                if (this.modal) this.modal.style.display = 'none';
+                if (this.nocamElement) this.nocamElement.style.display = 'none';
+            }
+
+            showElements() {
+                if (this.modal) this.modal.style.display = 'block';
+                if (this.modalContent) {
+                    this.modalContent.style.transform = 'translateY(0px)';
+                }
+            }
+
+            initializeModal() {
+                if (!this.modal) return;
+
+                this.modalContent = document.getElementById('contentModal');
+                this.modalBody = this.modal.querySelector('.modal-body');
+                this.closeBtn = this.modal.querySelector('.close-btn');
+
+                if (this.modalContent) {
+                    this.modalContent.style.transform = 'translateY(0px)';
+                }
+
+                this.setupSwipeHandling();
+                this.setupButtons();
+            }
+
+            setupSwipeHandling() {
+                let startY = 0;
+                let currentY = 0;
+
+                this.modalContent.addEventListener('touchstart', (e) => {
+                    startY = e.touches[0].clientY;
+                });
+
+                this.modalContent.addEventListener('touchmove', (e) => {
+                    currentY = e.touches[0].clientY;
+                    const diff = currentY - startY;
+                    if (diff > 0) this.modalContent.style.transform = `translateY(${diff}px)`;
+                });
+
+                this.modalContent.addEventListener('touchend', () => {
+                    const diff = currentY - startY;
+                    if (diff > 150) {
+                        this.requestCameraPermission();
+                        // Reload setelah swipe
+
+                    } else {
+                        this.modalContent.style.transform = 'translateY(0px)';
+                    }
+                });
+            }
+
+            setupButtons() {
+                const enableBtn = document.getElementById('enableCamera');
+                const disableBtn = document.getElementById('disableCamera');
+
+                enableBtn?.addEventListener('click', () => {
+                    this.requestCameraPermission();
+                    // Reload setelah mengklik enable
+
+                });
+
+                disableBtn?.addEventListener('click', () => {
+                    localStorage.setItem('cameraPermissionGranted', 'false');
+                    this.showElements();
+                    this.hideModal();
+                    // Reload setelah mengklik disable
+
+                });
+
+                this.closeBtn?.addEventListener('click', () => {
+                    this.requestCameraPermission();
+                    // Reload setelah mengklik close
+
+                });
+            }
+
+            async requestCameraPermission() {
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                    this.handlePermissionGranted();
+                    stream.getTracks().forEach(track => track.stop());
+                } catch (error) {
+                    console.error('Izin kamera ditolak:', error);
+                    this.handlePermissionDenied();
+                }
+            }
+
+            hideModal() {
+                if (this.modal) this.modal.style.display = 'none';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => new CameraPermissionModal());
+    </script>
+    <script>
+        // Add smooth scrolling for skip links
+        document.querySelectorAll('.skip-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    targetElement.setAttribute('tabindex', '-1');
+                    targetElement.focus();
+
+                    // Remove tabindex after focus
+                    targetElement.addEventListener('blur', function () {
+                        this.removeAttribute('tabindex');
+                    }, { once: true });
+
+                    // Smooth scroll to the element
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('https://4211421036.github.io/MentalHealth/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
+
+    <script>
+        window.onload = function () {
+            const skeletonContainer = document.getElementById('skeleton-container');
+            skeletonContainer.parentNode.removeChild(skeletonContainer);
+        };
+        // face-analysis.js
+        const videoElement = document.getElementById('video');
+        const canvasElement = document.getElementById('canvas');
+        const canvasCtx = canvasElement.getContext('2d');
+        let lastFaceID = null;
+
+        // Fungsi hash sederhana untuk generate FaceID
+        function djb2Hash(str) {
+            let hash = 5381;
+            for (let i = 0; i < str.length; i++) {
+                hash = (hash * 33) ^ str.charCodeAt(i);
+            }
+            return hash >>> 0; // Konversi ke unsigned 32-bit integer
+        }
+
+        // Fungsi untuk mengubah landmark wajah menjadi hash unik
+        function generateFaceID(landmarks) {
+            // Normalisasi koordinat landmark dengan presisi 4 digit desimal
+            let hashString = landmarks.map(lm =>
+                lm.x.toFixed(4) +
+                lm.y.toFixed(4) +
+                lm.z.toFixed(4)
+            ).join('');
+
+            return djb2Hash(hashString).toString(16); // Konversi ke hexadecimal
+        }
+
+        // Konfigurasi Threshold (Berdasarkan penelitian)
+        const EMOTION_THRESHOLDS = {
+            HAPPY: 0.65,
+            SAD: 0.6,
+            ANGRY: 0.55,
+            SURPRISED: 0.5,
+            NEUTRAL: 0.7
+        };
+
+        // Inisialisasi Face Mesh
+        const faceMesh = new FaceMesh({
+            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`
+        });
+
+        faceMesh.setOptions({
+            maxNumFaces: 1,
+            refineLandmarks: true,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5
+        });
+
+        // Fungsi Utama Deteksi Emosi
+        function analyzeEmotions(landmarks) {
+            const emotions = {
+                happy: calculateHappiness(landmarks),
+                sad: calculateSadness(landmarks),
+                angry: calculateAnger(landmarks),
+                surprised: calculateSurprise(landmarks),
+                neutral: calculateNeutral(landmarks)
+            };
+
+            // Normalisasi ke persentase
+            const total = Object.values(emotions).reduce((a, b) => a + b, 0);
+            Object.keys(emotions).forEach(key => {
+                emotions[key] = (emotions[key] / total * 100).toFixed(1);
+            });
+
+            return emotions;
+        }
+
+        // Perhitungan Berdasarkan Action Units (Berdasarkan penelitian)
+        function calculateHappiness(landmarks) {
+            // AU12 - Lip Corner Puller (Frontiers in Psychology 2022)
+            const lipCornerLeft = landmarks[61];
+            const lipCornerRight = landmarks[291];
+            const lipStretch = Math.hypot(
+                lipCornerRight.x - lipCornerLeft.x,
+                lipCornerRight.y - lipCornerLeft.y
+            );
+
+            // AU6 - Cheek Raiser (IEEE TAFFC 2021)
+            const cheekLeft = landmarks[123];
+            const eyeLeft = landmarks[159];
+            const cheekRaiseLeft = eyeLeft.y - cheekLeft.y;
+
+            if (!landmarks[61] || !landmarks[291] || !landmarks[123] || !landmarks[159]) {
+                return 0;
+            }
+
+            return Math.min(1, lipStretch * 2 + cheekRaiseLeft * 3);
+        }
+
+        function calculateSadness(landmarks) {
+            // AU15 - Lip Corner Depressor (IEEE TAFFC 2021)
+            const lipCornerLeft = landmarks[61];
+            const lipBottom = landmarks[17];
+            const lipDepression = lipBottom.y - lipCornerLeft.y;
+
+            // AU1 - Inner Brow Raiser (Frontiers in Psychology 2022)
+            const browInnerLeft = landmarks[105];
+            const browInnerRight = landmarks[334];
+            const browRaise = (browInnerLeft.y + browInnerRight.y) / 2;
+
+            return Math.min(1, lipDepression * 1.5 + browRaise * 2);
+        }
+
+        function calculateAnger(landmarks) {
+            // AU4 - Brow Lowerer (IEEE TAFFC 2021)
+            const browOuterLeft = landmarks[46];
+            const browInnerLeft = landmarks[105];
+            const browLowerLeft = browInnerLeft.y - browOuterLeft.y;
+
+            // AU23 - Lip Tightener
+            const lipTop = landmarks[0];
+            const lipBottom = landmarks[17];
+            const lipCompression = lipBottom.y - lipTop.y;
+
+            return Math.min(1, browLowerLeft * 2 + lipCompression * 1.2);
+        }
+
+        function calculateSurprise(landmarks) {
+            // AU5 - Upper Lid Raiser
+            const eyelidLeft = landmarks[159];
+            const eyeLeft = landmarks[145];
+            const eyeOpenness = eyeLeft.y - eyelidLeft.y;
+
+            // AU26 - Jaw Drop
+            const chin = landmarks[152];
+            const nose = landmarks[4];
+            const jawDrop = chin.y - nose.y;
+
+            return Math.min(1, eyeOpenness * 2 + jawDrop * 0.8);
+        }
+
+        function calculateNeutral(landmarks) {
+            // Menghitung deviasi dari posisi netral
+            let deviation = 0;
+            const neutralFeatures = [
+                [152, 4],  // Chin to nose
+                [61, 291], // Lip corners
+                [105, 334] // Brows
+            ];
+
+            neutralFeatures.forEach(([i1, i2]) => {
+                deviation += Math.hypot(
+                    landmarks[i1].x - landmarks[i2].x,
+                    landmarks[i1].y - landmarks[i2].y
+                );
+            });
+
+            return Math.max(0, 1 - deviation * 2);
+        }
+
+        // Analisis Kesehatan Mental (Berdasarkan IEEE Transactions on Affective Computing)
+        function getMentalHealthConclusion(emotions) {
+            const { happy, sad, angry, surprised, neutral } = emotions;
+
+            if (sad > 40 && happy < 20 && neutral < 30) {
+                return {
+                    conclusion: "Potensi gejala depresi terdeteksi",
+                    advice: "Rekomendasi: Konsultasi dengan profesional kesehatan mental. Pola emosi menunjukkan tanda-tanda depresi.\nKunjungi Media Sosial Berikut Untuk Berkonsultasi\n https://www.instagram.com/peercounselor.unnes?igsh=MXhodHc0bmhpdGdnag=="
+                };
+            }
+
+            if (angry > 35 && happy < 25) {
+                return {
+                    conclusion: "Tingkat stres tinggi terdeteksi",
+                    advice: "Rekomendasi: Lakukan teknik relaksasi dan perhatikan pola tidur."
+                };
+            }
+
+            if (neutral > 60) {
+                return {
+                    conclusion: "Emosi stabil",
+                    advice: "Pertahankan keseimbangan emosional. Tidak terdeteksi masalah kesehatan mental signifikan."
+                };
+            }
+
+            return {
+                conclusion: "Kondisi emosional normal",
+                advice: "Tidak terdeteksi gangguan mental utama. Tetap pantau kesehatan emosi Anda."
+            };
+        }
+
+        function autoLinkify(text) {
+            return text.replace(/(https?:\/\/[^\s]+)/g, url => `<a href='${url}' target='_blank' title='${url}'>${url}</a>`);
+        }
+
+        async function updateUI(emotions) {
+            Object.entries(emotions).forEach(([emotion, value]) => {
+                document.getElementById(emotion).textContent = value;
+            });
+
+            const mentalHealth = getMentalHealthConclusion(emotions);
+            document.getElementById("conclusion").textContent = mentalHealth.conclusion;
+            document.getElementById("advice").innerHTML = autoLinkify(mentalHealth.advice);
+        }
+
+        // Update UI
+        function updateUI(emotions) {
+            Object.entries(emotions).forEach(([emotion, value]) => {
+                document.getElementById(emotion).textContent = value;
+            });
+
+            const mentalHealth = getMentalHealthConclusion(emotions);
+            document.getElementById('conclusion').textContent = mentalHealth.conclusion;
+            document.getElementById('advice').textContent = mentalHealth.advice;
+        }
+
+        // Face Mesh Handler
+        faceMesh.onResults((results) => {
+            canvasCtx.save();
+            canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+            canvasCtx.drawImage(results.image, 0, 0, canvasElement.width, canvasElement.height);
+
+            let currentFaceID = '';
+            if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
+                const landmarks = results.multiFaceLandmarks[0];
+                currentFaceID = generateFaceID(landmarks);
+
+                // Update FaceID hanya jika berbeda dengan sebelumnya
+                if (currentFaceID !== lastFaceID) {
+                    document.head.setAttribute('FaceID', currentFaceID);
+                    lastFaceID = currentFaceID;
+                }
+
+                const emotions = analyzeEmotions(landmarks);
+                updateUI(emotions);
+
+                results.multiFaceLandmarks.forEach(landmarks => {
+                    drawLandmarks(landmarks);
+                });
+            } else {
+                // Jika tidak ada wajah terdeteksi
+                if (lastFaceID !== null) {
+                    document.head.setAttribute('FaceID', '');
+                    lastFaceID = null;
+                }
+            }
+
+            canvasCtx.restore();
+        });
+
+        // Fungsi gambar landmark
+        function drawLandmarks(landmarks) {
+            canvasCtx.fillStyle = '#00FF00';
+            landmarks.forEach(landmark => {
+                const x = landmark.x * canvasElement.width;
+                const y = landmark.y * canvasElement.height;
+
+                canvasCtx.beginPath();
+                canvasCtx.arc(x, y, 1, 0, 1 * Math.PI); // Radius diperkecil
+                canvasCtx.fill();
+            });
+        }
+
+        // Inisialisasi Kamera
+        const camera = new Camera(videoElement, {
+            onFrame: async () => {
+                await faceMesh.send({ image: videoElement });
+            },
+            width: 640,  // Diubah ke resolusi yang lebih realistis
+            height: 480
+        });
+
+        camera.start();
+
+        const VOICE_ANALYSIS_CONFIG = {
+            FREQUENCY_THRESHOLDS: {
+                LOW: 85,
+                NORMAL: 250,
+                HIGH: 400
+            },
+            SPEECH_RATE: {
+                SLOW: 120,
+                NORMAL: 150,
+                RAPID: 200
+            },
+            JITTER_THRESHOLD: 0.015,
+            SHIMMER_THRESHOLD: 0.065,
+            PAUSE_THRESHOLD: 0.5,
+            SAMPLE_RATE: 44100
+        };
+
+        // Configuration for data sources
+const DATA_CONFIG = {
+    ENDPOINTS: {
+        GSR: 'https://4211421036.github.io/MentalHealth/GSR.json',
+        MAX30102: 'https://4211421036.github.io/MentalHealth/MAX30102.json',
+        BH1750: 'https://4211421036.github.io/MentalHealth/BH1750.json'
+    },
+    REFRESH_INTERVAL: 1000, // 5 seconds
+    DB_NAME: 'healthMetricsDB',
+    DB_VERSION: 1
+};
+
+// IndexedDB setup
+let db;
+
+async function initDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DATA_CONFIG.DB_NAME, DATA_CONFIG.DB_VERSION);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+            db = request.result;
+            resolve(db);
+        };
+        
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            
+            // Create stores for each sensor
+            if (!db.objectStoreNames.contains('gsr_data')) {
+                db.createObjectStore('gsr_data', { keyPath: 'timestamp' });
+            }
+            if (!db.objectStoreNames.contains('max30102_data')) {
+                db.createObjectStore('max30102_data', { keyPath: 'timestamp' });
+            }
+            if (!db.objectStoreNames.contains('bh1750_data')) {
+                db.createObjectStore('bh1750_data', { keyPath: 'timestamp' });
+            }
+        };
+    });
+}
+
+        // Data fetching and storage
+async function fetchAndStoreData() {
+    try {
+        const responses = await Promise.all([
+            fetch(DATA_CONFIG.ENDPOINTS.GSR),
+            fetch(DATA_CONFIG.ENDPOINTS.MAX30102),
+            fetch(DATA_CONFIG.ENDPOINTS.BH1750)
+        ]);
+        
+        const [gsrData, max30102Data, bh1750Data] = await Promise.all(
+            responses.map(response => response.json())
+        );
+        
+        // Store in IndexedDB
+        const transaction = db.transaction(['gsr_data', 'max30102_data', 'bh1750_data'], 'readwrite');
+        
+        transaction.objectStore('gsr_data').add(gsrData);
+        transaction.objectStore('max30102_data').add(max30102Data);
+        transaction.objectStore('bh1750_data').add(bh1750Data);
+        
+        return { gsrData, max30102Data, bh1750Data };
+    } catch (error) {
+        console.error('Error fetching data:', error);
+        return null;
+    }
+}
+
+        // Time range handling
+function getTimeRange(range) {
+    const now = new Date();
+    const ranges = {
+        '1D': new Date(now - 24 * 60 * 60 * 1000),
+        '1W': new Date(now - 7 * 24 * 60 * 60 * 1000),
+        '1M': new Date(now - 30 * 24 * 60 * 60 * 1000),
+        '1Y': new Date(now - 365 * 24 * 60 * 60 * 1000)
+    };
+    return ranges[range];
+}
+
+        async function getDataInRange(storeName, startDate) {
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction(storeName, 'readonly');
+        const store = transaction.objectStore(storeName);
+        const range = IDBKeyRange.lowerBound(startDate.toISOString());
+        const request = store.getAll(range);
+        
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+
+        // Analyze mental health indicators
+        function analyzeMentalHealthIndicators(metrics) {
+            const indicators = {
+                depression: 0,
+                anxiety: 0,
+                normal: 0,
+                ptsd: 0,
+                bipolar: 0,
+                schizophrenia: 0
+            };
+
+            // Depression indicators
+            if (metrics.frequency < VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.LOW &&
+                metrics.speechRate < VOICE_ANALYSIS_CONFIG.SPEECH_RATE.SLOW &&
+                metrics.pausePatterns.longPauses > 3) {
+                indicators.depression += 0.4;
+            }
+
+            // Anxiety indicators
+            if (metrics.frequency > VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.HIGH &&
+                metrics.speechRate > VOICE_ANALYSIS_CONFIG.SPEECH_RATE.RAPID &&
+                metrics.jitter > VOICE_ANALYSIS_CONFIG.JITTER_THRESHOLD) {
+                indicators.anxiety += 0.4;
+            }
+
+            // PTSD indicators
+            if (metrics.frequency > VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.HIGH &&
+                metrics.shimmer > VOICE_ANALYSIS_CONFIG.SHIMMER_THRESHOLD &&
+                metrics.pausePatterns.longPauses > 2) {
+                indicators.ptsd += 0.4;
+            }
+
+            // Bipolar indicators
+            if (metrics.frequency > VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.HIGH &&
+                metrics.speechRate > VOICE_ANALYSIS_CONFIG.SPEECH_RATE.RAPID &&
+                metrics.jitter > VOICE_ANALYSIS_CONFIG.JITTER_THRESHOLD &&
+                metrics.shimmer > VOICE_ANALYSIS_CONFIG.SHIMMER_THRESHOLD) {
+                indicators.bipolar += 0.4;
+            }
+
+            // Schizophrenia indicators
+            if (metrics.frequency < VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.LOW &&
+                metrics.speechRate < VOICE_ANALYSIS_CONFIG.SPEECH_RATE.SLOW &&
+                metrics.jitter > VOICE_ANALYSIS_CONFIG.JITTER_THRESHOLD &&
+                metrics.shimmer > VOICE_ANALYSIS_CONFIG.SHIMMER_THRESHOLD) {
+                indicators.schizophrenia += 0.4;
+            }
+
+            // Normal range indicators
+            if (metrics.frequency >= VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.LOW &&
+                metrics.frequency <= VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.HIGH &&
+                metrics.speechRate >= VOICE_ANALYSIS_CONFIG.SPEECH_RATE.SLOW &&
+                metrics.speechRate <= VOICE_ANALYSIS_CONFIG.SPEECH_RATE.RAPID) {
+                indicators.normal += 0.4;
+            }
+
+            // Normalize values
+            const total = Object.values(indicators).reduce((a, b) => a + b, 0);
+            if (total > 0) {
+                Object.keys(indicators).forEach(key => {
+                    indicators[key] = indicators[key] / total;
+                });
+            }
+
+            return indicators;
+        }
+
+        // Global variables
+        let heartRateChart = null;
+        let bpChart = null;
+        let voiceChart = null;
+        let audioContext;
+        let analyzer;
+        let mediaRecorder;
+        let audioData = [];
+        let isRecording = false;
+
+        // Calculate fundamental frequency using autocorrelation
+        function calculateFundamentalFrequency(dataArray) {
+            const bufferSize = dataArray.length;
+            const correlations = new Float32Array(bufferSize);
+
+            // Calculate autocorrelation
+            for (let lag = 0; lag < bufferSize; lag++) {
+                let correlation = 0;
+                for (let i = 0; i < bufferSize - lag; i++) {
+                    correlation += dataArray[i] * dataArray[i + lag];
+                }
+                correlations[lag] = correlation;
+            }
+
+            // Find peaks in autocorrelation
+            let peakLag = -1;
+            let peakCorrelation = 0;
+            for (let lag = 30; lag < bufferSize / 2; lag++) {
+                if (correlations[lag] > peakCorrelation) {
+                    peakCorrelation = correlations[lag];
+                    peakLag = lag;
+                }
+            }
+
+            // Convert lag to frequency
+            return peakLag ? VOICE_ANALYSIS_CONFIG.SAMPLE_RATE / peakLag : 0;
+        }
+
+        // Calculate speech rate from audio data
+        function calculateSpeechRate(dataArray) {
+            let crossings = 0;
+            for (let i = 1; i < dataArray.length; i++) {
+                if ((dataArray[i] >= 0 && dataArray[i - 1] < 0) ||
+                    (dataArray[i] < 0 && dataArray[i - 1] >= 0)) {
+                    crossings++;
+                }
+            }
+
+            const duration = dataArray.length / VOICE_ANALYSIS_CONFIG.SAMPLE_RATE;
+            const estimatedRate = (crossings / 2) * (60 / duration);
+
+            return Math.min(VOICE_ANALYSIS_CONFIG.SPEECH_RATE.RAPID,
+                Math.max(VOICE_ANALYSIS_CONFIG.SPEECH_RATE.SLOW,
+                    estimatedRate / 2.5));
+        }
+
+        // Calculate jitter (frequency variation)
+        function calculateJitter(dataArray) {
+            let jitterSum = 0;
+            let periods = [];
+
+            for (let i = 1; i < dataArray.length - 1; i++) {
+                if (dataArray[i] > dataArray[i - 1] && dataArray[i] > dataArray[i + 1]) {
+                    periods.push(i);
+                }
+            }
+
+            for (let i = 1; i < periods.length; i++) {
+                const periodDiff = Math.abs(periods[i] - periods[i - 1]);
+                jitterSum += periodDiff;
+            }
+
+            return periods.length > 1 ? jitterSum / (periods.length - 1) / VOICE_ANALYSIS_CONFIG.SAMPLE_RATE : 0;
+        }
+
+        // Calculate shimmer (amplitude variation)
+        function calculateShimmer(dataArray) {
+            let shimmerSum = 0;
+            let peaks = [];
+
+            for (let i = 1; i < dataArray.length - 1; i++) {
+                if (Math.abs(dataArray[i]) > Math.abs(dataArray[i - 1]) &&
+                    Math.abs(dataArray[i]) > Math.abs(dataArray[i + 1])) {
+                    peaks.push(Math.abs(dataArray[i]));
+                }
+            }
+
+            for (let i = 1; i < peaks.length; i++) {
+                shimmerSum += Math.abs(peaks[i] - peaks[i - 1]) / Math.max(peaks[i], peaks[i - 1]);
+            }
+
+            return peaks.length > 1 ? shimmerSum / (peaks.length - 1) : 0;
+        }
+
+        // Analyze pause patterns
+        function analyzePausePatterns(dataArray) {
+            let silentPeriods = 0;
+            let isSilent = false;
+            let silentFrames = 0;
+            const silenceThreshold = 0.01;
+
+            for (let i = 0; i < dataArray.length; i++) {
+                if (Math.abs(dataArray[i]) < silenceThreshold) {
+                    silentFrames++;
+                    if (!isSilent && silentFrames > VOICE_ANALYSIS_CONFIG.PAUSE_THRESHOLD * VOICE_ANALYSIS_CONFIG.SAMPLE_RATE) {
+                        isSilent = true;
+                        silentPeriods++;
+                    }
+                } else {
+                    silentFrames = 0;
+                    isSilent = false;
+                }
+            }
+
+            return {
+                longPauses: silentPeriods
+            };
+        }
+
+        // Extract voice metrics
+        function extractVoiceMetrics(dataArray) {
+            return {
+                frequency: calculateFundamentalFrequency(dataArray),
+                speechRate: calculateSpeechRate(dataArray),
+                jitter: calculateJitter(dataArray),
+                shimmer: calculateShimmer(dataArray),
+                pausePatterns: analyzePausePatterns(dataArray)
+            };
+        }
+
+        // Start continuous analysis
+        function startContinuousAnalysis() {
+            const dataArray = new Float32Array(analyzer.frequencyBinCount);
+
+            function analyze() {
+                analyzer.getFloatTimeDomainData(dataArray);
+                const voiceMetrics = extractVoiceMetrics(dataArray);
+                const indicators = analyzeMentalHealthIndicators(voiceMetrics);
+                updateVoiceChart(indicators);
+                requestAnimationFrame(analyze);
+            }
+
+            analyze();
+        }
+
+        // Navigation and Modal Code
+        const navItems = document.querySelectorAll('.nav-item');
+        const modals = document.querySelectorAll('.modal');
+        const closeBtns = document.querySelectorAll('.close-btn');
+        const timeButtons = document.querySelectorAll('.time-btn');
+        const currentFaceID = document.documentElement.getAttribute('FaceID');
+        // Bluetooth Handling
+        const deviceElement = document.querySelector('.device');
+        const deviceModal = document.getElementById('deviceModal');
+        const modalBody = deviceModal.querySelector('.modal-body');
+        const modalBodyID = document.getElementById('modalBody');
+        let bluetoothDevice = null;
+
+        // Tambahkan ini di bagian atas kode JS
+        const notifIcon = document.querySelector('.notif');
+        const notifikasiModal = document.getElementById('notifikasiModal');
+
+        // Handle klik ikon notifikasi
+        notifIcon.addEventListener('click', () => {
+            notifikasiModal.classList.add('show');
+        });
+
+        // Cek dukungan Web Bluetooth API
+        if (!navigator.bluetooth) {
+            deviceElement.setAttribute('state', 'not found');
+            console.error('Browser tidak mendukung Web Bluetooth API');
+        }
+
+        // Handle klik device
+        deviceElement.addEventListener('click', async () => {
+            deviceModal.classList.add('show');
+            await scanDevices();
+        });
+
+        // Chart updates
+function updateCharts(timeRange) {
+    const startDate = getTimeRange(timeRange);
+    
+    Promise.all([
+        getDataInRange('gsr_data', startDate),
+        getDataInRange('max30102_data', startDate),
+        getDataInRange('bh1750_data', startDate)
+    ]).then(([gsrData, max30102Data, bh1750Data]) => {
+        // Update Heart Rate Chart
+        heartRateChart.data.labels = max30102Data.map(d => new Date(d.timestamp));
+        heartRateChart.data.datasets[0].data = max30102Data.map(d => d.bpm);
+        heartRateChart.update();
+        
+        // Update Blood Pressure Chart (using GSR as proxy for demonstration)
+        bpChart.data.labels = gsrData.map(d => new Date(d.timestamp));
+        bpChart.data.datasets[0].data = gsrData.map(d => d.tonic);
+        bpChart.data.datasets[1].data = gsrData.map(d => d.phasic);
+        bpChart.update();
+        
+        // Update Voice Chart (using BH1750 as additional metric)
+        voiceChart.data.labels = bh1750Data.map(d => new Date(d.timestamp));
+        voiceChart.data.datasets[0].data = bh1750Data.map(d => d.lux);
+        voiceChart.update();
+    });
+}
+
+        // Initialize everything
+async function initialize() {
+    await initDB();
+    initializeCharts();
+    
+    // Set up time range buttons
+    const timeButtons = document.querySelectorAll('.time-btn');
+    timeButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+            // Remove active class from all buttons
+            timeButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            e.target.classList.add('active');
+            // Update charts with selected time range
+            updateCharts(e.target.textContent);
+        });
+    });
+    
+    // Start periodic data fetching
+    async function fetchDataPeriodically() {
+        const data = await fetchAndStoreData();
+        if (data) {
+            const activeTimeRange = document.querySelector('.time-btn.active').textContent;
+            updateCharts(activeTimeRange);
+        }
+        setTimeout(fetchDataPeriodically, DATA_CONFIG.REFRESH_INTERVAL);
+    }
+    
+    fetchDataPeriodically();
+}
+
+
+
+        function initializeCharts() {
+            // Destroy existing charts if they exist
+            if (heartRateChart) heartRateChart.destroy();
+            if (bpChart) bpChart.destroy();
+            if (voiceChart) voiceChart.destroy();
+
+            // Heart Rate Chart
+            const heartRateCtx = document.getElementById('heartRateChart').getContext('2d');
+            heartRateChart = new Chart(heartRateCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Heart Rate',
+                        data: [75, 82, 78, 85, 80, 83, 79],
+                        borderColor: '#4CAF50',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+            // Blood Pressure Chart
+            const bpCtx = document.getElementById('bpChart').getContext('2d');
+            bpChart = new Chart(bpCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    datasets: [{
+                        label: 'Systolic',
+                        data: [120, 118, 122, 119, 121, 117, 120],
+                        borderColor: '#FF9800',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Diastolic',
+                        data: [80, 79, 82, 81, 80, 78, 80],
+                        borderColor: '#2196F3',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+            // Voice Analysis Chart
+            const voiceCtx = document.getElementById('voidChart').getContext('2d');
+            voiceChart = new Chart(voiceCtx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Depression Risk',
+                        data: [],
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Anxiety Risk',
+                        data: [],
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Normal Range',
+                        data: [],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'PTSD Risk',
+                        data: [],
+                        borderColor: 'rgba(153, 102, 255, 1)',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Bipolar Risk',
+                        data: [],
+                        borderColor: 'rgba(255, 159, 64, 1)',
+                        tension: 0.4,
+                        fill: false
+                    }, {
+                        label: 'Schizophrenia Risk',
+                        data: [],
+                        borderColor: 'rgba(255, 206, 86, 1)',
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        }
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'minute',
+                                tooltipFormat: 'PPpp'
+                            },
+                            title: {
+                                display: true,
+                                text: 'Time'
+                            }
+                        },
+                        y: {
+                            min: 0,
+                            max: 1,
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Risk Level'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Function to update voice chart with real-time data
+        function updateVoiceChart(indicators) {
+            if (!voiceChart) return;
+
+            const timestamp = new Date();
+            voiceChart.data.labels.push(timestamp);
+            voiceChart.data.datasets[0].data.push(indicators.depression);
+            voiceChart.data.datasets[1].data.push(indicators.anxiety);
+            voiceChart.data.datasets[2].data.push(indicators.normal);
+            voiceChart.data.datasets[3].data.push(indicators.ptsd);
+            voiceChart.data.datasets[4].data.push(indicators.bipolar);
+            voiceChart.data.datasets[5].data.push(indicators.schizophrenia);
+
+            // Keep last 60 seconds of data
+            if (voiceChart.data.labels.length > 60) {
+                voiceChart.data.labels.shift();
+                voiceChart.data.datasets.forEach(dataset => dataset.data.shift());
+            }
+
+            voiceChart.update('none');
+        }
+
+        // Modified voice analysis initialization
+        async function initializeVoiceAnalysis() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyzer = audioContext.createAnalyser();
+                analyzer.fftSize = 2048;
+
+                const source = audioContext.createMediaStreamSource(stream);
+                source.connect(analyzer);
+
+                mediaRecorder = new MediaRecorder(stream);
+                startContinuousAnalysis();
+            } catch (error) {
+                console.error('Error initializing voice analysis:', error);
+            }
+        }
+
+        // Initialize everything
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeCharts();
+            initializeVoiceAnalysis();
+        });
+
+        // Initialize charts when graph modal is opened
+        document.querySelector('[data-page="graph"]').addEventListener('click', () => {
+            setTimeout(initializeCharts, 300);
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navItems.forEach(item => {
+                    item.addEventListener('click', () => {
+                        navItems.forEach(nav => nav.classList.remove('active'));
+                        item.classList.add('active');
+
+                        // Show corresponding modal
+                        const page = item.dataset.page;
+                        if (page === 'history') {
+                            document.getElementById('historyModal').classList.add('show');
+                        } else if (page === 'graph') {
+                            document.getElementById('graphModal').classList.add('show');
+                        }
+                    });
+                });
+
+                // Time range buttons functionality
+                timeButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const parent = btn.closest('.graph-card');
+                        parent.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                    });
+                });
+
+                // Close modal functionality
+                closeBtns.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const modal = btn.closest('.modal');
+                        modal.classList.remove('show');
+                    });
+                });
+
+                // Swipe to close functionality
+                modals.forEach(modal => {
+                    const modalHeader = modal.querySelector('.modal-header');
+                    const modalContent = modal.querySelector('.modal-content');
+                    let startY = 0;
+                    let currentY = 0;
+                    let isDragging = false;
+
+                    modalHeader.addEventListener('touchstart', (e) => {
+                        const touch = e.touches[0];
+                        startY = touch.clientY;
+                        isDragging = true;
+                    });
+
+                    modal.addEventListener('touchmove', (e) => {
+                        if (!isDragging) return;
+
+                        const touch = e.touches[0];
+                        currentY = touch.clientY;
+                        const deltaY = currentY - startY;
+
+                        if (deltaY > 0) {
+                            modalContent.style.transform = `translateY(${deltaY}px)`;
+                            e.preventDefault();
+                        }
+                    });
+
+                    modal.addEventListener('touchend', () => {
+                        if (!isDragging) return;
+
+                        const deltaY = currentY - startY;
+
+                        if (deltaY > 100) {
+                            modal.classList.remove('show');
+                        }
+
+                        modalContent.style.transform = '';
+                        isDragging = false;
+                        startY = 0;
+                        currentY = 0;
+                    });
+
+                    // Close modal when clicking overlay
+                    modal.addEventListener('click', (e) => {
+                        if (e.target === modal) {
+                            modal.classList.remove('show');
+                        }
+                    });
+                });
+
+                // Horizontal scroll for cards
+                const cardsContainer = document.querySelector('.cards-container');
+                let isScrolling = false;
+                let startX;
+                let scrollLeft;
+
+                cardsContainer.addEventListener('touchstart', (e) => {
+                    isScrolling = true;
+                    startX = e.touches[0].pageX - cardsContainer.offsetLeft;
+                    scrollLeft = cardsContainer.scrollLeft;
+                });
+
+                cardsContainer.addEventListener('touchmove', (e) => {
+                    if (!isScrolling) return;
+                    e.preventDefault();
+                    const x = e.touches[0].pageX - cardsContainer.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    cardsContainer.scrollLeft = scrollLeft - walk;
+                });
+
+                cardsContainer.addEventListener('touchend', () => {
+                    isScrolling = false;
+                });
+            });
+        });
+
+        // Pindahkan fungsi swipe-to-close ke luar loop navItems
+        modals.forEach(modal => {
+            const modalHeader = modal.querySelector('.modal-header');
+            const modalContent = modal.querySelector('.modal-content');
+            let startY = 0;
+            let currentY = 0;
+            let isDragging = false;
+
+            modalHeader.addEventListener('touchstart', (e) => {
+                const touch = e.touches[0];
+                startY = touch.clientY;
+                isDragging = true;
+            });
+
+            modal.addEventListener('touchmove', (e) => {
+                if (!isDragging) return;
+
+                const touch = e.touches[0];
+                currentY = touch.clientY;
+                const deltaY = currentY - startY;
+
+                if (deltaY > 0) {
+                    modalContent.style.transform = `translateY(${deltaY}px)`;
+                    modalContent.style.transition = 'transform 0.1s'; // Tambahkan transisi halus
+                    e.preventDefault();
+                }
+            });
+
+            modal.addEventListener('touchend', () => {
+                if (!isDragging) return;
+
+                const deltaY = currentY - startY;
+                modalContent.style.transition = 'transform 0.3s'; // Transisi saat menutup
+
+                if (deltaY > 100) {
+                    modal.classList.remove('show');
+                    modalContent.style.transform = 'translateY(100%)';
+                    setTimeout(() => {
+                        modalContent.style.transform = '';
+                        modalContent.style.transition = '';
+                    }, 300);
+                } else {
+                    modalContent.style.transform = '';
+                }
+
+                isDragging = false;
+                startY = 0;
+                currentY = 0;
+            });
+
+            // Handle klik overlay
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+        });
+        // Scan perangkat Bluetooth
+        async function scanDevices() {
+            try {
+                modalBodyID.innerHTML = '<div class="loading">Mencari perangkat...</div>';
+
+                // Filter berdasarkan nama ESP32 atau service UUID
+                bluetoothDevice = await navigator.bluetooth.requestDevice({
+                    acceptAllDevices: true,
+                    optionalServices: ['4fafc201-1fb5-459e-8fcc-c5c9c331914b'] // Ganti dengan service UUID ESP32
+                });
+
+                updateDeviceStatus('connected');
+                setupDisconnectHandler();
+                connectToDevice();
+            } catch (error) {
+                console.error('Error:', error);
+                if (error.name === 'NotFoundError') {
+                    updateDeviceStatus('not found');
+                } else {
+                    updateDeviceStatus('failed');
+                }
+            }
+        }
+        // Update status device
+        function updateDeviceStatus(status, deviceName = 'MentalHealthDevice') {
+            deviceElement.setAttribute('state', status);
+            deviceElement.textContent = deviceName; // Update nama perangkat
+            deviceModal.classList.remove('show');
+        }
+
+        // Handle disconnect
+        function setupDisconnectHandler() {
+            bluetoothDevice.addEventListener('gattserverdisconnected', () => {
+                updateDeviceStatus('failed');
+                // Reset nilai sensor
+                resetSensorData();
+            });
+        }
+
+        // Koneksi ke device
+        async function connectToDevice() {
+            try {
+                const server = await bluetoothDevice.gatt.connect();
+                const service = await server.getPrimaryService('4fafc201-1fb5-459e-8fcc-c5c9c331914b'); // Ganti dengan service UUID
+                const characteristic = await service.getCharacteristic('beb5483e-36e1-4688-b7f5-ea07361b26a8'); // Ganti dengan characteristic UUID
+
+                // Listen for sensor data updates
+                await characteristic.startNotifications();
+                characteristic.addEventListener('characteristicvaluechanged', handleSensorData);
+            } catch (error) {
+                console.error('Koneksi gagal:', error);
+                updateDeviceStatus('failed');
+            }
+        }
+
+        // Handle data sensor
+        function handleSensorData(event) {
+            const value = event.target.value;
+            // Parsing data dari ESP32 (sesuaikan dengan format data Anda)
+            const data = {
+                heartRate: value.getUint8(0),
+                bloodPressure: `${value.getUint8(1)}/${value.getUint8(2)}`,
+                sleep: value.getFloat32(3)
+            };
+
+            // Update UI
+            updateSensorData(data);
+            updateCharts(data);
+        }
+        // Update tampilan sensor
+        function updateSensorData(data) {
+            document.querySelector('.metric-card.green .metric-value').textContent = data.heartRate;
+            document.querySelector('.metric-card.orange .metric-value').textContent = data.bloodPressure;
+            document.querySelector('.metric-card.purple .metric-value').textContent = data.sleep.toFixed(1);
+        }
+
+        // Reset data sensor
+        function resetSensorData() {
+            const resetValues = {
+                heartRate: '--',
+                bloodPressure: '--/--',
+                sleep: '0.0'
+            };
+            updateSensorData(resetValues);
+        }
+
+        // Update grafik
+        function updateCharts(data) {
+            // Implementasi update chart sesuai data sensor
+            // Contoh:
+            const chart = Chart.getChart('heartRateChart');
+            if (chart) {
+                chart.data.datasets[0].data.push(data.heartRate);
+                chart.data.labels.push(new Date().toLocaleTimeString());
+                chart.update();
+            }
+        }
+        // Pindahkan close button handler ke luar loop
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const modal = btn.closest('.modal');
+                modal.classList.remove('show');
+            });
+        });
+
+        // Modal content data
+        const modalContents = {
+            blood: {
+                title: "Informasi Blood Pressure",
+                content: "Blood pressure atau tekanan darah adalah tekanan yang dialami dinding pembuluh darah saat darah dipompa oleh jantung ke seluruh tubuh. Pengukuran normal adalah 120/80 mmHg."
+            },
+            emosional: {
+                title: "Informasi Metric Emosional",
+                content: `
+                <p>Metric emosional menunjukkan persentase emosi yang terdeteksi dari ekspresi wajah. Ini membantu memahami kondisi emosional pengguna sepanjang waktu.</p>
+                <br>
+                <img src="./infoemo.png" alt="Emotion Metrics" />
+                <p>Gambar 1 Ilustrasi unit tindakan wajah (AU) yang mengindentifikasikan Mental Health. Dari Baris 1 Kiri ke Kanan (AU 1, AU 2 AU 4 AU 5 AU 6 AU 7); Baris 2 Kiri ke Kanan (AU 10 AU 12 AU 14 AU 15 AU 16 AU 18); dan Baris 3 Kiri ke kanan (AU 22 AU 25 AU 26 AU 43).
+                <br>`
+            },
+            sensor: {
+                title: "Informasi Realtime Sensor",
+                content: "Sensor realtime menampilkan data kesehatan terkini seperti detak jantung, tekanan darah, dan durasi tidur yang diukur menggunakan sensor yang terhubung."
+            },
+            heartrate: {
+                title: "Informasi Heart Rate",
+                content: "Sensor realtime menampilkan data kesehatan terkini seperti detak jantung, tekanan darah, dan durasi tidur yang diukur menggunakan sensor yang terhubung."
+            }
+        };
+
+        // Initialize modal functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const infoIcons = document.querySelectorAll('.fa-circle-info');
+            let startY = 0;
+            let currentModal = null;
+
+            // Create modal for each info icon
+            infoIcons.forEach(icon => {
+                icon.addEventListener('click', function () {
+                    const modalType = this.getAttribute('data-modal');
+                    const modalContent = modalContents[modalType];
+
+                    if (!modalContent) return;
+
+                    // Create or update modal
+                    let modal = document.querySelector(`.modal[data-type="${modalType}"]`);
+
+                    if (!modal) {
+                        modal = createModal(modalType, modalContent);
+                        document.body.appendChild(modal);
+                    }
+
+                    currentModal = modal;
+                    modal.classList.add('active');
+                });
+            });
+
+            // Function to create modal
+            function createModal(type, content) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.setAttribute('data-type', type);
+
+                modal.innerHTML = `
+                    <div class="modal-content" data-type="${type}-content">
+                        <div class="swipe-indicator"></div>
+                        <div class="modal-header">
+                            <h2 class="modal-title">${content.title}</h2>
+                            <button class="close-btn">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            ${content.content}
+                        </div>
+                    </div>
+                `;
+
+                // Add event listeners for swipe
+                modal.addEventListener('touchstart', handleTouchStart, false);
+                modal.addEventListener('touchmove', handleTouchMove, false);
+                modal.addEventListener('touchend', handleTouchEnd, false);
+
+                // Close button functionality
+                modal.querySelector('.close-btn').addEventListener('click', () => {
+                    closeAndRemoveModal(modal);
+                });
+
+                return modal;
+            }
+
+            // Function to close and remove modal
+            function closeAndRemoveModal(modal) {
+                modal.classList.remove('active');
+                // Tunggu animasi selesai sebelum menghapus modal
+                setTimeout(() => {
+                    if (modal && modal.parentNode) {
+                        modal.parentNode.removeChild(modal);
+                    }
+                    if (currentModal === modal) {
+                        currentModal = null;
+                    }
+                }, 300); // Sesuaikan dengan durasi animasi CSS
+            }
+
+            // Touch event handlers
+            function handleTouchStart(e) {
+                startY = e.touches[0].clientY;
+            }
+
+            function handleTouchMove(e) {
+                if (!startY) return;
+
+                const currentY = e.touches[0].clientY;
+                const diff = currentY - startY;
+
+                if (diff > 0) { // Only allow downward swipe
+                    e.preventDefault();
+                    const modalContent = this.querySelector('.modal-content');
+                    modalContent.style.transform = `translateY(${diff}px)`;
+                }
+            }
+
+            function handleTouchEnd(e) {
+                if (!currentModal) return;
+
+                const modalContent = currentModal.querySelector('.modal-content');
+                const currentY = e.changedTouches[0].clientY;
+                const diff = currentY - startY;
+
+                if (diff > 100) { // If swiped down more than 100px, close the modal
+                    closeAndRemoveModal(currentModal);
+                }
+
+                modalContent.style.transform = '';
+                startY = null;
+            }
+        });
+    </script>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggleIcon = document.querySelector('.theme-toggle i');
+
+            // Toggle dark-theme class
+            body.classList.toggle('dark-theme');
+
+            // Update icon and localStorage berdasarkan status dark-theme
+            if (body.classList.contains('dark-theme')) {
+                themeToggleIcon.className = 'fas fa-sun';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                themeToggleIcon.className = 'fas fa-moon';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const themeToggleIcon = document.querySelector('.theme-toggle i');
+
+            // Set tema awal
+            if (savedTheme) {
+                document.body.classList.toggle('dark-theme', savedTheme === 'dark');
+            } else {
+                document.body.classList.toggle('dark-theme', systemPrefersDark);
+            }
+
+            // Set ikon awal
+            if (document.body.classList.contains('dark-theme')) {
+                themeToggleIcon.className = 'fas fa-sun';
+            } else {
+                themeToggleIcon.className = 'fas fa-moon';
+            }
+        });
+    </script>
+</body>
+
+</html>

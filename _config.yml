@@ -1,0 +1,11 @@
+defaults:
+  - scope:
+      path: "/ref"
+    values:
+      image: true
+      cache_control: "public, max-age=31536000"
+  - scope:
+      path: "/css"
+    values:
+      css: true
+      cache_control: "public, max-age=2592000"

@@ -1,0 +1,19 @@
+{
+  "name": "MentalHealth",
+  "version": "1.0.0",
+  "description": "Mental Health App",
+  "main": "sc.js",
+  "scripts": {
+    "start": "node sc.js",
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev"
+  },
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "html-minifier": "^4.0.0",
+    "terser": "^5.37.0"
+  },
+  "author": "Galih Ridho Utomo",
+  "license": "MIT",
+  "type": "module"
+}

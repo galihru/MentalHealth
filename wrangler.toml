@@ -1,0 +1,15 @@
+name = "mental-health"
+main = "worker.js"
+compatibility_date = "2024-02-12"
+compatibility_flags = ["nodejs_compat"]
+
+[site]
+bucket = "./dist"
+
+# Enable caching
+[cache]
+browser_TTL = 3600
+
+# Route configuration for GitHub Pages
+workers_dev = true
+route = "4211421036.github.io/MentalHealth/*"
