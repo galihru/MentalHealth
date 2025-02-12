@@ -11,7 +11,6 @@ const bfcacheScript = `
 // User Timing API measurements
 performance.mark('app-init-start');
 
-// Lazy loading handler for third-party resources
 function loadThirdParty(element) {
     const actualSrc = element.dataset.src;
     const actualType = element.dataset.type;
