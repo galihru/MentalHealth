@@ -348,17 +348,17 @@
                 <div class="cards-container">
                     <div class="metric-card green">
                         <div class="metric-label">Heart Rate</div>
-                        <div class="metric-value">95</div>
+                        <div id="heartRate" class="metric-value">95</div>
                         <div class="metric-label">bpm</div>
                     </div>
                     <div class="metric-card orange">
                         <div class="metric-label">Blood Pressure</div>
-                        <div class="metric-value">121/80</div>
+                        <div id="bloodPressure" class="metric-value">121/80</div>
                         <div class="metric-label">mmHg</div>
                     </div>
                     <div class="metric-card purple">
                         <div class="metric-label">Sleep</div>
-                        <div class="metric-value">6.8</div>
+                        <div id="sleepHours" class="metric-value">6.8</div>
                         <div class="metric-label">hr/day</div>
                     </div>
                 </div>
@@ -976,6 +976,17 @@
 
         camera.start();
 
+        // Global variables
+        let heartRateChart = null;
+        let bpChart = null;
+        let voiceChart = null;
+        let audioContext;
+        let analyzer;
+        let mediaRecorder;
+        let audioData = [];
+        let isRecording = false;
+
+
         const VOICE_ANALYSIS_CONFIG = {
             FREQUENCY_THRESHOLDS: {
                 LOW: 85,
@@ -1027,6 +1038,14 @@
                 bipolar: 0,
                 schizophrenia: 0
             };
+
+            // Fungsi Update Nilai di HTML
+            function updateMetrics(heartRate, bpSystolic, bpDiastolic, sleepHours) {
+                document.getElementById("heartRate").textContent = heartRate || "N/A"; // Heart Rate
+                document.getElementById("bloodPressure").textContent = `${bpSystolic}/${bpDiastolic}` || "N/A"; // Blood Pressure
+                document.getElementById("sleepHours").textContent = sleepHours || "N/A"; // Sleep
+            }
+
 
             // Depression indicators
             if (metrics.frequency < VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.LOW &&
@@ -1083,16 +1102,6 @@
 
             return indicators;
         }
-
-        // Global variables
-        let heartRateChart = null;
-        let bpChart = null;
-        let voiceChart = null;
-        let audioContext;
-        let analyzer;
-        let mediaRecorder;
-        let audioData = [];
-        let isRecording = false;
 
         // Calculate fundamental frequency using autocorrelation
         function calculateFundamentalFrequency(dataArray) {
@@ -1419,6 +1428,24 @@ async function updateCharts() {
     }
 }
 
+        // Fungsi Update Data
+async function updateData() {
+    const sensorData = await fetchSensorData();
+    if (!sensorData) return;
+
+    const { gsrData, maxData, bhData } = sensorData;
+
+    // Mengambil data dari JSON sesuai skema
+    const heartRate = maxData?.heartRate ?? "N/A"; // Heart Rate (BPM)
+    const bpSystolic = maxData?.systolic ?? "N/A"; // Tekanan Darah Sistolik (mmHg)
+    const bpDiastolic = maxData?.diastolic ?? "N/A"; // Tekanan Darah Diastolik (mmHg)
+    const bloodPressure = bpSystolic !== "N/A" && bpDiastolic !== "N/A" ? `${bpSystolic}/${bpDiastolic}` : "N/A";
+    const sleepHours = bhData?.sleepHours ?? "N/A"; // Durasi Tidur (jam)
+
+    // Update HTML Metrics
+    updateMetrics(heartRate, bloodPressure, sleepHours);
+}
+
         // Function to update voice chart with real-time data
         function updateVoiceChart(indicators) {
             if (!voiceChart) return;
@@ -1464,7 +1491,9 @@ async function updateCharts() {
             initializeCharts();
             initializeVoiceAnalysis();
             updateCharts();
+            updateData(); // Update pertama kali
             setInterval(updateCharts, 1000);
+            setInterval(updateData, 1000);
         });
 
         // Initialize charts when graph modal is opened
