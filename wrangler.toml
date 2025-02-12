@@ -1,7 +1,22 @@
 name = "mental-health"
 main = "worker.js"
-compatibility_date = "2024-02-12"
-compatibility_flags = ["nodejs_compat"]
+compatibility_date = "2024-02-13"
 
-[site]
-bucket = "."  # Ubah dari ./dist ke . karena files ada di root
+# Exclude files yang tidak perlu
+exclude_files = [
+  ".git*",
+  "*.md",
+  "node_modules/**",
+  "test/**",
+  "gradle/**",
+  "app/build/**",
+  "*.properties",
+  "*.bat",
+  "*.jar",
+  "*.toml",
+  "*.yaml",
+  "*.yml"
+]
+
+[env.production]
+routes = ["4211421036.github.io/MentalHealth/*"]
