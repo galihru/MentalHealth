@@ -999,18 +999,25 @@
 
         async function fetchSensorData() {
             try {
-                // Ambil ketiga file JSON
-                const [gsrResponse, maxResponse, bhResponse] = await Promise.all([
-                    fetch("https://4211421036.github.io/MentalHealth/GSR.json"),
-                    fetch("https://4211421036.github.io/MentalHealth/MAX30102.json"),
-                    fetch("https://4211421036.github.io/MentalHealth/BH1750.json")
+                const urls = {
+                    gsr: "https://4211421036.github.io/MentalHealth/GSR.json",
+                    max: "https://4211421036.github.io/MentalHealth/MAX30102.json",
+                    bh: "https://4211421036.github.io/MentalHealth/BH1750.json"
+                };
+        
+                const responses = await Promise.all([
+                    fetch(urls.gsr),
+                    fetch(urls.max),
+                    fetch(urls.bh)
                 ]);
         
-                // Parse JSON ke dalam objek JavaScript
-                const gsrData = await gsrResponse.json();
-                const maxData = await maxResponse.json();
-                const bhData = await bhResponse.json();
+                for (const response of responses) {
+                    if (!response.ok) throw new Error(`Fetch error: ${response.status} ${response.statusText}`);
+                }
         
+                const [gsrData, maxData, bhData] = await Promise.all(responses.map(res => res.json()));
+        
+                console.log("Data sensor berhasil di-fetch:", { gsrData, maxData, bhData });
                 return { gsrData, maxData, bhData };
         
             } catch (error) {
@@ -1018,6 +1025,7 @@
                 return null;
             }
         }
+
         function analyzeMentalHealthIndicators(metrics) {
             const indicators = {
                 depression: 0,
