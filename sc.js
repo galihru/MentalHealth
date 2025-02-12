@@ -8,7 +8,6 @@ function generateNonce() {
 }
 
 const bfcacheScript = `
-// User Timing API measurements
 performance.mark('app-init-start');
 
 function loadThirdParty(element) {
