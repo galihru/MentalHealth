@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ini penting untuk git diff
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -23,27 +23,29 @@ jobs:
       - name: Install Wrangler
         run: npm install -g wrangler@3.90.0
 
-      - name: Deploy Worker
+      - name: Selective Deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
         run: |
-          # Check if environment variables are set
-          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
-            echo "Error: CLOUDFLARE_API_TOKEN is not set"
-            exit 1
-          fi
+          # Check if only essential files changed
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }})
           
-          if [ -z "$CF_ACCOUNT_ID" ]; then
-            echo "Error: CF_ACCOUNT_ID is not set"
-            exit 1
+          # Only deploy if worker.js or critical files changed
+          if echo "$CHANGED_FILES" | grep -E '^(worker\.js|index\.html|css/|js/)'; then
+            echo "Critical files changed, deploying..."
+            wrangler deploy --minify
+          else
+            echo "No critical files changed, skipping deploy"
+            exit 0
           fi
-          
-          if [ -z "$CF_ZONE_ID" ]; then
-            echo "Error: CF_ZONE_ID is not set"
-            exit 1
-          fi
-          
-          # Deploy using wrangler
-          wrangler deploy --minify
+
+      - name: Handle Deploy Error
+        if: failure()
+        run: |
+          echo "Deployment failed. This might be due to KV usage limits."
+          echo "Options:"
+          echo "1. Wait for daily limit reset"
+          echo "2. Clean up unnecessary KV entries"
+          echo "3. Upgrade Cloudflare plan"
