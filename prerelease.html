@@ -1736,17 +1736,6 @@ async function updateData() {
         }
 
         // Update grafik
-        function updateCharts(data) {
-            // Implementasi update chart sesuai data sensor
-            // Contoh:
-            const chart = Chart.getChart('heartRateChart');
-            if (chart) {
-                chart.data.datasets[0].data.push(data.heartRate);
-                chart.data.labels.push(new Date().toLocaleTimeString());
-                chart.update();
-            }
-        }
-        // Pindahkan close button handler ke luar loop
         closeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const modal = btn.closest('.modal');
