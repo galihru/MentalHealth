@@ -998,18 +998,13 @@
             SAMPLE_RATE: 44100
         };
 
-        const GSR_URL = "https://4211421036.github.io/MentalHealth/GSR.json";
-        const MAX30102_URL = "https://4211421036.github.io/MentalHealth/MAX30102.json";
-        const BH1750_URL = "https://4211421036.github.io/MentalHealth/BH1750.json";
-
-        // Fungsi Fetch Data Sensor
         async function fetchSensorData() {
             try {
                 // Ambil ketiga file JSON
                 const [gsrResponse, maxResponse, bhResponse] = await Promise.all([
-                    fetch("GSR.json"),
-                    fetch("MAX30102.json"),
-                    fetch("BH1750.json")
+                    fetch("https://4211421036.github.io/MentalHealth/GSR.json"),
+                    fetch("https://4211421036.github.io/MentalHealth/MAX30102.json"),
+                    fetch("https://4211421036.github.io/MentalHealth/BH1750.json")
                 ]);
         
                 // Parse JSON ke dalam objek JavaScript
