@@ -14,18 +14,21 @@ jobs:
         with:
           node-version: '20'
       
-      - name: Install dependencies
-        run: npm install
-      
-      - name: Build project
-        run: npm run build
+      - name: Install Wrangler
+        run: npm install -g wrangler
       
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
-
+          publish_dir: .  # Ubah ke root directory karena tidak ada build process
+          
+      - name: Create package.json if not exists
+        run: |
+          if [ ! -f package.json ]; then
+            echo '{"name":"mental-health","version":"1.0.0"}' > package.json
+          fi
+      
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3
         with:
