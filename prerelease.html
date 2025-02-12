@@ -1367,30 +1367,23 @@
             });
         }
 
-        // Fungsi Update Grafik
-function updateCharts(sensorData) {
-    if (!sensorData) {
+ function updateCharts({ gsrData, maxData, bhData }) {
+    if (!gsrData || !maxData || !bhData) {
         console.warn("Data sensor tidak tersedia.");
         return;
     }
 
-    const { maxData, bhData } = sensorData;
-
-    // Ambil data dari MAX30102.json untuk detak jantung
-    const heartRate = maxData?.bpm ?? "N/A"; 
-
-    // Tekanan darah sementara tidak ada dalam JSON, jadi pakai default "N/A"
-    const bloodPressure = "N/A";
-
-    // Ambil data dari BH1750.json dan konversi lux ke jam tidur
+    // Pastikan data benar-benar ada sebelum mengaksesnya
+    const heartRate = maxData?.bpm ?? "N/A";
+    const bloodPressure = maxData?.hrv ?? "N/A"; // Tidak ada data BP di JSON, jadi ini contoh
     const sleepHours = bhData?.lux ? (bhData.lux / 1000).toFixed(1) : "N/A";
 
-    console.log("Updated Charts -> HeartRate:", heartRate, "BP:", bloodPressure, "Sleep:", sleepHours);
+    console.log(`Updated Charts -> HeartRate: ${heartRate} BP: ${bloodPressure} Sleep: ${sleepHours}`);
 
-    // Update elemen HTML berdasarkan ID
     document.getElementById("heartRate").textContent = heartRate;
     document.getElementById("bloodPressure").textContent = bloodPressure;
     document.getElementById("sleepHours").textContent = sleepHours;
+
 }
 
         // Fungsi Update Data
