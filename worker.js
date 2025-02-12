@@ -14,7 +14,6 @@ export default {
     const url = new URL(request.url);
     const githubUrl = new URL(url.pathname, 'https://4211421036.github.io/MentalHealth/');
     
-    // Generate strong nonce using crypto
     const nonce = crypto.randomUUID();
     
     try {
@@ -38,7 +37,6 @@ export default {
       
       const contentType = response.headers.get('content-type');
       
-      // Process HTML responses
       if (contentType?.includes('text/html')) {
         let html = await response.text();
         
