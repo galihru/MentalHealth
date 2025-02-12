@@ -993,101 +993,31 @@
             SAMPLE_RATE: 44100
         };
 
-        // Configuration for data sources
-const DATA_CONFIG = {
-    ENDPOINTS: {
-        GSR: 'https://4211421036.github.io/MentalHealth/GSR.json',
-        MAX30102: 'https://4211421036.github.io/MentalHealth/MAX30102.json',
-        BH1750: 'https://4211421036.github.io/MentalHealth/BH1750.json'
-    },
-    REFRESH_INTERVAL: 1000, // 5 seconds
-    DB_NAME: 'healthMetricsDB',
-    DB_VERSION: 1
-};
+        const GSR_URL = "https://4211421036.github.io/MentalHealth/GSR.json";
+        const MAX30102_URL = "https://4211421036.github.io/MentalHealth/MAX30102.json";
+        const BH1750_URL = "https://4211421036.github.io/MentalHealth/BH1750.json";
 
-// IndexedDB setup
-let db;
-
-async function initDB() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DATA_CONFIG.DB_NAME, DATA_CONFIG.DB_VERSION);
+        // Fungsi Fetch Data Sensor
+        async function fetchSensorData() {
+            try {
+                const [gsrResponse, maxResponse, bhResponse] = await Promise.all([
+                    fetch(GSR_URL),
+                    fetch(MAX30102_URL),
+                    fetch(BH1750_URL)
+                ]);
         
-        request.onerror = () => reject(request.error);
-        request.onsuccess = () => {
-            db = request.result;
-            resolve(db);
-        };
+                const [gsrData, maxData, bhData] = await Promise.all([
+                    gsrResponse.json(),
+                    maxResponse.json(),
+                    bhResponse.json()
+                ]);
         
-        request.onupgradeneeded = (event) => {
-            const db = event.target.result;
-            
-            // Create stores for each sensor
-            if (!db.objectStoreNames.contains('gsr_data')) {
-                db.createObjectStore('gsr_data', { keyPath: 'timestamp' });
+                return { gsrData, maxData, bhData };
+            } catch (error) {
+                console.error("Error fetching sensor data:", error);
+                return null;
             }
-            if (!db.objectStoreNames.contains('max30102_data')) {
-                db.createObjectStore('max30102_data', { keyPath: 'timestamp' });
-            }
-            if (!db.objectStoreNames.contains('bh1750_data')) {
-                db.createObjectStore('bh1750_data', { keyPath: 'timestamp' });
-            }
-        };
-    });
-}
-
-        // Data fetching and storage
-async function fetchAndStoreData() {
-    try {
-        const responses = await Promise.all([
-            fetch(DATA_CONFIG.ENDPOINTS.GSR),
-            fetch(DATA_CONFIG.ENDPOINTS.MAX30102),
-            fetch(DATA_CONFIG.ENDPOINTS.BH1750)
-        ]);
-        
-        const [gsrData, max30102Data, bh1750Data] = await Promise.all(
-            responses.map(response => response.json())
-        );
-        
-        // Store in IndexedDB
-        const transaction = db.transaction(['gsr_data', 'max30102_data', 'bh1750_data'], 'readwrite');
-        
-        transaction.objectStore('gsr_data').add(gsrData);
-        transaction.objectStore('max30102_data').add(max30102Data);
-        transaction.objectStore('bh1750_data').add(bh1750Data);
-        
-        return { gsrData, max30102Data, bh1750Data };
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        return null;
-    }
-}
-
-        // Time range handling
-function getTimeRange(range) {
-    const now = new Date();
-    const ranges = {
-        '1D': new Date(now - 24 * 60 * 60 * 1000),
-        '1W': new Date(now - 7 * 24 * 60 * 60 * 1000),
-        '1M': new Date(now - 30 * 24 * 60 * 60 * 1000),
-        '1Y': new Date(now - 365 * 24 * 60 * 60 * 1000)
-    };
-    return ranges[range];
-}
-
-        async function getDataInRange(storeName, startDate) {
-    return new Promise((resolve, reject) => {
-        const transaction = db.transaction(storeName, 'readonly');
-        const store = transaction.objectStore(storeName);
-        const range = IDBKeyRange.lowerBound(startDate.toISOString());
-        const request = store.getAll(range);
-        
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-    });
-}
-
-
-        // Analyze mental health indicators
+        }
         function analyzeMentalHealthIndicators(metrics) {
             const indicators = {
                 depression: 0,
@@ -1333,65 +1263,7 @@ function getTimeRange(range) {
             await scanDevices();
         });
 
-        // Chart updates
-function updateCharts(timeRange) {
-    const startDate = getTimeRange(timeRange);
-    
-    Promise.all([
-        getDataInRange('gsr_data', startDate),
-        getDataInRange('max30102_data', startDate),
-        getDataInRange('bh1750_data', startDate)
-    ]).then(([gsrData, max30102Data, bh1750Data]) => {
-        // Update Heart Rate Chart
-        heartRateChart.data.labels = max30102Data.map(d => new Date(d.timestamp));
-        heartRateChart.data.datasets[0].data = max30102Data.map(d => d.bpm);
-        heartRateChart.update();
-        
-        // Update Blood Pressure Chart (using GSR as proxy for demonstration)
-        bpChart.data.labels = gsrData.map(d => new Date(d.timestamp));
-        bpChart.data.datasets[0].data = gsrData.map(d => d.tonic);
-        bpChart.data.datasets[1].data = gsrData.map(d => d.phasic);
-        bpChart.update();
-        
-        // Update Voice Chart (using BH1750 as additional metric)
-        voiceChart.data.labels = bh1750Data.map(d => new Date(d.timestamp));
-        voiceChart.data.datasets[0].data = bh1750Data.map(d => d.lux);
-        voiceChart.update();
-    });
-}
-
         // Initialize everything
-async function initialize() {
-    await initDB();
-    initializeCharts();
-    
-    // Set up time range buttons
-    const timeButtons = document.querySelectorAll('.time-btn');
-    timeButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            // Remove active class from all buttons
-            timeButtons.forEach(btn => btn.classList.remove('active'));
-            // Add active class to clicked button
-            e.target.classList.add('active');
-            // Update charts with selected time range
-            updateCharts(e.target.textContent);
-        });
-    });
-    
-    // Start periodic data fetching
-    async function fetchDataPeriodically() {
-        const data = await fetchAndStoreData();
-        if (data) {
-            const activeTimeRange = document.querySelector('.time-btn.active').textContent;
-            updateCharts(activeTimeRange);
-        }
-        setTimeout(fetchDataPeriodically, DATA_CONFIG.REFRESH_INTERVAL);
-    }
-    
-    fetchDataPeriodically();
-}
-
-
 
         function initializeCharts() {
             // Destroy existing charts if they exist
@@ -1401,70 +1273,37 @@ async function initialize() {
 
             // Heart Rate Chart
             const heartRateCtx = document.getElementById('heartRateChart').getContext('2d');
-            heartRateChart = new Chart(heartRateCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    datasets: [{
-                        label: 'Heart Rate',
-                        data: [75, 82, 78, 85, 80, 83, 79],
-                        borderColor: '#4CAF50',
-                        tension: 0.4,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: false
-                        }
-                    }
-                }
-            });
+    heartRateChart = new Chart(heartRateCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Heart Rate (BPM)',
+                data: [],
+                borderColor: '#4CAF50',
+                tension: 0.4,
+                fill: false
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
 
-            // Blood Pressure Chart
             const bpCtx = document.getElementById('bpChart').getContext('2d');
-            bpChart = new Chart(bpCtx, {
-                type: 'line',
-                data: {
-                    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-                    datasets: [{
-                        label: 'Systolic',
-                        data: [120, 118, 122, 119, 121, 117, 120],
-                        borderColor: '#FF9800',
-                        tension: 0.4,
-                        fill: false
-                    }, {
-                        label: 'Diastolic',
-                        data: [80, 79, 82, 81, 80, 78, 80],
-                        borderColor: '#2196F3',
-                        tension: 0.4,
-                        fill: false
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'top'
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: false
-                        }
-                    }
-                }
-            });
-
+    bpChart = new Chart(bpCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'GSR (Skin Conductance)',
+                data: [],
+                borderColor: '#FF9800',
+                tension: 0.4,
+                fill: false
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+       
             // Voice Analysis Chart
             const voiceCtx = document.getElementById('voidChart').getContext('2d');
             voiceChart = new Chart(voiceCtx, {
@@ -1543,6 +1382,43 @@ async function initialize() {
             });
         }
 
+        // Fungsi Update Grafik
+async function updateCharts() {
+    const sensorData = await fetchSensorData();
+    if (!sensorData) return;
+
+    const { gsrData, maxData, bhData } = sensorData;
+
+    const timeNow = new Date().toLocaleTimeString();
+
+    // Update Grafik Heart Rate
+    if (heartRateChart) {
+        heartRateChart.data.labels.push(timeNow);
+        heartRateChart.data.datasets[0].data.push(maxData.heartRate || 0);
+        if (heartRateChart.data.labels.length > 10) heartRateChart.data.labels.shift();
+        if (heartRateChart.data.datasets[0].data.length > 10) heartRateChart.data.datasets[0].data.shift();
+        heartRateChart.update();
+    }
+
+    // Update Grafik GSR
+    if (bpChart) {
+        bpChart.data.labels.push(timeNow);
+        bpChart.data.datasets[0].data.push(gsrData.gsr || 0);
+        if (bpChart.data.labels.length > 10) bpChart.data.labels.shift();
+        if (bpChart.data.datasets[0].data.length > 10) bpChart.data.datasets[0].data.shift();
+        bpChart.update();
+    }
+
+    // Update Grafik Light Intensity
+    if (lightChart) {
+        lightChart.data.labels.push(timeNow);
+        lightChart.data.datasets[0].data.push(bhData.lux || 0);
+        if (lightChart.data.labels.length > 10) lightChart.data.labels.shift();
+        if (lightChart.data.datasets[0].data.length > 10) lightChart.data.datasets[0].data.shift();
+        lightChart.update();
+    }
+}
+
         // Function to update voice chart with real-time data
         function updateVoiceChart(indicators) {
             if (!voiceChart) return;
@@ -1587,6 +1463,8 @@ async function initialize() {
         document.addEventListener('DOMContentLoaded', () => {
             initializeCharts();
             initializeVoiceAnalysis();
+            updateCharts();
+            setInterval(updateCharts, 1000);
         });
 
         // Initialize charts when graph modal is opened
