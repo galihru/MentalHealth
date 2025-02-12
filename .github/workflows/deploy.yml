@@ -1,34 +1,22 @@
-name: Deploy to GitHub Pages and Cloudflare
+name: Deploy to Cloudflare Workers
+
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v3
       
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      
-      - name: Create package.json if not exists
-        run: |
-          if [ ! -f package.json ]; then
-            echo '{"name":"mental-health","version":"1.0.0"}' > package.json
-          fi
-      
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: .
-      
-      - name: Deploy to Cloudflare
+      - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --minify
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          wranglerVersion: '3.90.0'
+          preCommands: |
+            # Clean up any existing KV namespaces
+            wrangler kv:namespace list || true
+            # Only upload changed files
+            git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
