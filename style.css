@@ -166,7 +166,7 @@ body.dark-theme {
     --button-t: var(--button-t-dark);
     overflow: hidden;
     font-size: 14px;
-    line-height: 1.6; /* Improves readability */
+    line-height: 1.6;
 }
 
 .skeleton-header {
@@ -279,7 +279,6 @@ body.dark-theme {
     letter-spacing: -0.2px;
 }
 
-/* Animation */
 @keyframes skeleton-loading {
     0% {
         background-position: 200% 0;
