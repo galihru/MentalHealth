@@ -31,18 +31,14 @@ jobs:
     - name: Debug file contents
       run: cat sc.js
 
-    - name: Commit and push changes
-      env:
-        GH_TOKEN: ${{ secrets.GH_TOKEN }}  # Menggunakan token autentikasi
+    - name: Commit and Push Changes
       run: |
         git config --global user.name "GitHub Actions"
         git config --global user.email "actions@github.com"
         git add .
-        
-        # Cek apakah ada perubahan sebelum commit
         if git diff --cached --quiet; then
-          echo "No changes to commit"
+          echo "No changes"
         else
-          git commit -m "Update index.html with dynamic nonce"
-          git push https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git HEAD:main
+          git commit -m "Update index.html"
+          git push
         fi
