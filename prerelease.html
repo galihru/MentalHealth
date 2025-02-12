@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head faceid="">
     <meta charset="UTF-8">
@@ -168,6 +168,27 @@
             }
         }
     </script>
+    <script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Mental Health Face Recognition",
+    "url": "https://4211421036.github.io/MentalHealth/",
+    "description": "A mental health website using face recognition technology to provide personalized support.",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "GALIH RIDHO UTOMO"
+      },
+      {
+        "@type": "Person",
+        "name": "Ana Maulida"
+      }
+    ],
+    "publisher": {
+      "@type": "Organization",
+      "name": "FMIPA UNNES"
+    }
+  }</script>
 </head>
 <body>
     <div id="skeleton-container">
@@ -327,16 +348,19 @@
                 <div class="cards-container">
                     <div class="metric-card green">
                         <div class="metric-label">Heart Rate</div>
+                        <div class="metric-value">95</div>
                         <div id="heartRate" class="metric-value">95</div>
                         <div class="metric-label">bpm</div>
                     </div>
                     <div class="metric-card orange">
                         <div class="metric-label">Blood Pressure</div>
+                        <div class="metric-value">121/80</div>
                         <div id="bloodPressure" class="metric-value">121/80</div>
                         <div class="metric-label">mmHg</div>
                     </div>
                     <div class="metric-card purple">
                         <div class="metric-label">Sleep</div>
+                        <div class="metric-value">6.8</div>
                         <div id="sleepHours" class="metric-value">6.8</div>
                         <div class="metric-label">hr/day</div>
                     </div>
@@ -397,7 +421,7 @@
                         <i class="fa-solid fa-circle-info" data-modal="heartrate"></i>
                     </div>
                     <div class="chart-container">
-                        <canvas id="heartRate"></canvas>
+                        <canvas id="heartRateChart"></canvas>
                     </div>
                     <div class="time-range">
                         <button type="button" class="time-btn" accesskey="d" aria-label="time-btn">1D</button>
@@ -413,23 +437,7 @@
                         <i class="fa-solid fa-circle-info" data-modal="blood"></i>
                     </div>
                     <div class="chart-container">
-                        <canvas id="bloodPressure"></canvas>
-                    </div>
-                    <div class="time-range">
-                        <button class="time-btn" type="button" accesskey="d" aria-label="d">1D</button>
-                        <button type="button" class="time-btn active" accesskey="w" aria-label="time-btn">1W</button>
-                        <button class="time-btn" type="button" accesskey="m" aria-label="m">1M</button>
-                        <button class="time-btn" type="button" accesskey="y" aria-label="y">1Y</button>
-                    </div>
-                </div>
-
-                <div class="graph-card">
-                    <div class="hr">
-                        <div class="graph-title">Sleep Time Trend</div>
-                        <i class="fa-solid fa-circle-info" data-modal="sleepHours"></i>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="sleepHours"></canvas>
+                        <canvas id="bpChart"></canvas>
                     </div>
                     <div class="time-range">
                         <button class="time-btn" type="button" accesskey="d" aria-label="d">1D</button>
@@ -480,19 +488,22 @@
                 updateAccessibility();
             }, 10);
 
+            // Simulasi loading progress
             const loadingInterval = setInterval(() => {
                 if (progress < 90) {
                     progress += Math.random() * 15;
-                    if (progress > 100) progress = 100;
+                    if (progress > 100) progress = 100; // Pastikan tidak lebih dari 100
                     progressBar.style.width = `${progress}%`;
                     updateAccessibility();
                 }
             }, 300);
+
             window.addEventListener('load', () => {
                 clearInterval(loadingInterval);
                 progress = 100;
                 progressBar.style.width = '100%';
                 updateAccessibility();
+
                 setTimeout(() => {
                     progress = 0;
                     progressBar.style.width = '0';
@@ -709,16 +720,8 @@
         const canvasElement = document.getElementById('canvas');
         const canvasCtx = canvasElement.getContext('2d');
         let lastFaceID = null;
-        let heartRate = null;
-        let bloodPressure = null;
-        let sleepHours = null;
-        let voiceChart = null;
-        let audioContext;
-        let analyzer;
-        let mediaRecorder;
-        let audioData = [];
-        let isRecording = false;
 
+        // Fungsi hash sederhana untuk generate FaceID
         function djb2Hash(str) {
             let hash = 5381;
             for (let i = 0; i < str.length; i++) {
@@ -727,6 +730,7 @@
             return hash >>> 0; // Konversi ke unsigned 32-bit integer
         }
 
+        // Fungsi untuk mengubah landmark wajah menjadi hash unik
         function generateFaceID(landmarks) {
             // Normalisasi koordinat landmark dengan presisi 4 digit desimal
             let hashString = landmarks.map(lm =>
@@ -975,6 +979,15 @@
 
         camera.start();
 
+        // Global variables
+        let heartRateChart = null;
+        let bpChart = null;
+        let voiceChart = null;
+        let audioContext;
+        let analyzer;
+        let mediaRecorder;
+        let audioData = [];
+        let isRecording = false;
         const VOICE_ANALYSIS_CONFIG = {
             FREQUENCY_THRESHOLDS: {
                 LOW: 85,
@@ -992,35 +1005,31 @@
             SAMPLE_RATE: 44100
         };
 
+        const GSR_URL = "https://4211421036.github.io/MentalHealth/GSR.json";
+        const MAX30102_URL = "https://4211421036.github.io/MentalHealth/MAX30102.json";
+        const BH1750_URL = "https://4211421036.github.io/MentalHealth/BH1750.json";
+
+        // Fungsi Fetch Data Sensor
         async function fetchSensorData() {
             try {
-                const urls = {
-                    gsr: "https://4211421036.github.io/MentalHealth/GSR.json",
-                    max: "https://4211421036.github.io/MentalHealth/MAX30102.json",
-                    bh: "https://4211421036.github.io/MentalHealth/BH1750.json"
-                };
-        
-                const responses = await Promise.all([
-                    fetch(urls.gsr),
-                    fetch(urls.max),
-                    fetch(urls.bh)
+                const [gsrResponse, maxResponse, bhResponse] = await Promise.all([
+                    fetch(GSR_URL),
+                    fetch(MAX30102_URL),
+                    fetch(BH1750_URL)
                 ]);
-        
-                for (const response of responses) {
-                    if (!response.ok) throw new Error(`Fetch error: ${response.status} ${response.statusText}`);
-                }
-        
-                const [gsrData, maxData, bhData] = await Promise.all(responses.map(res => res.json()));
-        
-                console.log("Data sensor berhasil di-fetch:", { gsrData, maxData, bhData });
+
+                const [gsrData, maxData, bhData] = await Promise.all([
+                    gsrResponse.json(),
+                    maxResponse.json(),
+                    bhResponse.json()
+                ]);
+
                 return { gsrData, maxData, bhData };
-        
             } catch (error) {
-                console.error("Gagal mengambil data sensor:", error);
+                console.error("Error fetching sensor data:", error);
                 return null;
             }
         }
-
         function analyzeMentalHealthIndicators(metrics) {
             const indicators = {
                 depression: 0,
@@ -1037,8 +1046,6 @@
                 document.getElementById("bloodPressure").textContent = `${bpSystolic}/${bpDiastolic}` || "N/A"; // Blood Pressure
                 document.getElementById("sleepHours").textContent = sleepHours || "N/A"; // Sleep
             }
-
-
             // Depression indicators
             if (metrics.frequency < VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.LOW &&
                 metrics.speechRate < VOICE_ANALYSIS_CONFIG.SPEECH_RATE.SLOW &&
@@ -1095,7 +1102,6 @@
             return indicators;
         }
 
-        // Calculate fundamental frequency using autocorrelation
         function calculateFundamentalFrequency(dataArray) {
             const bufferSize = dataArray.length;
             const correlations = new Float32Array(bufferSize);
@@ -1268,13 +1274,13 @@
 
         function initializeCharts() {
             // Destroy existing charts if they exist
-            if (heartRate) heartRate.destroy();
-            if (bloodPressure) bloodPressure.destroy();
+            if (heartRateChart) heartRateChart.destroy();
+            if (bpChart) bpChart.destroy();
             if (voiceChart) voiceChart.destroy();
 
             // Heart Rate Chart
-            const heartRateCtx = document.getElementById('heartRate').getContext('2d');
-    heartRate = new Chart(heartRateCtx, {
+            const heartRateCtx = document.getElementById('heartRateChart').getContext('2d');
+    heartRateChart = new Chart(heartRateCtx, {
         type: 'line',
         data: {
             labels: [],
@@ -1289,8 +1295,8 @@
         options: { responsive: true, maintainAspectRatio: false }
     });
 
-            const bpCtx = document.getElementById('bloodPressure').getContext('2d');
-    bloodPressure = new Chart(bpCtx, {
+            const bpCtx = document.getElementById('bpChart').getContext('2d');
+    bpChart = new Chart(bpCtx, {
         type: 'line',
         data: {
             labels: [],
@@ -1305,22 +1311,6 @@
         options: { responsive: true, maintainAspectRatio: false }
     });
 
-            const spCtx = document.getElementById('sleepHours').getContext('2d');
-    sleepHour = new Chart(spCtx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'Sleep Hours',
-                data: [],
-                borderColor: '#FF9800',
-                tension: 0.4,
-                fill: false
-            }]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-    });
-       
             // Voice Analysis Chart
             const voiceCtx = document.getElementById('voidChart').getContext('2d');
             voiceChart = new Chart(voiceCtx, {
@@ -1399,37 +1389,57 @@
             });
         }
 
- function updateCharts({ gsrData, maxData, bhData }) {
-    if (!gsrData || !maxData || !bhData) {
-        console.warn("Data sensor tidak tersedia.");
-        return;
+        // Fungsi Update Grafik
+async function updateCharts() {
+    const sensorData = await fetchSensorData();
+    if (!sensorData) return;
+
+    const { gsrData, maxData, bhData } = sensorData;
+
+    const timeNow = new Date().toLocaleTimeString();
+
+    // Update Grafik Heart Rate
+    if (heartRateChart) {
+        heartRateChart.data.labels.push(timeNow);
+        heartRateChart.data.datasets[0].data.push(maxData.heartRate || 0);
+        if (heartRateChart.data.labels.length > 10) heartRateChart.data.labels.shift();
+        if (heartRateChart.data.datasets[0].data.length > 10) heartRateChart.data.datasets[0].data.shift();
+        heartRateChart.update();
     }
 
-    // Pastikan data benar-benar ada sebelum mengaksesnya
-    const heartRate = maxData?.bpm ?? "N/A";
-    const bloodPressure = maxData?.hrv ?? "N/A"; // Tidak ada data BP di JSON, jadi ini contoh
-    const sleepHours = bhData?.lux ? (bhData.lux / 1000).toFixed(1) : "N/A";
+    // Update Grafik GSR
+    if (bpChart) {
+        bpChart.data.labels.push(timeNow);
+        bpChart.data.datasets[0].data.push(gsrData.gsr || 0);
+        if (bpChart.data.labels.length > 10) bpChart.data.labels.shift();
+        if (bpChart.data.datasets[0].data.length > 10) bpChart.data.datasets[0].data.shift();
+        bpChart.update();
+    }
 
-    console.log(`Updated Charts -> HeartRate: ${heartRate} BP: ${bloodPressure} Sleep: ${sleepHours}`);
-
-    document.getElementById("heartRate").textContent = heartRate;
-    document.getElementById("bloodPressure").textContent = bloodPressure;
-    document.getElementById("sleepHours").textContent = sleepHours;
-
+    // Update Grafik Light Intensity
+    if (lightChart) {
+        lightChart.data.labels.push(timeNow);
+        lightChart.data.datasets[0].data.push(bhData.lux || 0);
+        if (lightChart.data.labels.length > 10) lightChart.data.labels.shift();
+        if (lightChart.data.datasets[0].data.length > 10) lightChart.data.datasets[0].data.shift();
+        lightChart.update();
+    }
 }
 
         // Fungsi Update Data
-
 async function updateData() {
     const sensorData = await fetchSensorData();
-    if (!sensorData) {
-        console.warn("Data sensor tidak tersedia.");
-        return;
-    }
-
-    updateCharts(sensorData); // Perbarui tampilan
+    if (!sensorData) return;
+    const { gsrData, maxData, bhData } = sensorData;
+    // Mengambil data dari JSON sesuai skema
+    const heartRate = maxData?.heartRate ?? "N/A"; // Heart Rate (BPM)
+    const bpSystolic = maxData?.systolic ?? "N/A"; // Tekanan Darah Sistolik (mmHg)
+    const bpDiastolic = maxData?.diastolic ?? "N/A"; // Tekanan Darah Diastolik (mmHg)
+    const bloodPressure = bpSystolic !== "N/A" && bpDiastolic !== "N/A" ? `${bpSystolic}/${bpDiastolic}` : "N/A";
+    const sleepHours = bhData?.sleepHours ?? "N/A"; // Durasi Tidur (jam)
+    // Update HTML Metrics
+    updateMetrics(heartRate, bloodPressure, sleepHours);
 }
-
         // Function to update voice chart with real-time data
         function updateVoiceChart(indicators) {
             if (!voiceChart) return;
@@ -1739,6 +1749,17 @@ async function updateData() {
         }
 
         // Update grafik
+        function updateCharts(data) {
+            // Implementasi update chart sesuai data sensor
+            // Contoh:
+            const chart = Chart.getChart('heartRateChart');
+            if (chart) {
+                chart.data.datasets[0].data.push(data.heartRate);
+                chart.data.labels.push(new Date().toLocaleTimeString());
+                chart.update();
+            }
+        }
+        // Pindahkan close button handler ke luar loop
         closeBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 const modal = btn.closest('.modal');
