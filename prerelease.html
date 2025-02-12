@@ -1007,26 +1007,26 @@
 
         // Fungsi Fetch Data Sensor
         async function fetchSensorData() {
-    try {
-        // Ambil ketiga file JSON
-        const [gsrResponse, maxResponse, bhResponse] = await Promise.all([
-            fetch("GSR.json"),
-            fetch("MAX30102.json"),
-            fetch("BH1750.json")
-        ]);
-
-        // Parse JSON ke dalam objek JavaScript
-        const gsrData = await gsrResponse.json();
-        const maxData = await maxResponse.json();
-        const bhData = await bhResponse.json();
-
-        return { gsrData, maxData, bhData };
-
-    } catch (error) {
-        console.error("Gagal mengambil data sensor:", error);
-        return null;
-    }
-}
+            try {
+                // Ambil ketiga file JSON
+                const [gsrResponse, maxResponse, bhResponse] = await Promise.all([
+                    fetch("GSR.json"),
+                    fetch("MAX30102.json"),
+                    fetch("BH1750.json")
+                ]);
+        
+                // Parse JSON ke dalam objek JavaScript
+                const gsrData = await gsrResponse.json();
+                const maxData = await maxResponse.json();
+                const bhData = await bhResponse.json();
+        
+                return { gsrData, maxData, bhData };
+        
+            } catch (error) {
+                console.error("Gagal mengambil data sensor:", error);
+                return null;
+            }
+        }
         function analyzeMentalHealthIndicators(metrics) {
             const indicators = {
                 depression: 0,
