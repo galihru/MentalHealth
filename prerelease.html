@@ -425,6 +425,22 @@
                         <button class="time-btn" type="button" accesskey="y" aria-label="y">1Y</button>
                     </div>
                 </div>
+
+                <div class="graph-card">
+                    <div class="hr">
+                        <div class="graph-title">Sleep Time Trend</div>
+                        <i class="fa-solid fa-circle-info" data-modal=lights"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="spChart"></canvas>
+                    </div>
+                    <div class="time-range">
+                        <button class="time-btn" type="button" accesskey="d" aria-label="d">1D</button>
+                        <button type="button" class="time-btn active" accesskey="w" aria-label="time-btn">1W</button>
+                        <button class="time-btn" type="button" accesskey="m" aria-label="m">1M</button>
+                        <button class="time-btn" type="button" accesskey="y" aria-label="y">1Y</button>
+                    </div>
+                </div>
                 <div class="graph-card">
                     <div class="hr">
                         <div class="graph-title">Voice Analysis</div>
@@ -1019,12 +1035,6 @@
                 schizophrenia: 0
             };
 
-            // Fungsi Update Nilai di HTML
-            function updateMetrics(heartRate, bpSystolic, bpDiastolic, sleepHours) {
-                document.getElementById("heartRate").textContent = heartRate || "N/A"; // Heart Rate
-                document.getElementById("bloodPressure").textContent = `${bpSystolic}/${bpDiastolic}` || "N/A"; // Blood Pressure
-                document.getElementById("sleepHours").textContent = sleepHours || "N/A"; // Sleep
-            }
             // Depression indicators
             if (metrics.frequency < VOICE_ANALYSIS_CONFIG.FREQUENCY_THRESHOLDS.LOW &&
                 metrics.speechRate < VOICE_ANALYSIS_CONFIG.SPEECH_RATE.SLOW &&
@@ -1290,6 +1300,22 @@
         options: { responsive: true, maintainAspectRatio: false }
     });
 
+            const spCtx = document.getElementById('spChart').getContext('2d');
+    lightChart = new Chart(spCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Light Chart',
+                data: [],
+                borderColor: '#FF9800',
+                tension: 0.4,
+                fill: false
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+
             // Voice Analysis Chart
             const voiceCtx = document.getElementById('voidChart').getContext('2d');
             voiceChart = new Chart(voiceCtx, {
@@ -1419,6 +1445,13 @@ async function updateData() {
     // Update HTML Metrics
     updateMetrics(heartRate, bloodPressure, sleepHours);
 }
+
+        // Fungsi Update Nilai di HTML
+            function updateMetrics(heartRate, bpSystolic, bpDiastolic, sleepHours) {
+                document.getElementById("heartRate").textContent = heartRate || "N/A"; // Heart Rate
+                document.getElementById("bloodPressure").textContent = `${bpSystolic}/${bpDiastolic}` || "N/A"; // Blood Pressure
+                document.getElementById("sleepHours").textContent = sleepHours || "N/A"; // Sleep
+            }
         // Function to update voice chart with real-time data
         function updateVoiceChart(indicators) {
             if (!voiceChart) return;
