@@ -223,8 +223,7 @@ function processHTML(inputFilePath, outputFilePath) {
     }
 }
 
-// Contoh penggunaan
-const inputPath = path.resolve('prerelease.html');
-const outputPath = path.resolve('index.html');
+const inputPath = path.resolve(process.env.GITHUB_WORKSPACE, 'prerelease.html');
+const outputPath = path.resolve(process.env.GITHUB_WORKSPACE, 'index.html');
 
 processHTML(inputPath, outputPath);
