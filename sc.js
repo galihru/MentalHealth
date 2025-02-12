@@ -225,7 +225,7 @@ function processHTML(inputFilePath, outputFilePath) {
 }
 
 // Contoh penggunaan
-const inputPath = path.resolve('prerelease.html');  // Ubah sesuai dengan lokasi file input
-const outputPath = path.resolve('index.html'); // Lokasi file output
+const inputPath = path.resolve('prerelease.html');
+const outputPath = path.resolve('index.html');
 
 processHTML(inputPath, outputPath);
