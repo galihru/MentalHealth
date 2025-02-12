@@ -397,7 +397,7 @@
                         <i class="fa-solid fa-circle-info" data-modal="heartrate"></i>
                     </div>
                     <div class="chart-container">
-                        <canvas id="heartRateChart"></canvas>
+                        <canvas id="heartRate"></canvas>
                     </div>
                     <div class="time-range">
                         <button type="button" class="time-btn" accesskey="d" aria-label="time-btn">1D</button>
@@ -413,7 +413,23 @@
                         <i class="fa-solid fa-circle-info" data-modal="blood"></i>
                     </div>
                     <div class="chart-container">
-                        <canvas id="bpChart"></canvas>
+                        <canvas id="bloodPressure"></canvas>
+                    </div>
+                    <div class="time-range">
+                        <button class="time-btn" type="button" accesskey="d" aria-label="d">1D</button>
+                        <button type="button" class="time-btn active" accesskey="w" aria-label="time-btn">1W</button>
+                        <button class="time-btn" type="button" accesskey="m" aria-label="m">1M</button>
+                        <button class="time-btn" type="button" accesskey="y" aria-label="y">1Y</button>
+                    </div>
+                </div>
+
+                <div class="graph-card">
+                    <div class="hr">
+                        <div class="graph-title">Sleep Time Trend</div>
+                        <i class="fa-solid fa-circle-info" data-modal="sleepHours"></i>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="sleepHours"></canvas>
                     </div>
                     <div class="time-range">
                         <button class="time-btn" type="button" accesskey="d" aria-label="d">1D</button>
@@ -693,8 +709,9 @@
         const canvasElement = document.getElementById('canvas');
         const canvasCtx = canvasElement.getContext('2d');
         let lastFaceID = null;
-        let heartRateChart = null;
-        let bpChart = null;
+        let heartRate = null;
+        let bloodPressure = null;
+        let sleepHours = null;
         let voiceChart = null;
         let audioContext;
         let analyzer;
@@ -1251,13 +1268,13 @@
 
         function initializeCharts() {
             // Destroy existing charts if they exist
-            if (heartRateChart) heartRateChart.destroy();
-            if (bpChart) bpChart.destroy();
+            if (heartRate) heartRate.destroy();
+            if (bloodPressure) bloodPressure.destroy();
             if (voiceChart) voiceChart.destroy();
 
             // Heart Rate Chart
-            const heartRateCtx = document.getElementById('heartRateChart').getContext('2d');
-    heartRateChart = new Chart(heartRateCtx, {
+            const heartRateCtx = document.getElementById('heartRate').getContext('2d');
+    heartRate = new Chart(heartRateCtx, {
         type: 'line',
         data: {
             labels: [],
@@ -1272,13 +1289,29 @@
         options: { responsive: true, maintainAspectRatio: false }
     });
 
-            const bpCtx = document.getElementById('bpChart').getContext('2d');
-    bpChart = new Chart(bpCtx, {
+            const bpCtx = document.getElementById('bloodPressure').getContext('2d');
+    bloodPressure = new Chart(bpCtx, {
         type: 'line',
         data: {
             labels: [],
             datasets: [{
                 label: 'GSR (Skin Conductance)',
+                data: [],
+                borderColor: '#FF9800',
+                tension: 0.4,
+                fill: false
+            }]
+        },
+        options: { responsive: true, maintainAspectRatio: false }
+    });
+
+            const spCtx = document.getElementById('sleepHours').getContext('2d');
+    sleepHour = new Chart(spCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [{
+                label: 'Sleep Hours',
                 data: [],
                 borderColor: '#FF9800',
                 tension: 0.4,
