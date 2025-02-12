@@ -50,10 +50,10 @@ export default {
           'Permissions-Policy': 'accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()',
           'Content-Security-Policy': `
             default-src 'none';
-            script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com;
-            style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
-            img-src 'self' data: https://api.placeholder.com;
-            font-src 'self' https://cdnjs.cloudflare.com;
+            script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com https://4211421036.github.io/MentalHealth/;
+            style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://4211421036.github.io/MentalHealth/;
+            img-src 'self' data: https://api.placeholder.com https://4211421036.github.io/MentalHealth/;
+            font-src 'self' https://cdnjs.cloudflare.com https://4211421036.github.io/MentalHealth/;
             connect-src 'self';
             frame-ancestors 'none';
             form-action 'self';
