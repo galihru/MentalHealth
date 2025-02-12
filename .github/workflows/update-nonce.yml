@@ -45,7 +45,6 @@ jobs:
           git push
         fi
 
-        
     - name: Commit and Push Minified Files
       run: |
         git config user.name "github-actions"
