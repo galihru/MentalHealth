@@ -1007,25 +1007,26 @@
 
         // Fungsi Fetch Data Sensor
         async function fetchSensorData() {
-            try {
-                const [gsrResponse, maxResponse, bhResponse] = await Promise.all([
-                    fetch(GSR_URL),
-                    fetch(MAX30102_URL),
-                    fetch(BH1750_URL)
-                ]);
-        
-                const [gsrData, maxData, bhData] = await Promise.all([
-                    gsrResponse.json(),
-                    maxResponse.json(),
-                    bhResponse.json()
-                ]);
-        
-                return { gsrData, maxData, bhData };
-            } catch (error) {
-                console.error("Error fetching sensor data:", error);
-                return null;
-            }
-        }
+    try {
+        // Ambil ketiga file JSON
+        const [gsrResponse, maxResponse, bhResponse] = await Promise.all([
+            fetch("GSR.json"),
+            fetch("MAX30102.json"),
+            fetch("BH1750.json")
+        ]);
+
+        // Parse JSON ke dalam objek JavaScript
+        const gsrData = await gsrResponse.json();
+        const maxData = await maxResponse.json();
+        const bhData = await bhResponse.json();
+
+        return { gsrData, maxData, bhData };
+
+    } catch (error) {
+        console.error("Gagal mengambil data sensor:", error);
+        return null;
+    }
+}
         function analyzeMentalHealthIndicators(metrics) {
             const indicators = {
                 depression: 0,
@@ -1389,58 +1390,41 @@
         }
 
         // Fungsi Update Grafik
-async function updateCharts() {
-    const sensorData = await fetchSensorData();
-    if (!sensorData) return;
-
-    const { gsrData, maxData, bhData } = sensorData;
-
-    const timeNow = new Date().toLocaleTimeString();
-
-    // Update Grafik Heart Rate
-    if (heartRateChart) {
-        heartRateChart.data.labels.push(timeNow);
-        heartRateChart.data.datasets[0].data.push(maxData.heartRate || 0);
-        if (heartRateChart.data.labels.length > 10) heartRateChart.data.labels.shift();
-        if (heartRateChart.data.datasets[0].data.length > 10) heartRateChart.data.datasets[0].data.shift();
-        heartRateChart.update();
+function updateCharts(sensorData) {
+    if (!sensorData) {
+        console.warn("Data sensor tidak tersedia.");
+        return;
     }
 
-    // Update Grafik GSR
-    if (bpChart) {
-        bpChart.data.labels.push(timeNow);
-        bpChart.data.datasets[0].data.push(gsrData.gsr || 0);
-        if (bpChart.data.labels.length > 10) bpChart.data.labels.shift();
-        if (bpChart.data.datasets[0].data.length > 10) bpChart.data.datasets[0].data.shift();
-        bpChart.update();
-    }
+    const { maxData, bhData } = sensorData;
 
-    // Update Grafik Light Intensity
-    if (lightChart) {
-        lightChart.data.labels.push(timeNow);
-        lightChart.data.datasets[0].data.push(bhData.lux || 0);
-        if (lightChart.data.labels.length > 10) lightChart.data.labels.shift();
-        if (lightChart.data.datasets[0].data.length > 10) lightChart.data.datasets[0].data.shift();
-        lightChart.update();
-    }
+    // Ambil data dari MAX30102.json untuk detak jantung
+    const heartRate = maxData?.bpm ?? "N/A"; 
+
+    // Tekanan darah sementara tidak ada dalam JSON, jadi pakai default "N/A"
+    const bloodPressure = "N/A";
+
+    // Ambil data dari BH1750.json dan konversi lux ke jam tidur
+    const sleepHours = bhData?.lux ? (bhData.lux / 1000).toFixed(1) : "N/A";
+
+    console.log("Updated Charts -> HeartRate:", heartRate, "BP:", bloodPressure, "Sleep:", sleepHours);
+
+    // Update elemen HTML berdasarkan ID
+    document.getElementById("heartRate").textContent = heartRate;
+    document.getElementById("bloodPressure").textContent = bloodPressure;
+    document.getElementById("sleepHours").textContent = sleepHours;
 }
 
         // Fungsi Update Data
+
 async function updateData() {
     const sensorData = await fetchSensorData();
-    if (!sensorData) return;
+    if (!sensorData) {
+        console.warn("Data sensor tidak tersedia.");
+        return;
+    }
 
-    const { gsrData, maxData, bhData } = sensorData;
-
-    // Mengambil data dari JSON sesuai skema
-    const heartRate = maxData?.heartRate ?? "N/A"; // Heart Rate (BPM)
-    const bpSystolic = maxData?.systolic ?? "N/A"; // Tekanan Darah Sistolik (mmHg)
-    const bpDiastolic = maxData?.diastolic ?? "N/A"; // Tekanan Darah Diastolik (mmHg)
-    const bloodPressure = bpSystolic !== "N/A" && bpDiastolic !== "N/A" ? `${bpSystolic}/${bpDiastolic}` : "N/A";
-    const sleepHours = bhData?.sleepHours ?? "N/A"; // Durasi Tidur (jam)
-
-    // Update HTML Metrics
-    updateMetrics(heartRate, bloodPressure, sleepHours);
+    updateCharts(sensorData); // Perbarui tampilan
 }
 
         // Function to update voice chart with real-time data
