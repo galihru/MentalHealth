@@ -1,55 +1,57 @@
 export default {
   async fetch(request, env) {
+    // Validate request method
+    if (!['GET', 'HEAD'].includes(request.method)) {
+      return new Response('Method not allowed', { 
+        status: 405,
+        headers: {
+          'Allow': 'GET, HEAD',
+          'X-Content-Type-Options': 'nosniff'
+        }
+      });
+    }
+
     const url = new URL(request.url);
-    // Redirect to GitHub Pages
     const githubUrl = new URL(url.pathname, 'https://4211421036.github.io/MentalHealth/');
     
+    // Generate strong nonce using crypto
     const nonce = crypto.randomUUID();
     
     try {
-      // Fetch from GitHub Pages
-      const response = await fetch(githubUrl.toString(), {
-        headers: request.headers,
-        method: request.method,
-        body: request.body,
+      // Validate and sanitize headers before forwarding
+      const sanitizedHeaders = new Headers();
+      ['accept', 'accept-encoding', 'accept-language', 'user-agent'].forEach(header => {
+        if (request.headers.has(header)) {
+          sanitizedHeaders.set(header, request.headers.get(header));
+        }
       });
+
+      // Fetch from GitHub Pages with timeout
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 10000);
+      
+      const response = await fetch(githubUrl.toString(), {
+        headers: sanitizedHeaders,
+        method: request.method,
+        signal: controller.signal
+      }).finally(() => clearTimeout(timeout));
       
       const contentType = response.headers.get('content-type');
       
-      // Only process HTML responses
-      if (contentType && contentType.includes('text/html')) {
+      // Process HTML responses
+      if (contentType?.includes('text/html')) {
         let html = await response.text();
         
-        // Ensure proper DOCTYPE
-        if (!html.includes('<!DOCTYPE html>')) {
-          html = '<!DOCTYPE html>\n' + html;
-        }
-        
-        // Ensure meta charset is in head
-        if (!html.includes('<meta charset="utf-8"')) {
-          html = html.replace('<head>', '<head>\n<meta charset="utf-8">');
-        }
-        
-        // Ensure viewport meta is in head
-        if (!html.includes('name="viewport"')) {
-          html = html.replace('<head>', '<head>\n<meta name="viewport" content="width=device-width, initial-scale=1.0">');
-        }
-        
-        // Ensure meta description
-        if (!html.includes('name="description"')) {
-          html = html.replace('<head>', '<head>\n<meta name="description" content="Mental Health support and resources">');
-        }
-        
-        // Set security headers
-        const headers = new Headers({
+        // Security headers
+        const securityHeaders = {
           'Content-Type': 'text/html; charset=utf-8',
           'X-Content-Type-Options': 'nosniff',
           'X-Frame-Options': 'DENY',
           'X-XSS-Protection': '1; mode=block',
           'Referrer-Policy': 'strict-origin-when-cross-origin',
-          'Permissions-Policy': 'camera=(), microphone=(), geolocation=()',
+          'Permissions-Policy': 'accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()',
           'Content-Security-Policy': `
-            default-src 'self';
+            default-src 'none';
             script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com;
             style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
             img-src 'self' data: https://api.placeholder.com;
@@ -57,57 +59,72 @@ export default {
             connect-src 'self';
             frame-ancestors 'none';
             form-action 'self';
-            base-uri 'self';
+            base-uri 'none';
             upgrade-insecure-requests;
+            block-all-mixed-content;
+            require-trusted-types-for 'script';
           `.replace(/\s+/g, ' ').trim(),
           'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
-          // Cache Control headers
-          'Cache-Control': 'public, max-age=31536000, immutable',
-          // Remove Expires header as we're using Cache-Control
-          'Access-Control-Allow-Origin': '*'
-        });
-        
-        // Add nonce to all script tags
-        html = html.replace(/<script\b/g, `<script nonce="${nonce}"`);
-        
-        // Fix vendor prefixes
-        html = html
-          .replace(/backdrop-filter:/g, '-webkit-backdrop-filter: $1;\nbackdrop-filter:')
-          .replace(/background-clip:/g, '-webkit-background-clip: $1;\nbackground-clip:')
-          .replace(/mask-image:/g, '-webkit-mask-image: $1;\nmask-image:')
-          .replace(/mask-position:/g, '-webkit-mask-position: $1;\nmask-position:')
-          .replace(/mask-repeat:/g, '-webkit-mask-repeat: $1;\nmask-repeat:')
-          .replace(/user-select:/g, '-webkit-user-select: $1;\nuser-select:');
-        
+          'Cache-Control': 'public, max-age=86400, must-revalidate',
+          'Cross-Origin-Embedder-Policy': 'require-corp',
+          'Cross-Origin-Opener-Policy': 'same-origin',
+          'Cross-Origin-Resource-Policy': 'same-origin'
+        };
+
+        // Essential HTML security fixes
+        html = '<!DOCTYPE html>\n' + html
+          .replace(/<head>/i, `<head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta name="description" content="Mental Health support and resources">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="robots" content="noindex, nofollow">`)
+          .replace(/<script\b/g, `<script nonce="${nonce}"`)
+          .replace(/<a\b/g, '<a rel="noopener noreferrer"')
+          .replace(/on\w+="[^"]*"/g, ''); // Remove inline event handlers
+
         return new Response(html, {
-          headers: headers,
+          headers: new Headers(securityHeaders),
           status: response.status,
           statusText: response.statusText
         });
       }
       
-      // For non-HTML responses, set appropriate cache headers
-      const headers = new Headers(response.headers);
-      if (request.url.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg)$/)) {
+      // Handle non-HTML responses
+      const headers = new Headers({
+        'X-Content-Type-Options': 'nosniff',
+        'Cross-Origin-Resource-Policy': 'same-origin'
+      });
+
+      // Set appropriate cache headers based on file type
+      const fileExtension = url.pathname.split('.').pop()?.toLowerCase();
+      if (/^(js|css|png|jpg|jpeg|gif|ico|svg|woff2?|ttf|eot)$/.test(fileExtension)) {
         headers.set('Cache-Control', 'public, max-age=31536000, immutable');
-        headers.delete('Expires'); // Remove Expires header
       } else {
-        headers.set('Cache-Control', 'no-cache, must-revalidate');
+        headers.set('Cache-Control', 'no-store, must-revalidate');
       }
-      headers.set('X-Content-Type-Options', 'nosniff');
-      
+
+      // Copy original response headers that are safe
+      ['content-type', 'content-length', 'last-modified', 'etag'].forEach(header => {
+        if (response.headers.has(header)) {
+          headers.set(header, response.headers.get(header));
+        }
+      });
+
       return new Response(response.body, {
-        headers: headers,
+        headers,
         status: response.status,
         statusText: response.statusText
       });
       
     } catch (err) {
-      return new Response('Error processing request', { 
-        status: 500,
+      console.error('Worker error:', err);
+      return new Response('Service temporarily unavailable', { 
+        status: 503,
         headers: {
           'Content-Type': 'text/plain',
-          'X-Content-Type-Options': 'nosniff'
+          'X-Content-Type-Options': 'nosniff',
+          'Retry-After': '300'
         }
       });
     }
