@@ -327,19 +327,16 @@
                 <div class="cards-container">
                     <div class="metric-card green">
                         <div class="metric-label">Heart Rate</div>
-                        <div class="metric-value">95</div>
                         <div id="heartRate" class="metric-value">95</div>
                         <div class="metric-label">bpm</div>
                     </div>
                     <div class="metric-card orange">
                         <div class="metric-label">Blood Pressure</div>
-                        <div class="metric-value">121/80</div>
                         <div id="bloodPressure" class="metric-value">121/80</div>
                         <div class="metric-label">mmHg</div>
                     </div>
                     <div class="metric-card purple">
                         <div class="metric-label">Sleep</div>
-                        <div class="metric-value">6.8</div>
                         <div id="sleepHours" class="metric-value">6.8</div>
                         <div class="metric-label">hr/day</div>
                     </div>
@@ -481,11 +478,10 @@
                 progressBar.style.width = `${progress}%`;
                 updateAccessibility();
             }, 10);
-
             const loadingInterval = setInterval(() => {
                 if (progress < 90) {
                     progress += Math.random() * 15;
-                    if (progress > 100) progress = 100; // Pastikan tidak lebih dari 100
+                    if (progress > 100) progress = 100;
                     progressBar.style.width = `${progress}%`;
                     updateAccessibility();
                 }
