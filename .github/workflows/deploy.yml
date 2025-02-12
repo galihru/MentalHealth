@@ -11,28 +11,39 @@ jobs:
     name: Deploy to Cloudflare
     steps:
       - uses: actions/checkout@v4
-      
+        with:
+          fetch-depth: 0  # Ini penting untuk git diff
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install Wrangler
+        run: npm install -g wrangler@3.90.0
 
       - name: Deploy Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_API_TOKEN }}
-          wranglerVersion: '3.90.0'
-          preCommands: |
-            # Only upload changed files to reduce KV operations
-            git diff --name-only ${{ github.event.before }} ${{ github.sha }} > changed_files.txt
         env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           CF_ZONE_ID: ${{ secrets.CF_ZONE_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-
-      - name: Check Deployment Status
-        if: ${{ failure() }}
         run: |
-          echo "Deployment failed. Checking KV usage..."
-          npx wrangler kv:namespace list
-          echo "Note: Free tier KV limits reset daily. You may need to wait or upgrade your plan."
+          # Check if environment variables are set
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then
+            echo "Error: CLOUDFLARE_API_TOKEN is not set"
+            exit 1
+          fi
+          
+          if [ -z "$CF_ACCOUNT_ID" ]; then
+            echo "Error: CF_ACCOUNT_ID is not set"
+            exit 1
+          fi
+          
+          if [ -z "$CF_ZONE_ID" ]; then
+            echo "Error: CF_ZONE_ID is not set"
+            exit 1
+          fi
+          
+          # Deploy using wrangler
+          wrangler deploy --minify
