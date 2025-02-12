@@ -35,7 +35,6 @@ function loadThirdParty(element) {
     performance.measure('third-party-loading', 'app-init-start', 'third-party-load-' + actualSrc);
 }
 
-// Intersection Observer for lazy loading
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
