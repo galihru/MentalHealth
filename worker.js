@@ -1,6 +1,6 @@
 export default {
   async fetch(request, env) {
-    // Validate request method
+    // Validasi metode request
     if (!['GET', 'HEAD'].includes(request.method)) {
       return new Response('Method not allowed', { 
         status: 405,
@@ -12,12 +12,18 @@ export default {
     }
 
     const url = new URL(request.url);
-    const githubUrl = new URL(url.pathname, 'https://4211421036.github.io/MentalHealth/');
+    const githubBaseUrl = 'https://4211421036.github.io/MentalHealth/';
     
+    // Pastikan path tidak dimanipulasi agar menghindari SSRF
+    if (!url.pathname.startsWith('/')) {
+      return new Response('Invalid request', { status: 400 });
+    }
+
+    const githubUrl = new URL(url.pathname, githubBaseUrl);
     const nonce = crypto.randomUUID();
-    
+
     try {
-      // Validate and sanitize headers before forwarding
+      // Sanitize headers sebelum diteruskan
       const sanitizedHeaders = new Headers();
       ['accept', 'accept-encoding', 'accept-language', 'user-agent'].forEach(header => {
         if (request.headers.has(header)) {
@@ -25,7 +31,7 @@ export default {
         }
       });
 
-      // Fetch from GitHub Pages with timeout
+      // Fetch dari GitHub dengan timeout
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 10000);
       
@@ -34,42 +40,42 @@ export default {
         method: request.method,
         signal: controller.signal
       }).finally(() => clearTimeout(timeout));
-      
+
       const contentType = response.headers.get('content-type');
-      
+
+      // Jika respons adalah HTML, tambahkan keamanan tambahan
       if (contentType?.includes('text/html')) {
         let html = await response.text();
-        
-        // Security headers
+
+        // Tambahkan header keamanan
         const securityHeaders = {
           'Content-Type': 'text/html; charset=utf-8',
           'X-Content-Type-Options': 'nosniff',
           'X-Frame-Options': 'DENY',
           'X-XSS-Protection': '1; mode=block',
           'Referrer-Policy': 'strict-origin-when-cross-origin',
-          'Permissions-Policy': 'accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()',
+          'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
           'Content-Security-Policy': `
-            default-src 'none';
-            script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com https://4211421036.github.io/MentalHealth/;
-            style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://4211421036.github.io/MentalHealth/;
-            img-src 'self' data: https://api.placeholder.com https://4211421036.github.io/MentalHealth/;
-            font-src 'self' https://cdnjs.cloudflare.com https://4211421036.github.io/MentalHealth/;
+            default-src 'self';
+            script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com ${githubBaseUrl};
+            style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com ${githubBaseUrl};
+            img-src 'self' data: ${githubBaseUrl};
+            font-src 'self' https://cdnjs.cloudflare.com;
             connect-src 'self';
             frame-ancestors 'none';
             form-action 'self';
-            base-uri 'none';
+            base-uri 'self';
             upgrade-insecure-requests;
-            block-all-mixed-content;
-            require-trusted-types-for 'script';
           `.replace(/\s+/g, ' ').trim(),
           'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
           'Cache-Control': 'public, max-age=86400, must-revalidate',
+          'Access-Control-Allow-Origin': '*', // Bisa disesuaikan jika perlu lebih ketat
           'Cross-Origin-Embedder-Policy': 'require-corp',
           'Cross-Origin-Opener-Policy': 'same-origin',
           'Cross-Origin-Resource-Policy': 'same-origin'
         };
 
-        // Essential HTML security fixes
+        // Amankan HTML
         html = '<!DOCTYPE html>\n' + html
           .replace(/<head>/i, `<head>
             <meta charset="utf-8">
@@ -79,7 +85,7 @@ export default {
             <meta name="robots" content="noindex, nofollow">`)
           .replace(/<script\b/g, `<script nonce="${nonce}"`)
           .replace(/<a\b/g, '<a rel="noopener noreferrer"')
-          .replace(/on\w+="[^"]*"/g, ''); // Remove inline event handlers
+          .replace(/on\w+="[^"]*"/g, ''); // Hapus event handler inline
 
         return new Response(html, {
           headers: new Headers(securityHeaders),
@@ -87,14 +93,14 @@ export default {
           statusText: response.statusText
         });
       }
-      
-      // Handle non-HTML responses
+
+      // Tangani respons non-HTML
       const headers = new Headers({
         'X-Content-Type-Options': 'nosniff',
         'Cross-Origin-Resource-Policy': 'same-origin'
       });
 
-      // Set appropriate cache headers based on file type
+      // Set cache header berdasarkan ekstensi file
       const fileExtension = url.pathname.split('.').pop()?.toLowerCase();
       if (/^(js|css|png|jpg|jpeg|gif|ico|svg|woff2?|ttf|eot)$/.test(fileExtension)) {
         headers.set('Cache-Control', 'public, max-age=31536000, immutable');
@@ -102,7 +108,7 @@ export default {
         headers.set('Cache-Control', 'no-store, must-revalidate');
       }
 
-      // Copy original response headers that are safe
+      // Salin header respons asli yang aman
       ['content-type', 'content-length', 'last-modified', 'etag'].forEach(header => {
         if (response.headers.has(header)) {
           headers.set(header, response.headers.get(header));
@@ -114,11 +120,22 @@ export default {
         status: response.status,
         statusText: response.statusText
       });
-      
+
     } catch (err) {
       console.error('Worker error:', err);
-      return new Response('Service temporarily unavailable', { 
-        status: 503,
+      let errorMessage = 'Service temporarily unavailable';
+      let statusCode = 503;
+
+      if (err.name === 'AbortError') {
+        errorMessage = 'Request timed out';
+        statusCode = 504;
+      } else if (err.name === 'TypeError') {
+        errorMessage = 'Invalid request';
+        statusCode = 400;
+      }
+
+      return new Response(errorMessage, { 
+        status: statusCode,
         headers: {
           'Content-Type': 'text/plain',
           'X-Content-Type-Options': 'nosniff',
@@ -127,4 +144,4 @@ export default {
       });
     }
   }
-}
+};
