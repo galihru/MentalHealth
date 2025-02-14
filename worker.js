@@ -53,12 +53,12 @@ export default {
           'X-Content-Type-Options': 'nosniff',
           'X-Frame-Options': 'DENY',
           'X-XSS-Protection': '1; mode=block',
-          'Referrer-Policy': 'strict-origin-when-cross-origin',
+          'Referrer-Policy': 'no-referrer',
           'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
           'Content-Security-Policy': `
             default-src 'self';
             script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com ${githubBaseUrl};
-            style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com ${githubBaseUrl};
+            style-src 'self' https://cdnjs.cloudflare.com ${githubBaseUrl};
             img-src 'self' data: ${githubBaseUrl};
             font-src 'self' https://cdnjs.cloudflare.com;
             connect-src 'self';
@@ -69,10 +69,11 @@ export default {
           `.replace(/\s+/g, ' ').trim(),
           'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
           'Cache-Control': 'public, max-age=86400, must-revalidate',
-          'Access-Control-Allow-Origin': '*', // Bisa disesuaikan jika perlu lebih ketat
+          'Access-Control-Allow-Origin': '*',
           'Cross-Origin-Embedder-Policy': 'require-corp',
           'Cross-Origin-Opener-Policy': 'same-origin',
-          'Cross-Origin-Resource-Policy': 'same-origin'
+          'Cross-Origin-Resource-Policy': 'same-origin',
+          'X-Permitted-Cross-Domain-Policies': 'none'
         };
 
         // Amankan HTML
