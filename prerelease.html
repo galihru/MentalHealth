@@ -1427,33 +1427,35 @@
             const sensorData = await fetchSensorData();
             if (!sensorData) return;
             
-             console.log("Sensor Data:", sensorData);
-             const { gsrData, maxData, bhData } = sensorData;
+            const { gsrData, maxData, bhData } = sensorData;
             
-             console.log("MAX30102 Data:", maxData);
-             console.log("GSR Data:", gsrData);
-             console.log("BH1750 Data:", bhData);
+            // Mengambil data sesuai struktur JSON yang benar
+            const heartRate = maxData?.bpm ?? "N/A";
             
-            // Mengambil data dari JSON sesuai skema
-            const heartRate = maxData?.heartRate ?? "N/A"; // Heart Rate (BPM)
-            const bpSystolic = maxData?.systolic ?? "N/A"; // Tekanan Darah Sistolik (mmHg)
-            const bpDiastolic = maxData?.diastolic ?? "N/A"; // Tekanan Darah Diastolik (mmHg)
-            const sleepHours = bhData?.sleepHours ?? "N/A"; // Durasi Tidur (jam)
+            // Untuk tekanan darah, karena tidak ada data sistolik/diastolik yang eksplisit,
+            // kita bisa menggunakan data GSR sebagai pengganti sementara
+            const gsrValue = gsrData?.tonic ?? "N/A";
+            
+            // Untuk tidur, kita gunakan data lux sebagai pengganti sementara
+            const luxValue = bhData?.lux ?? "N/A";
             
             // Update HTML Metrics
-            updateMetrics(heartRate, bpSystolic, bpDiastolic, sleepHours);
+            updateMetrics(heartRate, gsrValue, luxValue);
         }
         
-        function updateMetrics(heartRate, bpSystolic, bpDiastolic, sleepHours) {
-            document.getElementById("heartRate").textContent = heartRate || "N/A"; // Heart Rate
+        function updateMetrics(heartRate, gsrValue, luxValue) {
+            // Update heart rate
+            document.getElementById("heartRate").textContent = 
+                (heartRate !== 0 && heartRate !== "N/A") ? heartRate : "N/A";
             
-            // Cek jika kedua nilai tersedia
-            const bloodPressure = (bpSystolic !== "N/A" && bpDiastolic !== "N/A") 
-                ? `${bpSystolic}/${bpDiastolic}` 
-                : "N/A/N/A";
-            document.getElementById("bloodPressure").textContent = bloodPressure; // Blood Pressure
+            // Update GSR value sebagai pengganti blood pressure
+            // Karena tidak ada data tekanan darah yang sebenarnya
+            document.getElementById("bloodPressure").textContent = 
+                (gsrValue !== "N/A") ? Math.round(gsrValue) : "N/A/N/A";
             
-            document.getElementById("sleepHours").textContent = sleepHours || "N/A"; // Sleep
+            // Update lux value sebagai pengganti sleep hours
+            document.getElementById("sleepHours").textContent = 
+                (luxValue !== "N/A") ? luxValue.toFixed(1) : "N/A";
         }
         // Function to update voice chart with real-time data
         function updateVoiceChart(indicators) {
