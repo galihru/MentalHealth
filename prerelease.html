@@ -1426,20 +1426,33 @@
         async function updateData() {
             const sensorData = await fetchSensorData();
             if (!sensorData) return;
-            const { gsrData, maxData, bhData } = sensorData;
+            
+             console.log("Sensor Data:", sensorData);
+             const { gsrData, maxData, bhData } = sensorData;
+            
+             console.log("MAX30102 Data:", maxData);
+             console.log("GSR Data:", gsrData);
+             console.log("BH1750 Data:", bhData);
+            
             // Mengambil data dari JSON sesuai skema
             const heartRate = maxData?.heartRate ?? "N/A"; // Heart Rate (BPM)
             const bpSystolic = maxData?.systolic ?? "N/A"; // Tekanan Darah Sistolik (mmHg)
             const bpDiastolic = maxData?.diastolic ?? "N/A"; // Tekanan Darah Diastolik (mmHg)
-            const bloodPressure = bpSystolic !== "N/A" && bpDiastolic !== "N/A" ? `${bpSystolic}/${bpDiastolic}` : "N/A";
             const sleepHours = bhData?.sleepHours ?? "N/A"; // Durasi Tidur (jam)
+            
             // Update HTML Metrics
-            updateMetrics(heartRate, bloodPressure, sleepHours);
+            updateMetrics(heartRate, bpSystolic, bpDiastolic, sleepHours);
         }
-
+        
         function updateMetrics(heartRate, bpSystolic, bpDiastolic, sleepHours) {
             document.getElementById("heartRate").textContent = heartRate || "N/A"; // Heart Rate
-            document.getElementById("bloodPressure").textContent = `${bpSystolic}/${bpDiastolic}` || "N/A"; // Blood Pressure
+            
+            // Cek jika kedua nilai tersedia
+            const bloodPressure = (bpSystolic !== "N/A" && bpDiastolic !== "N/A") 
+                ? `${bpSystolic}/${bpDiastolic}` 
+                : "N/A/N/A";
+            document.getElementById("bloodPressure").textContent = bloodPressure; // Blood Pressure
+            
             document.getElementById("sleepHours").textContent = sleepHours || "N/A"; // Sleep
         }
         // Function to update voice chart with real-time data
