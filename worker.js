@@ -3,7 +3,6 @@ export default {
     const url = new URL(request.url);
     const githubBaseUrl = 'https://4211421036.github.io/MentalHealth/';
 
-    // Redirect HTTP ke HTTPS
     if (url.protocol === 'http:') {
       return Response.redirect(`https://${url.host}${url.pathname}`, 301);
     }
