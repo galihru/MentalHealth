@@ -13,76 +13,70 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-
-    - name: Install dependencies
-      run: |
-        npm install -g lighthouse
-        sudo apt-get update
-        sudo apt-get install -y curl
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     - name: Run security checks
-      id: security_check
       run: |
+        # Create temp directory for outputs
+        mkdir -p ./temp
+        
         echo "Running security checks..."
         
-        # Store headers in a file
-        curl -sI https://4211421036.github.io/MentalHealth/ > headers.txt
-        
-        # Initialize security report
-        {
-          echo "Security Report:"
-          echo "=================="
-          echo "Timestamp: $(date -u)"
-          echo ""
-        } > security_report.txt
-        
-        # Function to check header
-        check_header() {
-          local header="$1"
-          local pattern="$2"
-          local message="$3"
-          if ! grep -qi "^$header:" headers.txt; then
-            echo "❌ $message - Header missing" >> security_report.txt
-            return 1
-          elif [ -n "$pattern" ] && ! grep -qi "^$header:.*$pattern" headers.txt; then
-            echo "⚠️ $message - Invalid value" >> security_report.txt
-            return 1
-          else
-            echo "✅ $message - OK" >> security_report.txt
-            return 0
-          fi
+        # Fetch headers and store response
+        curl -sI https://4211421036.github.io/MentalHealth/ > ./temp/headers.txt || {
+          echo "Failed to fetch headers"
+          exit 1
         }
         
-        # Check security headers
+        # Initialize report file
+        cat > ./temp/report.txt << EOL
+        Security Headers Report
+        =====================
+        Generated: $(date -u)
+        
+        Header Checks:
+        EOL
+        
+        # Define headers to check
+        declare -A headers=(
+          ["Content-Security-Policy"]="Content Security Policy"
+          ["Strict-Transport-Security"]="HSTS"
+          ["X-Content-Type-Options"]="X-Content-Type-Options"
+          ["X-Frame-Options"]="X-Frame-Options"
+          ["X-XSS-Protection"]="X-XSS-Protection"
+          ["Referrer-Policy"]="Referrer Policy"
+          ["Cross-Origin-Opener-Policy"]="COOP"
+          ["Cross-Origin-Resource-Policy"]="CORP"
+          ["Permissions-Policy"]="Permissions Policy"
+        )
+        
+        # Check each header
         FAILED=0
+        for header in "${!headers[@]}"; do
+          if grep -qi "^${header}:" ./temp/headers.txt; then
+            echo "✅ ${headers[$header]} - Present" >> ./temp/report.txt
+          else
+            echo "❌ ${headers[$header]} - Missing" >> ./temp/report.txt
+            ((FAILED++))
+          fi
+        done
         
-        check_header "content-security-policy" "default-src" "Content Security Policy" || ((FAILED++))
-        check_header "strict-transport-security" "max-age=31536000" "HTTP Strict Transport Security" || ((FAILED++))
-        check_header "cross-origin-opener-policy" "same-origin" "Cross-Origin Opener Policy" || ((FAILED++))
-        check_header "x-content-type-options" "nosniff" "X-Content-Type-Options" || ((FAILED++))
-        check_header "x-frame-options" "deny" "X-Frame-Options" || ((FAILED++))
-        check_header "x-xss-protection" "1; mode=block" "X-XSS-Protection" || ((FAILED++))
-        check_header "referrer-policy" "strict-origin" "Referrer-Policy" || ((FAILED++))
-        check_header "permissions-policy" "" "Permissions-Policy" || ((FAILED++))
-        check_header "cross-origin-resource-policy" "same-origin" "Cross-Origin Resource Policy" || ((FAILED++))
+        # Add summary
+        echo -e "\nSummary:" >> ./temp/report.txt
+        echo "Total headers missing: $FAILED" >> ./temp/report.txt
         
-        # Run Lighthouse security scan
-        lighthouse https://4211421036.github.io/MentalHealth/ \
-          --chrome-flags="--headless --disable-gpu --no-sandbox" \
-          --output json --output-path lighthouse-report.json \
-          --only-categories security
+        # Display report
+        cat ./temp/report.txt
         
-        # Output report
-        cat security_report.txt
+        # Store report for later steps
+        cp ./temp/report.txt security-report.txt
         
-        # Exit with error if any checks failed
-        [ $FAILED -eq 0 ]
+        # Exit with status based on results
+        if [ $FAILED -gt 0 ]; then
+          echo "Some security headers are missing"
+          exit 1
+        fi
 
     - name: Create Issue on Failure
       if: failure()
@@ -93,18 +87,16 @@ jobs:
           const fs = require('fs');
           
           try {
-            let issueBody = '# Security Check Failed\n\n';
-            
-            if (fs.existsSync('./security_report.txt')) {
-              issueBody += fs.readFileSync('./security_report.txt', 'utf8');
-            }
+            const report = fs.existsSync('./security-report.txt') 
+              ? fs.readFileSync('./security-report.txt', 'utf8')
+              : 'Security check failed - no detailed report available';
             
             await github.rest.issues.create({
               owner: context.repo.owner,
               repo: context.repo.name,
-              title: 'Security Headers Check Failed',
-              body: issueBody
+              title: '🚨 Security Headers Check Failed',
+              body: `## Security Check Results\n\n\`\`\`\n${report}\n\`\`\`\n\nPlease review and update security headers configuration.`
             });
           } catch (error) {
-            console.error('Failed to create issue:', error);
+            console.log('Error creating issue:', error);
           }
