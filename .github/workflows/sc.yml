@@ -146,3 +146,14 @@ jobs:
           let issueBody = '# Security Check Failed\n\n';
           
           if (fs.existsSync('./security_report.txt')) {
+            issueBody += fs.readFileSync('./security_report.txt', 'utf8');
+          } else {
+            issueBody += 'No security report available.';
+          }
+          
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: 'Security Check Failed',
+            body: issueBody
+          });
