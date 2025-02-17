@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded1_background"
-    android:padding="16dp"
+    android:padding="8dp"
     android:orientation="vertical"
     android:gravity="center"
     android:elevation="6dp">
@@ -11,10 +11,11 @@
     <!-- Ikon Kesehatan Mental -->
     <ImageView
         android:id="@+id/widget_icon"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:src="@drawable/ic_mental_health"
         android:contentDescription="Mental Health Icon"
+        android:layout_marginEnd="8dp"
         android:layout_gravity="right"
         />
 
@@ -24,18 +25,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kondisi Anda"
-        android:textSize="18sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:layout_gravity="left"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="0dp"/>
 
     <TextView
         android:id="@+id/widget_conclusion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kondisi Mental"
-        android:textSize="12sp"
+        android:textSize="11sp"
         android:layout_gravity="left"
         android:textColor="@android:color/white"
         android:layout_marginTop="4dp"/>
@@ -45,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Tetap tenang dan jaga pola tidur yang baik."
-        android:textSize="10sp"
+        android:textSize="8sp"
         android:textColor="@android:color/white"
         android:gravity="center"
         android:layout_marginTop="4dp"/>

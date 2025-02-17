@@ -3,8 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:previewImage="@drawable/widget_layout_2x1"
     android:minWidth="130dp"
-    android:minHeight="30dp"
-    android:updatePeriodMillis="1"
-    android:initialLayout="@layout/widget_layout_2x1"
+    android:minHeight="70dp"
+    android:updatePeriodMillis="86400000"
+    android:initialLayout="@layout/widget_layout_sensor_2x1"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"/>

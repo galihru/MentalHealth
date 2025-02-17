@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/rounded_background"
-    android:padding="16dp"
+    android:padding="4dp"
     android:elevation="4dp">
 
     <ImageView
@@ -26,6 +26,8 @@
         android:layout_toEndOf="@id/widget_icon"
         android:layout_marginStart="12dp"
         android:layout_centerVertical="true"
+        android:layout_marginTop ="0dp"
+        android:layout_marginBottom="0dp"
         android:orientation="vertical">
 
         <TextView

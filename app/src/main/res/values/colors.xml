@@ -9,4 +9,5 @@
     <color name="neutral_color">#9E9E9E</color>
     <color name="dark_blue">#1E3A5F</color>
     <color name="light_blue">#A0C4FF</color>
+    <color name="heart_red">#FF0000</color>
 </resources>
