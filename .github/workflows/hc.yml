@@ -1,0 +1,27 @@
+name: Run Script Every 1 Second
+
+on:
+  schedule:
+    - cron: '*/1 * * * *'  # Jalankan setiap 1 menit (ini adalah interval terkecil di GitHub Actions)
+  workflow_dispatch:  # Memungkinkan Anda menjalankan workflow secara manual
+
+jobs:
+  run-script:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'  # Sesuaikan versi Node.js yang Anda gunakan
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run script every 1 second
+      run: |
+        # Jalankan skrip JavaScript setiap 1 detik
+        node hc.js
