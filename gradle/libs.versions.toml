@@ -6,6 +6,7 @@ cameraLifecycle = "1.4.1"
 cameraView = "1.4.1"
 facedetection = "0.10.20"
 facemesh = "0.10.20"
+fragmentKtx = "1.5.5"
 hands = "0.10.20"
 kotlin = "1.9.24"
 coreKtx = "1.15.0"
@@ -20,10 +21,12 @@ constraintlayout = "2.2.0"
 solutionCore = "0.10.20"
 solutionsFacemesh = "0.10.20"
 tasksVision = "0.20230731"
+williamchart = "3.10.1"
 
 [libraries]
 androidx-camera-view = { module = "androidx.camera:camera-view", version.ref = "cameraView" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-fragment-ktx = { module = "androidx.fragment:fragment-ktx", version.ref = "fragmentKtx" }
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycleRuntimeKtx" }
 camera-camera2 = { module = "androidx.camera:camera-camera2", version.ref = "cameraCamera2" }
 camera-core = { module = "androidx.camera:camera-core", version.ref = "cameraCore" }
@@ -41,6 +44,7 @@ mediapipe-hands = { module = "com.google.mediapipe:hands", version.ref = "hands"
 mediapipe-solutions-facemesh = { module = "com.google.mediapipe:solutions-facemesh", version.ref = "solutionsFacemesh" }
 solution-core = { module = "com.google.mediapipe:solution-core", version.ref = "solutionCore" }
 tasks-vision = { module = "com.google.mediapipe:tasks-vision", version.ref = "tasksVision" }
+williamchart = { module = "com.diogobernardino:williamchart", version.ref = "williamchart" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

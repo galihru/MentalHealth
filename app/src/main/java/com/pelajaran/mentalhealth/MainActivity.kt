@@ -3,6 +3,8 @@ package com.pelajaran.mentalhealth
 import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.Bundle
+import android.Manifest
+import android.content.Context
 import android.util.Log
 import android.view.WindowManager
 import android.widget.TextView
@@ -16,6 +18,13 @@ import com.google.mediapipe.solutions.facemesh.FaceMesh
 import com.google.mediapipe.solutions.facemesh.FaceMeshOptions
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import android.view.View
+import android.view.ViewStub
+import androidx.core.app.ActivityCompat
+import android.widget.ImageView
+import android.content.pm.PackageManager
+import kotlin.math.roundToInt
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var emotionTextView: TextView
@@ -25,19 +34,25 @@ class MainActivity : AppCompatActivity() {
     private var camera: Camera? = null
     private var lensFacing = CameraSelector.LENS_FACING_FRONT
     private val emotionDetector = EmotionDetector()
-    private val emotionHistory = mutableListOf<String>()
+    private val emotionHistory = mutableListOf<Map<String, Float>>()
+    private var historyBottomSheet: HistoryBottomSheet? = null
+    private var chartBottomSheet: ChartBottomSheet? = null
 
-    private fun setupSwipeGestures() {
-        val swipeListener = object : OnSwipeTouchListener(this) {
-            override fun onSwipeRight() {
-                if(currentFragment != FRAGMENT_HOME) {
-                    loadHomeFragment()
-                    updateMenuStates(R.id.menu_home)
-                }
-            }
+    // Tambahkan permission check untuk audio
+    private fun checkPermissions(): Boolean {
+        val permissions = arrayOf(
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO
+        )
+
+        return if (permissions.any {
+                ContextCompat.checkSelfPermission(this, it) != PackageManager.PERMISSION_GRANTED
+            }) {
+            ActivityCompat.requestPermissions(this, permissions, 101)
+            false
+        } else {
+            true
         }
-
-        previewView.setOnTouchListener(swipeListener)
     }
 
     companion object {
@@ -54,24 +69,38 @@ class MainActivity : AppCompatActivity() {
         navContainer?.inflate()
     }
 
-    private fun setupNavigation() {
-        findViewById<ImageView>(R.id.menu_home).isSelected = true
-    }
-
     fun onNavItemClicked(view: View) {
         when(view.id) {
             R.id.menu_home -> {
-                if(!view.isSelected) loadHomeFragment()
+                closeBottomSheets()
+                loadHomeFragment()
             }
             R.id.menu_chart -> {
-                if(!view.isSelected) loadChartFragment()
+                closeBottomSheets()
+                chartBottomSheet = ChartBottomSheet.newInstance()
+                chartBottomSheet?.show(supportFragmentManager, "ChartBottomSheet")
             }
             R.id.menu_history -> {
-                if(!view.isSelected) loadHistoryFragment()
+                closeBottomSheets()
+                historyBottomSheet = HistoryBottomSheet.newInstance()
+                historyBottomSheet?.show(supportFragmentManager, "HistoryBottomSheet")
             }
         }
         updateMenuStates(view.id)
     }
+
+    private fun closeBottomSheets() {
+        historyBottomSheet?.dismiss()
+        historyBottomSheet = null
+
+        chartBottomSheet?.dismiss()
+        chartBottomSheet = null
+    }
+
+    private fun setupNavigation() {
+        findViewById<ImageView>(R.id.menu_home).isSelected = true
+    }
+
 
     private fun updateMenuStates(selectedId: Int) {
         listOf(R.id.menu_home, R.id.menu_chart, R.id.menu_history).forEach { id ->
@@ -102,7 +131,6 @@ class MainActivity : AppCompatActivity() {
         currentFragment = FRAGMENT_HISTORY
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -117,32 +145,49 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
         loadHomeFragment()
         setupFaceMesh()
-        startCamera()
+        if (checkCameraPermission()) {
+            startCamera()
+        }
+    }
+
+    private fun checkCameraPermission(): Boolean {
+        return if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), 101)
+            false
+        } else {
+            true
+        }
     }
 
     private fun updateEmotionUI(emotions: Map<String, Float>) {
-        val dominantEmotion = emotions.maxByOrNull { it.value }?.key ?: "neutral"
-        emotionHistory.add(dominantEmotion)
+        emotionHistory.add(emotions)
 
-        // Fix for API < 35
+        // Batasi ukuran history
         if (emotionHistory.size > 10) emotionHistory.removeAt(0)
 
-        val mentalHealthStatus = when {
-            emotionHistory.count { it == "sad" } > 5 -> "Potential Depression"
-            emotionHistory.count { it == "angry" } > 5 -> "Potential Anger Issues"
-            emotionHistory.count { it == "neutral" } > 8 -> "Stable Mental State"
-            else -> "Normal"
-        }
-
+        // Update UI dengan semua emosi
         val text = buildString {
             append("Detected Emotions:\n")
             emotions.forEach { (emotion, percent) ->
                 append("${emotion.replaceFirstChar { it.uppercase() }}: ${"%.1f".format(percent)}%\n")
             }
-            append("\nConclusion: $mentalHealthStatus")
+            append("\nConclusion: ${getMentalHealthStatus()}")
         }
 
         emotionTextView.text = text
+
+        // Simpan data mental health ke SharedPreferences
+        saveMentalHealthData(getMentalHealthStatus(), getRecommendation())
+    }
+
+    private fun getMentalHealthStatus(): String {
+        return when {
+            emotionHistory.count { it["sad"] ?: 0f > 0.5f } > 5 -> "Potential Depression"
+            emotionHistory.count { it["angry"] ?: 0f > 0.5f } > 5 -> "Potential Anger Issues"
+            emotionHistory.count { it["neutral"] ?: 0f > 0.5f } > 8 -> "Stable Mental State"
+            else -> "Normal"
+        }
     }
 
     private fun setupFaceMesh() {
@@ -168,7 +213,7 @@ class MainActivity : AppCompatActivity() {
             val preview = Preview.Builder()
                 .setTargetRotation(previewView.display.rotation)
                 .build()
-                .also { it.setSurfaceProvider(previewView.surfaceProvider) }
+                .also { it.surfaceProvider = previewView.surfaceProvider }
 
             val imageAnalysis = ImageAnalysis.Builder()
                 .setTargetRotation(previewView.display.rotation)
@@ -202,7 +247,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun processImageProxy(imageProxy: ImageProxy) {
         val rotationDegrees = imageProxy.imageInfo.rotationDegrees.toFloat()
-        bitmap = imageProxy.toBitmap()?.rotate(rotationDegrees)
+        bitmap = imageProxy.toBitmap().rotate(rotationDegrees)
 
         bitmap?.let {
             faceMesh.send(it, System.currentTimeMillis())
@@ -235,8 +280,13 @@ class MainActivity : AppCompatActivity() {
             overlayView.updateLandmarks(landmarks)
         } else {
             overlayView.updateLandmarks(emptyList())
-            runOnUiThread { emotionTextView.text = "No face detected" }
+            runOnUiThread { emotionTextView.text = buildString {
+        append("No face detected")
+    } }
         }
+    }
+    fun getEmotionHistory(): List<Map<String, Float>> {
+        return emotionHistory
     }
 
     private fun calculateFaceBoundingBox(face: LandmarkProto.NormalizedLandmarkList): Quadruple<Float> {
@@ -279,6 +329,32 @@ class MainActivity : AppCompatActivity() {
 
             Pair(x, y)
         }
+    }
+    private fun getRecommendation(): String {
+        return when {
+            emotionHistory.count { it["sad"] ?: 0f > 0.5f } > 5 -> "Cobalah untuk berbicara dengan seseorang atau mencari bantuan profesional."
+            emotionHistory.count { it["angry"] ?: 0f > 0.5f } > 5 -> "Cobalah teknik relaksasi seperti meditasi atau pernapasan dalam."
+            emotionHistory.count { it["neutral"] ?: 0f > 0.5f } > 8 -> "Pertahankan kebiasaan baik Anda."
+            else -> "Tetap tenang dan jaga kesehatan mental Anda."
+        }
+    }
+    private fun saveMentalHealthData(conclusion: String, recommendation: String) {
+        val sharedPreferences = getSharedPreferences("MentalHealthPrefs", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("conclusion", conclusion)
+        editor.putString("recommendation", recommendation)
+        editor.apply()
+
+        // Perbarui widget
+        MentalHealthWidget4x1.updateWidget(this)
+        MentalHealthWidget2x1.updateWidget(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Perbarui widget saat aplikasi dibuka
+        MentalHealthWidget4x1.updateWidget(this)
+        MentalHealthWidget2x1.updateWidget(this)
     }
 
     override fun onDestroy() {
