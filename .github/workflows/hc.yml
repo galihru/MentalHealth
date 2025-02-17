@@ -2,7 +2,7 @@ name: Run Script Every 1 Second
 
 on:
   schedule:
-    - cron: '*/1 * * * *'  # Jalankan setiap 1 menit (ini adalah interval terkecil di GitHub Actions)
+    - cron: '*/1 * * * *'
   workflow_dispatch:  # Memungkinkan Anda menjalankan workflow secara manual
 
 jobs:
