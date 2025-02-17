@@ -2,4 +2,11 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="happy_color">#4CAF50</color>
+    <color name="sad_color">#2196F3</color>
+    <color name="angry_color">#F44336</color>
+    <color name="surprised_color">#FF9800</color>
+    <color name="neutral_color">#9E9E9E</color>
+    <color name="dark_blue">#1E3A5F</color>
+    <color name="light_blue">#A0C4FF</color>
 </resources>

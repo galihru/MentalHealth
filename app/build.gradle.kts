@@ -26,6 +26,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -42,13 +43,15 @@ dependencies {
     implementation(libs.mediapipe.hands)
     // https://mvnrepository.com/artifact/com.google.mediapipe/facemesh
     implementation(libs.mediapipe.facemesh)
-
+    implementation (libs.williamchart)
     implementation (libs.camera.core)
     implementation (libs.camera.camera2)
     implementation (libs.camera.lifecycle)
     implementation (libs.androidx.camera.view)
 
     implementation (libs.androidx.lifecycle.runtime.ktx)
+
+    implementation (libs.androidx.fragment.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

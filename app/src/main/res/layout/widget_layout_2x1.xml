@@ -1,0 +1,52 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/rounded1_background"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:elevation="6dp">
+
+    <!-- Ikon Kesehatan Mental -->
+    <ImageView
+        android:id="@+id/widget_icon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_mental_health"
+        android:contentDescription="Mental Health Icon"
+        android:layout_gravity="right"
+        />
+
+    <!-- Detail Kondisi -->
+    <TextView
+        android:id="@+id/widget_condition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kondisi Anda"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:layout_gravity="left"
+        android:layout_marginTop="8dp"/>
+
+    <TextView
+        android:id="@+id/widget_conclusion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kondisi Mental"
+        android:textSize="12sp"
+        android:layout_gravity="left"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="4dp"/>
+
+    <TextView
+        android:id="@+id/widget_recommendation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tetap tenang dan jaga pola tidur yang baik."
+        android:textSize="10sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:layout_marginTop="4dp"/>
+</LinearLayout>
