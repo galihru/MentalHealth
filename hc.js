@@ -2,7 +2,6 @@ const helmet = require('helmet');
 const express = require('express');
 const app = express();
 
-// Gunakan helmet untuk keamanan
 app.use(helmet());
 app.use(
   helmet.contentSecurityPolicy({
