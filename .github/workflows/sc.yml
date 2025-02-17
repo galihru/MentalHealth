@@ -60,6 +60,8 @@ jobs:
           header=$(echo "$header_pair" | cut -d: -f1)
           description=$(echo "$header_pair" | cut -d: -f2)
           echo "Checking for header: $header"
+          
+          # Debugging: Check if the header exists in the file
           if grep -qi "^${header}:" ./temp/headers.txt; then
             echo "✅ $description - Present" >> ./temp/report.txt
           else
