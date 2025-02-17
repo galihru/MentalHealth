@@ -1,0 +1,79 @@
+name: Security Headers Check
+
+on:
+  schedule:
+    - cron: '*/1 * * * *'  # Runs every minute
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  security-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install lighthouse
+      run: npm install -g lighthouse
+
+    - name: Check Security Headers
+      run: |
+        lighthouse https://4211421036.github.io/MentalHealth/ \
+          --output json --output-path ./report.json \
+          --chrome-flags="--headless" \
+          --only-categories=best-practices,security
+
+    - name: Install jq
+      run: sudo apt-get install jq
+
+    - name: Analyze Security Headers
+      run: |
+        SCORE=$(jq '.categories.security.score' ./report.json)
+        if (( $(echo "$SCORE < 0.9" | bc -l) )); then
+          echo "Security score is below 90%: $SCORE"
+          exit 1
+        fi
+
+    - name: Check CSP Headers
+      run: |
+        CSP_HEADER=$(curl -sI https://4211421036.github.io/MentalHealth/ | grep -i 'content-security-policy')
+        if [ -z "$CSP_HEADER" ]; then
+          echo "No CSP header found!"
+          exit 1
+        fi
+
+    - name: Check HSTS Headers
+      run: |
+        HSTS_HEADER=$(curl -sI https://4211421036.github.io/MentalHealth/ | grep -i 'strict-transport-security')
+        if [[ ! $HSTS_HEADER =~ "includeSubDomains" ]] || [[ ! $HSTS_HEADER =~ "preload" ]]; then
+          echo "HSTS header missing required directives!"
+          exit 1
+        fi
+
+    - name: Check COOP Headers
+      run: |
+        COOP_HEADER=$(curl -sI https://4211421036.github.io/MentalHealth/ | grep -i 'cross-origin-opener-policy')
+        if [ -z "$COOP_HEADER" ]; then
+          echo "No COOP header found!"
+          exit 1
+        fi
+
+    - name: Create Issue on Failure
+      if: failure()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: 'Security Headers Check Failed',
+            body: 'Security headers check failed. Please review the workflow logs for details.'
+          })
+
+    - name: Upload Security Report
+      uses: actions/upload-artifact@v3
+      with:
+        name: security-report
+        path: ./report.json
