@@ -40,28 +40,30 @@ jobs:
         Header Checks:
         EOL
         
-        # Define headers to check
-        declare -A headers=(
-          ["Content-Security-Policy"]="Content Security Policy"
-          ["Strict-Transport-Security"]="HSTS"
-          ["X-Content-Type-Options"]="X-Content-Type-Options"
-          ["X-Frame-Options"]="X-Frame-Options"
-          ["X-XSS-Protection"]="X-XSS-Protection"
-          ["Referrer-Policy"]="Referrer Policy"
-          ["Cross-Origin-Opener-Policy"]="COOP"
-          ["Cross-Origin-Resource-Policy"]="CORP"
-          ["Permissions-Policy"]="Permissions Policy"
+        # Define headers to check (using a regular array)
+        headers=(
+          "Content-Security-Policy:Content Security Policy"
+          "Strict-Transport-Security:HSTS"
+          "X-Content-Type-Options:X-Content-Type-Options"
+          "X-Frame-Options:X-Frame-Options"
+          "X-XSS-Protection:X-XSS-Protection"
+          "Referrer-Policy:Referrer Policy"
+          "Cross-Origin-Opener-Policy:COOP"
+          "Cross-Origin-Resource-Policy:CORP"
+          "Permissions-Policy:Permissions Policy"
         )
         
         # Check each header
         FAILED=0
         echo "Checking headers..."
-        for header in "${!headers[@]}"; do
+        for header_pair in "${headers[@]}"; do
+          header=$(echo "$header_pair" | cut -d: -f1)
+          description=$(echo "$header_pair" | cut -d: -f2)
           echo "Checking for header: $header"
           if grep -qi "^${header}:" ./temp/headers.txt; then
-            echo "✅ ${headers[$header]} - Present" >> ./temp/report.txt
+            echo "✅ $description - Present" >> ./temp/report.txt
           else
-            echo "❌ ${headers[$header]} - Missing" >> ./temp/report.txt
+            echo "❌ $description - Missing" >> ./temp/report.txt
             ((FAILED++))
           fi
         done
@@ -79,5 +81,5 @@ jobs:
         # Exit with status based on results
         if [ $FAILED -gt 0 ]; then
           echo "Some security headers are missing"
-          # exit 1  # Comment this out for debugging
+          exit 1
         fi
