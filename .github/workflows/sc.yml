@@ -46,6 +46,14 @@ jobs:
           sleep 10
         done
 
+    - name: Debug Lighthouse
+      run: |
+        lighthouse https://4211421036.github.io/MentalHealth/ \
+          --chrome-flags="--headless --disable-gpu --no-sandbox" \
+          --output json --output-path lighthouse-report.json \
+          --only-categories=best-practices,security
+        cat lighthouse-report.json
+
     - name: Run security checks
       id: security_check
       run: |
