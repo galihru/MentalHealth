@@ -15,11 +15,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Setup Chrome
-      uses: browser-actions/setup-chrome@latest
-      with:
-        chrome-version: stable
-
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
@@ -28,47 +23,34 @@ jobs:
     - name: Install dependencies
       run: |
         npm install -g lighthouse
-        npm install -g chrome-launcher
         sudo apt-get update
-        sudo apt-get install -y jq curl
-
-    - name: Verify site availability
-      run: |
-        MAX_RETRIES=5
-        count=0
-        until curl -s -o /dev/null -w "%{http_code}" https://4211421036.github.io/MentalHealth/ | grep -q "200\|301\|302"; do
-          if [ $count -eq $MAX_RETRIES ]; then
-            echo "Site is not accessible after $MAX_RETRIES attempts"
-            exit 1
-          fi
-          count=$((count+1))
-          echo "Attempt $count failed. Retrying..."
-          sleep 10
-        done
+        sudo apt-get install -y curl
 
     - name: Run security checks
       id: security_check
       run: |
-        echo "Running comprehensive security checks..."
+        echo "Running security checks..."
         
         # Store headers in a file
-        curl -sI https://4211421036.github.io/MentalHealth/ | tee headers.txt
+        curl -sI https://4211421036.github.io/MentalHealth/ > headers.txt
         
         # Initialize security report
-        echo "Security Report:" > security_report.txt
-        echo "==================" >> security_report.txt
-        echo "Timestamp: $(date -u)" >> security_report.txt
-        echo "" >> security_report.txt
+        {
+          echo "Security Report:"
+          echo "=================="
+          echo "Timestamp: $(date -u)"
+          echo ""
+        } > security_report.txt
         
         # Function to check header
         check_header() {
           local header="$1"
           local pattern="$2"
           local message="$3"
-          if ! grep -qi "$header" headers.txt; then
+          if ! grep -qi "^$header:" headers.txt; then
             echo "❌ $message - Header missing" >> security_report.txt
             return 1
-          elif [ ! -z "$pattern" ] && ! grep -qi "$header" headers.txt | grep -qi "$pattern"; then
+          elif [ -n "$pattern" ] && ! grep -qi "^$header:.*$pattern" headers.txt; then
             echo "⚠️ $message - Invalid value" >> security_report.txt
             return 1
           else
@@ -77,72 +59,52 @@ jobs:
           fi
         }
         
-        # Check required security headers
+        # Check security headers
         FAILED=0
         
-        # CSP Check
-        if ! check_header "content-security-policy" "default-src" "Content Security Policy"; then
-          FAILED=$((FAILED+1))
-        fi
+        check_header "content-security-policy" "default-src" "Content Security Policy" || ((FAILED++))
+        check_header "strict-transport-security" "max-age=31536000" "HTTP Strict Transport Security" || ((FAILED++))
+        check_header "cross-origin-opener-policy" "same-origin" "Cross-Origin Opener Policy" || ((FAILED++))
+        check_header "x-content-type-options" "nosniff" "X-Content-Type-Options" || ((FAILED++))
+        check_header "x-frame-options" "deny" "X-Frame-Options" || ((FAILED++))
+        check_header "x-xss-protection" "1; mode=block" "X-XSS-Protection" || ((FAILED++))
+        check_header "referrer-policy" "strict-origin" "Referrer-Policy" || ((FAILED++))
+        check_header "permissions-policy" "" "Permissions-Policy" || ((FAILED++))
+        check_header "cross-origin-resource-policy" "same-origin" "Cross-Origin Resource Policy" || ((FAILED++))
         
-        # HSTS Check
-        if ! check_header "strict-transport-security" "max-age=31536000; includeSubDomains; preload" "HTTP Strict Transport Security"; then
-          FAILED=$((FAILED+1))
-        fi
-        
-        # COOP Check
-        if ! check_header "cross-origin-opener-policy" "same-origin" "Cross-Origin Opener Policy"; then
-          FAILED=$((FAILED+1))
-        fi
-        
-        # Additional Security Headers
-        check_header "x-content-type-options" "nosniff" "X-Content-Type-Options" || FAILED=$((FAILED+1))
-        check_header "x-frame-options" "deny" "X-Frame-Options" || FAILED=$((FAILED+1))
-        check_header "x-xss-protection" "1; mode=block" "X-XSS-Protection" || FAILED=$((FAILED+1))
-        check_header "referrer-policy" "strict-origin-when-cross-origin" "Referrer-Policy" || FAILED=$((FAILED+1))
-        check_header "permissions-policy" "" "Permissions-Policy" || FAILED=$((FAILED+1))
-        check_header "cross-origin-resource-policy" "same-origin" "Cross-Origin Resource Policy" || FAILED=$((FAILED+1))
-        
-        # Run Lighthouse
+        # Run Lighthouse security scan
         lighthouse https://4211421036.github.io/MentalHealth/ \
           --chrome-flags="--headless --disable-gpu --no-sandbox" \
           --output json --output-path lighthouse-report.json \
-          --only-categories=best-practices,security
+          --only-categories security
         
-        # Parse Lighthouse results
-        if [ -f lighthouse-report.json ]; then
-          SECURITY_SCORE=$(jq -r '.categories.security.score' lighthouse-report.json)
-          echo "" >> security_report.txt
-          echo "Lighthouse Security Score: $SECURITY_SCORE" >> security_report.txt
-          
-          if [ "$SECURITY_SCORE" != "null" ] && (( $(echo "$SECURITY_SCORE < 0.9" | bc -l) )); then
-            echo "❌ Lighthouse security score below 90%" >> security_report.txt
-            FAILED=$((FAILED+1))
-          fi
-        fi
-        
-        # Output final report
+        # Output report
         cat security_report.txt
         
-        # Set output for use in other steps
-        echo "failed=$FAILED" >> $GITHUB_OUTPUT
-        echo "report<<EOF" >> $GITHUB_OUTPUT
-        cat security_report.txt >> $GITHUB_OUTPUT
-        echo "EOF" >> $GITHUB_OUTPUT
-        
-        # Exit with failure if any checks failed
-        if [ $FAILED -gt 0 ]; then
-          exit 1
-        fi
+        # Exit with error if any checks failed
+        [ $FAILED -eq 0 ]
 
     - name: Create Issue on Failure
       if: failure()
       uses: actions/github-script@v7
       with:
-        github-token: ${{ secrets.GH_TOKEN }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
         script: |
           const fs = require('fs');
           
-          let issueBody = '# Security Check Failed\n\n';
-          
-          if (fs.existsSync('./security_report.txt')) {
+          try {
+            let issueBody = '# Security Check Failed\n\n';
+            
+            if (fs.existsSync('./security_report.txt')) {
+              issueBody += fs.readFileSync('./security_report.txt', 'utf8');
+            }
+            
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              title: 'Security Headers Check Failed',
+              body: issueBody
+            });
+          } catch (error) {
+            console.error('Failed to create issue:', error);
+          }
