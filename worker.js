@@ -39,77 +39,56 @@ export default {
 
       const contentType = response.headers.get('content-type');
 
-      // Common security headers for all responses
-      const baseSecurityHeaders = {
-        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
-        'Cross-Origin-Opener-Policy': 'same-origin',
-        'X-Content-Type-Options': 'nosniff',
-        'Cross-Origin-Resource-Policy': 'same-origin'
-      };
-
       if (contentType?.includes('text/html')) {
         let html = await response.text();
 
+        // Enhanced security headers with stronger CSP
         const securityHeaders = {
-          ...baseSecurityHeaders,
           'Content-Type': 'text/html; charset=utf-8',
+          'X-Content-Type-Options': 'nosniff',
           'X-Frame-Options': 'DENY',
           'X-XSS-Protection': '1; mode=block',
-          'Referrer-Policy': 'no-referrer',
-          'Permissions-Policy': 'geolocation=(), microphone=(), camera=()',
+          'Referrer-Policy': 'strict-origin-when-cross-origin',
+          'Permissions-Policy': 'accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=()',
           'Content-Security-Policy': `
-            default-src 'self';
-            script-src 'self' unsafe-inline' 'nonce-${nonce}' ${githubBaseUrl};
-            style-src 'self' unsafe-inline' ${githubBaseUrl};
-            img-src 'self' data: ${githubBaseUrl};
-            font-src 'self';
+            default-src 'none';
+            script-src 'self' 'nonce-${nonce}' 'strict-dynamic' https://cdnjs.cloudflare.com;
+            style-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com;
+            img-src 'self' data: https:;
+            font-src 'self' https://cdnjs.cloudflare.com;
             connect-src 'self';
             frame-ancestors 'none';
-            object-src 'none';
             form-action 'self';
-            base-uri 'self';
+            base-uri 'none';
+            object-src 'none';
             upgrade-insecure-requests;
+            block-all-mixed-content;
+            require-trusted-types-for 'script';
           `.replace(/\s+/g, ' ').trim(),
-          'Cross-Origin-Embedder-Policy': 'require-corp',
+          'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
           'Cache-Control': 'public, max-age=86400, must-revalidate',
+          'Cross-Origin-Embedder-Policy': 'require-corp',
+          'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
+          'Cross-Origin-Resource-Policy': 'same-origin',
+          'X-Permitted-Cross-Domain-Policies': 'none',
+          'Report-To': '{"group":"default","max_age":31536000,"endpoints":[{"url":"https://4211421036.github.io/MentalHealth/report"}],"include_subdomains":true}',
+          'NEL': '{"report_to":"default","max_age":31536000,"include_subdomains":true}'
         };
 
+        // Enhanced HTML security
         html = '<!DOCTYPE html>\n' + html
-          .replace(/<html lang=en xml:lang=en><head faceid="">/i, `<head>
+          .replace(/<head>/i, `<head>
             <meta charset="utf-8">
-            <title>Mental Health</title>
-            <link href=https://4211421036.github.io/MentalHealth/ rel=canonical>
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <meta name="description" content="Mental Health support and resources">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
-            <meta name="robots" content="noindex, nofollow">
-            <link href=https://4211421036.github.io/g4lihru/987654567.png rel=preload type=image/x-icon as=image>
-            <link href=https://4211421036.github.io/g4lihru/987654567.png rel="shortcut icon" type=image/x-icon>
-            <link href=https://4211421036.github.io/g4lihru/987654567.png rel=icon type=image/x-icon>
-            <link href=https://4211421036.github.io/MentalHealth/style.css rel=preload as=style>
-            <link href=https://4211421036.github.io/MentalHealth/css/all.min.css rel=stylesheet media=all onload='"all"!==media&&(media="none")'>
-            <link href=https://4211421036.github.io/MentalHealth/style.css rel=stylesheet media=all onload='"all"!==media&&(media="none")'>
-            <link href=https://4211421036.github.io/MentalHealth/manifest.webmanifest rel=manifest>
-            <link href=https://4211421036.github.io/g4lihru/987654567.png rel=apple-touch-icon>
-            <meta content="A comprehensive mental health monitoring application using modern web technologies." name=description>
-            <meta content="mental health, monitoring, health app, face analysis, emotion detection" name=keywords>
-            <meta content="GALIH RIDHO UTOMO and Ana Maulida" name=author>
-            <meta content=en http-equiv=Content-Language>
-            <meta content="dark light" name=color-scheme>
-            <meta content="Mental Health" property=og:title>
-            <meta content="A comprehensive mental health monitoring application using modern web technologies." property=og:description>
-            <meta content=https://4211421036.github.io/g4lihru/987654567.png property=og:image>
-            <meta content=https://4211421036.github.io/MentalHealth property=og:url>
-            <meta content=425 property=og:image:width>
-            <meta content=425 property=og:image:height>
-            <meta content=website property=og:type>
-            <meta content="Light Dark" http-equiv=default-style>
-            <meta content=en_US property=og:locale>
-            
-            `)
+            <meta http-equiv="Content-Security-Policy-Report-Only" content="default-src 'none'; report-uri https://4211421036.github.io/MentalHealth/report">
+            <meta name="robots" content="noindex, nofollow">`)
           .replace(/<script\b/g, `<script nonce="${nonce}"`)
+          .replace(/<style\b/g, `<style nonce="${nonce}"`)
           .replace(/<a\b/g, '<a rel="noopener noreferrer"')
-          .replace(/on\w+="[^"]*"/g, '');
+          .replace(/on\w+="[^"]*"/g, '')
+          .replace(/<iframe\b/g, '<iframe sandbox="allow-scripts" loading="lazy"');
 
         return new Response(html, {
           headers: new Headers(securityHeaders),
@@ -118,10 +97,11 @@ export default {
         });
       }
 
-      // Handle non-HTML responses
       const headers = new Headers({
-        ...baseSecurityHeaders,
-        'Content-Security-Policy': "default-src 'self'; frame-ancestors 'none'; object-src 'none';"
+        'X-Content-Type-Options': 'nosniff',
+        'Cross-Origin-Resource-Policy': 'same-origin',
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+        'Cross-Origin-Opener-Policy': 'same-origin-allow-popups'
       });
 
       const fileExtension = url.pathname.split('.').pop()?.toLowerCase();
