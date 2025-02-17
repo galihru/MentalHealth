@@ -1,44 +1,58 @@
 export default {
-  async fetch(request, env) {
-    try {
-      // Get original response
-      const url = new URL(request.url);
-      const response = await fetch(`https://4211421036.github.io/MentalHealth${url.pathname}`);
-      const newHeaders = new Headers(response.headers);
+  async fetch(request) {
+    const url = new URL(request.url);
+    const githubBaseUrl = 'https://4211421036.github.io/MentalHealth/';
 
-      // Define strict security headers
+    // Redirect HTTP ke HTTPS
+    if (url.protocol === 'http:') {
+      return Response.redirect(`https://${url.host}${url.pathname}`, 301);
+    }
+
+    const nonce = crypto.randomUUID();
+    const githubUrl = new URL(url.pathname, githubBaseUrl);
+
+    try {
+      const response = await fetch(githubUrl);
+      const headers = new Headers(response.headers);
+
+      // Header keamanan untuk semua respons
       const securityHeaders = {
-        'Content-Security-Policy': "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://4211421036.github.io; style-src 'self' 'unsafe-inline' https://4211421036.github.io; img-src 'self' data: https:; font-src 'self' https://4211421036.github.io; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests;",
-        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
-        'X-Content-Type-Options': 'nosniff',
+        'Content-Security-Policy': `
+          default-src 'self';
+          script-src 'self' 'nonce-${nonce}' https://cdnjs.cloudflare.com;
+          style-src 'self' https://cdnjs.cloudflare.com;
+          img-src 'self' data:;
+          font-src 'self' https://cdnjs.cloudflare.com;
+          frame-ancestors 'none';
+          form-action 'self';
+          base-uri 'self';
+        `.replace(/\n/g, ' '),
         'X-Frame-Options': 'DENY',
-        'X-XSS-Protection': '1; mode=block',
-        'Referrer-Policy': 'strict-origin-when-cross-origin',
-        'Permissions-Policy': 'accelerometer=(), camera=(), geolocation=(), microphone=(), payment=(), usb=()',
-        'Cross-Origin-Opener-Policy': 'same-origin',
-        'Cross-Origin-Resource-Policy': 'same-origin',
-        'Cross-Origin-Embedder-Policy': 'require-corp'
+        'X-Content-Type-Options': 'nosniff',
+        'Referrer-Policy': 'no-referrer',
+        'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
+        'Cross-Origin-Opener-Policy': 'same-origin'
       };
 
-      // Add security headers to response
       Object.entries(securityHeaders).forEach(([key, value]) => {
-        newHeaders.set(key, value);
+        headers.set(key, value);
       });
 
-      // Return modified response with security headers
+      // Atur cache header
+      const fileExtension = url.pathname.split('.').pop()?.toLowerCase();
+      if (/^(js|css|png|jpg|jpeg|gif|ico|svg|woff2?|ttf|eot)$/.test(fileExtension)) {
+        headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+      } else {
+        headers.set('Cache-Control', 'no-store, must-revalidate');
+      }
+
       return new Response(response.body, {
-        status: response.status,
-        statusText: response.statusText,
-        headers: newHeaders
+        headers,
+        status: response.status
       });
-    } catch (err) {
-      return new Response('Error processing request', { 
-        status: 500,
-        headers: {
-          'Content-Type': 'text/plain',
-          ...securityHeaders
-        }
-      });
+
+    } catch (error) {
+      return new Response('Error', { status: 500 });
     }
   }
 };
