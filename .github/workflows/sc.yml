@@ -18,17 +18,17 @@ jobs:
 
     - name: Run security checks
       run: |
-        # Create temp directory for outputs
-        mkdir -p ./temp
-        
-        echo "Running security checks..."
-        
-        # Fetch headers and store response
+        echo "Creating temp directory..."
+        mkdir -p ./temp || { echo "Failed to create temp directory"; exit 1; }
+
+        echo "Fetching headers..."
         curl -sI --retry 3 https://4211421036.github.io/MentalHealth/ > ./temp/headers.txt || {
-          echo "Failed to fetch headers after 3 attempts"
+          echo "Failed to fetch headers. Check the URL or network connectivity."
           exit 1
         }
-        
+
+        echo "Headers fetched successfully. Starting header checks..."
+
         # Initialize report file
         cat > ./temp/report.txt << EOL
         Security Headers Report
@@ -95,7 +95,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.name,
               title: '🚨 Security Headers Check Failed',
-              body: `## Security Check Results\n\n\`\`\`\n${report}\n\`\`\`\n\nPlease review and update the security headers configuration. Refer to [this guide](https://owasp.org/www-project-secure-headers/) for more information.`
+              body: `## Security Check Results\n\n\`\`\`\n${report}\n\`\`\`\n\nPlease review and update security headers configuration.`
             });
           } catch (error) {
             console.log('Error creating issue:', error);
