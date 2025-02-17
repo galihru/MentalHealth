@@ -31,9 +31,13 @@ export default {
         'X-Content-Type-Options': 'nosniff',
         'Referrer-Policy': 'no-referrer',
         'Strict-Transport-Security': 'max-age=31536000; includeSubDomains; preload',
-        'Cross-Origin-Opener-Policy': 'same-origin'
+        'Cross-Origin-Opener-Policy': 'same-origin',
+        'Cross-Origin-Resource-Policy': 'same-origin', // Header yang ditambahkan
+        'Permissions-Policy': 'geolocation=(), microphone=(), camera=()', // Header yang ditambahkan
+        'X-XSS-Protection': '1; mode=block' // Header yang ditambahkan
       };
 
+      // Tambahkan header keamanan ke respons
       Object.entries(securityHeaders).forEach(([key, value]) => {
         headers.set(key, value);
       });
@@ -42,6 +46,8 @@ export default {
       const fileExtension = url.pathname.split('.').pop()?.toLowerCase();
       if (/^(js|css|png|jpg|jpeg|gif|ico|svg|woff2?|ttf|eot)$/.test(fileExtension)) {
         headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+      } else if (fileExtension === 'html') {
+        headers.set('Cache-Control', 'public, max-age=3600'); // Cache untuk file HTML
       } else {
         headers.set('Cache-Control', 'no-store, must-revalidate');
       }
@@ -52,7 +58,8 @@ export default {
       });
 
     } catch (error) {
-      return new Response('Error', { status: 500 });
+      // Tangani error dengan lebih deskriptif
+      return new Response(`Internal Server Error: ${error.message}`, { status: 500 });
     }
   }
 };
