@@ -24,8 +24,8 @@ jobs:
         echo "Running security checks..."
         
         # Fetch headers and store response
-        curl -sI https://4211421036.github.io/MentalHealth/ > ./temp/headers.txt || {
-          echo "Failed to fetch headers"
+        curl -sI --retry 3 https://4211421036.github.io/MentalHealth/ > ./temp/headers.txt || {
+          echo "Failed to fetch headers after 3 attempts"
           exit 1
         }
         
@@ -95,8 +95,11 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.name,
               title: '🚨 Security Headers Check Failed',
-              body: `## Security Check Results\n\n\`\`\`\n${report}\n\`\`\`\n\nPlease review and update security headers configuration.`
+              body: `## Security Check Results\n\n\`\`\`\n${report}\n\`\`\`\n\nPlease review and update the security headers configuration. Refer to [this guide](https://owasp.org/www-project-secure-headers/) for more information.`
             });
           } catch (error) {
             console.log('Error creating issue:', error);
           }
+
+    - name: Clean up
+      run: rm -rf ./temp
