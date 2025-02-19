@@ -40,7 +40,7 @@ jobs:
       - name: Publish to GitHub Packages
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}  # Gunakan token GitHub
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Gunakan token GitHub
 
       - name: Get Package Version
         id: package_version
