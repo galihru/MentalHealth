@@ -9,44 +9,57 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js for NPM
         uses: actions/setup-node@v3
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
-      
-      - name: Install dependencies
+
+      - name: Install Dependencies
         run: npm ci
-      
-      - name: Build
+
+      - name: Build Project
         run: npm run build
-        
-      - name: Test build output
+
+      - name: Test Build Output
         run: |
           if [ ! -d "dist" ]; then
-            echo "dist directory not found"
+            echo "❌ dist directory not found"
             exit 1
           fi
+          echo "✅ dist directory exists"
           ls -la dist
-      
+
       - name: Publish to NPM
         if: success()
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+      - name: Setup Node.js for GitHub Packages
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          registry-url: 'https://npm.pkg.github.com'
+
       - name: Publish to GitHub Packages
+        if: success()
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Create GitHub Tag & Release
+      - name: Get Package Version
+        id: package_version
+        run: echo "NEW_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
+
+      - name: Create GitHub Tag
         if: success()
         run: |
-          git tag "v$NEW_VERSION"
-          git push origin "v$NEW_VERSION"
+          git tag "v${{ env.NEW_VERSION }}"
+          git push origin "v${{ env.NEW_VERSION }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
