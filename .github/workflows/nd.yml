@@ -18,7 +18,7 @@ jobs:
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
-          scope: '@galihridhoutomo'  # Sesuaikan dengan scope package Anda
+          scope: '@galihridhoutomo'
 
       - name: Install Dependencies
         run: npm install
