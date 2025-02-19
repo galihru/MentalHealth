@@ -41,7 +41,7 @@ jobs:
         if: success()
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
           tag_name: v${{ github.run_number }}
           release_name: Mental Health
