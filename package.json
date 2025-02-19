@@ -1,6 +1,6 @@
 {
-  "name": "@galihridhoutomo/mentalhealth",
-  "version": "0.0.1",
+  "name": "@galihridhoutomo/mental-health",
+  "version": "1.0.0",
   "description": "Mental Health App",
   "main": "dist/EmotionDetection.js",
   "module": "dist/EmotionDetection.esm.js",
@@ -15,11 +15,13 @@
     "computer-vision"
   ],
   "scripts": {
-    "build": "mkdir -p dist && cp src/EmotionDetection.js dist/EmotionDetection.js",
-    "prepare": "npm run build",
+    "start": "node dist/emotion-detection.js",
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
     "test": "jest",
-    "dev": "wrangler dev",
+    "prepare": "npm run build",
     "deploy": "wrangler deploy"
+    "dev": "wrangler dev",
   },
   "dependencies": {
     "crypto": "^1.0.1",
@@ -43,7 +45,6 @@
   "license": "MIT",
   "type": "module",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@galihridhoutomo",
     "access": "public"
   }
 }
