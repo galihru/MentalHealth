@@ -86,7 +86,7 @@ jobs:
       - name: Publish to GitHub Packages
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       # Step 12: Create GitHub Tag & Release
       - name: Create GitHub Tag & Release
@@ -95,7 +95,7 @@ jobs:
           git tag "v$NEW_VERSION"
           git push origin "v$NEW_VERSION"
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       # Step 13: Create GitHub Release
       - name: Create GitHub Release
