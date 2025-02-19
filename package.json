@@ -25,8 +25,8 @@
     "crypto": "^1.0.1",
     "html-minifier": "^4.0.0",
     "terser": "^5.37.0",
-    "helmet": "^8.0.0",
     "express": "^4.21.2",
+    "helmet": "^8.0.0",
     "@mediapipe/face_mesh": "^0.4.1633559619"
   },
   "devDependencies": {
