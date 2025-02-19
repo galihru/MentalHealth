@@ -35,12 +35,12 @@ jobs:
         with:
           node-version: 18
           registry-url: https://npm.pkg.github.com/
-          scope: '@galihridhoutomo'
+          scope: '@galihridhoutomo'  # Sesuaikan dengan scope package Anda
 
       - name: Publish to GitHub Packages
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}  # Gunakan token GitHub
 
       - name: Get Package Version
         id: package_version
