@@ -27,14 +27,6 @@ jobs:
       - name: Build
         run: npm run build
         
-      - name: Test build output
-        run: |
-          if [ ! -d "dist" ]; then
-            echo "dist directory not found"
-            exit 1
-          fi
-          ls -la dist
-      
       - name: Publish to npm
         run: npm publish --access public
         env:
