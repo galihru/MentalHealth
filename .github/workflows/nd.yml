@@ -34,7 +34,8 @@ jobs:
           registry-url: 'https://registry.npmjs.org/'
 
       - name: Publish to GitHub Packages
-        run: npm publish --access public
+        run: npm login --registry=https://npm.pkg.github.com --scope=@galihridhoutomo
+             npm publish --access public
         env:
           node-version: 18
           registry-url: 'https://registry.npmjs.org/'
