@@ -102,3 +102,197 @@ jobs:
           git push origin "v$NEW_VERSION"
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Create GitHub Release
+        if: success()
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Mental Health
+          body: |
+            # Mental Health Application Based Face Recognition
+
+            ## Key Features:
+            - **Emotion Detection**: Analyzes user's facial expressions to identify emotions.
+            - **Personalized Recommendations**: Provides suggestions based on the user's emotional state.
+            - **Professional Integration**: Notifications to contact mental health professionals if needed.
+
+            ## Formulation
+            1. **Hash Function (djb2Hash)**
+
+            The hash function is used to generate a unique `FaceID` based on facial landmarks. The formula for the hash function is:
+            
+            $$
+            \text{hash} = 5381 \\
+            \text{untuk setiap karakter } i \text{ dalam string:} \\
+            \text{hash} = (\text{hash} \times 33) + \text{charCodeAt}(i) \\
+            \text{return hash } >> 0 \text{(unsigned 32-bit integer)}
+            $$
+            
+            2. **Lip Stretch Calculation (Happiness)**
+            
+            The lip stretch is calculated using the Euclidean distance between the left and right lip corners:
+            
+            $$
+            \text{lipStretch} = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
+            $$
+            
+            3. **Cheek Raise Calculation (Happiness)**
+            
+            The cheek raise is calculated as the vertical distance between the cheek and eye landmarks:
+            
+            $$
+            \text{cheekRaise} = y_{\text{eye}} - y_{\text{cheek}}
+            $$
+            
+            4. **Lip Depression Calculation (Sadness)**
+            
+            The lip depression is calculated as the vertical distance between the lip corner and the bottom lip:
+            
+            $$
+            \text{lipDepression} = y_{\text{bottomLip}} - y_{\text{lipCorner}}
+            $$
+            
+            5. **Brow Lowering Calculation (Anger)**
+            
+            The brow lowering is calculated as the vertical distance between the inner and outer brow landmarks:
+            
+            $$
+            \text{browLower} = y_{\text{innerBrow}} - y_{\text{outerBrow}}
+            $$
+            
+            6. **Eye Openness Calculation (Surprise)**
+            
+            The eye openness is calculated as the vertical distance between the eyelid and eye landmarks:
+            
+            $$
+            \text{eyeOpenness} = y_{\text{eye}} - y_{\text{eyelid}}
+            $$
+            
+            7. **Jaw Drop Calculation (Surprise)**
+            
+            The jaw drop is calculated as the vertical distance between the chin and nose landmarks:
+            
+            $$
+            \text{jawDrop} = y_{\text{chin}} - y_{\text{nose}}
+            $$
+            
+            8. **Deviation from Neutral (Neutral Emotion)**
+            
+            The deviation from neutral is calculated as the sum of Euclidean distances between key facial landmarks:
+            
+            $$
+            \text{deviation} = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
+            $$
+            
+            The Total deviation from neutral is calculated as the sum of Euclidean distances between key facial landmarks:
+            
+            $$
+            \text{deviation} = \sum_{i=1}^{n} \sqrt{(x_{2i} - x_{1i})^2 + (y_{2i} - y_{1i})^2}
+            $$
+
+            ## Technologies:
+            - Face Recognition
+            - Emotion Detection
+            - Voice Analysis
+            - IoT with Health Sensor i.e GSR Sensor, MAX 30102 Sensor, BH 1750 Sensor and ESP32 Microcontroller
+            - Machine Learning
+
+            ## Usage:
+            1. Open the application and allow camera access and allow microphone.
+            2. Let the application analyze your facial expressions.
+            3. Receive tailored recommendations based on your condition.
+
+            ## How To Use this Package
+            You can copy command line below
+            
+            ```bash
+            npm install -g @galihridhoutomo/mentalhealth
+            ```
+
+            Import Modules into Project
+            If using `CommonJS`:
+            
+            ```js
+            const EmotionDetection = require('@galihridhoutomo/mentalhealth');
+            ```
+
+            or If using `ES Module (ESM)`:
+
+            ```js
+            import EmotionDetection from '@galihridhoutomo/mentalhealth';
+            ```
+
+            Detecting Emotion from Face Images
+            
+            Use the `detectEmotion(imagePath)` function to detect emotions from facial images:
+            
+            ```js
+            EmotionDetection.detectEmotion('path/to/image.jpg')
+            .then(result => {
+              console.log('Hasil Deteksi Emosi:', result);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+            ```
+
+            Sample Output:
+
+            ```json
+            {
+              "emotion": "happy",
+              "confidence": 0.92
+            }
+            ```
+
+            Detecting Emotion from Camera in Real-Time
+            If you want to detect emotions from the camera, use the `detectEmotionLive()` function:
+
+            ```js
+            EmotionDetection.detectEmotionLive()
+            .then(result => {
+              console.log('Emosi Terdeteksi:', result);
+            })
+            .catch(error => {
+              console.error('Error:', error);
+            });
+            ```
+
+            Additional Configuration (Optional)
+            You can customise the detection model with the following options:
+
+            ```js
+            const options = {
+              model: 'advanced',  // Bisa 'basic' atau 'advanced'
+              threshold: 0.8      // Batas kepercayaan minimal
+            };
+            
+            EmotionDetection.detectEmotion('path/to/image.jpg', options)
+              .then(result => console.log(result))
+              .catch(error => console.error(error));
+            ```
+
+            ## Cite
+            If you are using a GitHub Repository, please cite in the following format
+            
+            ```bibtex
+            @misc{mentalhealth-app,
+              author = {Utomo, Galih Ridho & Ana Maulida},
+              title = {Mental Health Application with Face Recognition and Emotion Detection},
+              year = {2025},
+              howpublished = {\url{https://github.com/4211421036/MentalHealth}},
+              note = {GitHub repository},
+              }
+            ```
+
+            ## Author
+            1. GALIH RIDHO UTOMO
+            2. Ana Maulida
+
+            ---
+            
+          draft: false
+          prerelease: false
