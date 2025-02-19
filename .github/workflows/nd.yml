@@ -37,7 +37,7 @@ jobs:
         run: npm publish --access public
         env:
           node-version: 18
-          registry-url: 'https://registry.npmjs.org/@galihridhoutomo/mental-health@1.0.3'
+          registry-url: 'https://registry.npmjs.org/'
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Create GitHub Release
