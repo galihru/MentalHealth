@@ -1,6 +1,6 @@
 {
   "name": "@galihridhoutomo/mentalhealth",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Mental Health App",
   "main": "dist/EmotionDetection.js",
   "module": "dist/EmotionDetection.esm.js",
@@ -17,11 +17,10 @@
   "scripts": {
     "start": "node sc.js",
     "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "dev": "wrangler dev",
     "test": "jest",
     "prepare": "npm run build",
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev"
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "crypto": "^1.0.1",
@@ -31,7 +30,7 @@
     "express": "^4.21.2",
     "@mediapipe/face_mesh": "^0.4.1633559619"
   },
-   "devDependencies": {
+  "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "rollup": "^2.60.0",
