@@ -3,16 +3,16 @@ import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 
 export default {
-  input: 'src/emotion-detection.js',
+  input: 'src/EmotionDetection.js',
   output: [
     {
-      file: 'dist/emotion-detection.js',
+      file: 'dist/EmotionDetection.js',
       format: 'umd',
       name: 'EmotionDetection',
       sourcemap: true
     },
     {
-      file: 'dist/emotion-detection.esm.js',
+      file: 'dist/EmotionDetection.esm.js',
       format: 'es',
       sourcemap: true
     }
