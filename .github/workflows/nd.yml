@@ -58,27 +58,31 @@ jobs:
           echo "New version: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV  # Save to environment variable
 
-      # Step 7: Pull latest changes from remote
-      - name: Pull latest changes
+      # Step 7: Stage and commit version changes
+      - name: Stage and commit version changes
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git pull origin main --rebase
-
-      # Step 8: Commit updated version
-      - name: Commit updated version
-        run: |
           git add package.json package-lock.json
           git commit -m "Bump version to $NEW_VERSION [skip ci]"
+
+      # Step 8: Pull latest changes from remote with rebase
+      - name: Pull latest changes
+        run: |
+          git pull origin main --rebase
+
+      # Step 9: Push updated version
+      - name: Push updated version
+        run: |
           git push origin main
 
-      # Step 9: Publish to NPM
+      # Step 10: Publish to NPM
       - name: Publish to NPM
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # Step 10: Create GitHub Tag & Release
+      # Step 11: Create GitHub Tag & Release
       - name: Create GitHub Tag & Release
         if: success()
         run: |
@@ -87,7 +91,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 11: Create GitHub Release
+      # Step 12: Create GitHub Release
       - name: Create GitHub Release
         if: success()
         uses: actions/create-release@v1
@@ -95,7 +99,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: v${{ env.NEW_VERSION }}
-          release_name: Release v${{ env.NEW_VERSION }}
+          release_name: Mental Health v${{ env.NEW_VERSION }}
           body: |
             # Mental Health Application Based Face Recognition
 
