@@ -24,8 +24,8 @@ export default {
   ],
   external: [
     '@mediapipe/face_mesh',
-    'express',
     'crypto',
+    'express',
     'helmet'
   ]
 };
