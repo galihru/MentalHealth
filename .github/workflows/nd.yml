@@ -1,4 +1,4 @@
-name: Build and Publish 
+name: Build and Publish
 
 on:
   push:
@@ -9,22 +9,28 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      # Step 1: Checkout the repository
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Pastikan semua commit ditarik
+          fetch-depth: 0  # Ensure all commits are pulled
 
+      # Step 2: Set up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
           registry-url: 'https://registry.npmjs.org'
 
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # Step 4: Build the project
       - name: Build
         run: npm run build
 
+      # Step 5: Verify build output
       - name: Test build output
         run: |
           if [ ! -d "dist" ]; then
@@ -33,84 +39,60 @@ jobs:
           fi
           ls -la dist
 
+      # Step 6: Auto-update version
       - name: Auto-update version
+        id: version
         run: |
-          # Ambil versi terbaru dari NPM
+          # Get the latest version from NPM
           LATEST_VERSION=$(npm show @galihridhoutomo/mentalhealth version || echo "0.0.0")
           
-          # Pecah versi menjadi komponen (major.minor.patch)
+          # Split version into components (major.minor.patch)
           IFS='.' read -r major minor patch <<< "$LATEST_VERSION"
           
-          # Tambah 1 ke patch version
+          # Increment patch version
           NEW_VERSION="$major.$minor.$((patch + 1))"
 
-          # Update versi di package.json
+          # Update version in package.json
           npm version "$NEW_VERSION" --no-git-tag-version
 
           echo "New version: $NEW_VERSION"
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV  # Simpan ke environment variable
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV  # Save to environment variable
 
+      # Step 7: Publish to NPM
       - name: Publish to NPM
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      - name: Force Push Updated Version
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-      
-          git add package.json package-lock.json
-          git commit -m "Bump version to $NEW_VERSION [skip ci]" || echo "No changes to commit"
-      
-          # Tarik perubahan terbaru dari remote
-          git fetch origin main
-          git reset --hard origin/main
-      
-          # Pastikan branch lokal sudah sesuai dengan remote sebelum push
-          git pull --rebase origin main || git rebase --abort
-      
-          # Push dengan force agar tidak ada konflik
-          git push --force origin main
-
-
+      # Step 8: Commit updated version
       - name: Commit updated version
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
       
-          # Pastikan tidak ada perubahan yang menyebabkan error pull
-          git add package.json
-          git commit -m "Bump version to $NEW_VERSION [skip ci]" || echo "No changes to commit"
+          git add package.json package-lock.json
+          git commit -m "Bump version to $NEW_VERSION [skip ci]"
       
-          # Simpan perubahan sementara jika ada perubahan yang belum dikomit
-          git stash
-      
-          # Tarik perubahan terbaru dari remote repository
-          git pull --rebase origin main || (git rebase --abort && git stash pop)
-      
-          # Kembalikan perubahan yang telah disimpan sebelumnya
-          git stash pop || echo "No stash to pop"
-      
-          # Push versi terbaru ke repository
           git push origin main
 
+      # Step 9: Create GitHub Tag & Release
       - name: Create GitHub Tag & Release
         if: success()
         run: |
           git tag "v$NEW_VERSION"
           git push origin "v$NEW_VERSION"
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      # Step 10: Create GitHub Release
       - name: Create GitHub Release
         if: success()
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ github.run_number }}
-          release_name: Mental Health
+          tag_name: v${{ env.NEW_VERSION }}
+          release_name: Mental Health v${{ env.NEW_VERSION }}
           body: |
             # Mental Health Application Based Face Recognition
 
@@ -126,7 +108,7 @@ jobs:
             
             $$
             \text{hash} = 5381 \\
-            \text{untuk setiap karakter } i \text{ dalam string:} \\
+            \text{for each character } i \text{ in the string:} \\
             \text{hash} = (\text{hash} \times 33) + \text{charCodeAt}(i) \\
             \text{return hash } >> 0 \text{(unsigned 32-bit integer)}
             $$
@@ -187,7 +169,7 @@ jobs:
             \text{deviation} = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}
             $$
             
-            The Total deviation from neutral is calculated as the sum of Euclidean distances between key facial landmarks:
+            The total deviation from neutral is calculated as the sum of Euclidean distances between key facial landmarks:
             
             $$
             \text{deviation} = \sum_{i=1}^{n} \sqrt{(x_{2i} - x_{1i})^2 + (y_{2i} - y_{1i})^2}
@@ -197,22 +179,22 @@ jobs:
             - Face Recognition
             - Emotion Detection
             - Voice Analysis
-            - IoT with Health Sensor i.e GSR Sensor, MAX 30102 Sensor, BH 1750 Sensor and ESP32 Microcontroller
+            - IoT with Health Sensor (e.g., GSR Sensor, MAX30102 Sensor, BH1750 Sensor, and ESP32 Microcontroller)
             - Machine Learning
 
             ## Usage:
-            1. Open the application and allow camera access and allow microphone.
+            1. Open the application and allow camera and microphone access.
             2. Let the application analyze your facial expressions.
             3. Receive tailored recommendations based on your condition.
 
             ## How To Use this Package
-            You can copy command line below
+            You can copy the command line below:
             
             ```bash
             npm install -g @galihridhoutomo/mentalhealth
             ```
 
-            Import Modules into Project
+            ### Import Modules into Project
             If using `CommonJS`:
             
             ```js
@@ -225,14 +207,13 @@ jobs:
             import EmotionDetection from '@galihridhoutomo/mentalhealth';
             ```
 
-            Detecting Emotion from Face Images
-            
+            ### Detecting Emotion from Face Images
             Use the `detectEmotion(imagePath)` function to detect emotions from facial images:
             
             ```js
             EmotionDetection.detectEmotion('path/to/image.jpg')
             .then(result => {
-              console.log('Hasil Deteksi Emosi:', result);
+              console.log('Emotion Detection Result:', result);
             })
             .catch(error => {
               console.error('Error:', error);
@@ -248,26 +229,26 @@ jobs:
             }
             ```
 
-            Detecting Emotion from Camera in Real-Time
+            ### Detecting Emotion from Camera in Real-Time
             If you want to detect emotions from the camera, use the `detectEmotionLive()` function:
 
             ```js
             EmotionDetection.detectEmotionLive()
             .then(result => {
-              console.log('Emosi Terdeteksi:', result);
+              console.log('Detected Emotion:', result);
             })
             .catch(error => {
               console.error('Error:', error);
             });
             ```
 
-            Additional Configuration (Optional)
-            You can customise the detection model with the following options:
+            ### Additional Configuration (Optional)
+            You can customize the detection model with the following options:
 
             ```js
             const options = {
-              model: 'advanced',  // Bisa 'basic' atau 'advanced'
-              threshold: 0.8      // Batas kepercayaan minimal
+              model: 'advanced',  // Can be 'basic' or 'advanced'
+              threshold: 0.8      // Minimum confidence threshold
             };
             
             EmotionDetection.detectEmotion('path/to/image.jpg', options)
@@ -276,23 +257,22 @@ jobs:
             ```
 
             ## Cite
-            If you are using a GitHub Repository, please cite in the following format
+            If you are using this GitHub Repository, please cite it in the following format:
             
             ```bibtex
             @misc{mentalhealth-app,
-              author = {Utomo, Galih Ridho & Ana Maulida},
+              author = {Utomo, Galih Ridho and Maulida, Ana},
               title = {Mental Health Application with Face Recognition and Emotion Detection},
               year = {2025},
               howpublished = {\url{https://github.com/4211421036/MentalHealth}},
               note = {GitHub repository},
-              }
+            }
             ```
 
-            ## Author
-            1. GALIH RIDHO UTOMO
+            ## Authors
+            1. Galih Ridho Utomo
             2. Ana Maulida
 
             ---
-            
           draft: false
           prerelease: false
