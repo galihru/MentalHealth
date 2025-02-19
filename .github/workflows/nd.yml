@@ -20,8 +20,11 @@ jobs:
         with:
           node-version: '18'
           registry-url: 'https://npm.pkg.github.com'
-          scope: 'galihridhoutomo'  # Sesuaikan dengan scope Anda
-
+          scope: '@galihridhoutomo'  # Perbaiki scope dengan menambahkan @
+      - name: Create .npmrc
+        run: |
+          echo "@galihridhoutomo:registry=https://npm.pkg.github.com" >> .npmrc
+          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" >> .npmrc
       # Step 3: Install dependencies
       - name: Install dependencies
         run: npm ci
@@ -43,7 +46,7 @@ jobs:
       - name: Auto-update version
         id: version
         run: |
-          # Get the latest version from NPM
+          # Jika package belum ada, gunakan versi default 0.0.0
           LATEST_VERSION=$(npm show @galihridhoutomo/mentalhealth version || echo "0.0.0")
           
           # Split version into components (major.minor.patch)
@@ -56,7 +59,7 @@ jobs:
           npm version "$NEW_VERSION" --no-git-tag-version
 
           echo "New version: $NEW_VERSION"
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV  # Save to environment variable
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
       # Step 7: Stage and commit version changes
       - name: Stage and commit version changes
