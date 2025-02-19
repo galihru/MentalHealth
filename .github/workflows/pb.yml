@@ -1,7 +1,10 @@
 name: Publish to GitHub Packages
 
 on:
-  release:
+ push:
+    branches:
+      - main
+ release:
     types: [created]
 
 jobs:
