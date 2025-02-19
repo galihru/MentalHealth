@@ -15,11 +15,11 @@
     "computer-vision"
   ],
   "scripts": {
-    "start": "node sc.js",
+    "build": "mkdir -p dist && cp src/EmotionDetection.js dist/emotion-detection.js",
+    "prepare": "npm run build",
     "build": "rollup -c",
     "dev": "wrangler dev",
     "test": "jest",
-    "prepare": "npm run build",
     "deploy": "wrangler deploy"
   },
   "dependencies": {
