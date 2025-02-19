@@ -20,8 +20,8 @@
     "dev": "rollup -c -w",
     "test": "jest",
     "prepare": "npm run build",
-    "deploy": "wrangler deploy"
     "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "crypto": "^1.0.1",
