@@ -66,12 +66,14 @@ jobs:
 
       - name: Stage and commit version changes
         run: |
+          # Hapus .npmrc jika tidak menggunakan .gitignore
+          rm -f .npmrc
+
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git add .gitignore
-          git push origin main
           git add package.json package-lock.json
-          git commit -m "chore: Add .npmrc to .gitignore Bump version to $NEW_VERSION [skip ci]"
+          git push origin main
+          git commit -m "Bump version to $NEW_VERSION [skip ci]"
 
       - name: Pull latest changes
         run: git pull origin main --rebase
