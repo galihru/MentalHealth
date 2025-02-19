@@ -59,12 +59,22 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-
-          git pull --rebase origin main  # Pastikan kita menarik perubahan terbaru
-
+      
+          # Pastikan tidak ada perubahan yang menyebabkan error pull
           git add package.json
           git commit -m "Bump version to $NEW_VERSION [skip ci]" || echo "No changes to commit"
-          git push origin main  # Push ke GitHub
+      
+          # Simpan perubahan sementara jika ada perubahan yang belum dikomit
+          git stash
+      
+          # Tarik perubahan terbaru dari remote repository
+          git pull --rebase origin main || (git rebase --abort && git stash pop)
+      
+          # Kembalikan perubahan yang telah disimpan sebelumnya
+          git stash pop || echo "No stash to pop"
+      
+          # Push versi terbaru ke repository
+          git push origin main
 
       - name: Create GitHub Tag & Release
         if: success()
