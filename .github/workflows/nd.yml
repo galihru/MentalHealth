@@ -43,16 +43,25 @@ jobs:
       - name: Auto-update version
         id: version
         run: |
+          # Cek apakah package sudah ada di registry
           if npm show @galihridhoutomo/mentalhealth version > /dev/null 2>&1; then
+            # Jika package ada, ambil versi terbaru
             LATEST_VERSION=$(npm show @galihridhoutomo/mentalhealth version)
           else
+            # Jika package belum ada, gunakan versi default 0.0.0
             LATEST_VERSION="0.0.0"
           fi
 
+          # Split version into components (major.minor.patch)
           IFS='.' read -r major minor patch <<< "$LATEST_VERSION"
+          
+          # Increment patch version
           NEW_VERSION="$major.$minor.$((patch + 1))"
 
-          npm version "$NEW_VERSION" --no-git-tag-version --force
+          # Update version in package.json
+          npm version "$NEW_VERSION" --no-git-tag-version --allow-same-version
+
+          echo "New version: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
       - name: Stage and commit version changes
