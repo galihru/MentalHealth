@@ -1,4 +1,4 @@
-name: Publish to GitHub Packages
+name: Build and Publish
 
 on:
   push:
@@ -6,51 +6,45 @@ on:
       - main
 
 jobs:
-  publish:
+  build-and-publish:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v3
+      
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: 18
-          registry-url: https://npm.pkg.github.com/
-          scope: '@galihridhoutomo'
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Package
+          node-version: '16'
+          registry-url: 'https://registry.npmjs.org'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build
         run: npm run build
-
-      - name: Publish to GitHub Packages
-        run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}  # Gunakan token GitHub
-
-      - name: Get Package Version
-        id: package_version
-        run: echo "NEW_VERSION=$(jq -r .version package.json)" >> $GITHUB_ENV
-
-      - name: Create GitHub Tag
-        if: success()
+        
+      - name: Test build output
         run: |
-          git tag "v${{ env.NEW_VERSION }}"
-          git push origin "v${{ env.NEW_VERSION }}"
+          if [ ! -d "dist" ]; then
+            echo "dist directory not found"
+            exit 1
+          fi
+          ls -la dist
+      
+      - name: Publish to NPM
+        if: success()
+        run: npm publish --access public
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         if: success()
         uses: actions/create-release@v1
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ env.NEW_VERSION }}
-          release_name: Mental Health v${{ env.NEW_VERSION }}
+          tag_name: v${{ github.run_number }}
+          release_name: Mental Health
           body: |
             # Mental Health Application Based Face Recognition
 
