@@ -15,7 +15,7 @@
     "computer-vision"
   ],
   "scripts": {
-    "build": "mkdir -p dist && cp src/EmotionDetection.js dist/emotion-detection.js",
+    "build": "mkdir -p dist && cp src/EmotionDetection.js dist/EmotionDetection.js",
     "prepare": "npm run build",
     "build": "rollup -c",
     "dev": "wrangler dev",
