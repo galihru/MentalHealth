@@ -15,7 +15,7 @@
     "computer-vision"
   ],
   "scripts": {
-    "build": "rollup -c",
+    "build": "mkdir -p dist && cp src/EmotionDetection.js dist/EmotionDetection.js",
     "prepare": "npm run build",
     "dev": "wrangler dev",
     "test": "jest",
@@ -41,5 +41,8 @@
   },
   "author": "Galih Ridho Utomo",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  }
 }
