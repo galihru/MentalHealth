@@ -1,6 +1,6 @@
 {
   "name": "@galihridhoutomo/mentalhealth",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Mental Health App",
   "main": "dist/EmotionDetection.js",
   "module": "dist/EmotionDetection.esm.js",
@@ -15,9 +15,8 @@
     "computer-vision"
   ],
   "scripts": {
-    "build": "mkdir -p dist && cp src/EmotionDetection.js dist/EmotionDetection.js",
-    "prepare": "npm run build",
     "build": "rollup -c",
+    "prepare": "npm run build",
     "dev": "wrangler dev",
     "test": "jest",
     "deploy": "wrangler deploy"
