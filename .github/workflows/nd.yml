@@ -1,9 +1,10 @@
-name: Publish to npm
+name: Publish to npm and GitHub Packages
 
 on:
   push:
     branches:
       - main
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -12,7 +13,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js for npm
         uses: actions/setup-node@v4
         with:
           node-version: 18
@@ -30,13 +31,13 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Setup Node.js for GitHub Packages
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-          registry-url: 'https://npm.pkg.github.com'
+          node-version: 18
+          registry-url: https://npm.pkg.github.com/
+          scope: '@galihridhoutomo'
 
       - name: Publish to GitHub Packages
-        if: success()
         run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}
