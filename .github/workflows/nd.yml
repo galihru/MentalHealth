@@ -9,7 +9,6 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      # Step 1: Checkout the repository
       - name: Checkout code
         uses: actions/checkout@v3
         with:
@@ -20,7 +19,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@galihridhoutomo'  # Sesuaikan dengan scope Anda
 
       # Step 3: Install dependencies
       - name: Install dependencies
@@ -82,7 +82,13 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-      # Step 11: Create GitHub Tag & Release
+      # Step 11: Publish to GitHub Packages
+      - name: Publish to GitHub Packages
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 12: Create GitHub Tag & Release
       - name: Create GitHub Tag & Release
         if: success()
         run: |
@@ -91,7 +97,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Step 12: Create GitHub Release
+      # Step 13: Create GitHub Release
       - name: Create GitHub Release
         if: success()
         uses: actions/create-release@v1
