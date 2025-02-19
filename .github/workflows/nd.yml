@@ -59,7 +59,7 @@ jobs:
           NEW_VERSION="$major.$minor.$((patch + 1))"
 
           # Update version in package.json
-          npm version "$NEW_VERSION" --no-git-tag-version
+          npm version "$NEW_VERSION" --no-git-tag-version --allow-same-version
 
           echo "New version: $NEW_VERSION"
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
