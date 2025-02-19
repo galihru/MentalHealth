@@ -43,7 +43,7 @@
   "license": "MIT",
   "type": "module",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
+    "registry": "https://npm.pkg.github.com/@galihridhoutomo",
     "access": "public"
   }
 }
