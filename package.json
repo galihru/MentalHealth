@@ -2,8 +2,8 @@
   "name": "MentalHealth",
   "version": "1.0.0",
   "description": "Mental Health App",
-  "main": "dist/emotion-detection.js",
-  "module": "dist/emotion-detection.esm.js",
+  "main": "dist/EmotionDetection.js",
+  "module": "dist/EmotionDetection.esm.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
