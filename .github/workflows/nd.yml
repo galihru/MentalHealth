@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: '18'
           registry-url: 'https://npm.pkg.github.com'
-          scope: '@galihridhoutomo'  # Sesuaikan dengan scope Anda
+          scope: 'galihridhoutomo'  # Sesuaikan dengan scope Anda
 
       # Step 3: Install dependencies
       - name: Install dependencies
