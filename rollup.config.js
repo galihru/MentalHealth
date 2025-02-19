@@ -3,7 +3,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import { terser } from 'rollup-plugin-terser';
 
 export default {
-  input: 'src/EmotionDetection.js',
+  input: 'src/emotion-detection.js',
   output: [
     {
       file: 'dist/emotion-detection.js',
@@ -21,5 +21,11 @@ export default {
     resolve(),
     commonjs(),
     terser()
+  ],
+  external: [
+    '@mediapipe/face_mesh',
+    'crypto',
+    'express',
+    'helmet'
   ]
 };
