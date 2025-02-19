@@ -1,4 +1,4 @@
-name: Build and Publish
+name: Build and Publish 
 
 on:
   push:
@@ -10,6 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Pastikan semua commit ditarik untuk rebase
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -35,6 +37,7 @@ jobs:
         run: |
           NEW_VERSION=$(npm version patch --no-git-tag-version)
           echo "New version: $NEW_VERSION"
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV  # Simpan sebagai variabel lingkungan
 
       - name: Publish to NPM
         if: success()
@@ -46,9 +49,13 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+
+          # Tarik perubahan terbaru dari remote sebelum push
+          git pull --rebase origin main
+
           git add package.json
           git commit -m "Bump version to $NEW_VERSION [skip ci]" || echo "No changes to commit"
-          git push
+          git push origin main  # Pastikan push dilakukan ke branch yang benar
 
       - name: Create GitHub Release
         if: success()
