@@ -17,8 +17,8 @@
   "scripts": {
     "build": "mkdir -p dist && cp src/EmotionDetection.js dist/EmotionDetection.js",
     "prepare": "npm run build",
-    "dev": "wrangler dev",
     "test": "jest",
+    "dev": "wrangler dev",
     "deploy": "wrangler deploy"
   },
   "dependencies": {
