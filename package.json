@@ -1,6 +1,6 @@
 {
   "name": "@galihridhoutomo/mental-health",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Mental Health App",
   "main": "dist/EmotionDetection.js",
   "module": "dist/EmotionDetection.esm.js",
