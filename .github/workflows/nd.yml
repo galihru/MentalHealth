@@ -1,40 +1,31 @@
-name: Build and Publish
+name: Publish to npm
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*.*.*"  # Hanya berjalan saat ada tag versi baru, misalnya v1.0.0
 
 jobs:
-  build-and-publish:
+  publish:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js for NPM
-        uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: '16'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: 18
+          registry-url: https://registry.npmjs.org/
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Build Project
+      - name: Build Package
         run: npm run build
 
-      - name: Test Build Output
-        run: |
-          if [ ! -d "dist" ]; then
-            echo "❌ dist directory not found"
-            exit 1
-          fi
-          echo "✅ dist directory exists"
-          ls -la dist
-
-      - name: Publish to NPM
-        if: success()
+      - name: Publish to npm
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
