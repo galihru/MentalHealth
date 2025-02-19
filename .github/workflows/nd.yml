@@ -1,4 +1,4 @@
-name: Publish to npm and GitHub Packages
+name: Publish to GitHub Packages
 
 on:
   push:
@@ -13,11 +13,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js for npm
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          registry-url: https://registry.npmjs.org/
+          registry-url: https://npm.pkg.github.com/
+          scope: '@galihridhoutomo'  # Sesuaikan dengan scope package Anda
 
       - name: Install Dependencies
         run: npm install
@@ -25,22 +26,10 @@ jobs:
       - name: Build Package
         run: npm run build
 
-      - name: Publish to npm
-        run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Setup Node.js for GitHub Packages
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          registry-url: https://npm.pkg.github.com/
-          scope: '@galihridhoutomo'  # Sesuaikan dengan scope package Anda
-
       - name: Publish to GitHub Packages
         run: npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Gunakan token GitHub
+          NODE_AUTH_TOKEN: ${{ secrets.GH_TOKEN }}  # Gunakan token GitHub
 
       - name: Get Package Version
         id: package_version
