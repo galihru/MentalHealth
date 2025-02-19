@@ -1,7 +1,7 @@
 {
-  "name": "MentalHealth",
+  "name": "@galihridho/mental-health",
   "version": "1.0.0",
-  "description": "Mental Health App",
+  "description": "Mental Health App with Emotion Detection",
   "main": "dist/emotion-detection.js",
   "module": "dist/emotion-detection.esm.js",
   "types": "dist/index.d.ts",
@@ -12,16 +12,16 @@
     "emotion-detection",
     "face-mesh",
     "mediapipe",
-    "computer-vision"
+    "computer-vision",
+    "mental-health"
   ],
   "scripts": {
-    "start": "node sc.js",
+    "start": "node dist/emotion-detection.js",
     "build": "rollup -c",
     "dev": "rollup -c -w",
     "test": "jest",
     "prepare": "npm run build",
-    "deploy": "wrangler deploy",
-    "dev": "wrangler dev"
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "crypto": "^1.0.1",
@@ -31,7 +31,7 @@
     "express": "^4.21.2",
     "@mediapipe/face_mesh": "^0.4.1633559619"
   },
-   "devDependencies": {
+  "devDependencies": {
     "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.6",
     "rollup": "^2.60.0",
@@ -43,5 +43,8 @@
   },
   "author": "Galih Ridho Utomo",
   "license": "MIT",
-  "type": "module"
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  }
 }
