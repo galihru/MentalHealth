@@ -6,13 +6,13 @@ export default {
   input: 'src/EmotionDetection.js',
   output: [
     {
-      file: 'dist/EmotionDetection.js',
+      file: 'dist/emotion-detection.js',
       format: 'umd',
       name: 'EmotionDetection',
       sourcemap: true
     },
     {
-      file: 'dist/EmotionDetection.esm.js',
+      file: 'dist/emotion-detection.esm.js',
       format: 'es',
       sourcemap: true
     }
@@ -24,8 +24,8 @@ export default {
   ],
   external: [
     '@mediapipe/face_mesh',
-    'express',
     'crypto',
+    'express',
     'helmet'
   ]
 };
