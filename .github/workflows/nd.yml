@@ -1,6 +1,9 @@
 name: Build and Publish
 
 on:
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-publish:
