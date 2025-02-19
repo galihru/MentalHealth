@@ -2,9 +2,8 @@ name: Publish to npm
 
 on:
   push:
-    tags:
-      - "v*.*.*"  # Hanya berjalan saat ada tag versi baru, misalnya v1.0.0
-
+    branches:
+      - main
 jobs:
   publish:
     runs-on: ubuntu-latest
