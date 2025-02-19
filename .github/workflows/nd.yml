@@ -19,6 +19,9 @@ jobs:
       
       - name: Install dependencies
         run: npm ci
+
+      - name: adduser
+        run: npm adduser
       
       - name: Build
         run: npm run build
