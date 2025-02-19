@@ -9,29 +9,20 @@ jobs:
   build-and-publish:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
+      - uses: actions/checkout@v3
+      
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          registry-url: 'https://npm.pkg.github.com'
-          scope: '@galihridhoutomo'
-
-      - name: Create .npmrc
-        run: |
-          echo "@galihridhoutomo:registry=https://npm.pkg.github.com" >> .npmrc
-          echo "//npm.pkg.github.com/:_authToken=${{ secrets.GH_TOKEN }}" >> .npmrc
-
+          node-version: '16'
+          registry-url: 'https://registry.npmjs.org'
+      
       - name: Install dependencies
         run: npm ci
-
+      
       - name: Build
         run: npm run build
-
+        
       - name: Test build output
         run: |
           if [ ! -d "dist" ]; then
@@ -39,56 +30,7 @@ jobs:
             exit 1
           fi
           ls -la dist
-
-      - name: Auto-update version
-        id: version
-        run: |
-          # Cek apakah package sudah ada di registry
-          if npm show @galihridhoutomo/mentalhealth version > /dev/null 2>&1; then
-            # Jika package ada, ambil versi terbaru
-            LATEST_VERSION=$(npm show @galihridhoutomo/mentalhealth version)
-          else
-            # Jika package belum ada, gunakan versi default 0.0.0
-            LATEST_VERSION="0.0.0"
-          fi
-
-          # Split version into components (major.minor.patch)
-          IFS='.' read -r major minor patch <<< "$LATEST_VERSION"
-          
-          # Increment patch version
-          NEW_VERSION="$major.$minor.$((patch + 1))"
-
-          # Update version in package.json
-          npm version "$NEW_VERSION" --no-git-tag-version --allow-same-version
-
-          echo "New version: $NEW_VERSION"
-          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
-
-      - name: Stage and commit version changes
-        run: |
-          # Hapus .npmrc jika tidak menggunakan .gitignore
-          rm -f .npmrc
-
-          # Periksa status Git
-          git status
-
-          # Jika ada perubahan, commit dan push
-          if git diff-index --quiet HEAD --; then
-            echo "No changes to commit."
-          else
-            git config --global user.name "GitHub Actions"
-            git config --global user.email "actions@github.com"
-            git add package.json package-lock.json
-            git commit -m "Bump version to $NEW_VERSION [skip ci]"
-            git push origin main
-          fi
-
-      - name: Pull latest changes
-        run: git pull origin main --rebase
-
-      - name: Push updated version
-        run: git push origin main
-
+      
       - name: Publish to NPM
         if: success()
         run: npm publish --access public
