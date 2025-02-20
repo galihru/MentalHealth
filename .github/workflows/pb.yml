@@ -26,6 +26,9 @@ jobs:
       - name: Configure npm authentication
         run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.NODE_AUTH_TOKEN }}" > ~/.npmrc
 
+      - name: Build package
+        run: npm run build
+
       - name: Publish to GitHub Packages
         run: npm publish --access public
         env:
