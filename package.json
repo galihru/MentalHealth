@@ -1,17 +1,50 @@
 {
   "name": "@galihridhoutomo/mental-health",
   "version": "1.0.3",
-  "description": "Mental Health Apps",
+  "description": "Mental Health App",
   "main": "dist/EmotionDetection.js",
   "module": "dist/EmotionDetection.esm.js",
-  "files": ["dist"],
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "emotion-detection",
+    "face-mesh",
+    "mediapipe",
+    "computer-vision"
+  ],
   "scripts": {
+    "start": "node dist/EmotionDetection.js",
     "build": "rollup -c",
-    "prepare": "npm run build"
+    "dev": "rollup -c -w",
+    "test": "jest",
+    "prepare": "npm run build",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
   },
-  "dependencies": {},
+  "dependencies": {
+    "crypto": "^1.0.1",
+    "html-minifier": "^4.0.0",
+    "terser": "^5.37.0",
+    "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "@mediapipe/face_mesh": "^0.4.1633559619"
+  },
   "devDependencies": {
-    "rollup": "^3.0.0"
+    "@rollup/plugin-commonjs": "^21.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.6",
+    "rollup": "^2.60.0",
+    "rollup-plugin-terser": "^7.0.2"
   },
-  "license": "MIT"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/4211421036/MentalHealth.git"
+  },
+  "author": "Galih Ridho Utomo",
+  "license": "MIT",
+  "type": "module",
+  "publishConfig": {
+    "access": "public"
+  }
 }
