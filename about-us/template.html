@@ -1566,28 +1566,18 @@ void loop() {
             <p>&copy; 2025 Mental Health Website. All rights reserved.</p>
         </footer>
         <script>
-            document.addEventListener("DOMContentLoaded", function () {
-            // Fungsi untuk mensimulasikan loading
-            function simulateContentLoading() {
-                return new Promise(resolve => {
-                    resolve();
-                });
+            window.addEventListener('load', function() {
+            // Hapus skeleton loading
+            const skeletonWrapper = document.querySelector(".skeleton-wrapper");
+            if (skeletonWrapper) {
+                skeletonWrapper.remove(); // atau skeletonWrapper.parentNode.removeChild(skeletonWrapper);
             }
-
-            // Simulasikan proses loading
-            simulateContentLoading().then(() => {
-                // Hapus skeleton loading setelah konten selesai dimuat
-                const skeletonWrapper = document.querySelector(".skeleton-wrapper");
-                if (skeletonWrapper) {
-                    skeletonWrapper.remove();
-                }
-                
-                // Tampilkan konten asli
-                const pageWrapper = document.querySelector(".page-wrapper");
-                if (pageWrapper) {
-                    pageWrapper.style.display = "block";
-                }
-            });
+            
+            // Tampilkan konten asli
+            const pageWrapper = document.querySelector(".page-wrapper");
+            if (pageWrapper) {
+                pageWrapper.style.display = "block";
+            }
         });
     </script>
         <script>
