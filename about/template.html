@@ -1106,7 +1106,7 @@ float edaMovingAverage(float newVal) {
 
   WiFi.begin(ssid, password);
   int wifiTimeout = 0;
-  while (WiFi.status() != WL_CONNECTED && wifiTimeout < 20) {
+  while (WiFi.status() != WL_CONNECTED && wifiTimeout<20) {
     delay(500);
     Serial.print(".");
     wifiTimeout++;
