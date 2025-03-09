@@ -1172,7 +1172,7 @@ void loop() {
     long delta = millis() - lastBeat;
     lastBeat = millis();
     beatsPerMinute = 60 / (delta / 1000.0);
-    if(beatsPerMinute<255&&beatsPerMinute>20) {
+    if(beatsPerMinute) {
       rates[rateSpot++] = (byte)beatsPerMinute;
       rateSpot %= 4;
       beatAvg = 0;
