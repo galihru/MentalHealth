@@ -190,36 +190,53 @@
             margin-right: 8px;
             color: #64748b;
         }
-
-        /* Sidebar Styling */
-        /* Sidebar Styling */
+/* Sidebar Styling */
 .sidebar {
     position: sticky;
     top: 20px;
     max-height: 100vh;
     overflow-y: auto;
-    padding-right: 15px;
+    padding: 20px;
+    background-color: #f9f9f9; /* Warna background sidebar */
+    border-left: 4px solid #e0e0e0; /* Border pembatas */
+    border-radius: 8px; /* Sudut melengkung */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Bayangan untuk efek depth */
+    margin-left: 20px; /* Jarak dari konten utama */
+}
+
+.sidebar-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 16px;
+    padding-left: 12px; /* Jarak dari border */
 }
 
 .sidebar-nav {
     list-style: none;
     padding-left: 0;
+    margin: 0;
 }
 
 .sidebar-nav li a {
     display: block;
-    padding: 8px 12px;
-    border-left: 3px solid transparent;
-    color: #666;
-    transition: all 0.3s;
+    padding: 10px 12px;
+    color: #555;
     text-decoration: none;
+    transition: all 0.3s ease;
+    border-radius: 4px; /* Sudut melengkung untuk link */
+    margin: 4px 0; /* Jarak antar link */
 }
 
-.sidebar-nav li a:hover,
+.sidebar-nav li a:hover {
+    background-color: #e3f2fd; /* Warna background saat hover */
+    color: #1976d2; /* Warna teks saat hover */
+}
+
 .sidebar-nav li a.active {
-    border-left-color: #2196F3;
-    color: #2196F3;
-    background: #f5f5f5;
+    background-color: #1976d2; /* Warna background saat aktif */
+    color: #fff; /* Warna teks saat aktif */
+    font-weight: 500;
 }
 
 /* Indentasi untuk hierarki heading */
@@ -230,8 +247,28 @@
 .sidebar-nav li.level-3 {
     padding-left: 40px;
 }
+
+/* Garis vertikal untuk hierarki */
+.sidebar-nav li.level-2::before,
+.sidebar-nav li.level-3::before {
+    content: '';
+    position: absolute;
+    left: 12px;
+    width: 2px;
+    height: 100%;
+    background-color: #e0e0e0; /* Warna garis vertikal */
+}
+
+.sidebar-nav li.level-2::before {
+    top: 0;
+    height: 100%;
+}
+
+.sidebar-nav li.level-3::before {
+    top: 0;
+    height: 100%;
+}
     </style>
-    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
