@@ -194,12 +194,12 @@
 .sidebar {
     position: sticky;
     top: 20px;
-    max-height: 100vh;
-    overflow-y: auto;
+    max-height: 80vh; /* Batasi tinggi sidebar */
+    overflow-y: auto; /* Buat sidebar scrollable */
     padding: 20px;
-    background-color: #f9f9f9; /* Warna background sidebar */
-    border-radius: 8px; /* Sudut melengkung */
-    margin-left: 20px; /* Jarak dari konten utama */
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    margin-left: 20px;
 }
 
 .sidebar-title {
@@ -207,7 +207,7 @@
     font-weight: 600;
     color: #333;
     margin-bottom: 16px;
-    padding-left: 12px; /* Jarak dari border */
+    padding-left: 12px;
 }
 
 .sidebar-nav {
@@ -222,18 +222,18 @@
     color: #555;
     text-decoration: none;
     transition: all 0.3s ease;
-    border-radius: 4px; /* Sudut melengkung untuk link */
-    margin: 4px 0; /* Jarak antar link */
+    border-radius: 4px;
+    margin: 4px 0;
 }
 
 .sidebar-nav li a:hover {
-    background-color: #e3f2fd; /* Warna background saat hover */
-    color: #1976d2; /* Warna teks saat hover */
+    background-color: #e3f2fd;
+    color: #1976d2;
 }
 
 .sidebar-nav li a.active {
-    background-color: #1976d2; /* Warna background saat aktif */
-    color: #fff; /* Warna teks saat aktif */
+    background-color: #1976d2;
+    color: #fff;
     font-weight: 500;
 }
 
@@ -247,22 +247,22 @@
 }
 
 /* Garis vertikal untuk hierarki */
-.sidebar-nav ul.level-2::before,
-.sidebar-nav ul.level-3::before {
+.sidebar-nav li.level-2::before,
+.sidebar-nav li.level-3::before {
     content: '';
     position: absolute;
     left: 12px;
     width: 2px;
     height: 100%;
-    background-color: #e0e0e0; /* Warna garis vertikal */
+    background-color: #e0e0e0;
 }
 
-.sidebar-nav ul.level-2::before {
+.sidebar-nav li.level-2::before {
     top: 0;
     height: 100%;
 }
 
-.sidebar-nav ul.level-3::before {
+.sidebar-nav li.level-3::before {
     top: 0;
     height: 100%;
 }
@@ -1283,9 +1283,13 @@ void loop() {
         const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
         let currentSection = '';
 
-        sections.forEach(section => {
+        sections.forEach((section, index) => {
             const rect = section.getBoundingClientRect();
-            if (rect.top <= 150 && rect.bottom >= 150) {
+            const nextSection = sections[index + 1];
+            const nextRect = nextSection ? nextSection.getBoundingClientRect() : null;
+
+            // Jika section saat ini berada di viewport atau section berikutnya belum masuk viewport
+            if (rect.top <= 150 && (nextRect === null || nextRect.top > 150)) {
                 currentSection = '#' + section.id;
             }
         });
@@ -1294,6 +1298,14 @@ void loop() {
             link.classList.remove('active');
             if (link.getAttribute('href') === currentSection) {
                 link.classList.add('active');
+
+                // Auto-scroll sidebar jika link aktif tidak terlihat
+                const sidebarRect = sidebarNav.getBoundingClientRect();
+                const linkRect = link.getBoundingClientRect();
+
+                if (linkRect.top < sidebarRect.top || linkRect.bottom > sidebarRect.bottom) {
+                    link.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
         });
     }
