@@ -12,6 +12,7 @@
     <link rel="preload" href="https://4211421036.github.io/MentalHealth/style.css" as="style">
     <link rel="apple-touch-icon" href="https://4211421036.github.io/g4lihru/987654567.png">
     <link rel="dns-prefetch" href="https://4211421036.github.io/" />
+    <link href="https://4211421036.github.io/MentalHealth/manifest.webmanifest" rel="manifest">
     <meta name="description" content="A comprehensive mental health monitoring application using modern web technologies">
     <meta name="keywords" content="mental health, monitoring, health app, face analysis, emotion detection">
     <meta name="author" content="GALIH RIDHO UTOMO and Ana Maulida">
@@ -1486,6 +1487,19 @@ void loop() {
     window.addEventListener('scroll', updateActiveSection);
 });
         </script>
+         <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('https://4211421036.github.io/MentalHealth/sw.js')
+                    .then(registration => {
+                        console.log('Service Worker registered with scope: ', registration.scope);
+                    })
+                    .catch(error => {
+                        console.error('Service Worker registration failed:', error);
+                    });
+            });
+        }
+    </script>
     </div>
 </body>
 
