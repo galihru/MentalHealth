@@ -241,6 +241,8 @@
             color: #64748b;
         }
     </style>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
     <div class="page-wrapper">
@@ -326,25 +328,40 @@
                 </div>
                 
                 <div class="content-section">
-                    <h2 id="code-examples">Code Examples</h2>
-                    <p>Here is a simple code snippet from our face-analysis.js that you can use to integrate emotion detection into your own projects:</p>
-                    <div class="code-block">
-                        <pre><code>// face-analysis.js
-const videoElement = document.getElementById('video');
-const canvasElement = document.getElementById('canvas');
-const canvasCtx = canvasElement.getContext('2d');
-let lastFaceID = null;
+    <h2 id="code-examples">Code Examples</h2>
+    <p>Here is the complete code snippet from our <code>face-analysis.js</code> that you can use to integrate emotion detection into your own projects. Each function is explained in detail below, along with mathematical formulas to represent the logic:</p>
 
-// Simple hash function to generate FaceID
+    <!-- Fungsi djb2Hash -->
+    <div class="code-block">
+        <h3>1. Hash Function (djb2Hash)</h3>
+        <p>This function generates a unique hash value for a given string. It is based on the DJB2 algorithm, which is a simple and efficient hashing algorithm.</p>
+        <pre><code>// djb2Hash: Generates a hash value for a string
 function djb2Hash(str) {
-    let hash = 5381;
+    let hash = 5381; // Initial hash value
     for (let i = 0; i < str.length; i++) {
-        hash = (hash * 33) ^ str.charCodeAt(i);
+        hash = (hash * 33) ^ str.charCodeAt(i); // Update hash using bitwise XOR
     }
     return hash >>> 0; // Convert to unsigned 32-bit integer
-}
+}</code></pre>
+        <p><strong>Mathematical Representation:</strong></p>
+        <p>\[
+            \text{hash} = 5381 \\
+            \text{for each character in string:} \\
+            \text{hash} = (\text{hash} \times 33) \oplus \text{charCodeAt(i)}
+        \]</p>
+        <p><strong>Explanation:</strong></p>
+        <ul>
+            <li><code>hash = 5381</code>: The initial value of the hash.</li>
+            <li><code>hash = (hash * 33) ^ str.charCodeAt(i)</code>: For each character in the string, the hash is updated by multiplying it by 33 and then performing a bitwise XOR with the character's ASCII code.</li>
+            <li><code>hash >>> 0</code>: Ensures the hash is a positive 32-bit integer.</li>
+        </ul>
+    </div>
 
-// Function to convert face landmarks to unique hash
+    <!-- Fungsi generateFaceID -->
+    <div class="code-block">
+        <h3>2. Generate Face ID (generateFaceID)</h3>
+        <p>This function converts facial landmarks into a unique hash string. It normalizes the landmark coordinates and uses the <code>djb2Hash</code> function to generate a unique FaceID.</p>
+        <pre><code>// generateFaceID: Converts facial landmarks to a unique hash
 function generateFaceID(landmarks) {
     // Normalize landmark coordinates with 4 decimal precision
     let hashString = landmarks.map(lm =>
@@ -355,9 +372,227 @@ function generateFaceID(landmarks) {
 
     return djb2Hash(hashString).toString(16); // Convert to hexadecimal
 }</code></pre>
-                    </div>
-                </div>
-                
+        <p><strong>Mathematical Representation:</strong></p>
+        <p>\[
+            \text{hashString} = \text{landmarks.map}(lm \rightarrow \text{lm.x.toFixed(4)} + \text{lm.y.toFixed(4)} + \text{lm.z.toFixed(4)}) \\
+            \text{FaceID} = \text{djb2Hash(hashString).toString(16)}
+        \]</p>
+        <p><strong>Explanation:</strong></p>
+        <ul>
+            <li><code>landmarks.map</code>: Converts each landmark's coordinates into a string with 4 decimal places.</li>
+            <li><code>djb2Hash</code>: Generates a hash from the concatenated string.</li>
+            <li><code>toString(16)</code>: Converts the hash to a hexadecimal string for uniqueness.</li>
+        </ul>
+    </div>
+
+    <!-- Fungsi analyzeEmotions -->
+    <div class="code-block">
+        <h3>3. Analyze Emotions (analyzeEmotions)</h3>
+        <p>This function calculates the intensity of different emotions (happy, sad, angry, surprised, neutral) based on facial landmarks.</p>
+        <pre><code>// analyzeEmotions: Calculates emotion intensities
+function analyzeEmotions(landmarks) {
+    const emotions = {
+        happy: calculateHappiness(landmarks),
+        sad: calculateSadness(landmarks),
+        angry: calculateAnger(landmarks),
+        surprised: calculateSurprise(landmarks),
+        neutral: calculateNeutral(landmarks)
+    };
+
+    // Normalize to percentages
+    const total = Object.values(emotions).reduce((a, b) => a + b, 0);
+    Object.keys(emotions).forEach(key => {
+        emotions[key] = (emotions[key] / total * 100).toFixed(1);
+    });
+
+    return emotions;
+}</code></pre>
+        <p><strong>Mathematical Representation:</strong></p>
+        <p>\[
+            \text{emotions} = \begin{cases}
+                \text{happy} = \text{calculateHappiness(landmarks)} \\
+                \text{sad} = \text{calculateSadness(landmarks)} \\
+                \text{angry} = \text{calculateAnger(landmarks)} \\
+                \text{surprised} = \text{calculateSurprise(landmarks)} \\
+                \text{neutral} = \text{calculateNeutral(landmarks)}
+            \end{cases} \\
+            \text{total} = \sum \text{emotions} \\
+            \text{emotions[key]} = \left( \frac{\text{emotions[key]}}{\text{total}} \times 100 \right) \text{toFixed(1)}
+        \]</p>
+        <p><strong>Explanation:</strong></p>
+        <ul>
+            <li><code>calculateHappiness</code>, <code>calculateSadness</code>, etc.: These functions compute the intensity of each emotion.</li>
+            <li><code>Object.values(emotions).reduce</code>: Sums up all emotion values for normalization.</li>
+            <li><code>toFixed(1)</code>: Converts the result to a percentage with one decimal place.</li>
+        </ul>
+    </div>
+
+    <!-- Fungsi calculateHappiness -->
+    <div class="code-block">
+        <h3>4. Calculate Happiness (calculateHappiness)</h3>
+        <p>This function calculates the intensity of happiness based on facial landmarks, specifically focusing on lip and cheek movements.</p>
+        <pre><code>// calculateHappiness: Computes happiness intensity
+function calculateHappiness(landmarks) {
+    // AU12 - Lip Corner Puller
+    const lipCornerLeft = landmarks[61];
+    const lipCornerRight = landmarks[291];
+    const lipStretch = Math.hypot(
+        lipCornerRight.x - lipCornerLeft.x,
+        lipCornerRight.y - lipCornerLeft.y
+    );
+
+    // AU6 - Cheek Raiser
+    const cheekLeft = landmarks[123];
+    const eyeLeft = landmarks[159];
+    const cheekRaiseLeft = eyeLeft.y - cheekLeft.y;
+
+    if (!landmarks[61] || !landmarks[291] || !landmarks[123] || !landmarks[159]) {
+        return 0; // Return 0 if landmarks are missing
+    }
+
+    return Math.min(1, lipStretch * 2 + cheekRaiseLeft * 3);
+}</code></pre>
+        <p><strong>Mathematical Representation:</strong></p>
+        <p>\[
+            \text{lipStretch} = \sqrt{(\text{lipCornerRight.x} - \text{lipCornerLeft.x})^2 + (\text{lipCornerRight.y} - \text{lipCornerLeft.y})^2} \\
+            \text{cheekRaiseLeft} = \text{eyeLeft.y} - \text{cheekLeft.y} \\
+            \text{happiness} = \min(1, \text{lipStretch} \times 2 + \text{cheekRaiseLeft} \times 3)
+        \]</p>
+        <p><strong>Explanation:</strong></p>
+        <ul>
+            <li><code>lipStretch</code>: Measures the distance between lip corners using the Pythagorean theorem.</li>
+            <li><code>cheekRaiseLeft</code>: Measures the vertical distance between the cheek and eye.</li>
+            <li><code>Math.min(1, ...)</code>: Ensures the result is between 0 and 1.</li>
+        </ul>
+    </div>
+
+    <!-- Fungsi calculateSadness -->
+    <div class="code-block">
+        <h3>5. Calculate Sadness (calculateSadness)</h3>
+        <p>This function calculates the intensity of sadness based on facial landmarks, focusing on lip depression and brow movement.</p>
+        <pre><code>// calculateSadness: Computes sadness intensity
+function calculateSadness(landmarks) {
+    // AU15 - Lip Corner Depressor
+    const lipCornerLeft = landmarks[61];
+    const lipBottom = landmarks[17];
+    const lipDepression = lipBottom.y - lipCornerLeft.y;
+
+    // AU1 - Inner Brow Raiser
+    const browInnerLeft = landmarks[105];
+    const browInnerRight = landmarks[334];
+    const browRaise = (browInnerLeft.y + browInnerRight.y) / 2;
+
+    return Math.min(1, lipDepression * 1.5 + browRaise * 2);
+}</code></pre>
+        <p><strong>Mathematical Representation:</strong></p>
+        <p>\[
+            \text{lipDepression} = \text{lipBottom.y} - \text{lipCornerLeft.y} \\
+            \text{browRaise} = \frac{\text{browInnerLeft.y} + \text{browInnerRight.y}}{2} \\
+            \text{sadness} = \min(1, \text{lipDepression} \times 1.5 + \text{browRaise} \times 2)
+        \]</p>
+        <p><strong>Explanation:</strong></p>
+        <ul>
+            <li><code>lipDepression</code>: Measures the vertical distance between the lip corner and the bottom lip.</li>
+            <li><code>browRaise</code>: Measures the average height of the inner brows.</li>
+        </ul>
+    </div>
+
+    <!-- Fungsi calculateAnger -->
+    <div class="code-block">
+        <h3>6. Calculate Anger (calculateAnger)</h3>
+        <p>This function calculates the intensity of anger based on facial landmarks, focusing on brow lowering and lip compression.</p>
+        <pre><code>// calculateAnger: Computes anger intensity
+function calculateAnger(landmarks) {
+    // AU4 - Brow Lowerer
+    const browOuterLeft = landmarks[46];
+    const browInnerLeft = landmarks[105];
+    const browLowerLeft = browInnerLeft.y - browOuterLeft.y;
+
+    // AU23 - Lip Tightener
+    const lipTop = landmarks[0];
+    const lipBottom = landmarks[17];
+    const lipCompression = lipBottom.y - lipTop.y;
+
+    return Math.min(1, browLowerLeft * 2 + lipCompression * 1.2);
+}</code></pre>
+        <p><strong>Mathematical Representation:</strong></p>
+        <p>\[
+            \text{browLowerLeft} = \text{browInnerLeft.y} - \text{browOuterLeft.y} \\
+            \text{lipCompression} = \text{lipBottom.y} - \text{lipTop.y} \\
+            \text{anger} = \min(1, \text{browLowerLeft} \times 2 + \text{lipCompression} \times 1.2)
+        \]</p>
+        <p><strong>Explanation:</strong></p>
+        <ul>
+            <li><code>browLowerLeft</code>: Measures the vertical distance between the inner and outer brow.</li>
+            <li><code>lipCompression</code>: Measures the vertical distance between the top and bottom lip.</li>
+        </ul>
+    </div>
+
+    <!-- Fungsi calculateSurprise -->
+    <div class="code-block">
+        <h3>7. Calculate Surprise (calculateSurprise)</h3>
+        <p>This function calculates the intensity of surprise based on facial landmarks, focusing on eye openness and jaw drop.</p>
+        <pre><code>// calculateSurprise: Computes surprise intensity
+function calculateSurprise(landmarks) {
+    // AU5 - Upper Lid Raiser
+    const eyelidLeft = landmarks[159];
+    const eyeLeft = landmarks[145];
+    const eyeOpenness = eyeLeft.y - eyelidLeft.y;
+
+    // AU26 - Jaw Drop
+    const chin = landmarks[152];
+    const nose = landmarks[4];
+    const jawDrop = chin.y - nose.y;
+
+    return Math.min(1, eyeOpenness * 2 + jawDrop * 0.8);
+}</code></pre>
+        <p><strong>Mathematical Representation:</strong></p>
+        <p>\[
+            \text{eyeOpenness} = \text{eyeLeft.y} - \text{eyelidLeft.y} \\
+            \text{jawDrop} = \text{chin.y} - \text{nose.y} \\
+            \text{surprise} = \min(1, \text{eyeOpenness} \times 2 + \text{jawDrop} \times 0.8)
+        \]</p>
+        <p><strong>Explanation:</strong></p>
+        <ul>
+            <li><code>eyeOpenness</code>: Measures the vertical distance between the eyelid and eye.</li>
+            <li><code>jawDrop</code>: Measures the vertical distance between the chin and nose.</li>
+        </ul>
+    </div>
+
+    <!-- Fungsi calculateNeutral -->
+    <div class="code-block">
+        <h3>8. Calculate Neutral (calculateNeutral)</h3>
+        <p>This function calculates the intensity of a neutral expression by measuring deviations from a neutral facial position.</p>
+        <pre><code>// calculateNeutral: Computes neutral intensity
+function calculateNeutral(landmarks) {
+    let deviation = 0;
+    const neutralFeatures = [
+        [152, 4],  // Chin to nose
+        [61, 291], // Lip corners
+        [105, 334] // Brows
+    ];
+
+    neutralFeatures.forEach(([i1, i2]) => {
+        deviation += Math.hypot(
+            landmarks[i1].x - landmarks[i2].x,
+            landmarks[i1].y - landmarks[i2].y
+        );
+    });
+
+    return Math.max(0, 1 - deviation * 2);
+}</code></pre>
+        <p><strong>Mathematical Representation:</strong></p>
+        <p>\[
+            \text{deviation} = \sum \sqrt{(\text{landmarks[i1].x} - \text{landmarks[i2].x})^2 + (\text{landmarks[i1].y} - \text{landmarks[i2].y})^2} \\
+            \text{neutral} = \max(0, 1 - \text{deviation} \times 2)
+        \]</p>
+        <p><strong>Explanation:</strong></p>
+        <ul>
+            <li><code>deviation</code>: Measures the total deviation from neutral positions using the Pythagorean theorem.</li>
+            <li><code>Math.max(0, 1 - deviation * 2)</code>: Ensures the result is between 0 and 1.</li>
+        </ul>
+    </div>
+</div>          
                 <a href="https://github.com/mental-health-website/edit" class="edit-page">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 1.27a11 11 0 00-7.81 18.73A11 11 0 1012 1.27z"/>
