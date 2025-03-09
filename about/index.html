@@ -396,6 +396,33 @@
 .card:hover::before {
     opacity: 1;
 }
+        header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background: var(--nav-bg);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 20px;
+    z-index: 2;
+}
+
+.headco {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-direction: column;
+}
+.logos {
+    margin: 0;
+}
+
     </style>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
@@ -425,10 +452,15 @@
 </head>
 
 <body>
+    <header aria-label="Main Header">
+        <div class="headco">
+            <h1 class="logos">Mental Health</h1>
+        </div>
+    </header>
     <div class="page-wrapper">
         <nav class="top-navigation">
             <div class="breadcrumbs">
-                <a href="/">HOME</a>
+                <a href="https://4211421036.github.io/MentalHealth/">HOME</a>
                 <span>/</span>
                 <a href="/about" class="active">ABOUT</a>
             </div>
