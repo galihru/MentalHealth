@@ -635,6 +635,454 @@ function calculateNeutral(landmarks) {
             <li>The coefficient 2 is a scaling factor to ensure appropriate range for the result</li>
         </ul>
 </div>
+                <div class="content-section">
+    <h2 id="code-explanation">Penjelasan Kode Arduino untuk Sistem Pemantauan Kesehatan Mental</h2>
+    <p>Berikut ini adalah penjelasan detail untuk kode sistem pemantauan kesehatan mental yang menggunakan ESP32 dengan sensor GSR, MAX30102, dan BH1750. Tiap fungsi dijelaskan secara detail dengan formulasi matematis yang relevan:</p>
+
+    <!-- Konfigurasi dan Inisialisasi -->
+        <h3>1. Konfigurasi dan Inisialisasi</h3>
+        <p>Bagian ini mengatur koneksi WiFi, pengaturan GitHub untuk penyimpanan data, dan inisialisasi sensor.</p>
+    <div class="code-block">
+        <pre><code>#include <WiFi.h>
+#include <HTTPClient.h>
+#include <ArduinoJson.h>
+#include <Wire.h>
+#include "MAX30105.h"
+#include "heartRate.h"
+#include <BH1750.h>
+#include <Base64.h>
+#include <time.h>
+
+// Konfigurasi WiFi
+const char* ssid = "Brickhouse 1";
+const char* password = "AVOLUTION";
+
+// Konfigurasi GitHub
+const char* gsrUrl = "https://api.github.com/repos/4211421036/MentalHealth/contents/GSR.json";
+const char* maxUrl = "https://api.github.com/repos/4211421036/MentalHealth/contents/MAX30102.json";
+const char* bhUrl = "https://api.github.com/repos/4211421036/MentalHealth/contents/BH1750.json";
+const char* token = "Bearer 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";
+
+// Konfigurasi waktu
+const char* ntpServer = "pool.ntp.org";
+const long gmtOffset_sec = 25200;  // GMT+7
+const int daylightOffset_sec = 0;
+
+// Sensor Objects
+MAX30105 particleSensor;
+BH1750 lightMeter;
+
+// Pin Config
+const int GSR_PIN = 34;
+const int WINDOW_SIZE = 5;  // Untuk moving average GSR (Boucsein, 2012)
+
+// Variabel Sensor
+float eda_buffer[WINDOW_SIZE] = {0};
+int buffer_index = 0;
+float beatsPerMinute, beatAvg;
+byte rates[4], rateSpot = 0;
+long lastBeat = 0;</code></pre>
+    </div>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li>Library yang digunakan mencakup koneksi WiFi, HTTP client, JSON parser, I2C communication, dan library khusus untuk sensor MAX30105 dan BH1750</li>
+            <li>Konfigurasi WiFi untuk koneksi internet</li>
+            <li>Konfigurasi GitHub API untuk penyimpanan data di cloud</li>
+            <li>Inisialisasi objek sensor dan konfigurasi pin</li>
+            <li>WINDOW_SIZE = 5 digunakan untuk moving average filter GSR berdasarkan rekomendasi Boucsein (2012)</li>
+            <li>Variabel buffer untuk menyimpan data sensor dan mengolahnya</li>
+        </ul>
+
+    <!-- Fungsi getCurrentSHA -->
+        <h3>2. Fungsi getCurrentSHA</h3>
+        <p>Fungsi ini mengambil nilai SHA dari file yang ada di GitHub untuk keperluan update.</p>
+    <div class="code-block">
+        <pre><code>String getCurrentSHA(const char* url) {
+  HTTPClient http;
+  String sha = "";
+  http.begin(url);
+  http.addHeader("Authorization", token);
+  int httpCode = http.GET();
+  
+  if (httpCode == HTTP_CODE_OK) {
+    DynamicJsonDocument doc(1024);
+    deserializeJson(doc, http.getString());
+    sha = doc["sha"].as<String>();
+  }
+  http.end();
+  return sha;
+}</code></pre>
+    </div>
+        <p><strong>Alur Proses:</strong></p>
+        <p>\[
+            \text{getCurrentSHA}: \text{URL} \rightarrow \text{SHA}
+        \]</p>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li>Membuat koneksi HTTP ke GitHub API untuk mendapatkan metadata file</li>
+            <li>Mengirim request GET dengan token otorisasi</li>
+            <li>Mengekstrak nilai SHA dari respons JSON</li>
+            <li>SHA adalah hash unik yang digunakan GitHub untuk version control</li>
+        </ul>
+
+    <!-- Fungsi uploadToGitHub -->
+        <h3>3. Fungsi uploadToGitHub</h3>
+        <p>Fungsi ini melakukan upload data JSON ke GitHub dengan encode Base64.</p>
+    <div class="code-block">
+        <pre><code>void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
+  HTTPClient http;
+  http.begin(url);
+  http.addHeader("Content-Type", "application/json");
+  http.addHeader("Authorization", token);
+
+  String jsonStr;
+  serializeJson(doc, jsonStr);
+  String encodedData = base64::encode(jsonStr);
+
+  String payload = "{\"message\":\"Update data\",\"content\":\"" + encodedData + "\",\"sha\":\"" + lastSHA + "\"}";
+
+  int httpCode = http.PUT(payload);
+  if (httpCode == HTTP_CODE_OK) {
+    DynamicJsonDocument respDoc(1024);
+    deserializeJson(respDoc, http.getString());
+    lastSHA = respDoc["content"]["sha"].as<String>();
+  }
+  http.end();
+}</code></pre>
+    </div>
+        <p><strong>Alur Proses:</strong></p>
+        <p>\[
+            \text{JSON} \xrightarrow{\text{serialize}} \text{String} \xrightarrow{\text{Base64}} \text{EncodedString} \xrightarrow{\text{HTTP PUT}} \text{GitHub}
+        \]</p>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li>Menerima dokumen JSON, URL endpoint, dan referensi ke lastSHA</li>
+            <li>Mengkonversi dokumen JSON menjadi string</li>
+            <li>Mengencode string dengan Base64 (diperlukan oleh GitHub API)</li>
+            <li>Membuat payload untuk request PUT yang berisi data terenkode dan SHA sebelumnya</li>
+            <li>Mengupdate nilai lastSHA dengan nilai SHA baru dari respons GitHub</li>
+        </ul>
+
+    <!-- Fungsi getTimestamp -->
+        <h3>4. Fungsi getTimestamp</h3>
+        <p>Fungsi ini mengambil timestamp saat ini dari NTP server.</p>
+    <div class="code-block">
+        <pre><code>String getTimestamp() {
+  struct tm timeinfo;
+  if(!getLocalTime(&timeinfo)) return "";
+  char buffer[20];
+  strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &timeinfo);
+  return String(buffer);
+}</code></pre></div>
+        <p><strong>Format Output:</strong></p>
+        <p>\[
+            \text{Timestamp} = \text{YYYY-MM-DD HH:MM:SS}
+        \]</p>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li>Menggunakan NTP (Network Time Protocol) untuk mendapatkan waktu yang akurat</li>
+            <li>Mengkonversi waktu ke format string yang mudah dibaca: tahun-bulan-tanggal jam:menit:detik</li>
+            <li>Penting untuk menyediakan stempel waktu yang konsisten pada data sensor</li>
+        </ul>
+
+    <!-- Fungsi edaMovingAverage -->
+        <h3>5. Fungsi edaMovingAverage</h3>
+        <p>Fungsi ini mengimplementasikan moving average filter untuk sinyal EDA (Electrodermal Activity) berdasarkan metode Boucsein (2012).</p>
+    <div class="code-block">
+        <pre><code>// Fungsi moving average untuk EDA tonic (Boucsein, 2012)
+float edaMovingAverage(float newVal) {
+  eda_buffer[buffer_index] = newVal;
+  buffer_index = (buffer_index + 1) % WINDOW_SIZE;
+  float sum = 0;
+  for(int i=0; i<WINDOW_SIZE; i++) sum += eda_buffer[i];
+  return sum/WINDOW_SIZE;
+}</code></pre></div>
+        <p><strong>Formulasi Matematis:</strong></p>
+        <p>\[
+            B[j] = x_{\text{new}}
+        \]</p>
+        <p>\[
+            j = (j + 1) \mod W
+        \]</p>
+        <p>\[
+            \bar{x} = \frac{1}{W} \sum_{i=0}^{W-1} B[i]
+        \]</p>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li>\(B\): Buffer circular untuk menyimpan nilai EDA terakhir</li>
+            <li>\(j\): Indeks buffer saat ini</li>
+            <li>\(W\): Ukuran window (WINDOW_SIZE = 5)</li>
+            <li>\(x_{\text{new}}\): Nilai EDA baru</li>
+            <li>\(\bar{x}\): Nilai EDA rata-rata (EDA tonic)</li>
+            <li>Metode ini, berdasarkan Boucsein (2012), membantu memisahkan komponen tonic (baseline) dari sinyal EDA</li>
+        </ul>
+
+    <!-- Fungsi setup -->
+        <h3>6. Fungsi setup</h3>
+        <p>Fungsi ini menginisialisasi koneksi dan sensor saat sistem pertama kali dinyalakan.</p><div class="code-block">
+        <pre><code>void setup() {
+  Serial.begin(115200);
+
+  WiFi.begin(ssid, password);
+  int wifiTimeout = 0;
+  while (WiFi.status() != WL_CONNECTED && wifiTimeout < 20) {
+    delay(500);
+    Serial.print(".");
+    wifiTimeout++;
+  }
+  
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nConnected to WiFi");
+    configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+  } else {
+    Serial.println("\nFailed to connect WiFi");
+    ESP.restart();
+  }
+  
+  // Inisialisasi Sensor
+  Wire.begin();
+  if (!particleSensor.begin(Wire, I2C_SPEED_FAST)) {
+    Serial.println("MAX30102 not found");
+  }
+  particleSensor.setup();
+  lightMeter.begin();
+
+  configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
+}</code></pre></div>
+        <p><strong>Alur Proses:</strong></p>
+        <p>\[
+            \text{Inisialisasi Serial} \rightarrow \text{Koneksi WiFi} \rightarrow \text{Konfigurasi NTP} \rightarrow \text{Inisialisasi Sensor}
+        \]</p>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li>Menginisialisasi komunikasi serial dengan baud rate 115200</li>
+            <li>Mencoba melakukan koneksi WiFi dengan timeout 10 detik (20 x 500ms)</li>
+            <li>Jika koneksi gagal, sistem akan restart</li>
+            <li>Inisialisasi bus I2C (Wire) untuk komunikasi dengan sensor</li>
+            <li>Konfigurasi sensor MAX30102 dan BH1750</li>
+            <li>Konfigurasi NTP untuk sinkronisasi waktu</li>
+        </ul>
+
+    <!-- Fungsi loop -->
+        <h3>7. Fungsi loop</h3>
+        <p>Fungsi utama yang berjalan berulang untuk membaca sensor, mengolah data, dan mengunggahnya ke GitHub.</p><div class="code-block">
+        <pre><code>void loop() {
+  if (WiFi.status() != WL_CONNECTED) {
+    Serial.println("WiFi disconnected. Reconnecting...");
+    WiFi.reconnect();
+    delay(5000);
+    return;
+  }
+  static unsigned long lastUpload = 0;
+  
+  // Baca semua sensor
+  float gsrRaw = analogRead(GSR_PIN);
+  float edaTonic = edaMovingAverage(gsrRaw);
+  float edaPhasic = gsrRaw - edaTonic;  // Boucsein (2012)
+  
+  long irValue = particleSensor.getIR();
+  if(irValue > 50000 && checkForBeat(irValue)) {  // Shaffer et al. (2014)
+    long delta = millis() - lastBeat;
+    lastBeat = millis();
+    beatsPerMinute = 60 / (delta / 1000.0);
+    if(beatsPerMinute < 255 && beatsPerMinute > 20) {
+      rates[rateSpot++] = (byte)beatsPerMinute;
+      rateSpot %= 4;
+      beatAvg = 0;
+      for(byte x=0; x<4; x++) beatAvg += rates[x];
+      beatAvg /= 4;
+    }
+  }
+
+  float lux = lightMeter.readLightLevel();  // Golden et al. (2005)
+
+  if(millis() - lastUpload >= 10000) {  // Upload setiap 10 detik
+    String timestamp = getTimestamp();
+    
+    // Buat dokumen JSON untuk masing-masing sensor
+    DynamicJsonDocument gsrDoc(256);
+    gsrDoc["sensor"] = "GSR";
+    gsrDoc["tonic"] = edaTonic;
+    gsrDoc["phasic"] = edaPhasic;
+    gsrDoc["timestamp"] = timestamp;
+    
+    DynamicJsonDocument maxDoc(256);
+    maxDoc["sensor"] = "MAX30102";
+    maxDoc["bpm"] = beatsPerMinute;
+    maxDoc["hrv"] = beatAvg;  // SDNN dihitung offline
+    maxDoc["timestamp"] = timestamp;
+    
+    DynamicJsonDocument bhDoc(256);
+    bhDoc["sensor"] = "BH1750";
+    bhDoc["lux"] = lux;
+    bhDoc["timestamp"] = timestamp;
+
+    // Upload ke GitHub
+    if(lastSHA_GSR == "") lastSHA_GSR = getCurrentSHA(gsrUrl);
+    uploadToGitHub(gsrDoc, gsrUrl, lastSHA_GSR);
+    
+    if(lastSHA_MAX == "") lastSHA_MAX = getCurrentSHA(maxUrl);
+    uploadToGitHub(maxDoc, maxUrl, lastSHA_MAX);
+    
+    if(lastSHA_BH == "") lastSHA_BH = getCurrentSHA(bhUrl);
+    uploadToGitHub(bhDoc, bhUrl, lastSHA_BH);
+
+    lastUpload = millis();
+  }
+}</code></pre>    </div>
+        <p><strong>Formulasi Matematis:</strong></p>
+        <h4>Pemrosesan GSR (Galvanic Skin Response)</h4>
+        <p>\[
+            \text{EDA}_{\text{tonic}} = \text{edaMovingAverage}(\text{gsrRaw})
+        \]</p>
+        <p>\[
+            \text{EDA}_{\text{phasic}} = \text{gsrRaw} - \text{EDA}_{\text{tonic}}
+        \]</p>
+        
+        <h4>Pemrosesan Denyut Jantung (Heart Rate)</h4>
+        <p>\[
+            \Delta t = t_{\text{current}} - t_{\text{lastBeat}}
+        \]</p>
+        <p>\[
+            \text{BPM} = \frac{60}{\Delta t / 1000}
+        \]</p>
+        <p>\[
+            \text{beatAvg} = \frac{1}{4} \sum_{i=0}^{3} \text{rates}[i]
+        \]</p>
+        
+        <p><strong>Penjelasan Komprehensif:</strong></p>
+        <ul>
+            <li><strong>Pemantauan Koneksi:</strong> Memeriksa status WiFi dan melakukan reconnect jika terputus</li>
+            <li><strong>Pembacaan GSR (Galvanic Skin Response):</strong>
+                <ul>
+                    <li>Membaca nilai raw dari pin analog (GSR_PIN)</li>
+                    <li>Menghitung komponen tonic (baseline) menggunakan moving average</li>
+                    <li>Menghitung komponen phasic sebagai selisih antara raw dan tonic (Boucsein, 2012)</li>
+                </ul>
+            </li>
+            <li><strong>Pembacaan Detak Jantung (MAX30102):</strong>
+                <ul>
+                    <li>Membaca nilai IR dari sensor MAX30102</li>
+                    <li>Mendeteksi detak dengan threshold 50000 (Shaffer et al., 2014)</li>
+                    <li>Menghitung BPM dari interval antar detak</li>
+                    <li>Menerapkan filter rata-rata untuk 4 pembacaan terakhir</li>
+                    <li>Validasi nilai BPM dalam rentang 20-255 (rentang fisiologis manusia)</li>
+                </ul>
+            </li>
+            <li><strong>Pembacaan Tingkat Cahaya (BH1750):</strong>
+                <ul>
+                    <li>Membaca nilai lux dari sensor BH1750 (Golden et al., 2005)</li>
+                </ul>
+            </li>
+            <li><strong>Periode Upload:</strong>
+                <ul>
+                    <li>Menggunakan timer untuk upload data setiap 10 detik</li>
+                    <li>Membuat dokumen JSON untuk setiap sensor dengan timestamp</li>
+                    <li>Mengunggah data ke repositori GitHub dengan mekanisme update SHA</li>
+                </ul>
+            </li>
+        </ul>
+    
+    <!-- Komponen GSR -->
+        <h3>8. Analisis Komponen GSR</h3>
+        <p>Komponen Galvanic Skin Response (GSR) atau Electrodermal Activity (EDA) diproses sesuai dengan metodologi Boucsein (2012).</p>
+        <p><strong>Formulasi Matematis Lengkap:</strong></p>
+        <p>\[
+            \text{EDA}_{\text{raw}}(t) = \text{analogRead}(\text{GSR\_PIN})
+        \]</p>
+        <p>\[
+            \text{EDA}_{\text{tonic}}(t) = \frac{1}{W} \sum_{i=0}^{W-1} \text{EDA}_{\text{buffer}}[i]
+        \]</p>
+        <p>\[
+            \text{EDA}_{\text{phasic}}(t) = \text{EDA}_{\text{raw}}(t) - \text{EDA}_{\text{tonic}}(t)
+        \]</p>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li><strong>EDA<sub>raw</sub></strong>: Sinyal EDA mentah dari sensor, mengukur konduktivitas kulit</li>
+            <li><strong>EDA<sub>tonic</sub></strong>: Komponen tonic (baseline) dari EDA, mewakili level konduktivitas kulit jangka panjang</li>
+            <li><strong>EDA<sub>phasic</sub></strong>: Komponen phasic dari EDA, mewakili respon konduktivitas kulit jangka pendek</li>
+            <li><strong>W</strong>: Ukuran window untuk moving average (5 sampel)</li>
+            <li>Metode dekomposisi ini sesuai dengan Boucsein (2012) untuk analisis stress dan respon emosional</li>
+        </ul>
+    
+    <!-- Komponen Heart Rate -->
+        <h3>9. Analisis Detak Jantung</h3>
+        <p>Detak jantung diukur menggunakan sensor MAX30102 dengan metodologi dari Shaffer et al. (2014).</p>
+        <p><strong>Formulasi Matematis Lengkap:</strong></p>
+        <p>\[
+            \text{IR}(t) = \text{particleSensor.getIR()}
+        \]</p>
+        <p>\[
+            \text{Beat detection} = \begin{cases}
+                1, & \text{if } \text{IR}(t) > 50000 \text{ and } \text{checkForBeat}(\text{IR}(t)) \\
+                0, & \text{otherwise}
+            \end{cases}
+        \]</p>
+        <p>\[
+            \Delta t = t_{\text{current}} - t_{\text{lastBeat}}
+        \]</p>
+        <p>\[
+            \text{BPM} = \frac{60 \times 1000}{\Delta t}
+        \]</p>
+        <p>\[
+            \text{BPM}_{\text{valid}} = \begin{cases}
+                \text{BPM}, & \text{if } 20 < \text{BPM} < 255 \\
+                \text{previous BPM}, & \text{otherwise}
+            \end{cases}
+        \]</p>
+        <p>\[
+            \text{HRV}_{\text{avg}} = \frac{1}{4} \sum_{i=0}^{3} \text{rates}[i]
+        \]</p>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li><strong>IR(t)</strong>: Nilai infrared yang dibaca dari sensor MAX30102</li>
+            <li><strong>Beat detection</strong>: Fungsi untuk mendeteksi adanya detak jantung</li>
+            <li><strong>Δt</strong>: Interval waktu antara detak jantung (ms)</li>
+            <li><strong>BPM</strong>: Beats Per Minute, dihitung dari interval antar detak</li>
+            <li><strong>BPM<sub>valid</sub></strong>: Validasi BPM dalam rentang fisiologis (20-255)</li>
+            <li><strong>HRV<sub>avg</sub></strong>: Heart Rate Variability, dihitung sebagai rata-rata dari 4 pengukuran terakhir</li>
+            <li>Threshold 50000 untuk deteksi detak mengacu pada Shaffer et al. (2014)</li>
+        </ul>
+
+    <!-- Komponen BH1750 -->
+        <h3>10. Analisis Tingkat Cahaya</h3>
+        <p>Level pencahayaan diukur menggunakan sensor BH1750 dengan referensi dari Golden et al. (2005) mengenai pengaruh cahaya terhadap kesehatan mental.</p>
+        <p><strong>Formulasi:</strong></p>
+        <p>\[
+            \text{Lux}(t) = \text{lightMeter.readLightLevel()}
+        \]</p>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li><strong>Lux(t)</strong>: Tingkat pencahayaan yang diukur dalam lux</li>
+            <li>Pengukuran tingkat cahaya penting dalam analisis kesehatan mental berdasarkan penelitian Golden et al. (2005)</li>
+            <li>Tingkat pencahayaan berkorelasi dengan sirkadian ritme dan produksi melatonin</li>
+        </ul>
+
+    <!-- Upload Data -->
+        <h3>11. Mekanisme Upload Data</h3>
+        <p>Data sensor diunggah ke GitHub sebagai sistem penyimpanan cloud dengan mekanisme SHA untuk kontrol versi.</p>
+        <p><strong>Alur Proses:</strong></p>
+        <p>\[
+            \text{Data Sensor} \rightarrow \text{JSON Documents} \rightarrow \text{Base64 Encoding} \rightarrow \text{HTTP PUT} \rightarrow \text{GitHub}
+        \]</p>
+        <p><strong>Penjelasan:</strong></p>
+        <ul>
+            <li><strong>Interval Upload</strong>: Data diunggah setiap 10 detik (10000 ms)</li>
+            <li><strong>Format Data</strong>: Struktur JSON dengan nilai sensor dan timestamp</li>
+            <li><strong>Mekanisme SHA</strong>: Nilai SHA digunakan untuk memastikan integritas data dan penanganan konflik</li>
+            <li><strong>Base64 Encoding</strong>: Data JSON diencode dengan Base64 sesuai persyaratan GitHub API</li>
+            <li>Sistem ini memungkinkan perekaman data longitudinal untuk analisis tren kesehatan mental jangka panjang</li>
+        </ul>
+    
+    <!-- Referensi -->
+        <h3>12. Referensi Ilmiah</h3>
+        <p>Implementasi kode ini mengacu pada beberapa referensi ilmiah:</p>
+        <ul>
+            <li><strong>Boucsein, W. (2012)</strong>: "Electrodermal Activity" - Referensi standar untuk pengolahan sinyal GSR/EDA, termasuk metode pemisahan komponen tonic dan phasic.</li>
+            <li><strong>Shaffer et al. (2014)</strong>: "A healthy heart is not a metronome: an integrative review of the heart's anatomy and heart rate variability" - Panduan untuk pengolahan dan interpretasi data heart rate variability.</li>
+            <li><strong>Golden et al. (2005)</strong>: "The efficacy of light therapy in the treatment of mood disorders: a review and meta-analysis of the evidence" - Penelitian mengenai pengaruh tingkat cahaya terhadap mood dan kesehatan mental.</li>
+        </ul>
+</div>
                 <a href="https://github.com/mental-health-website/edit" class="edit-page">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 1.27a11 11 0 00-7.81 18.73A11 11 0 1012 1.27z"/>
