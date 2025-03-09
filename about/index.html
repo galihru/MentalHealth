@@ -1,1 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Mental Health Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+        header {
+            background: #333;
+            color: #fff;
+            padding-top: 30px;
+            min-height: 70px;
+            border-bottom: #77aaff 3px solid;
+        }
+        header h1 {
+            text-align: center;
+            margin: 0;
+            font-size: 36px;
+        }
+        .content {
+            padding: 20px;
+            background: #fff;
+            margin-top: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .content h2 {
+            color: #333;
+        }
+        .content p {
+            font-size: 18px;
+        }
+        .table-of-contents {
+            background: #f4f4f4;
+            padding: 15px;
+            border-left: 3px solid #77aaff;
+            margin: 20px 0;
+        }
+        .table-of-contents ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .table-of-contents ul li {
+            margin: 10px 0;
+        }
+        .table-of-contents ul li a {
+            text-decoration: none;
+            color: #333;
+        }
+        .team-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .team-table th, .team-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .team-table th {
+            background-color: #f4f4f4;
+        }
+        .code-block {
+            background: #f4f4f4;
+            padding: 10px;
+            border-left: 3px solid #77aaff;
+            margin: 20px 0;
+            font-family: monospace;
+            overflow-x: auto;
+        }
+        footer {
+            background: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>About Us</h1>
+    </header>
+    <div class="container">
+        <div class="content">
+            <div class="table-of-contents">
+                <h2>Table of Contents</h2>
+                <ul>
+                    <li><a href="#about-site">About the Site</a></li>
+                    <li><a href="#our-mission">Our Mission</a></li>
+                    <li><a href="#our-team">Our Team</a></li>
+                    <li><a href="#usage">Usage of Mental Health Website</a></li>
+                    <li><a href="#build-your-mental-health">Build Your Mental Health</a></li>
+                </ul>
+            </div>
 
+            <h2 id="about-site">About the Site</h2>
+            <p>Welcome to our Mental Health Website, a public, open-source resource dedicated to providing support and resources for mental health awareness. Our platform is maintained by a small core team and supported by contributions from community members worldwide.</p>
+
+            <h2 id="our-mission">Our Mission</h2>
+            <p>Our mission is to improve the user experience for visitors, grow and empower our community of contributors, and provide a comprehensive portal to mental health resources. We aim to evolve continuously and offer a unique, non-typical product website experience.</p>
+
+            <h2 id="our-team">Our Team</h2>
+            <table class="team-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Role</th>
+                        <th>Social Media</th>
+                        <th>Contact</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>John Doe</td>
+                        <td>Lead Developer</td>
+                        <td><a href="https://twitter.com/johndoe">Twitter</a></td>
+                        <td>john.doe@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>UI/UX Designer</td>
+                        <td><a href="https://linkedin.com/in/janesmith">LinkedIn</a></td>
+                        <td>jane.smith@example.com</td>
+                    </tr>
+                    <tr>
+                        <td>Alice Johnson</td>
+                        <td>Data Scientist</td>
+                        <td><a href="https://github.com/alicej">GitHub</a></td>
+                        <td>alice.j@example.com</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2 id="usage">Usage of Mental Health Website</h2>
+            <p>Our website provides various tools and resources to help you monitor and improve your mental health. Here are some key features:</p>
+            <ul>
+                <li>Real-time emotion detection using facial analysis.</li>
+                <li>Mental health tracking with sensor data integration.</li>
+                <li>Personalized advice based on your emotional state.</li>
+                <li>Community support and resources for mental health awareness.</li>
+            </ul>
+
+            <h2 id="build-your-mental-health">Build Your Mental Health</h2>
+            <p>To help you get started with building your mental health, here is a simple code snippet that you can use to integrate emotion detection into your own projects:</p>
+            <div class="code-block">
+                <pre><code>
+// face-analysis.js
+const videoElement = document.getElementById('video');
+const canvasElement = document.getElementById('canvas');
+const canvasCtx = canvasElement.getContext('2d');
+let lastFaceID = null;
+
+// Fungsi hash sederhana untuk generate FaceID
+function djb2Hash(str) {
+    let hash = 5381;
+    for (let i = 0; i < str.length; i++) {
+        hash = (hash * 33) ^ str.charCodeAt(i);
+    }
+    return hash >>> 0; // Konversi ke unsigned 32-bit integer
+}
+
+// Fungsi untuk mengubah landmark wajah menjadi hash unik
+function generateFaceID(landmarks) {
+    // Normalisasi koordinat landmark dengan presisi 4 digit desimal
+    let hashString = landmarks.map(lm =>
+        lm.x.toFixed(4) +
+        lm.y.toFixed(4) +
+        lm.z.toFixed(4)
+    ).join('');
+
+    return djb2Hash(hashString).toString(16); // Konversi ke hexadecimal
+}
+                </code></pre>
+            </div>
+            <p>You can copy and paste this code into your project to start detecting emotions and generating unique FaceIDs for users.</p>
+        </div>
+    </div>
+    <footer>
+        <p>&copy; 2025 Mental Health Website. All rights reserved.</p>
+    </footer>
+</body>
+</html>
