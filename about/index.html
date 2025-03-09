@@ -332,9 +332,9 @@
     <p>Here is the complete code snippet from our <code>face-analysis.js</code> that you can use to integrate emotion detection into your own projects. Each function is explained in detail below, along with mathematical formulas to represent the logic:</p>
 
     <!-- Fungsi djb2Hash -->
-    <div class="code-block">
         <h3>1. Hash Function (djb2Hash)</h3>
         <p>This function generates a unique hash value for a given string. It is based on the DJB2 algorithm, which is a simple and efficient hashing algorithm.</p>
+                    <div class="code-block">
         <pre><code>// djb2Hash: Generates a hash value for a string
 function djb2Hash(str) {
     let hash = 5381; // Initial hash value
@@ -343,6 +343,7 @@ function djb2Hash(str) {
     }
     return hash >>> 0; // Convert to unsigned 32-bit integer
 }</code></pre>
+                        </div>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
             h_0 = 5381 \\
@@ -356,12 +357,11 @@ function djb2Hash(str) {
             <li>\(\oplus\): Bitwise XOR operation</li>
             <li>\(\mod 2^{32}\): Conversion to unsigned 32-bit integer (equivalent to <code>>>> 0</code> in JavaScript)</li>
         </ul>
-    </div>
 
     <!-- Fungsi generateFaceID -->
-    <div class="code-block">
         <h3>2. Generate Face ID (generateFaceID)</h3>
         <p>This function converts facial landmarks into a unique hash string. It normalizes the landmark coordinates and uses the <code>djb2Hash</code> function to generate a unique FaceID.</p>
+                    <div class="code-block">
         <pre><code>// generateFaceID: Converts facial landmarks to a unique hash
 function generateFaceID(landmarks) {
     // Normalize landmark coordinates with 4 decimal precision
@@ -373,6 +373,7 @@ function generateFaceID(landmarks) {
 
     return djb2Hash(hashString).toString(16); // Convert to hexadecimal
 }</code></pre>
+                        </div>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
             S = \text{concatenate}_{j=1}^{n} \left( \text{round}(L_j.x, 4) \cdot \text{round}(L_j.y, 4) \cdot \text{round}(L_j.z, 4) \right) \\
@@ -386,12 +387,11 @@ function generateFaceID(landmarks) {
             <li>\(\text{djb2Hash}(S)\): Application of the hash function to the string \(S\)</li>
             <li>\(\text{hex}(v)\): Conversion of value \(v\) to hexadecimal representation (equivalent to <code>toString(16)</code>)</li>
         </ul>
-    </div>
 
     <!-- Fungsi analyzeEmotions -->
-    <div class="code-block">
         <h3>3. Analyze Emotions (analyzeEmotions)</h3>
         <p>This function calculates the intensity of different emotions (happy, sad, angry, surprised, neutral) based on facial landmarks.</p>
+                    <div class="code-block">
         <pre><code>// analyzeEmotions: Calculates emotion intensities
 function analyzeEmotions(landmarks) {
     const emotions = {
@@ -409,7 +409,7 @@ function analyzeEmotions(landmarks) {
     });
 
     return emotions;
-}</code></pre>
+}</code></pre></div>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
             E_{raw} = \begin{pmatrix}
@@ -440,12 +440,11 @@ function analyzeEmotions(landmarks) {
             <li>\(E_{normalized, i}\): Normalized percentage for emotion \(i\) (rounded to 1 decimal place)</li>
             <li>\(\text{round}(v, 1)\): Rounding the value \(v\) to 1 decimal place (equivalent to <code>toFixed(1)</code>)</li>
         </ul>
-    </div>
 
     <!-- Fungsi calculateHappiness -->
-    <div class="code-block">
         <h3>4. Calculate Happiness (calculateHappiness)</h3>
         <p>This function calculates the intensity of happiness based on facial landmarks, specifically focusing on lip and cheek movements.</p>
+                    <div class="code-block">
         <pre><code>// calculateHappiness: Computes happiness intensity
 function calculateHappiness(landmarks) {
     // AU12 - Lip Corner Puller
@@ -466,7 +465,7 @@ function calculateHappiness(landmarks) {
     }
 
     return Math.min(1, lipStretch * 2 + cheekRaiseLeft * 3);
-}</code></pre>
+}</code></pre></div>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
             D_{lip} = \sqrt{(L_{291}.x - L_{61}.x)^2 + (L_{291}.y - L_{61}.y)^2}
@@ -485,12 +484,11 @@ function calculateHappiness(landmarks) {
             <li>\(H\): Happiness intensity score, bounded to [0,1]</li>
             <li>Coefficients 2 and 3 are weighting factors to balance the influence of each feature</li>
         </ul>
-    </div>
 
     <!-- Fungsi calculateSadness -->
-    <div class="code-block">
         <h3>5. Calculate Sadness (calculateSadness)</h3>
         <p>This function calculates the intensity of sadness based on facial landmarks, focusing on lip depression and brow movement.</p>
+                    <div class="code-block">
         <pre><code>// calculateSadness: Computes sadness intensity
 function calculateSadness(landmarks) {
     // AU15 - Lip Corner Depressor
@@ -504,7 +502,7 @@ function calculateSadness(landmarks) {
     const browRaise = (browInnerLeft.y + browInnerRight.y) / 2;
 
     return Math.min(1, lipDepression * 1.5 + browRaise * 2);
-}</code></pre>
+}</code></pre></div>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
             D_{lip} = L_{17}.y - L_{61}.y
@@ -523,12 +521,11 @@ function calculateSadness(landmarks) {
             <li>\(S\): Sadness intensity score, bounded to [0,1]</li>
             <li>Coefficients 1.5 and 2 are weighting factors to balance the influence of each feature</li>
         </ul>
-    </div>
 
     <!-- Fungsi calculateAnger -->
-    <div class="code-block">
         <h3>6. Calculate Anger (calculateAnger)</h3>
         <p>This function calculates the intensity of anger based on facial landmarks, focusing on brow lowering and lip compression.</p>
+                    <div class="code-block">
         <pre><code>// calculateAnger: Computes anger intensity
 function calculateAnger(landmarks) {
     // AU4 - Brow Lowerer
@@ -542,7 +539,7 @@ function calculateAnger(landmarks) {
     const lipCompression = lipBottom.y - lipTop.y;
 
     return Math.min(1, browLowerLeft * 2 + lipCompression * 1.2);
-}</code></pre>
+}</code></pre></div>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
             D_{brow} = L_{105}.y - L_{46}.y
@@ -561,12 +558,11 @@ function calculateAnger(landmarks) {
             <li>\(A\): Anger intensity score, bounded to [0,1]</li>
             <li>Coefficients 2 and 1.2 are weighting factors to balance the influence of each feature</li>
         </ul>
-    </div>
 
     <!-- Fungsi calculateSurprise -->
-    <div class="code-block">
         <h3>7. Calculate Surprise (calculateSurprise)</h3>
         <p>This function calculates the intensity of surprise based on facial landmarks, focusing on eye openness and jaw drop.</p>
+                    <div class="code-block">
         <pre><code>// calculateSurprise: Computes surprise intensity
 function calculateSurprise(landmarks) {
     // AU5 - Upper Lid Raiser
@@ -580,7 +576,7 @@ function calculateSurprise(landmarks) {
     const jawDrop = chin.y - nose.y;
 
     return Math.min(1, eyeOpenness * 2 + jawDrop * 0.8);
-}</code></pre>
+}</code></pre></div>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
             D_{eye} = L_{145}.y - L_{159}.y
@@ -599,12 +595,11 @@ function calculateSurprise(landmarks) {
             <li>\(P\): Surprise intensity score, bounded to [0,1]</li>
             <li>Coefficients 2 and 0.8 are weighting factors to balance the influence of each feature</li>
         </ul>
-    </div>
 
     <!-- Fungsi calculateNeutral -->
-    <div class="code-block">
         <h3>8. Calculate Neutral (calculateNeutral)</h3>
         <p>This function calculates the intensity of a neutral expression by measuring deviations from a neutral facial position.</p>
+                    <div class="code-block">
         <pre><code>// calculateNeutral: Computes neutral intensity
 function calculateNeutral(landmarks) {
     let deviation = 0;
@@ -622,7 +617,7 @@ function calculateNeutral(landmarks) {
     });
 
     return Math.max(0, 1 - deviation * 2);
-}</code></pre>
+}</code></pre></div>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
             \delta = \sum_{(i,j) \in F} \sqrt{(L_i.x - L_j.x)^2 + (L_i.y - L_j.y)^2}
@@ -639,7 +634,6 @@ function calculateNeutral(landmarks) {
             <li>\(N\): Neutral expression intensity, bounded to [0,1]</li>
             <li>The coefficient 2 is a scaling factor to ensure appropriate range for the result</li>
         </ul>
-    </div>
 </div>
                 <a href="https://github.com/mental-health-website/edit" class="edit-page">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
