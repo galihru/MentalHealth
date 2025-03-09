@@ -651,6 +651,133 @@
         overflow: hidden;
     }
 }
+        /* CSS dasar yang sudah ada tetap dipertahankan */
+
+/* Media query untuk tablet */
+@media (max-width: 992px) {
+    .skeleton-main-content {
+        flex-direction: column;
+    }
+    
+    .skeleton-sidebar {
+        width: 100%;
+        height: 150px;
+        margin-bottom: 20px;
+    }
+    
+    .skeleton-content-area {
+        width: 100%;
+    }
+    
+    .skeleton-card {
+        width: 100%;
+        max-width: 400px;
+    }
+}
+
+/* Media query untuk mobile */
+@media (max-width: 576px) {
+    .skeleton-wrapper {
+        padding: 10px 5px;
+    }
+    
+    .skeleton-header {
+        height: 40px;
+        margin-bottom: 15px;
+    }
+    
+    .skeleton-breadcrumbs {
+        height: 15px;
+        width: 150px;
+        margin-bottom: 15px;
+    }
+    
+    .skeleton-page-header {
+        height: 20px;
+        width: 200px;
+        margin-bottom: 15px;
+    }
+    
+    .skeleton-page-meta {
+        height: 35px;
+        margin-bottom: 15px;
+    }
+    
+    .skeleton-content-section {
+        height: 75px;
+        margin-bottom: 15px;
+    }
+    
+    .skeleton-footer {
+        height: 50px;
+        margin-top: 15px;
+    }
+    
+    .skeleton-card {
+        width: 100%;
+    }
+    
+    .skeleton-card-title {
+        width: 90%;
+        height: 25px;
+        font-size: 18px;
+    }
+    
+    .skeleton-im {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Media query untuk perangkat sangat kecil */
+@media (max-width: 320px) {
+    .skeleton-wrapper {
+        padding: 8px 3px;
+    }
+    
+    .skeleton-header {
+        height: 35px;
+        margin-bottom: 10px;
+    }
+    
+    .skeleton-breadcrumbs {
+        height: 12px;
+        width: 120px;
+        margin-bottom: 10px;
+    }
+    
+    .skeleton-page-header {
+        height: 18px;
+        width: 180px;
+        margin-bottom: 10px;
+    }
+    
+    .skeleton-page-meta {
+        height: 30px;
+        margin-bottom: 10px;
+    }
+    
+    .skeleton-content-section {
+        height: 60px;
+        margin-bottom: 10px;
+    }
+    
+    .skeleton-footer {
+        height: 40px;
+        margin-top: 10px;
+    }
+    
+    .skeleton-card-title {
+        width: 85%;
+        height: 22px;
+        font-size: 16px;
+    }
+    
+    .skeleton-im {
+        width: 35px;
+        height: 35px;
+    }
+}
 
 /* Style untuk indentasi level heading */
 .sidebar-nav .level-1 {
