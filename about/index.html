@@ -864,13 +864,13 @@ long lastBeat = 0;</code></pre>
                     <div class="code-block">
                         <pre>
                             <code>
-                                String getTimestamp() {
-                                    struct tm timeinfo;
-                                    if(!getLocalTime(&timeinfo)) return "";
-                                    char buffer[20];
-                                    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &timeinfo);
-                                    return String(buffer);
-                                }
+String getTimestamp() {
+    struct tm timeinfo;
+    if(!getLocalTime(&timeinfo)) return "";
+    char buffer[20];
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &timeinfo);
+    return String(buffer);
+}
                             </code>
                         </pre>
                     </div>
@@ -892,14 +892,14 @@ long lastBeat = 0;</code></pre>
                     <div class="code-block">
                         <pre>
                             <code>
-                                // Moving average function for EDA tonic (Boucsein, 2012)
-                                float edaMovingAverage(float newVal) {
-                                    eda_buffer[buffer_index] = newVal;
-                                    buffer_index = (buffer_index + 1) % WINDOW_SIZE;
-                                    float sum = 0;
-                                    for(int i=0; i < WINDOW_SIZE; i++) sum += eda_buffer[i];
-                                    return sum/WINDOW_SIZE;
-                                }
+// Moving average function for EDA tonic (Boucsein, 2012)
+float edaMovingAverage(float newVal) {
+    eda_buffer[buffer_index] = newVal;
+    buffer_index = (buffer_index + 1) % WINDOW_SIZE;
+    float sum = 0;
+    for(int i=0; i < WINDOW_SIZE; i++) sum += eda_buffer[i];
+    return sum/WINDOW_SIZE;
+}
                             </code>
                         </pre>
                     </div>
@@ -979,7 +979,8 @@ long lastBeat = 0;</code></pre>
                     </p>
                     <div class="code-block">
                         <pre>
-                            <code>void loop() {
+                            <code>
+void loop() {
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("WiFi disconnected. Reconnecting...");
     WiFi.reconnect();
