@@ -240,6 +240,12 @@
         margin-right: 8px;
         color: #64748b;
     }
+        .sidebar-nav li a:hover,
+.sidebar-nav li a.active {
+    border-left-color: #2196F3;
+    color: #2196F3;
+    background: #f5f5f5;
+}
     </style>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -1177,6 +1183,49 @@ float edaMovingAverage(float newVal) {
         <footer class="footer">
             <p>&copy; 2025 Mental Health Website. All rights reserved.</p>
         </footer>
+            <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sections = document.querySelectorAll('.content-section h2, .content-section h3');
+    const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+    
+    // Fungsi untuk update active state
+    function updateActiveSection() {
+        let currentSection = '';
+        
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 150 && rect.bottom >= 150) {
+                currentSection = '#' + section.id;
+            }
+        });
+        
+        sidebarLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === currentSection) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // Observer untuk scroll
+    window.addEventListener('scroll', updateActiveSection);
+    
+    // Smooth scroll untuk sidebar
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const target = document.querySelector(link.getAttribute('href'));
+            window.scrollTo({
+                top: target.offsetTop - 100,
+                behavior: 'smooth'
+            });
+        });
+    });
+
+    // Initial check
+    updateActiveSection();
+});
+</script>
     </div>
 </body>
 </html>
