@@ -229,3 +229,4 @@ const inputPaths = path.resolve(process.env.GITHUB_WORKSPACE, 'about/template.ht
 const outputPaths = path.resolve(process.env.GITHUB_WORKSPACE, 'about/index.html');
 
 processHTML(inputPath, outputPath);
+processHTML(inputPaths, outputPaths);
