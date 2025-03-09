@@ -225,5 +225,7 @@ function processHTML(inputFilePath, outputFilePath) {
 
 const inputPath = path.resolve(process.env.GITHUB_WORKSPACE, 'prerelease.html');
 const outputPath = path.resolve(process.env.GITHUB_WORKSPACE, 'index.html');
+const inputPaths = path.resolve(process.env.GITHUB_WORKSPACE, 'about/template.html');
+const outputPaths = path.resolve(process.env.GITHUB_WORKSPACE, 'about/index.html');
 
 processHTML(inputPath, outputPath);
