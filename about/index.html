@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,180 +15,183 @@
             --secondary-color: #64b5f6;
             --header-color: #0d47a1;
         }
-        
-            * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    
-    body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        line-height: 1.6;
-        background-color: var(--background-light);
-        color: var(--text-color);
-    }
-    
-    .page-wrapper {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-    }
-    
-    .top-navigation {
-        background-color: var(--background-white);
-        padding: 10px 40px;
-        border-bottom: 1px solid var(--border-color);
-        display: flex;
-        align-items: center;
-    }
-    
-    .breadcrumbs {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-    }
-    
-    .breadcrumbs a {
-        text-decoration: none;
-        color: var(--text-color);
-    }
-    
-    .breadcrumbs a.active {
-        color: var(--primary-color);
-        font-weight: 500;
-    }
-    
-    .main-content {
-        display: flex;
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 40px 20px;
-    }
-    
-    .content-area {
-        flex: 1;
-        max-width: 800px;
-    }
-    
-    .page-header {
-        margin-bottom: 20px;
-    }
-    
-    .page-meta {
-        color: #666;
-        font-size: 14px;
-        margin-bottom: 20px;
-    }
-    
-    h1 {
-        font-size: 2.5rem;
-        margin-bottom: 25px;
-        font-weight: 700;
-    }
-    
-    h2 {
-        font-size: 1.75rem;
-        margin: 40px 0 20px;
-        font-weight: 600;
-    }
-    
-    h3 {
-        font-size: 1.4rem;
-        margin: 30px 0 15px;
-        font-weight: 600;
-    }
-    
-    p {
-        margin-bottom: 20px;
-        font-size: 16px;
-    }
-    
-    .content-section {
-        margin-bottom: 40px;
-    }
-    
-    .team-table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 20px 0 30px;
-        background-color: var(--background-white);
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        border-radius: 4px;
-        overflow: hidden;
-    }
-    
-    .team-table th, .team-table td {
-        padding: 12px 15px;
-        text-align: left;
-        border-bottom: 1px solid var(--border-color);
-    }
-    
-    .team-table th {
-        background-color: #f5f7f9;
-        font-weight: 600;
-    }
-    
-    .team-table tr:last-child td {
-        border-bottom: none;
-    }
-    
-    .team-table a {
-        color: var(--primary-color);
-        text-decoration: none;
-    }
-    
-    .team-table a:hover {
-        text-decoration: underline;
-    }
-    
-    .code-block {
-        background: #f5f7f9;
-        padding: 15px;
-        border-radius: 4px;
-        border-left: 3px solid var(--primary-color);
-        margin: 20px 0;
-        font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-        font-size: 14px;
-        line-height: 1.5;
-        overflow-x: auto;
-    }
-    
-    .edit-page {
-        display: flex;
-        align-items: center;
-        padding: 10px 15px;
-        background-color: var(--background-white);
-        border: 1px solid var(--border-color);
-        border-radius: 6px;
-        text-decoration: none;
-        color: var(--text-color);
-        margin-bottom: 30px;
-        width: fit-content;
-    }
-    
-    .edit-page svg {
-        margin-right: 8px;
-    }
-    
-    .footer {
-        margin-top: auto;
-        background-color: var(--background-white);
-        padding: 20px 40px;
-        border-top: 1px solid var(--border-color);
-        text-align: center;
-        font-size: 14px;
-        color: #666;
-    }
-    
-    /* Icon for sidebar items */
-    .icon {
-        display: inline-flex;
-        width: 18px;
-        height: 18px;
-        margin-right: 8px;
-        color: #64748b;
-    }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: var(--background-light);
+            color: var(--text-color);
+        }
+
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .top-navigation {
+            background-color: var(--background-white);
+            padding: 10px 40px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .breadcrumbs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .breadcrumbs a {
+            text-decoration: none;
+            color: var(--text-color);
+        }
+
+        .breadcrumbs a.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+
+        .main-content {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .content-area {
+            flex: 1;
+            max-width: 800px;
+        }
+
+        .page-header {
+            margin-bottom: 20px;
+        }
+
+        .page-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin: 40px 0 20px;
+            font-weight: 600;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .team-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0 30px;
+            background-color: var(--background-white);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .team-table th,
+        .team-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .team-table th {
+            background-color: #f5f7f9;
+            font-weight: 600;
+        }
+
+        .team-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .team-table a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .team-table a:hover {
+            text-decoration: underline;
+        }
+
+        .code-block {
+            background: #f5f7f9;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 3px solid var(--primary-color);
+            margin: 20px 0;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .edit-page {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--background-white);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            width: fit-content;
+        }
+
+        .edit-page svg {
+            margin-right: 8px;
+        }
+
+        .footer {
+            margin-top: auto;
+            background-color: var(--background-white);
+            padding: 20px 40px;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* Icon for sidebar items */
+        .icon {
+            display: inline-flex;
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            color: #64748b;
+        }
+
+        /* Sidebar Styling */
         /* Sidebar Styling */
 .sidebar {
     position: sticky;
@@ -230,7 +234,7 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        document.addEventListener("DOMContentLoaded", function () {
             const sections = document.querySelectorAll("h2, h3");
             const sidebarLinks = document.querySelectorAll(".sidebar-nav a");
 
@@ -254,6 +258,7 @@
         });
     </script>
 </head>
+
 <body>
     <div class="page-wrapper">
         <nav class="top-navigation">
@@ -263,35 +268,41 @@
                 <a href="/about" class="active">ABOUT</a>
             </div>
         </nav>
-        
+
         <div class="main-content">
             <div class="content-area">
                 <div class="page-meta">
                     Page last updated: February 5, 2025
                 </div>
-                
+
                 <div class="page-header">
                     <h1>About Mental Health Website</h1>
                 </div>
-                
+
                 <div class="content-section">
-                    <p>Mental Health Website is a public, open-source resource for the mental health community that anyone can contribute to. We have a small core team dedicated to maintaining and developing the site with contributions from thousands of community members across the globe.</p>
-                    
+                    <p>Mental Health Website is a public, open-source resource for the mental health community that
+                        anyone can contribute to. We have a small core team dedicated to maintaining and developing the
+                        site with contributions from thousands of community members across the globe.</p>
+
                     <p><strong>Nobody from Mental Health Website will ever contact you. Do not respond.</strong></p>
                 </div>
-                
+
                 <div class="content-section">
                     <h2 id="a-note-on-mental-health">A Note on Mental Health</h2>
-                    
-                    <p>It is common for individuals to confuse terms within the mental health landscape, which can lead to poor mental models about how mental health works. Here is a brief explanation to clarify these concepts:</p>
-                    
+
+                    <p>It is common for individuals to confuse terms within the mental health landscape, which can lead
+                        to poor mental models about how mental health works. Here is a brief explanation to clarify
+                        these concepts:</p>
+
                     <h3 id="mental-health-basics">Mental Health Basics</h3>
-                    
-                    <p>Mental health is a public concern, a personal journey, and an open-source collaborative effort -- operated, governed, managed, and owned by a global community of tens of thousands of professionals, researchers, supporters, and users.</p>
-                    
+
+                    <p>Mental health is a public concern, a personal journey, and an open-source collaborative effort --
+                        operated, governed, managed, and owned by a global community of tens of thousands of
+                        professionals, researchers, supporters, and users.</p>
+
                     <p><a href="/learn-more">More about Mental Health</a></p>
                 </div>
-                
+
                 <div class="content-section">
                     <h2 id="our-team">Our Team</h2>
                     <table class="team-table">
@@ -325,10 +336,11 @@
                         </tbody>
                     </table>
                 </div>
-                
+
                 <div class="content-section">
                     <h2 id="features">Features</h2>
-                    <p>Our website provides various tools and resources to help you monitor and improve your mental health:</p>
+                    <p>Our website provides various tools and resources to help you monitor and improve your mental
+                        health:</p>
                     <ul>
                         <li>Real-time emotion detection using facial analysis</li>
                         <li>Mental health tracking with sensor data integration</li>
@@ -336,14 +348,17 @@
                         <li>Community support and resources for mental health awareness</li>
                     </ul>
                 </div>
-                
+
                 <div class="content-section">
                     <h2 id="code-examples">Code Examples</h2>
-                    <p>Here is the complete code snippet from our <code>face-analysis.js</code> that you can use to integrate emotion detection into your own projects. Each function is explained in detail below, along with mathematical formulas to represent the logic:</p>
+                    <p>Here is the complete code snippet from our <code>face-analysis.js</code> that you can use to
+                        integrate emotion detection into your own projects. Each function is explained in detail below,
+                        along with mathematical formulas to represent the logic:</p>
 
                     <!-- Function djb2Hash -->
                     <h3>1. Hash Function (djb2Hash)</h3>
-                    <p>This function generates a unique hash value for a given string. It is based on the DJB2 algorithm, which is a simple and efficient hashing algorithm.</p>
+                    <p>This function generates a unique hash value for a given string. It is based on the DJB2
+                        algorithm, which is a simple and efficient hashing algorithm.</p>
                     <div class="code-block">
                         <pre><code>// djb2Hash: Generates a hash value for a string
 function djb2Hash(str) {
@@ -358,19 +373,23 @@ function djb2Hash(str) {
                     <p>\[
                         h_0 = 5381 \\
                         h_i = ((h_{i-1} \times 33) \oplus c_i) \mod 2^{32}, \quad \text{for } i = 1,2,\ldots,n
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>\(h_0 = 5381\): Initial hash value</li>
                         <li>\(h_i\): Hash value after processing the \(i\)-th character</li>
-                        <li>\(c_i\): ASCII/Unicode value of the \(i\)-th character (obtained using <code>charCodeAt(i)</code>)</li>
+                        <li>\(c_i\): ASCII/Unicode value of the \(i\)-th character (obtained using
+                            <code>charCodeAt(i)</code>)
+                        </li>
                         <li>\(\oplus\): Bitwise XOR operation</li>
-                        <li>\(\mod 2^{32}\): Conversion to unsigned 32-bit integer (equivalent to <code>>>> 0</code> in JavaScript)</li>
+                        <li>\(\mod 2^{32}\): Conversion to unsigned 32-bit integer (equivalent to <code>>>> 0</code> in
+                            JavaScript)</li>
                     </ul>
 
                     <!-- Function generateFaceID -->
                     <h3>2. Generate Face ID (generateFaceID)</h3>
-                    <p>This function converts facial landmarks into a unique hash string. It normalizes the landmark coordinates and uses the <code>djb2Hash</code> function to generate a unique FaceID.</p>
+                    <p>This function converts facial landmarks into a unique hash string. It normalizes the landmark
+                        coordinates and uses the <code>djb2Hash</code> function to generate a unique FaceID.</p>
                     <div class="code-block">
                         <pre><code>// generateFaceID: Converts facial landmarks to a unique hash
 function generateFaceID(landmarks) {
@@ -386,21 +405,27 @@ function generateFaceID(landmarks) {
                     </div>
                     <p><strong>Mathematical Representation:</strong></p>
                     <p>\[
-                        S = \text{concatenate}_{j=1}^{n} \left( \text{round}(L_j.x, 4) \cdot \text{round}(L_j.y, 4) \cdot \text{round}(L_j.z, 4) \right) \\
+                        S = \text{concatenate}_{j=1}^{n} \left( \text{round}(L_j.x, 4) \cdot \text{round}(L_j.y, 4)
+                        \cdot \text{round}(L_j.z, 4) \right) \\
                         \text{FaceID} = \text{hex}(\text{djb2Hash}(S))
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>\(L_j\): The \(j\)-th facial landmark containing \(x\), \(y\), and \(z\) coordinates</li>
-                        <li>\(\text{round}(v, 4)\): Rounding the value \(v\) to 4 decimal places (equivalent to <code>toFixed(4)</code>)</li>
+                        <li>\(\text{round}(v, 4)\): Rounding the value \(v\) to 4 decimal places (equivalent to
+                            <code>toFixed(4)</code>)
+                        </li>
                         <li>\(S\): Concatenated string of all normalized landmark coordinates</li>
                         <li>\(\text{djb2Hash}(S)\): Application of the hash function to the string \(S\)</li>
-                        <li>\(\text{hex}(v)\): Conversion of value \(v\) to hexadecimal representation (equivalent to <code>toString(16)</code>)</li>
+                        <li>\(\text{hex}(v)\): Conversion of value \(v\) to hexadecimal representation (equivalent to
+                            <code>toString(16)</code>)
+                        </li>
                     </ul>
 
                     <!-- Function analyzeEmotions -->
                     <h3>3. Analyze Emotions (analyzeEmotions)</h3>
-                    <p>This function calculates the intensity of different emotions (happy, sad, angry, surprised, neutral) based on facial landmarks.</p>
+                    <p>This function calculates the intensity of different emotions (happy, sad, angry, surprised,
+                        neutral) based on facial landmarks.</p>
                     <div class="code-block">
                         <pre><code>// analyzeEmotions: Calculates emotion intensities
 function analyzeEmotions(landmarks) {
@@ -424,37 +449,42 @@ function analyzeEmotions(landmarks) {
                     <p><strong>Mathematical Representation:</strong></p>
                     <p>\[
                         E_{raw} = \begin{pmatrix}
-                            E_{happy} \\
-                            E_{sad} \\
-                            E_{angry} \\
-                            E_{surprised} \\
-                            E_{neutral}
+                        E_{happy} \\
+                        E_{sad} \\
+                        E_{angry} \\
+                        E_{surprised} \\
+                        E_{neutral}
                         \end{pmatrix} = \begin{pmatrix}
-                            \text{calculateHappiness}(L) \\
-                            \text{calculateSadness}(L) \\
-                            \text{calculateAnger}(L) \\
-                            \text{calculateSurprise}(L) \\
-                            \text{calculateNeutral}(L)
+                        \text{calculateHappiness}(L) \\
+                        \text{calculateSadness}(L) \\
+                        \text{calculateAnger}(L) \\
+                        \text{calculateSurprise}(L) \\
+                        \text{calculateNeutral}(L)
                         \end{pmatrix}
-                    \]</p>
+                        \]</p>
                     <p>\[
                         \Sigma = \sum_{i \in \{emotions\}} E_{raw, i}
-                    \]</p>
+                        \]</p>
                     <p>\[
-                        E_{normalized, i} = \text{round}\left(\frac{E_{raw, i}}{\Sigma} \times 100, 1\right) \quad \text{for each } i \in \{emotions\}
-                    \]</p>
+                        E_{normalized, i} = \text{round}\left(\frac{E_{raw, i}}{\Sigma} \times 100, 1\right) \quad
+                        \text{for each } i \in \{emotions\}
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>\(L\): Set of facial landmarks</li>
                         <li>\(E_{raw}\): Vector of raw emotion intensity values</li>
                         <li>\(\Sigma\): Sum of all raw emotion intensities</li>
-                        <li>\(E_{normalized, i}\): Normalized percentage for emotion \(i\) (rounded to 1 decimal place)</li>
-                        <li>\(\text{round}(v, 1)\): Rounding the value \(v\) to 1 decimal place (equivalent to <code>toFixed(1)</code>)</li>
+                        <li>\(E_{normalized, i}\): Normalized percentage for emotion \(i\) (rounded to 1 decimal place)
+                        </li>
+                        <li>\(\text{round}(v, 1)\): Rounding the value \(v\) to 1 decimal place (equivalent to
+                            <code>toFixed(1)</code>)
+                        </li>
                     </ul>
 
                     <!-- Function calculateHappiness -->
                     <h3>4. Calculate Happiness (calculateHappiness)</h3>
-                    <p>This function calculates the intensity of happiness based on facial landmarks, specifically focusing on lip and cheek movements.</p>
+                    <p>This function calculates the intensity of happiness based on facial landmarks, specifically
+                        focusing on lip and cheek movements.</p>
                     <div class="code-block">
                         <pre><code>// calculateHappiness: Computes happiness intensity
 function calculateHappiness(landmarks) {
@@ -481,13 +511,13 @@ function calculateHappiness(landmarks) {
                     <p><strong>Mathematical Representation:</strong></p>
                     <p>\[
                         D_{lip} = \sqrt{(L_{291}.x - L_{61}.x)^2 + (L_{291}.y - L_{61}.y)^2}
-                    \]</p>
+                        \]</p>
                     <p>\[
                         D_{cheek} = L_{159}.y - L_{123}.y
-                    \]</p>
+                        \]</p>
                     <p>\[
                         H = \min(1, 2D_{lip} + 3D_{cheek})
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
@@ -499,7 +529,8 @@ function calculateHappiness(landmarks) {
 
                     <!-- Function calculateSadness -->
                     <h3>5. Calculate Sadness (calculateSadness)</h3>
-                    <p>This function calculates the intensity of sadness based on facial landmarks, focusing on lip depression and brow movement.</p>
+                    <p>This function calculates the intensity of sadness based on facial landmarks, focusing on lip
+                        depression and brow movement.</p>
                     <div class="code-block">
                         <pre><code>// calculateSadness: Computes sadness intensity
 function calculateSadness(landmarks) {
@@ -519,13 +550,13 @@ function calculateSadness(landmarks) {
                     <p><strong>Mathematical Representation:</strong></p>
                     <p>\[
                         D_{lip} = L_{17}.y - L_{61}.y
-                    \]</p>
+                        \]</p>
                     <p>\[
                         D_{brow} = \frac{L_{105}.y + L_{334}.y}{2}
-                    \]</p>
+                        \]</p>
                     <p>\[
                         S = \min(1, 1.5D_{lip} + 2D_{brow})
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
@@ -537,7 +568,8 @@ function calculateSadness(landmarks) {
 
                     <!-- Function calculateAnger -->
                     <h3>6. Calculate Anger (calculateAnger)</h3>
-                    <p>This function calculates the intensity of anger based on facial landmarks, focusing on brow lowering and lip compression.</p>
+                    <p>This function calculates the intensity of anger based on facial landmarks, focusing on brow
+                        lowering and lip compression.</p>
                     <div class="code-block">
                         <pre><code>// calculateAnger: Computes anger intensity
 function calculateAnger(landmarks) {
@@ -557,13 +589,13 @@ function calculateAnger(landmarks) {
                     <p><strong>Mathematical Representation:</strong></p>
                     <p>\[
                         D_{brow} = L_{105}.y - L_{46}.y
-                    \]</p>
+                        \]</p>
                     <p>\[
                         D_{lip} = L_{17}.y - L_{0}.y
-                    \]</p>
+                        \]</p>
                     <p>\[
                         A = \min(1, 2D_{brow} + 1.2D_{lip})
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
@@ -575,7 +607,8 @@ function calculateAnger(landmarks) {
 
                     <!-- Function calculateSurprise -->
                     <h3>7. Calculate Surprise (calculateSurprise)</h3>
-                    <p>This function calculates the intensity of surprise based on facial landmarks, focusing on eye openness and jaw drop.</p>
+                    <p>This function calculates the intensity of surprise based on facial landmarks, focusing on eye
+                        openness and jaw drop.</p>
                     <div class="code-block">
                         <pre><code>// calculateSurprise: Computes surprise intensity
 function calculateSurprise(landmarks) {
@@ -595,13 +628,13 @@ function calculateSurprise(landmarks) {
                     <p><strong>Mathematical Representation:</strong></p>
                     <p>\[
                         D_{eye} = L_{145}.y - L_{159}.y
-                    \]</p>
+                        \]</p>
                     <p>\[
                         D_{jaw} = L_{152}.y - L_{4}.y
-                    \]</p>
+                        \]</p>
                     <p>\[
                         P = \min(1, 2D_{eye} + 0.8D_{jaw})
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
@@ -613,7 +646,8 @@ function calculateSurprise(landmarks) {
 
                     <!-- Function calculateNeutral -->
                     <h3>8. Calculate Neutral (calculateNeutral)</h3>
-                    <p>This function calculates the intensity of a neutral expression by measuring deviations from a neutral facial position.</p>
+                    <p>This function calculates the intensity of a neutral expression by measuring deviations from a
+                        neutral facial position.</p>
                     <div class="code-block">
                         <pre><code>// calculateNeutral: Computes neutral intensity
 function calculateNeutral(landmarks) {
@@ -637,28 +671,32 @@ function calculateNeutral(landmarks) {
                     <p><strong>Mathematical Representation:</strong></p>
                     <p>\[
                         \delta = \sum_{(i,j) \in F} \sqrt{(L_i.x - L_j.x)^2 + (L_i.y - L_j.y)^2}
-                    \]</p>
+                        \]</p>
                     <p>where \(F = \{(152, 4), (61, 291), (105, 334)\}\) represents the set of feature pairs.</p>
                     <p>\[
                         N = \max(0, 1 - 2\delta)
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
                         <li>\(F\): Set of feature pairs used to measure facial symmetry and stability</li>
-                        <li>\(\delta\): Total deviation from neutral positions, calculated as the sum of Euclidean distances between landmark pairs</li>
+                        <li>\(\delta\): Total deviation from neutral positions, calculated as the sum of Euclidean
+                            distances between landmark pairs</li>
                         <li>\(N\): Neutral expression intensity, bounded to [0,1]</li>
                         <li>The coefficient 2 is a scaling factor to ensure appropriate range for the result</li>
                     </ul>
                 </div>
-                
+
                 <div class="content-section">
                     <h2 id="code-explanation">Code Explanation for Mental Health Monitoring System</h2>
-                    <p>Below is a detailed explanation of the code for the mental health monitoring system using ESP32 with GSR, MAX30102, and BH1750 sensors. Each function is explained in detail with relevant mathematical formulations:</p>
+                    <p>Below is a detailed explanation of the code for the mental health monitoring system using ESP32
+                        with GSR, MAX30102, and BH1750 sensors. Each function is explained in detail with relevant
+                        mathematical formulations:</p>
 
                     <!-- Configuration and Initialization -->
                     <h3>1. Configuration and Initialization</h3>
-                    <p>This section sets up the WiFi connection, GitHub settings for data storage, and sensor initialization.</p>
+                    <p>This section sets up the WiFi connection, GitHub settings for data storage, and sensor
+                        initialization.</p>
                     <div class="code-block">
                         <pre><code>#include "WiFi.h"
 #include "HTTPClient.h"
@@ -702,11 +740,13 @@ long lastBeat = 0;</code></pre>
                     </div>
                     <p><strong>Explanation:</strong></p>
                     <ul>
-                        <li>The libraries used include WiFi connection, HTTP client, JSON parser, I2C communication, and specific libraries for the MAX30105 and BH1750 sensors.</li>
+                        <li>The libraries used include WiFi connection, HTTP client, JSON parser, I2C communication, and
+                            specific libraries for the MAX30105 and BH1750 sensors.</li>
                         <li>WiFi configuration for internet connection.</li>
                         <li>GitHub API configuration for cloud data storage.</li>
                         <li>Initialization of sensor objects and pin configuration.</li>
-                        <li>WINDOW_SIZE = 5 is used for the moving average filter for GSR based on Boucsein (2012) recommendations.</li>
+                        <li>WINDOW_SIZE = 5 is used for the moving average filter for GSR based on Boucsein (2012)
+                            recommendations.</li>
                         <li>Buffer variables to store and process sensor data.</li>
                     </ul>
 
@@ -733,7 +773,7 @@ long lastBeat = 0;</code></pre>
                     <p><strong>Process Flow:</strong></p>
                     <p>\[
                         \text{getCurrentSHA}: \text{URL} \rightarrow \text{SHA}
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>Establishes an HTTP connection to the GitHub API to obtain file metadata.</li>
@@ -769,8 +809,9 @@ long lastBeat = 0;</code></pre>
                     </div>
                     <p><strong>Process Flow:</strong></p>
                     <p>\[
-                        \text{JSON} \xrightarrow{\text{serialize}} \text{String} \xrightarrow{\text{Base64}} \text{EncodedString} \xrightarrow{\text{HTTP PUT}} \text{GitHub}
-                    \]</p>
+                        \text{JSON} \xrightarrow{\text{serialize}} \text{String} \xrightarrow{\text{Base64}}
+                        \text{EncodedString} \xrightarrow{\text{HTTP PUT}} \text{GitHub}
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>Takes a JSON document, URL endpoint, and a reference to lastSHA.</li>
@@ -784,18 +825,22 @@ long lastBeat = 0;</code></pre>
                     <h3>4. Function getTimestamp</h3>
                     <p>This function retrieves the current timestamp from the NTP server.</p>
                     <div class="code-block">
-                        <pre><code>String getTimestamp() {
-  struct tm timeinfo;
-  if(!getLocalTime(&timeinfo)) return "";
-  char buffer[20];
-  strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &timeinfo);
-  return String(buffer);
-}</code></pre>
+                        <pre>
+                            <code>
+                                String getTimestamp() {
+                                    struct tm timeinfo;
+                                    if(!getLocalTime(&timeinfo)) return "";
+                                    char buffer[20];
+                                    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", &timeinfo);
+                                    return String(buffer);
+                                }
+                            </code>
+                        </pre>
                     </div>
                     <p><strong>Output Format:</strong></p>
                     <p>\[
                         \text{Timestamp} = \text{YYYY-MM-DD HH:MM:SS}
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>Uses NTP (Network Time Protocol) to obtain accurate time.</li>
@@ -805,27 +850,32 @@ long lastBeat = 0;</code></pre>
 
                     <!-- Function edaMovingAverage -->
                     <h3>5. Function edaMovingAverage</h3>
-                    <p>This function implements a moving average filter for EDA (Electrodermal Activity) signal based on Boucsein (2012) methodology.</p>
+                    <p>This function implements a moving average filter for EDA (Electrodermal Activity) signal based on
+                        Boucsein (2012) methodology.</p>
                     <div class="code-block">
-                        <pre><code>// Moving average function for EDA tonic (Boucsein, 2012)
-float edaMovingAverage(float newVal) {
-  eda_buffer[buffer_index] = newVal;
-  buffer_index = (buffer_index + 1) % WINDOW_SIZE;
-  float sum = 0;
-  for(int i=0; i<WINDOW_SIZE; i++) sum += eda_buffer[i];
-  return sum/WINDOW_SIZE;
-}</code></pre>
+                        <pre>
+                            <code>
+                                // Moving average function for EDA tonic (Boucsein, 2012)
+                                float edaMovingAverage(float newVal) {
+                                    eda_buffer[buffer_index] = newVal;
+                                    buffer_index = (buffer_index + 1) % WINDOW_SIZE;
+                                    float sum = 0;
+                                    for(int i=0; i < WINDOW_SIZE; i++) sum += eda_buffer[i];
+                                    return sum/WINDOW_SIZE;
+                                }
+                            </code>
+                        </pre>
                     </div>
                     <p><strong>Mathematical Formulation:</strong></p>
                     <p>\[
                         B[j] = x_{\text{new}}
-                    \]</p>
+                        \]</p>
                     <p>\[
                         j = (j + 1) \mod W
-                    \]</p>
+                        \]</p>
                     <p>\[
                         \bar{x} = \frac{1}{W} \sum_{i=0}^{W-1} B[i]
-                    \]</p>
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>\(B\): Circular buffer to store the latest EDA values.</li>
@@ -833,7 +883,8 @@ float edaMovingAverage(float newVal) {
                         <li>\(W\): Window size (WINDOW_SIZE = 5).</li>
                         <li>\(x_{\text{new}}\): New EDA value.</li>
                         <li>\(\bar{x}\): Average EDA value (EDA tonic).</li>
-                        <li>This method, based on Boucsein (2012), helps separate the tonic (baseline) component from the EDA signal.</li>
+                        <li>This method, based on Boucsein (2012), helps separate the tonic (baseline) component from
+                            the EDA signal.</li>
                     </ul>
 
                     <!-- Function setup -->
@@ -872,8 +923,9 @@ float edaMovingAverage(float newVal) {
                     </div>
                     <p><strong>Process Flow:</strong></p>
                     <p>\[
-                        \text{Initialize Serial} \rightarrow \text{WiFi Connection} \rightarrow \text{NTP Configuration} \rightarrow \text{Sensor Initialization}
-                    \]</p>
+                        \text{Initialize Serial} \rightarrow \text{WiFi Connection} \rightarrow \text{NTP Configuration}
+                        \rightarrow \text{Sensor Initialization}
+                        \]</p>
                     <p><strong>Explanation:</strong></p>
                     <ul>
                         <li>Initializes serial communication with a baud rate of 115200.</li>
@@ -886,9 +938,11 @@ float edaMovingAverage(float newVal) {
 
                     <!-- Function loop -->
                     <h3>7. Function loop</h3>
-                    <p>The main function that runs repeatedly to read sensors, process data, and upload it to GitHub.</p>
+                    <p>The main function that runs repeatedly to read sensors, process data, and upload it to GitHub.
+                    </p>
                     <div class="code-block">
-                        <pre><code>void loop() {
+                        <pre>
+                            <code>void loop() {
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("WiFi disconnected. Reconnecting...");
     WiFi.reconnect();
@@ -955,165 +1009,190 @@ float edaMovingAverage(float newVal) {
                     </div>
                     <p><strong>Mathematical Formulation:</strong></p>
                     <h4>Processing GSR (Galvanic Skin Response)</h <p>\[
-    \text{EDA}_{\text{tonic}} = \text{edaMovingAverage}(\text{gsrRaw})
-\]</p>
-<p>\[
-    \text{EDA}_{\text{phasic}} = \text{gsrRaw} - \text{EDA}_{\text{tonic}}
-\]</p>
+                        \text{EDA}_{\text{tonic}} = \text{edaMovingAverage}(\text{gsrRaw})
+                        \]</p>
+                        <p>\[
+                            \text{EDA}_{\text{phasic}} = \text{gsrRaw} - \text{EDA}_{\text{tonic}}
+                            \]</p>
 
-<h4>Processing Heart Rate</h4>
-<p>\[
-    \Delta t = t_{\text{current}} - t_{\text{lastBeat}}
-\]</p>
-<p>\[
-    \text{BPM} = \frac{60}{\Delta t / 1000}
-\]</p>
-<p>\[
-    \text{beatAvg} = \frac{1}{4} \sum_{i=0}^{3} \text{rates}[i]
-\]</p>
+                        <h4>Processing Heart Rate</h4>
+                        <p>\[
+                            \Delta t = t_{\text{current}} - t_{\text{lastBeat}}
+                            \]</p>
+                        <p>\[
+                            \text{BPM} = \frac{60}{\Delta t / 1000}
+                            \]</p>
+                        <p>\[
+                            \text{beatAvg} = \frac{1}{4} \sum_{i=0}^{3} \text{rates}[i]
+                            \]</p>
 
-<p><strong>Comprehensive Explanation:</strong></p>
-<ul>
-    <li><strong>Connection Monitoring:</strong> Checks WiFi status and reconnects if disconnected.</li>
-    <li><strong>Reading GSR (Galvanic Skin Response):</strong>
-        <ul>
-            <li>Reads raw value from the analog pin (GSR_PIN).</li>
-            <li>Calculates the tonic (baseline) component using moving average.</li>
-            <li>Calculates the phasic component as the difference between raw and tonic (Boucsein, 2012).</li>
-        </ul>
-    </li>
-    <li><strong>Reading Heart Rate (MAX30102):</strong>
-        <ul>
-            <li>Reads IR value from the MAX30102 sensor.</li>
-            <li>Detects beats with a threshold of 50000 (Shaffer et al., 2014).</li>
-            <li>Calculates BPM from the interval between beats.</li>
-            <li>Applies averaging filter for the last 4 readings.</li>
-            <li>Validates BPM within the physiological range of 20-255.</li>
-        </ul>
-    </li>
-    <li><strong>Reading Light Level (BH1750):</strong>
-        <ul>
-            <li>Reads lux value from the BH1750 sensor (Golden et al., 2005).</li>
-        </ul>
-    </li>
-    <li><strong>Upload Period:</strong>
-        <ul>
-            <li>Uses a timer to upload data every 10 seconds.</li>
-            <li>Creates JSON documents for each sensor with timestamps.</li>
-            <li>Uploads data to the GitHub repository with SHA update mechanism.</li>
-        </ul>
-    </li>
-</ul>
+                        <p><strong>Comprehensive Explanation:</strong></p>
+                        <ul>
+                            <li><strong>Connection Monitoring:</strong> Checks WiFi status and reconnects if
+                                disconnected.</li>
+                            <li><strong>Reading GSR (Galvanic Skin Response):</strong>
+                                <ul>
+                                    <li>Reads raw value from the analog pin (GSR_PIN).</li>
+                                    <li>Calculates the tonic (baseline) component using moving average.</li>
+                                    <li>Calculates the phasic component as the difference between raw and tonic
+                                        (Boucsein, 2012).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Reading Heart Rate (MAX30102):</strong>
+                                <ul>
+                                    <li>Reads IR value from the MAX30102 sensor.</li>
+                                    <li>Detects beats with a threshold of 50000 (Shaffer et al., 2014).</li>
+                                    <li>Calculates BPM from the interval between beats.</li>
+                                    <li>Applies averaging filter for the last 4 readings.</li>
+                                    <li>Validates BPM within the physiological range of 20-255.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Reading Light Level (BH1750):</strong>
+                                <ul>
+                                    <li>Reads lux value from the BH1750 sensor (Golden et al., 2005).</li>
+                                </ul>
+                            </li>
+                            <li><strong>Upload Period:</strong>
+                                <ul>
+                                    <li>Uses a timer to upload data every 10 seconds.</li>
+                                    <li>Creates JSON documents for each sensor with timestamps.</li>
+                                    <li>Uploads data to the GitHub repository with SHA update mechanism.</li>
+                                </ul>
+                            </li>
+                        </ul>
 
-<!-- GSR Component -->
-<h3>8. GSR Component Analysis</h3>
-<p>The Galvanic Skin Response (GSR) or Electrodermal Activity (EDA) is processed according to Boucsein (2012) methodology.</p>
-<p><strong>Complete Mathematical Formulation:</strong></p>
-<p>\[
-    \text{EDA}_{\text{raw}}(t) = \text{analogRead}(\text{GSR\_PIN})
-\]</p>
-<p>\[
-    \text{EDA}_{\text{tonic}}(t) = \frac{1}{W} \sum_{i=0}^{W-1} \text{EDA}_{\text{buffer}}[i]
-\]</p>
-<p>\[
-    \text{EDA}_{\text{phasic}}(t) = \text{EDA}_{\text{raw}}(t) - \text{EDA}_{\text{tonic}}(t)
-\]</p>
-<p><strong>Explanation:</strong></p>
-<ul>
-    <li><strong>EDA<sub>raw</sub></strong>: Raw EDA signal from the sensor, measuring skin conductivity.</li>
-    <li><strong>EDA<sub>tonic</sub></strong>: Tonic component of EDA, representing long-term skin conductivity levels.</li>
-    <li><strong>EDA<sub>phasic</sub></strong>: Phasic component of EDA, representing short-term skin conductivity responses.</li>
-    <li><strong>W</strong>: Window size for moving average (5 samples).</li>
-    <li>This decomposition method aligns with Boucsein (2012) for stress and emotional response analysis.</li>
-</ul>
+                        <!-- GSR Component -->
+                        <h3>8. GSR Component Analysis</h3>
+                        <p>The Galvanic Skin Response (GSR) or Electrodermal Activity (EDA) is processed according to
+                            Boucsein (2012) methodology.</p>
+                        <p><strong>Complete Mathematical Formulation:</strong></p>
+                        <p>\[
+                            \text{EDA}_{\text{raw}}(t) = \text{analogRead}(\text{GSR\_PIN})
+                            \]</p>
+                        <p>\[
+                            \text{EDA}_{\text{tonic}}(t) = \frac{1}{W} \sum_{i=0}^{W-1} \text{EDA}_{\text{buffer}}[i]
+                            \]</p>
+                        <p>\[
+                            \text{EDA}_{\text{phasic}}(t) = \text{EDA}_{\text{raw}}(t) - \text{EDA}_{\text{tonic}}(t)
+                            \]</p>
+                        <p><strong>Explanation:</strong></p>
+                        <ul>
+                            <li><strong>EDA<sub>raw</sub></strong>: Raw EDA signal from the sensor, measuring skin
+                                conductivity.</li>
+                            <li><strong>EDA<sub>tonic</sub></strong>: Tonic component of EDA, representing long-term
+                                skin conductivity levels.</li>
+                            <li><strong>EDA<sub>phasic</sub></strong>: Phasic component of EDA, representing short-term
+                                skin conductivity responses.</li>
+                            <li><strong>W</strong>: Window size for moving average (5 samples).</li>
+                            <li>This decomposition method aligns with Boucsein (2012) for stress and emotional response
+                                analysis.</li>
+                        </ul>
 
-<!-- Heart Rate Component -->
-<h3>9. Heart Rate Analysis</h3>
-<p>Heart rate is measured using the MAX30102 sensor following the methodology from Shaffer et al. (2014).</p>
-<p><strong>Complete Mathematical Formulation:</strong></p>
-<p>\[
-    \text{IR}(t) = \text{particleSensor.getIR()}
-\]</p>
-<p>\[
-    \text{Beat detection} = \begin{cases}
-        1, & \ if \text{IR}(t) > 50000 \text{ and } \text{checkForBeat}(\text{IR}(t)) \\
-        0, & \text{otherwise}
-    \end{cases}
-\]</p>
-<p>\[
-    \Delta t = t_{\text{current}} - t_{\text{lastBeat}}
-\]</p>
-<p>\[
-    \text{BPM} = \frac{60 \times 1000}{\Delta t}
-\]</p>
-<p>\[
-    \text{BPM}_{\text{valid}} = \begin{cases}
-        \text{BPM}, & \text{if } 20 < \text{BPM} < 255 \\
-        \text{previous BPM}, & \text{otherwise}
-    \end{cases}
-\]</p>
-<p>\[
-    \text{HRV}_{\text{avg}} = \frac{1}{4} \sum_{i=0}^{3} \text{rates}[i]
-\]</p>
-<p><strong>Explanation:</strong></p>
-<ul>
-    <li><strong>IR(t)</strong>: Infrared value read from the MAX30102 sensor.</li>
-    <li><strong>Beat detection</strong>: Function to detect heartbeats.</li>
-    <li><strong>Δt</strong>: Time interval between heartbeats (ms).</li>
-    <li><strong>BPM</strong>: Beats Per Minute, calculated from the interval between beats.</li>
-    <li><strong>BPM<sub>valid</sub></strong>: Validated BPM within physiological range (20-255).</li>
-    <li><strong>HRV<sub>avg</sub></strong>: Heart Rate Variability, calculated as the average of the last 4 measurements.</li>
-    <li>Threshold of 50000 for beat detection refers to Shaffer et al. (2014).</li>
-</ul>
+                        <!-- Heart Rate Component -->
+                        <h3>9. Heart Rate Analysis</h3>
+                        <p>Heart rate is measured using the MAX30102 sensor following the methodology from Shaffer et
+                            al. (2014).</p>
+                        <p><strong>Complete Mathematical Formulation:</strong></p>
+                        <p>\[
+                            \text{IR}(t) = \text{particleSensor.getIR()}
+                            \]</p>
+                        <p>\[
+                            \text{Beat detection} = \begin{cases}
+                            1, & \ if \text{IR}(t) > 50000 \text{ and } \text{checkForBeat}(\text{IR}(t)) \\
+                            0, & \text{otherwise}
+                            \end{cases}
+                            \]</p>
+                        <p>\[
+                            \Delta t = t_{\text{current}} - t_{\text{lastBeat}}
+                            \]</p>
+                        <p>\[
+                            \text{BPM} = \frac{60 \times 1000}{\Delta t}
+                            \]</p>
+                        <p>\[
+                            \text{BPM}_{\text{valid}} = \begin{cases}
+                            \text{BPM}, & \text{if } 20 < \text{BPM} < 255 \\ \text{previous BPM}, & \text{otherwise}
+                                \end{cases} \]</p>
+                                <p>\[
+                                    \text{HRV}_{\text{avg}} = \frac{1}{4} \sum_{i=0}^{3} \text{rates}[i]
+                                    \]</p>
+                                <p><strong>Explanation:</strong></p>
+                                <ul>
+                                    <li><strong>IR(t)</strong>: Infrared value read from the MAX30102 sensor.</li>
+                                    <li><strong>Beat detection</strong>: Function to detect heartbeats.</li>
+                                    <li><strong>Δt</strong>: Time interval between heartbeats (ms).</li>
+                                    <li><strong>BPM</strong>: Beats Per Minute, calculated from the interval between
+                                        beats.</li>
+                                    <li><strong>BPM<sub>valid</sub></strong>: Validated BPM within physiological range
+                                        (20-255).</li>
+                                    <li><strong>HRV<sub>avg</sub></strong>: Heart Rate Variability, calculated as the
+                                        average of the last 4 measurements.</li>
+                                    <li>Threshold of 50000 for beat detection refers to Shaffer et al. (2014).</li>
+                                </ul>
 
-<!-- BH1750 Component -->
-<h3>10. Light Level Analysis</h3>
-<p>Light levels are measured using the BH1750 sensor, referencing Golden et al. (2005) regarding the impact of light on mental health.</p>
-<p><strong>Formulation:</strong></p>
-<p>\[
-    \text{Lux}(t) = \text{lightMeter.readLightLevel()}
-\]</p>
-<p><strong>Explanation:</strong></p>
-<ul>
-    <li><strong>Lux(t)</strong>: Light level measured in lux.</li>
-    <li>Measurement of light levels is crucial in mental health analysis based on research by Golden et al. (2005).</li>
-    <li>Light levels correlate with circadian rhythms and melatonin production.</li>
-</ul>
+                                <!-- BH1750 Component -->
+                                <h3>10. Light Level Analysis</h3>
+                                <p>Light levels are measured using the BH1750 sensor, referencing Golden et al. (2005)
+                                    regarding the impact of light on mental health.</p>
+                                <p><strong>Formulation:</strong></p>
+                                <p>\[
+                                    \text{Lux}(t) = \text{lightMeter.readLightLevel()}
+                                    \]</p>
+                                <p><strong>Explanation:</strong></p>
+                                <ul>
+                                    <li><strong>Lux(t)</strong>: Light level measured in lux.</li>
+                                    <li>Measurement of light levels is crucial in mental health analysis based on
+                                        research by Golden et al. (2005).</li>
+                                    <li>Light levels correlate with circadian rhythms and melatonin production.</li>
+                                </ul>
 
-<!-- Data Upload Mechanism -->
-<h3>11. Data Upload Mechanism</h3>
-<p>Sensor data is uploaded to GitHub as a cloud storage system with SHA mechanism for version control.</p>
-<p><strong>Process Flow:</strong></p>
-<p>\[
-    \text{Sensor Data} \rightarrow \text{JSON Documents} \rightarrow \text{Base64 Encoding} \rightarrow \text{HTTP PUT} \rightarrow \text{GitHub}
-\]</p>
-<p><strong>Explanation:</strong></p>
-<ul>
-    <li><strong>Upload Interval</strong>: Data is uploaded every 10 seconds (10000 ms).</li>
-    <li><strong>Data Format</strong>: JSON structure with sensor values and timestamps.</li>
-    <li><strong>SHA Mechanism</strong>: SHA values are used to ensure data integrity and conflict handling.</li>
-    <li><strong>Base64 Encoding</strong>: JSON data is encoded with Base64 as per GitHub API requirements.</li>
-    <li>This system allows for longitudinal data recording for long-term mental health trend analysis.</li>
-</ul>
+                                <!-- Data Upload Mechanism -->
+                                <h3>11. Data Upload Mechanism</h3>
+                                <p>Sensor data is uploaded to GitHub as a cloud storage system with SHA mechanism for
+                                    version control.</p>
+                                <p><strong>Process Flow:</strong></p>
+                                <p>\[
+                                    \text{Sensor Data} \rightarrow \text{JSON Documents} \rightarrow \text{Base64
+                                    Encoding} \rightarrow \text{HTTP PUT} \rightarrow \text{GitHub}
+                                    \]</p>
+                                <p><strong>Explanation:</strong></p>
+                                <ul>
+                                    <li><strong>Upload Interval</strong>: Data is uploaded every 10 seconds (10000 ms).
+                                    </li>
+                                    <li><strong>Data Format</strong>: JSON structure with sensor values and timestamps.
+                                    </li>
+                                    <li><strong>SHA Mechanism</strong>: SHA values are used to ensure data integrity and
+                                        conflict handling.</li>
+                                    <li><strong>Base64 Encoding</strong>: JSON data is encoded with Base64 as per GitHub
+                                        API requirements.</li>
+                                    <li>This system allows for longitudinal data recording for long-term mental health
+                                        trend analysis.</li>
+                                </ul>
 
-<!-- Scientific References -->
-<h3>12. Scientific References</h3>
-<p>This code implementation refers to several scientific references:</p>
-<ul>
-    <li><strong>Boucsein, W. (2012)</strong>: "Electrodermal Activity" - Standard reference for processing GSR/EDA signals, including tonic and phasic component separation methods.</li>
-    <li><strong>Shaffer et al. (2014)</strong>: "A healthy heart is not a metronome: an integrative review of the heart's anatomy and heart rate variability" - Guidelines for processing and interpreting heart rate variability data.</li>
-    <li><strong>Golden et al. (2005)</strong>: "The efficacy of light therapy in the treatment of mood disorders: a review and meta-analysis of the evidence" - Research on the impact of light levels on mood and mental health.</li>
-</ul>
-</div>
+                                <!-- Scientific References -->
+                                <h3>12. Scientific References</h3>
+                                <p>This code implementation refers to several scientific references:</p>
+                                <ul>
+                                    <li><strong>Boucsein, W. (2012)</strong>: "Electrodermal Activity" - Standard
+                                        reference for processing GSR/EDA signals, including tonic and phasic component
+                                        separation methods.</li>
+                                    <li><strong>Shaffer et al. (2014)</strong>: "A healthy heart is not a metronome: an
+                                        integrative review of the heart's anatomy and heart rate variability" -
+                                        Guidelines for processing and interpreting heart rate variability data.</li>
+                                    <li><strong>Golden et al. (2005)</strong>: "The efficacy of light therapy in the
+                                        treatment of mood disorders: a review and meta-analysis of the evidence" -
+                                        Research on the impact of light levels on mood and mental health.</li>
+                                </ul>
+                </div>
                 <a href="https://github.com/mental-health-website/edit" class="edit -page">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M12 1.27a11 11 0 00-7.81 18.73A11 11 0 1012 1.27z"/>
-                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 1.27a11 11 0 00-7.81 18.73A11 11 0 1012 1.27z" />
+                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z" />
                     </svg>
                     Edit page
                 </a>
             </div>
-            
+
             <div class="sidebar">
                 <div class="sidebar-section">
                     <h3 class="sidebar-title">ON THIS PAGE</h3>
@@ -1123,14 +1202,22 @@ float edaMovingAverage(float newVal) {
                 </div>
             </div>
         </div>
-        
+
         <footer class="footer">
             <p>&copy; 2025 Mental Health Website. All rights reserved.</p>
         </footer>
-            <script>
-                document.addEventListener('DOMContentLoaded', function () {
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
     const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
     const sidebarNav = document.getElementById('sidebar-nav');
+
+    // Fungsi untuk generate ID unik dari teks heading
+    function generateID(text) {
+        return text
+            .toLowerCase() // Ubah ke huruf kecil
+            .replace(/[^\w\s]/g, '') // Hapus karakter khusus
+            .replace(/\s+/g, '-'); // Ganti spasi dengan tanda hubung
+    }
 
     // Fungsi untuk generate daftar isi
     function generateTableOfContents() {
@@ -1138,7 +1225,7 @@ float edaMovingAverage(float newVal) {
 
         sections.forEach(section => {
             const level = parseInt(section.tagName.replace('H', '')); // Ambil level heading (1, 2, 3)
-            const id = section.id || section.textContent.toLowerCase().replace(/ /g, '-'); // Buat ID jika belum ada
+            const id = section.id || generateID(section.textContent); // Generate ID jika belum ada
             section.id = id; // Set ID ke heading
 
             // Tambahkan class level untuk indentasi
@@ -1180,21 +1267,24 @@ float edaMovingAverage(float newVal) {
         if (e.target.tagName === 'A') {
             e.preventDefault();
             const target = document.querySelector(e.target.getAttribute('href'));
-            window.scrollTo({
-                top: target.offsetTop - 100,
-                behavior: 'smooth'
-            });
+            if (target) {
+                window.scrollTo({
+                    top: target.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
         }
     });
-
-    // Observer untuk scroll
-    window.addEventListener('scroll', updateActiveSection);
 
     // Generate daftar isi saat halaman dimuat
     generateTableOfContents();
     updateActiveSection(); // Set active section awal
+
+    // Observer untuk scroll
+    window.addEventListener('scroll', updateActiveSection);
 });
-            </script>
+        </script>
     </div>
 </body>
+
 </html>
