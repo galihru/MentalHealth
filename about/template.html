@@ -574,7 +574,7 @@
                         <pre><code>// djb2Hash: Generates a hash value for a string
 function djb2Hash(str) {
     let hash = 5381; // Initial hash value
-    for (let i = 0; i < str.length; i++) {
+    for (let i = 0; i<str.length; i++) {
         hash = (hash * 33)^str.charCodeAt(i);
     }
     return hash >>> 0;
