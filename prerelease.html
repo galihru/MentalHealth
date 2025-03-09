@@ -88,30 +88,6 @@
             window.addEventListener('focus', preventLoadingIcon);
         })();
     </script>
-    <noscript>
-        <meta http-equiv="refresh" content="10">
-        <style>
-            .js-required {
-                display: none;
-            }
-            .no-js-message {
-                display: block;
-                background: #ffeb3b;
-                padding: 1rem;
-                text-align: center;
-                margin: 1rem;
-                border-radius: 4px;
-            }
-        </style>
-    </noscript>
-    <script>
-        window.addEventListener('DOMContentLoaded', function () {
-            const metaRefresh = document.querySelector('meta[http-equiv="refresh"]');
-            if (metaRefresh) {
-                metaRefresh.remove();
-            }
-        });
-    </script>
     <script type="application/ld+json">
         {
           "@context": "https://schema.org",
