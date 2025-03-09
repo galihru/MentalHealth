@@ -1071,7 +1071,7 @@ float edaMovingAverage(float newVal) {
     eda_buffer[buffer_index] = newVal;
     buffer_index = (buffer_index + 1) % WINDOW_SIZE;
     float sum = 0;
-    for(int i=0; i < WINDOW_SIZE; i++) sum += eda_buffer[i];
+    for(int i=0; i <WINDOW_SIZE; i++) sum += eda_buffer[i];
     return sum/WINDOW_SIZE;
 }
                             </code>
