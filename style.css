@@ -294,7 +294,6 @@ body.dark-theme {
     background-size: 200% 100%;
     animation: skeleton-loading 1.5s infinite linear;
     overflow: hidden;
-    position: relative;
 }
 
 .no-js-message {
@@ -321,7 +320,7 @@ body.dark-theme {
 
 /* Hide the skip link by default */
 .skip-link {
-    top: -100px;
+    top: -130px;
 }
 
 /* Show the skip link when it receives focus */
