@@ -1176,7 +1176,7 @@ void loop() {
       rates[rateSpot++] = (byte)beatsPerMinute;
       rateSpot %= 4;
       beatAvg = 0;
-      for(byte x=0; x<4; x++) beatAvg += rates[x];
+      for(byte x=0; x; x++) beatAvg += rates[x];
       beatAvg /= 4;
     }
   }
