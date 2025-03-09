@@ -559,6 +559,115 @@
     color: #333;
     margin-bottom: 10px;
 }
+        /* Tambahkan CSS ini ke file CSS Anda */
+
+/* Styling untuk Hamburger Icon */
+.hamburger-container {
+    display: none;
+    margin-left: auto;
+    padding: 10px;
+}
+
+.hamburger-icon {
+    width: 30px;
+    height: 24px;
+    position: relative;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger-icon span {
+    display: block;
+    width: 100%;
+    height: 3px;
+    background-color: #333;
+    transition: all 0.3s ease;
+}
+
+/* Overlay untuk menutup sidebar saat di-klik */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 99;
+    display: none;
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+/* Style untuk sidebar pada mobile */
+@media (max-width: 768px) {
+    .hamburger-container {
+        display: flex;
+    }
+    
+    .sidebar {
+        position: fixed;
+        top: 0;
+        right: -280px;
+        width: 250px;
+        height: 100%;
+        background-color: white;
+        z-index: 100;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        transition: right 0.3s ease;
+        padding: 20px;
+        overflow-y: auto;
+    }
+    
+    .sidebar.active {
+        right: 0;
+    }
+    
+    body.sidebar-open {
+        overflow: hidden;
+    }
+}
+
+/* Style untuk indentasi level heading */
+.sidebar-nav .level-1 {
+    margin-left: 0;
+}
+
+.sidebar-nav .level-2 {
+    margin-left: 15px;
+}
+
+.sidebar-nav .level-3 {
+    margin-left: 30px;
+}
+
+/* Animasi hamburger icon saat sidebar aktif */
+body.sidebar-open .hamburger-icon span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+body.sidebar-open .hamburger-icon span:nth-child(2) {
+    opacity: 0;
+}
+
+body.sidebar-open .hamburger-icon span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+        /* Animasi hamburger icon saat sidebar aktif */
+body.sidebar-open .hamburger-icon span:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+
+body.sidebar-open .hamburger-icon span:nth-child(2) {
+    opacity: 0;
+}
+
+body.sidebar-open .hamburger-icon span:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
 
     </style>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
@@ -1581,10 +1690,53 @@ void loop() {
         });
     </script>
         <script>
-            document.addEventListener('DOMContentLoaded', function () {
+           document.addEventListener('DOMContentLoaded', function () {
     const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
     const sidebarNav = document.getElementById('sidebar-nav');
-
+    const sidebar = document.querySelector('.sidebar');
+    const topNavigation = document.querySelector('.top-navigation');
+    
+    // Cek apakah elemen ada
+    if (!sidebar || !topNavigation) return;
+    
+    // Buat hamburger menu
+    function createHamburgerMenu() {
+        // Buat container untuk hamburger icon
+        const hamburgerContainer = document.createElement('div');
+        hamburgerContainer.className = 'hamburger-container';
+        
+        // Buat hamburger icon
+        const hamburgerIcon = document.createElement('div');
+        hamburgerIcon.className = 'hamburger-icon';
+        hamburgerIcon.innerHTML = `
+            <span></span>
+            <span></span>
+            <span></span>
+        `;
+        
+        // Tambahkan event listener untuk hamburger icon
+        hamburgerIcon.addEventListener('click', toggleSidebar);
+        
+        // Tambahkan hamburger icon ke container
+        hamburgerContainer.appendChild(hamburgerIcon);
+        
+        // Tambahkan hamburger container ke navigation
+        topNavigation.appendChild(hamburgerContainer);
+        
+        // Buat overlay untuk menutup sidebar saat di-klik
+        const overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        overlay.addEventListener('click', toggleSidebar);
+        document.body.appendChild(overlay);
+    }
+    
+    // Toggle sidebar
+    function toggleSidebar() {
+        sidebar.classList.toggle('active');
+        document.querySelector('.sidebar-overlay').classList.toggle('active');
+        document.body.classList.toggle('sidebar-open');
+    }
+    
     // Fungsi untuk generate ID unik dari teks heading
     function generateID(text) {
         return text
@@ -1592,19 +1744,16 @@ void loop() {
             .replace(/[^\w\s]/g, '') // Hapus karakter khusus
             .replace(/\s+/g, '-'); // Ganti spasi dengan tanda hubung
     }
-
+    
     // Fungsi untuk generate daftar isi
     function generateTableOfContents() {
         let tocHTML = '';
-
         sections.forEach(section => {
             const level = parseInt(section.tagName.replace('H', '')); // Ambil level heading (1, 2, 3)
             const id = section.id || generateID(section.textContent); // Generate ID jika belum ada
             section.id = id; // Set ID ke heading
-
             // Tambahkan class level untuk indentasi
             const levelClass = `level-${level}`;
-
             // Buat link untuk sidebar
             tocHTML += `
                 <li class="${levelClass}">
@@ -1612,22 +1761,19 @@ void loop() {
                 </li>
             `;
         });
-
         sidebarNav.innerHTML = tocHTML; // Masukkan daftar isi ke sidebar
     }
-
+    
     // Fungsi untuk update active state
     function updateActiveSection() {
         const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
         let currentSection = '';
-
         sections.forEach(section => {
             const rect = section.getBoundingClientRect();
             if (rect.top <= 150 && rect.bottom >= 150) {
                 currentSection = '#' + section.id;
             }
         });
-
         sidebarLinks.forEach(link => {
             link.classList.remove('active');
             if (link.getAttribute('href') === currentSection) {
@@ -1635,7 +1781,23 @@ void loop() {
             }
         });
     }
-
+    
+    // Fungsi untuk handle responsive behavior
+    function handleResponsive() {
+        const isMobile = window.innerWidth <= 768; // Breakpoint untuk mobile
+        
+        if (isMobile) {
+            sidebar.classList.add('mobile');
+            document.body.classList.add('mobile-view');
+        } else {
+            sidebar.classList.remove('mobile');
+            sidebar.classList.remove('active');
+            document.body.classList.remove('mobile-view');
+            document.body.classList.remove('sidebar-open');
+            document.querySelector('.sidebar-overlay').classList.remove('active');
+        }
+    }
+    
     // Smooth scroll untuk sidebar
     sidebarNav.addEventListener('click', (e) => {
         if (e.target.tagName === 'A') {
@@ -1646,14 +1808,57 @@ void loop() {
                     top: target.offsetTop - 100,
                     behavior: 'smooth'
                 });
+                
+                // Tutup sidebar setelah klik pada mobile
+                if (window.innerWidth <= 768) {
+                    toggleSidebar();
+                }
             }
         }
     });
-
+    
+    // Tambah dukungan swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+    
+    // Touch event untuk swipe
+    document.addEventListener('touchstart', function(e) {
+        touchStartX = e.changedTouches[0].screenX;
+    }, false);
+    
+    document.addEventListener('touchend', function(e) {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, false);
+    
+    // Handle swipe
+    function handleSwipe() {
+        if (touchEndX - touchStartX > 100) {
+            // Swipe kanan - buka sidebar
+            sidebar.classList.add('active');
+            document.querySelector('.sidebar-overlay').classList.add('active');
+            document.body.classList.add('sidebar-open');
+        } else if (touchStartX - touchEndX > 100) {
+            // Swipe kiri - tutup sidebar
+            sidebar.classList.remove('active');
+            document.querySelector('.sidebar-overlay').classList.remove('active');
+            document.body.classList.remove('sidebar-open');
+        }
+    }
+    
     // Generate daftar isi saat halaman dimuat
     generateTableOfContents();
     updateActiveSection(); // Set active section awal
-
+    
+    // Buat hamburger menu
+    createHamburgerMenu();
+    
+    // Set responsive state awal
+    handleResponsive();
+    
+    // Event listener untuk resize
+    window.addEventListener('resize', handleResponsive);
+    
     // Observer untuk scroll
     window.addEventListener('scroll', updateActiveSection);
 });
