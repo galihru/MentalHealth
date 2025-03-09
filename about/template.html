@@ -575,9 +575,9 @@
 function djb2Hash(str) {
     let hash = 5381; // Initial hash value
     for (let i = 0; i < str.length; i++) {
-        hash = (hash * 33) ^ str.charCodeAt(i); // Update hash using bitwise XOR
+        hash = (hash * 33)^str.charCodeAt(i);
     }
-    return hash >>> 0; // Convert to unsigned 32-bit integer
+    return hash >>> 0;
 }</code></pre>
                     </div>
                     <p><strong>Mathematical Representation:</strong></p>
