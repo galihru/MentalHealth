@@ -1567,21 +1567,33 @@ void loop() {
         </footer>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-    // Simulasikan proses loading (misalnya, fetch data atau render konten)
-    simulateContentLoading().then(() => {
-        // Hapus skeleton loading setelah konten selesai dimuat
-        const skeletonWrapper = document.querySelector(".skeleton-wrapper");
-        if (skeletonWrapper) {
-            skeletonWrapper.remove();
-        }
+            // Fungsi untuk mensimulasikan loading
+            function simulateContentLoading() {
+                return new Promise(resolve => {
+                    // Simulasikan delay loading (misalnya 2 detik)
+                    // Dalam kasus nyata, ini bisa menjadi fetch API atau loading resource lainnya
+                    setTimeout(() => {
+                        resolve();
+                    }, 2000);
+                });
+            }
 
-        // Tampilkan konten asli
-        const pageWrapper = document.querySelector(".page-wrapper");
-        if (pageWrapper) {
-            pageWrapper.style.display = "block";
-        }
-    });
-});</script>
+            // Simulasikan proses loading
+            simulateContentLoading().then(() => {
+                // Hapus skeleton loading setelah konten selesai dimuat
+                const skeletonWrapper = document.querySelector(".skeleton-wrapper");
+                if (skeletonWrapper) {
+                    skeletonWrapper.remove();
+                }
+                
+                // Tampilkan konten asli
+                const pageWrapper = document.querySelector(".page-wrapper");
+                if (pageWrapper) {
+                    pageWrapper.style.display = "block";
+                }
+            });
+        });
+    </script>
         <script>
             document.addEventListener('DOMContentLoaded', function () {
     const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
