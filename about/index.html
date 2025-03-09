@@ -5,6 +5,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Mental Health Website</title>
+    <link rel="canonical" href="https://4211421036.github.io/MentalHealth/">
+    <link rel="preload" href="https://4211421036.github.io/g4lihru/987654567.png" as="image" type="image/x-icon">
+    <link rel="shortcut icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
+    <link rel="icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
+    <link rel="preload" href="https://4211421036.github.io/MentalHealth/style.css" as="style">
+    <link rel="apple-touch-icon" href="https://4211421036.github.io/g4lihru/987654567.png">
+    <link rel="dns-prefetch" href="https://4211421036.github.io/" />
+    <meta name="description" content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta name="keywords" content="mental health, monitoring, health app, face analysis, emotion detection">
+    <meta name="author" content="GALIH RIDHO UTOMO and Ana Maulida">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="Content-Language" content="en">
+    <meta http-equiv="Cache-Control" content="max-age=180, public, must-revalidate">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <meta name="color-scheme" content="dark light">
+    <meta property="og:title" content="Mental Health">
+    <meta property="og:description" content="A comprehensive mental health monitoring application using modern web technologies">
+    <meta property="og:image" content="https://4211421036.github.io/g4lihru/987654567.png">
+    <meta property="og:url" content="https://4211421036.github.io/MentalHealth">
+    <meta property="og:image:width" content="425">
+    <meta property="og:image:height" content="425">
+    <meta property="og:type" content="website">
+    <meta http-equiv="default-style" content="Light Dark">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="id_ID">
+    <meta property="og:site_name" content="Mental Health">
+    <meta name="twitter:site" content="@ITBGRU">
+    <meta name="twitter:creator" content="@ITBGRU">
+    <meta name="twitter:domain" content="4211421036.github.io">
+    <meta name="twitter:url" content="https://4211421036.github.io/MentalHealth">
+    <meta name="twitter:image:src" content="https://4211421036.github.io/g4lihru/987654567.png">
+    <meta name="twitter:image:alt" content="Mental Health">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Mental Health">
+    <meta name="twitter:description" content="A comprehensive mental health monitoring application using modern web technologies">
+    <meta name="twitter:image" content="https://4211421036.github.io/g4lihru/987654567.png">
     <style>
         :root {
             --primary-color: #12528a;
@@ -266,6 +305,96 @@
     top: 0;
     height: 100%;
 }
+        /* Card Container */
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Card Styling */
+.card {
+    width: 300px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+/* Hover Effect */
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Card Icon */
+.card-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.card-icon svg {
+    width: 50px;
+    height: 50px;
+    fill: #333; /* Warna logo GitHub */
+}
+
+/* Card Content */
+.card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.card-description {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* Card Link */
+.card-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #1976d2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.3s ease;
+}
+
+.card-link:hover {
+    background-color: #1565c0;
+}
+
+/* Animasi Tambahan */
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(25, 118, 210, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.card:hover::before {
+    opacity: 1;
+}
     </style>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
@@ -335,7 +464,22 @@
                         operated, governed, managed, and owned by a global community of tens of thousands of
                         professionals, researchers, supporters, and users.</p>
 
-                    <p><a href="/learn-more">More about Mental Health</a></p>
+                    <div class="card-container">
+                        <div class="card">
+                            <div class="card-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.652.242 2.873.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">GitHub Repository Mental Health</h3>
+                                <p class="card-description">
+                                    A comprehensive mental health monitoring application using modern web technologies.
+                                </p>
+                                <a href="https://github.com/4211421036/MentalHealth/" class="card-link">Visit GitHub Mental Health</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="content-section">
@@ -351,22 +495,16 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>John Doe</td>
-                                <td>Lead Developer</td>
-                                <td><a href="https://twitter.com/johndoe">Twitter</a></td>
-                                <td>john.doe@example.com</td>
+                                <td>GALIH RIDHO UTOMO</td>
+                                <td>Developer</td>
+                                <td><a href="https://www.instagram.com/galih_ridho_utomo/">Instagram</a></td>
+                                <td>g4lihru@students.unnes.ac.id</td>
                             </tr>
                             <tr>
-                                <td>Jane Smith</td>
-                                <td>UI/UX Designer</td>
-                                <td><a href="https://linkedin.com/in/janesmith">LinkedIn</a></td>
-                                <td>jane.smith@example.com</td>
-                            </tr>
-                            <tr>
-                                <td>Alice Johnson</td>
-                                <td>Data Scientist</td>
-                                <td><a href="https://github.com/alicej">GitHub</a></td>
-                                <td>alice.j@example.com</td>
+                                <td>Ana Maulida</td>
+                                <td>Writing Ilmiah</td>
+                                <td><a href="https://www.instagram.com/anma1505/">Instagram</a></td>
+                                <td>anamaulida@students.unnes.ac.id</td>
                             </tr>
                         </tbody>
                     </table>
