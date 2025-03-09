@@ -448,11 +448,11 @@
     bottom: 0;
     z-index: 1000;
     background-color: var(--background-light);
-    padding: 20px;
+    padding: 20px 10px;
 }
 
 .skeleton-header {
-    height: 70px;
+    height: 45px;
     background-color: var(--skeleton-color);
     margin-bottom: 20px;
     border-radius: 4px;
@@ -492,7 +492,7 @@
 }
 
 .skeleton-page-header {
-    height: 40px;
+    height: 25px;
     width: 300px;
     background-color: var(--skeleton-color);
     margin-bottom: 20px;
@@ -503,7 +503,7 @@
 }
 
 .skeleton-page-meta {
-    height: 20px;
+    height: 45px;
     width: 100%;
     background-color: var(--skeleton-color);
     margin-bottom: 20px;
@@ -514,7 +514,7 @@
 }
 
 .skeleton-content-section {
-    height: 100px;
+    height: 95px;
     width: 100%;
     background-color: var(--skeleton-color);
     margin-bottom: 20px;
@@ -534,6 +534,32 @@
     background-size: 200% 100%;
     animation: var(--skeleton-animation);
 }
+
+        .skeleton-card {
+    width: 400px;
+    background-color: var(--skeleton-color);
+    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    animation: var(--skeleton-animation);
+}
+        .skeleton-im {
+    width: 50px;
+    background-color: var(--skeleton-color);
+    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+    border-radius: 100%;
+    animation: var(--skeleton-animation);
+}
+        .skeleton-card-title {
+    font-size: 20px;
+            width: 360px;
+            height: 32px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
     </style>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
@@ -567,14 +593,24 @@
         <div class="skeleton-header"></div>
         <div class="skeleton-breadcrumbs"></div>
         <div class="skeleton-main-content">
-            <div class="skeleton-sidebar"></div>
             <div class="skeleton-content-area">
                 <div class="skeleton-page-header"></div>
                 <div class="skeleton-page-meta"></div>
                 <div class="skeleton-content-section"></div>
+                <div class="skeleton-page-header"></div>
+                <div class="skeleton-page-meta"></div>
                 <div class="skeleton-content-section"></div>
+                <div class="skeleton-page-meta"></div>
                 <div class="skeleton-content-section"></div>
+                <div class="skeleton-page-meta"></div>
+                <div class="skeleton-content-section"></div>
+                <div class="skeleton-card">
+                    <div class="skeleton-im"></div>
+                    <div class="skeleton-card-title"></div>
+                    <div class="skeleton-page-header"></div>
+                </div>
             </div>
+            <div class="skeleton-sidebar"></div>
         </div>
         <div class="skeleton-footer"></div>
     </div>
