@@ -218,11 +218,10 @@ body.dark-theme {
 .skeleton-container {
     position: absolute;
     top: 70px;
-    height: calc(100vh - 165px);
+    height: calc(100vh - 140px);
     width: 100%;
     background: var(--skeleton-bg);
     border-radius: 30px;
-    top: 0;
 }
 
 .skeleton-bottom-nav {
