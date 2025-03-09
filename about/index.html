@@ -5,192 +5,417 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us - Mental Health Website</title>
     <style>
+        :root {
+            --primary-color: #1e88e5;
+            --background-light: #f7f9fb;
+            --background-white: #ffffff;
+            --text-color: #333333;
+            --border-color: #e0e0e0;
+            --secondary-color: #64b5f6;
+            --header-color: #0d47a1;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: var(--background-light);
+            color: var(--text-color);
         }
-        .container {
-            width: 80%;
-            margin: auto;
-            overflow: hidden;
+        
+        .page-wrapper {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-        header {
-            background: #333;
-            color: #fff;
-            padding-top: 30px;
-            min-height: 70px;
-            border-bottom: #77aaff 3px solid;
+        
+        .top-navigation {
+            background-color: var(--background-white);
+            padding: 10px 40px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
         }
-        header h1 {
-            text-align: center;
-            margin: 0;
-            font-size: 36px;
+        
+        .breadcrumbs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
         }
-        .content {
-            padding: 20px;
-            background: #fff;
-            margin-top: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        .content h2 {
-            color: #333;
-        }
-        .content p {
-            font-size: 18px;
-        }
-        .table-of-contents {
-            background: #f4f4f4;
-            padding: 15px;
-            border-left: 3px solid #77aaff;
-            margin: 20px 0;
-        }
-        .table-of-contents ul {
-            list-style-type: none;
-            padding: 0;
-        }
-        .table-of-contents ul li {
-            margin: 10px 0;
-        }
-        .table-of-contents ul li a {
+        
+        .breadcrumbs a {
             text-decoration: none;
-            color: #333;
+            color: var(--text-color);
         }
+        
+        .breadcrumbs a.active {
+            color: var(--primary-color);
+            font-weight: 500;
+        }
+        
+        .main-content {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .content-area {
+            flex: 1;
+            max-width: 800px;
+        }
+        
+        .sidebar {
+            width: 280px;
+            margin-left: 40px;
+            border-left: 1px solid var(--border-color);
+            padding-left: 30px;
+        }
+        
+        .page-header {
+            margin-bottom: 20px;
+        }
+        
+        .page-meta {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+        
+        h2 {
+            font-size: 1.75rem;
+            margin: 40px 0 20px;
+            font-weight: 600;
+        }
+        
+        h3 {
+            font-size: 1.4rem;
+            margin: 30px 0 15px;
+            font-weight: 600;
+        }
+        
+        p {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        
+        .content-section {
+            margin-bottom: 40px;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 30px;
+        }
+        
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-nav {
+            list-style-type: none;
+        }
+        
+        .sidebar-nav li {
+            margin-bottom: 15px;
+        }
+        
+        .sidebar-nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        
+        .sidebar-nav a:hover {
+            color: var(--primary-color);
+        }
+        
+        .numbered-item {
+            display: flex;
+            margin-bottom: 15px;
+            align-items: baseline;
+        }
+        
+        .number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 24px;
+            margin-right: 10px;
+            color: var(--text-color);
+        }
+        
         .team-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin: 20px 0 30px;
+            background-color: var(--background-white);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
         }
+        
         .team-table th, .team-table td {
-            padding: 10px;
-            border: 1px solid #ddd;
+            padding: 12px 15px;
             text-align: left;
+            border-bottom: 1px solid var(--border-color);
         }
+        
         .team-table th {
-            background-color: #f4f4f4;
+            background-color: #f5f7f9;
+            font-weight: 600;
         }
+        
+        .team-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .team-table a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .team-table a:hover {
+            text-decoration: underline;
+        }
+        
         .code-block {
-            background: #f4f4f4;
-            padding: 10px;
-            border-left: 3px solid #77aaff;
+            background: #f5f7f9;
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 3px solid var(--primary-color);
             margin: 20px 0;
-            font-family: monospace;
+            font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+            font-size: 14px;
+            line-height: 1.5;
             overflow-x: auto;
         }
-        footer {
-            background: #333;
-            color: #fff;
+        
+        .edit-page {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background-color: var(--background-white);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            text-decoration: none;
+            color: var(--text-color);
+            margin-bottom: 30px;
+            width: fit-content;
+        }
+        
+        .edit-page svg {
+            margin-right: 8px;
+        }
+        
+        .footer {
+            margin-top: auto;
+            background-color: var(--background-white);
+            padding: 20px 40px;
+            border-top: 1px solid var(--border-color);
             text-align: center;
-            padding: 10px;
-            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Icon for sidebar items */
+        .icon {
+            display: inline-flex;
+            width: 18px;
+            height: 18px;
+            margin-right: 8px;
+            color: #64748b;
         }
     </style>
 </head>
 <body>
-    <header>
-        <h1>About Us</h1>
-    </header>
-    <div class="container">
-        <div class="content">
-            <div class="table-of-contents">
-                <h2>Table of Contents</h2>
-                <ul>
-                    <li><a href="#about-site">About the Site</a></li>
-                    <li><a href="#our-mission">Our Mission</a></li>
-                    <li><a href="#our-team">Our Team</a></li>
-                    <li><a href="#usage">Usage of Mental Health Website</a></li>
-                    <li><a href="#build-your-mental-health">Build Your Mental Health</a></li>
-                </ul>
+    <div class="page-wrapper">
+        <nav class="top-navigation">
+            <div class="breadcrumbs">
+                <a href="/">HOME</a>
+                <span>/</span>
+                <a href="/about" class="active">ABOUT</a>
             </div>
-
-            <h2 id="about-site">About the Site</h2>
-            <p>Welcome to our Mental Health Website, a public, open-source resource dedicated to providing support and resources for mental health awareness. Our platform is maintained by a small core team and supported by contributions from community members worldwide.</p>
-
-            <h2 id="our-mission">Our Mission</h2>
-            <p>Our mission is to improve the user experience for visitors, grow and empower our community of contributors, and provide a comprehensive portal to mental health resources. We aim to evolve continuously and offer a unique, non-typical product website experience.</p>
-
-            <h2 id="our-team">Our Team</h2>
-            <table class="team-table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Role</th>
-                        <th>Social Media</th>
-                        <th>Contact</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>John Doe</td>
-                        <td>Lead Developer</td>
-                        <td><a href="https://twitter.com/johndoe">Twitter</a></td>
-                        <td>john.doe@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>Jane Smith</td>
-                        <td>UI/UX Designer</td>
-                        <td><a href="https://linkedin.com/in/janesmith">LinkedIn</a></td>
-                        <td>jane.smith@example.com</td>
-                    </tr>
-                    <tr>
-                        <td>Alice Johnson</td>
-                        <td>Data Scientist</td>
-                        <td><a href="https://github.com/alicej">GitHub</a></td>
-                        <td>alice.j@example.com</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <h2 id="usage">Usage of Mental Health Website</h2>
-            <p>Our website provides various tools and resources to help you monitor and improve your mental health. Here are some key features:</p>
-            <ul>
-                <li>Real-time emotion detection using facial analysis.</li>
-                <li>Mental health tracking with sensor data integration.</li>
-                <li>Personalized advice based on your emotional state.</li>
-                <li>Community support and resources for mental health awareness.</li>
-            </ul>
-
-            <h2 id="build-your-mental-health">Build Your Mental Health</h2>
-            <p>To help you get started with building your mental health, here is a simple code snippet that you can use to integrate emotion detection into your own projects:</p>
-            <div class="code-block">
-                <pre><code>
-// face-analysis.js
+        </nav>
+        
+        <div class="main-content">
+            <div class="content-area">
+                <div class="page-meta">
+                    Page last updated: February 5, 2025
+                </div>
+                
+                <div class="page-header">
+                    <h1>About Mental Health Website</h1>
+                </div>
+                
+                <div class="content-section">
+                    <p>Mental Health Website is a public, open-source resource for the mental health community that anyone can contribute to. We have a small core team dedicated to maintaining and developing the site with contributions from thousands of community members across the globe.</p>
+                    
+                    <p><strong>Nobody from Mental Health Website will ever contact you. Do not respond.</strong></p>
+                </div>
+                
+                <div class="content-section">
+                    <h2 id="a-note-on-mental-health">A note on mental health</h2>
+                    
+                    <p>It's common for people to confuse terms within the mental health landscape, which can lead to poor mental models about how mental health works. Here's a quick explainer to clear things up:</p>
+                    
+                    <h3 id="mental-health-basics">Mental Health Basics</h3>
+                    
+                    <p>Mental health is a public concern, a personal journey, and an open-source collaborative effort -- operated, governed, managed, and owned by a global community of tens of thousands of professionals, researchers, supporters, and users.</p>
+                    
+                    <p><a href="/learn-more">More about Mental Health</a></p>
+                </div>
+                
+                <div class="content-section">
+                    <h2 id="our-team">Our Team</h2>
+                    <table class="team-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Role</th>
+                                <th>Social Media</th>
+                                <th>Contact</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>John Doe</td>
+                                <td>Lead Developer</td>
+                                <td><a href="https://twitter.com/johndoe">Twitter</a></td>
+                                <td>john.doe@example.com</td>
+                            </tr>
+                            <tr>
+                                <td>Jane Smith</td>
+                                <td>UI/UX Designer</td>
+                                <td><a href="https://linkedin.com/in/janesmith">LinkedIn</a></td>
+                                <td>jane.smith@example.com</td>
+                            </tr>
+                            <tr>
+                                <td>Alice Johnson</td>
+                                <td>Data Scientist</td>
+                                <td><a href="https://github.com/alicej">GitHub</a></td>
+                                <td>alice.j@example.com</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="content-section">
+                    <h2 id="features">Features</h2>
+                    <p>Our website provides various tools and resources to help you monitor and improve your mental health:</p>
+                    <ul>
+                        <li>Real-time emotion detection using facial analysis</li>
+                        <li>Mental health tracking with sensor data integration</li>
+                        <li>Personalized advice based on your emotional state</li>
+                        <li>Community support and resources for mental health awareness</li>
+                    </ul>
+                </div>
+                
+                <div class="content-section">
+                    <h2 id="code-examples">Code Examples</h2>
+                    <p>Here is a simple code snippet from our face-analysis.js that you can use to integrate emotion detection into your own projects:</p>
+                    <div class="code-block">
+                        <pre><code>// face-analysis.js
 const videoElement = document.getElementById('video');
 const canvasElement = document.getElementById('canvas');
 const canvasCtx = canvasElement.getContext('2d');
 let lastFaceID = null;
 
-// Fungsi hash sederhana untuk generate FaceID
+// Simple hash function to generate FaceID
 function djb2Hash(str) {
     let hash = 5381;
     for (let i = 0; i < str.length; i++) {
         hash = (hash * 33) ^ str.charCodeAt(i);
     }
-    return hash >>> 0; // Konversi ke unsigned 32-bit integer
+    return hash >>> 0; // Convert to unsigned 32-bit integer
 }
 
-// Fungsi untuk mengubah landmark wajah menjadi hash unik
+// Function to convert face landmarks to unique hash
 function generateFaceID(landmarks) {
-    // Normalisasi koordinat landmark dengan presisi 4 digit desimal
+    // Normalize landmark coordinates with 4 decimal precision
     let hashString = landmarks.map(lm =>
         lm.x.toFixed(4) +
         lm.y.toFixed(4) +
         lm.z.toFixed(4)
     ).join('');
 
-    return djb2Hash(hashString).toString(16); // Konversi ke hexadecimal
-}
-                </code></pre>
+    return djb2Hash(hashString).toString(16); // Convert to hexadecimal
+}</code></pre>
+                    </div>
+                </div>
+                
+                <a href="https://github.com/mental-health-website/edit" class="edit-page">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 1.27a11 11 0 00-7.81 18.73A11 11 0 1012 1.27z"/>
+                        <path d="M12 15a3 3 0 100-6 3 3 0 000 6z"/>
+                    </svg>
+                    Edit page
+                </a>
             </div>
-            <p>You can copy and paste this code into your project to start detecting emotions and generating unique FaceIDs for users.</p>
+            
+            <div class="sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">ON THIS PAGE</h3>
+                    <ul class="sidebar-nav">
+                        <li><a href="#a-note-on-mental-health">A note on mental health</a></li>
+                        <li><a href="#mental-health-basics">Mental Health Basics</a></li>
+                        <li><a href="#our-team">Our Team</a></li>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#code-examples">Code Examples</a></li>
+                    </ul>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Our mission</h3>
+                    <div class="numbered-list">
+                        <div class="numbered-item">
+                            <span class="number">1.</span>
+                            <span>Improve user experience for mental health website visitors</span>
+                        </div>
+                        <div class="numbered-item">
+                            <span class="number">2.</span>
+                            <span>Grow, strengthen, and empower our community of contributors</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">Core principles</h3>
+                    <div class="numbered-list">
+                        <div class="numbered-item">
+                            <span class="number">1.</span>
+                            <span>mentalhealthwebsite.org is a portal to mental health</span>
+                        </div>
+                        <div class="numbered-item">
+                            <span class="number">2.</span>
+                            <span>mentalhealthwebsite.org is always evolving</span>
+                        </div>
+                        <div class="numbered-item">
+                            <span class="number">3.</span>
+                            <span>mentalhealthwebsite.org is not a typical product website</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        
+        <footer class="footer">
+            <p>&copy; 2025 Mental Health Website. All rights reserved.</p>
+        </footer>
     </div>
-    <footer>
-        <p>&copy; 2025 Mental Health Website. All rights reserved.</p>
-    </footer>
 </body>
 </html>
