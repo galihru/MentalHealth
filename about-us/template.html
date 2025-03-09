@@ -55,6 +55,8 @@
             --border-color: #e0e0e0;
             --secondary-color: #3d729c;
             --header-color: #0d47a1;
+            --skeleton-color: #e0e0e0;
+            --skeleton-animation: skeleton-loading 1.5s infinite;
         }
 
         * {
@@ -429,7 +431,109 @@
 .logos {
     margin: 0;
 }
+@keyframes skeleton-loading {
+    0% {
+        background-position: 200% 0;
+    }
+    100% {
+        background-position: -200% 0;
+    }
+}
 
+.skeleton-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1000;
+    background-color: var(--background-light);
+    padding: 20px;
+}
+
+.skeleton-header {
+    height: 70px;
+    background-color: var(--skeleton-color);
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+    background-size: 200% 100%;
+    animation: var(--skeleton-animation);
+}
+
+.skeleton-breadcrumbs {
+    height: 20px;
+    width: 200px;
+    background-color: var(--skeleton-color);
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+    background-size: 200% 100%;
+    animation: var(--skeleton-animation);
+}
+
+.skeleton-main-content {
+    display: flex;
+    gap: 20px;
+}
+
+.skeleton-sidebar {
+    width: 250px;
+    height: 400px;
+    background-color: var(--skeleton-color);
+    border-radius: 8px;
+    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+    background-size: 200% 100%;
+    animation: var(--skeleton-animation);
+}
+
+.skeleton-content-area {
+    flex: 1;
+}
+
+.skeleton-page-header {
+    height: 40px;
+    width: 300px;
+    background-color: var(--skeleton-color);
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+    background-size: 200% 100%;
+    animation: var(--skeleton-animation);
+}
+
+.skeleton-page-meta {
+    height: 20px;
+    width: 100%;
+    background-color: var(--skeleton-color);
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+    background-size: 200% 100%;
+    animation: var(--skeleton-animation);
+}
+
+.skeleton-content-section {
+    height: 100px;
+    width: 100%;
+    background-color: var(--skeleton-color);
+    margin-bottom: 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+    background-size: 200% 100%;
+    animation: var(--skeleton-animation);
+}
+
+.skeleton-footer {
+    height: 60px;
+    width: 100%;
+    background-color: var(--skeleton-color);
+    margin-top: 20px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+    background-size: 200% 100%;
+    animation: var(--skeleton-animation);
+}
     </style>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
@@ -459,6 +563,21 @@
 </head>
 
 <body>
+    <div class="skeleton-wrapper">
+        <div class="skeleton-header"></div>
+        <div class="skeleton-breadcrumbs"></div>
+        <div class="skeleton-main-content">
+            <div class="skeleton-sidebar"></div>
+            <div class="skeleton-content-area">
+                <div class="skeleton-page-header"></div>
+                <div class="skeleton-page-meta"></div>
+                <div class="skeleton-content-section"></div>
+                <div class="skeleton-content-section"></div>
+                <div class="skeleton-content-section"></div>
+            </div>
+        </div>
+        <div class="skeleton-footer"></div>
+    </div>
     <header aria-label="Main Header">
         <div class="headco">
             <h1 class="logos">Mental Health</h1>
