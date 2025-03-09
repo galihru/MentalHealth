@@ -674,15 +674,15 @@ function calculateNeutral(landmarks) {
                     <h3>1. Configuration and Initialization</h3>
                     <p>This section sets up the WiFi connection, GitHub settings for data storage, and sensor initialization.</p>
                     <div class="code-block">
-                        <pre><code>#include <WiFi.h>
-#include <HTTPClient.h>
-#include <ArduinoJson.h>
-#include <Wire.h>
+                        <pre><code>#include "WiFi.h"
+#include "HTTPClient.h"
+#include "ArduinoJson.h"
+#include "Wire.h"
 #include "MAX30105.h"
 #include "heartRate.h"
-#include <BH1750.h>
-#include <Base64.h>
-#include <time.h>
+#include "BH1750.h"
+#include "Base64.h"
+#include "time.h"
 
 // WiFi Configuration
 const char* ssid = "Brickhouse 1";
