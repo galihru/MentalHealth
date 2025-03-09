@@ -345,15 +345,16 @@ function djb2Hash(str) {
 }</code></pre>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
-            \text{hash} = 5381 \\
-            \text{for each character in string:} \\
-            \text{hash} = (\text{hash} \times 33) \oplus \text{charCodeAt(i)}
+            h_0 = 5381 \\
+            h_i = ((h_{i-1} \times 33) \oplus c_i) \mod 2^{32}, \quad \text{for } i = 1,2,\ldots,n
         \]</p>
         <p><strong>Explanation:</strong></p>
         <ul>
-            <li><code>hash = 5381</code>: The initial value of the hash.</li>
-            <li><code>hash = (hash * 33) ^ str.charCodeAt(i)</code>: For each character in the string, the hash is updated by multiplying it by 33 and then performing a bitwise XOR with the character's ASCII code.</li>
-            <li><code>hash >>> 0</code>: Ensures the hash is a positive 32-bit integer.</li>
+            <li>\(h_0 = 5381\): Initial hash value</li>
+            <li>\(h_i\): Hash value after processing the \(i\)-th character</li>
+            <li>\(c_i\): ASCII/Unicode value of the \(i\)-th character (obtained using <code>charCodeAt(i)</code>)</li>
+            <li>\(\oplus\): Bitwise XOR operation</li>
+            <li>\(\mod 2^{32}\): Conversion to unsigned 32-bit integer (equivalent to <code>>>> 0</code> in JavaScript)</li>
         </ul>
     </div>
 
@@ -374,14 +375,16 @@ function generateFaceID(landmarks) {
 }</code></pre>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
-            \text{hashString} = \text{landmarks.map}(lm \rightarrow \text{lm.x.toFixed(4)} + \text{lm.y.toFixed(4)} + \text{lm.z.toFixed(4)}) \\
-            \text{FaceID} = \text{djb2Hash(hashString).toString(16)}
+            S = \text{concatenate}_{j=1}^{n} \left( \text{round}(L_j.x, 4) \cdot \text{round}(L_j.y, 4) \cdot \text{round}(L_j.z, 4) \right) \\
+            \text{FaceID} = \text{hex}(\text{djb2Hash}(S))
         \]</p>
         <p><strong>Explanation:</strong></p>
         <ul>
-            <li><code>landmarks.map</code>: Converts each landmark's coordinates into a string with 4 decimal places.</li>
-            <li><code>djb2Hash</code>: Generates a hash from the concatenated string.</li>
-            <li><code>toString(16)</code>: Converts the hash to a hexadecimal string for uniqueness.</li>
+            <li>\(L_j\): The \(j\)-th facial landmark containing \(x\), \(y\), and \(z\) coordinates</li>
+            <li>\(\text{round}(v, 4)\): Rounding the value \(v\) to 4 decimal places (equivalent to <code>toFixed(4)</code>)</li>
+            <li>\(S\): Concatenated string of all normalized landmark coordinates</li>
+            <li>\(\text{djb2Hash}(S)\): Application of the hash function to the string \(S\)</li>
+            <li>\(\text{hex}(v)\): Conversion of value \(v\) to hexadecimal representation (equivalent to <code>toString(16)</code>)</li>
         </ul>
     </div>
 
@@ -409,21 +412,33 @@ function analyzeEmotions(landmarks) {
 }</code></pre>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
-            \text{emotions} = \begin{cases}
-                \text{happy} = \text{calculateHappiness(landmarks)} \\
-                \text{sad} = \text{calculateSadness(landmarks)} \\
-                \text{angry} = \text{calculateAnger(landmarks)} \\
-                \text{surprised} = \text{calculateSurprise(landmarks)} \\
-                \text{neutral} = \text{calculateNeutral(landmarks)}
-            \end{cases} \\
-            \text{total} = \sum \text{emotions} \\
-            \text{emotions[key]} = \left( \frac{\text{emotions[key]}}{\text{total}} \times 100 \right) \text{toFixed(1)}
+            E_{raw} = \begin{pmatrix}
+                E_{happy} \\
+                E_{sad} \\
+                E_{angry} \\
+                E_{surprised} \\
+                E_{neutral}
+            \end{pmatrix} = \begin{pmatrix}
+                \text{calculateHappiness}(L) \\
+                \text{calculateSadness}(L) \\
+                \text{calculateAnger}(L) \\
+                \text{calculateSurprise}(L) \\
+                \text{calculateNeutral}(L)
+            \end{pmatrix}
+        \]</p>
+        <p>\[
+            \Sigma = \sum_{i \in \{emotions\}} E_{raw, i}
+        \]</p>
+        <p>\[
+            E_{normalized, i} = \text{round}\left(\frac{E_{raw, i}}{\Sigma} \times 100, 1\right) \quad \text{for each } i \in \{emotions\}
         \]</p>
         <p><strong>Explanation:</strong></p>
         <ul>
-            <li><code>calculateHappiness</code>, <code>calculateSadness</code>, etc.: These functions compute the intensity of each emotion.</li>
-            <li><code>Object.values(emotions).reduce</code>: Sums up all emotion values for normalization.</li>
-            <li><code>toFixed(1)</code>: Converts the result to a percentage with one decimal place.</li>
+            <li>\(L\): Set of facial landmarks</li>
+            <li>\(E_{raw}\): Vector of raw emotion intensity values</li>
+            <li>\(\Sigma\): Sum of all raw emotion intensities</li>
+            <li>\(E_{normalized, i}\): Normalized percentage for emotion \(i\) (rounded to 1 decimal place)</li>
+            <li>\(\text{round}(v, 1)\): Rounding the value \(v\) to 1 decimal place (equivalent to <code>toFixed(1)</code>)</li>
         </ul>
     </div>
 
@@ -454,15 +469,21 @@ function calculateHappiness(landmarks) {
 }</code></pre>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
-            \text{lipStretch} = \sqrt{(\text{lipCornerRight.x} - \text{lipCornerLeft.x})^2 + (\text{lipCornerRight.y} - \text{lipCornerLeft.y})^2} \\
-            \text{cheekRaiseLeft} = \text{eyeLeft.y} - \text{cheekLeft.y} \\
-            \text{happiness} = \min(1, \text{lipStretch} \times 2 + \text{cheekRaiseLeft} \times 3)
+            D_{lip} = \sqrt{(L_{291}.x - L_{61}.x)^2 + (L_{291}.y - L_{61}.y)^2}
+        \]</p>
+        <p>\[
+            D_{cheek} = L_{159}.y - L_{123}.y
+        \]</p>
+        <p>\[
+            H = \min(1, 2D_{lip} + 3D_{cheek})
         \]</p>
         <p><strong>Explanation:</strong></p>
         <ul>
-            <li><code>lipStretch</code>: Measures the distance between lip corners using the Pythagorean theorem.</li>
-            <li><code>cheekRaiseLeft</code>: Measures the vertical distance between the cheek and eye.</li>
-            <li><code>Math.min(1, ...)</code>: Ensures the result is between 0 and 1.</li>
+            <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
+            <li>\(D_{lip}\): Euclidean distance between left and right lip corners (Action Unit 12)</li>
+            <li>\(D_{cheek}\): Vertical distance between cheek and eye (Action Unit 6)</li>
+            <li>\(H\): Happiness intensity score, bounded to [0,1]</li>
+            <li>Coefficients 2 and 3 are weighting factors to balance the influence of each feature</li>
         </ul>
     </div>
 
@@ -486,14 +507,21 @@ function calculateSadness(landmarks) {
 }</code></pre>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
-            \text{lipDepression} = \text{lipBottom.y} - \text{lipCornerLeft.y} \\
-            \text{browRaise} = \frac{\text{browInnerLeft.y} + \text{browInnerRight.y}}{2} \\
-            \text{sadness} = \min(1, \text{lipDepression} \times 1.5 + \text{browRaise} \times 2)
+            D_{lip} = L_{17}.y - L_{61}.y
+        \]</p>
+        <p>\[
+            D_{brow} = \frac{L_{105}.y + L_{334}.y}{2}
+        \]</p>
+        <p>\[
+            S = \min(1, 1.5D_{lip} + 2D_{brow})
         \]</p>
         <p><strong>Explanation:</strong></p>
         <ul>
-            <li><code>lipDepression</code>: Measures the vertical distance between the lip corner and the bottom lip.</li>
-            <li><code>browRaise</code>: Measures the average height of the inner brows.</li>
+            <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
+            <li>\(D_{lip}\): Vertical distance between lip corner and bottom lip (Action Unit 15)</li>
+            <li>\(D_{brow}\): Average height of inner brows (Action Unit 1)</li>
+            <li>\(S\): Sadness intensity score, bounded to [0,1]</li>
+            <li>Coefficients 1.5 and 2 are weighting factors to balance the influence of each feature</li>
         </ul>
     </div>
 
@@ -517,14 +545,21 @@ function calculateAnger(landmarks) {
 }</code></pre>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
-            \text{browLowerLeft} = \text{browInnerLeft.y} - \text{browOuterLeft.y} \\
-            \text{lipCompression} = \text{lipBottom.y} - \text{lipTop.y} \\
-            \text{anger} = \min(1, \text{browLowerLeft} \times 2 + \text{lipCompression} \times 1.2)
+            D_{brow} = L_{105}.y - L_{46}.y
+        \]</p>
+        <p>\[
+            D_{lip} = L_{17}.y - L_{0}.y
+        \]</p>
+        <p>\[
+            A = \min(1, 2D_{brow} + 1.2D_{lip})
         \]</p>
         <p><strong>Explanation:</strong></p>
         <ul>
-            <li><code>browLowerLeft</code>: Measures the vertical distance between the inner and outer brow.</li>
-            <li><code>lipCompression</code>: Measures the vertical distance between the top and bottom lip.</li>
+            <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
+            <li>\(D_{brow}\): Vertical distance between inner and outer brow (Action Unit 4)</li>
+            <li>\(D_{lip}\): Vertical distance between top and bottom lip (Action Unit 23)</li>
+            <li>\(A\): Anger intensity score, bounded to [0,1]</li>
+            <li>Coefficients 2 and 1.2 are weighting factors to balance the influence of each feature</li>
         </ul>
     </div>
 
@@ -548,14 +583,21 @@ function calculateSurprise(landmarks) {
 }</code></pre>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
-            \text{eyeOpenness} = \text{eyeLeft.y} - \text{eyelidLeft.y} \\
-            \text{jawDrop} = \text{chin.y} - \text{nose.y} \\
-            \text{surprise} = \min(1, \text{eyeOpenness} \times 2 + \text{jawDrop} \times 0.8)
+            D_{eye} = L_{145}.y - L_{159}.y
+        \]</p>
+        <p>\[
+            D_{jaw} = L_{152}.y - L_{4}.y
+        \]</p>
+        <p>\[
+            P = \min(1, 2D_{eye} + 0.8D_{jaw})
         \]</p>
         <p><strong>Explanation:</strong></p>
         <ul>
-            <li><code>eyeOpenness</code>: Measures the vertical distance between the eyelid and eye.</li>
-            <li><code>jawDrop</code>: Measures the vertical distance between the chin and nose.</li>
+            <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
+            <li>\(D_{eye}\): Vertical distance between eyelid and eye (Action Unit 5)</li>
+            <li>\(D_{jaw}\): Vertical distance between chin and nose (Action Unit 26)</li>
+            <li>\(P\): Surprise intensity score, bounded to [0,1]</li>
+            <li>Coefficients 2 and 0.8 are weighting factors to balance the influence of each feature</li>
         </ul>
     </div>
 
@@ -583,16 +625,22 @@ function calculateNeutral(landmarks) {
 }</code></pre>
         <p><strong>Mathematical Representation:</strong></p>
         <p>\[
-            \text{deviation} = \sum \sqrt{(\text{landmarks[i1].x} - \text{landmarks[i2].x})^2 + (\text{landmarks[i1].y} - \text{landmarks[i2].y})^2} \\
-            \text{neutral} = \max(0, 1 - \text{deviation} \times 2)
+            \delta = \sum_{(i,j) \in F} \sqrt{(L_i.x - L_j.x)^2 + (L_i.y - L_j.y)^2}
+        \]</p>
+        <p>where \(F = \{(152, 4), (61, 291), (105, 334)\}\) represents the set of feature pairs.</p>
+        <p>\[
+            N = \max(0, 1 - 2\delta)
         \]</p>
         <p><strong>Explanation:</strong></p>
         <ul>
-            <li><code>deviation</code>: Measures the total deviation from neutral positions using the Pythagorean theorem.</li>
-            <li><code>Math.max(0, 1 - deviation * 2)</code>: Ensures the result is between 0 and 1.</li>
+            <li>\(L_i\): Landmark at index \(i\) in the facial landmarks array</li>
+            <li>\(F\): Set of feature pairs used to measure facial symmetry and stability</li>
+            <li>\(\delta\): Total deviation from neutral positions, calculated as the sum of Euclidean distances between landmark pairs</li>
+            <li>\(N\): Neutral expression intensity, bounded to [0,1]</li>
+            <li>The coefficient 2 is a scaling factor to ensure appropriate range for the result</li>
         </ul>
     </div>
-</div>          
+</div>
                 <a href="https://github.com/mental-health-website/edit" class="edit-page">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M12 1.27a11 11 0 00-7.81 18.73A11 11 0 1012 1.27z"/>
