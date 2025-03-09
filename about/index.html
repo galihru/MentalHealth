@@ -70,13 +70,6 @@
         max-width: 800px;
     }
     
-    .sidebar {
-        width: 280px;
-        margin-left: 40px;
-        border-left: 1px solid var(--border-color);
-        padding-left: 30px;
-    }
-    
     .page-header {
         margin-bottom: 20px;
     }
@@ -112,51 +105,6 @@
     
     .content-section {
         margin-bottom: 40px;
-    }
-    
-    .sidebar-section {
-        margin-bottom: 30px;
-    }
-    
-    .sidebar-title {
-        font-size: 1.2rem;
-        font-weight: 600;
-        margin-bottom: 15px;
-    }
-    
-    .sidebar-nav {
-        list-style-type: none;
-    }
-    
-    .sidebar-nav li {
-        margin-bottom: 15px;
-    }
-    
-    .sidebar-nav a {
-        text-decoration: none;
-        color: var(--text-color);
-        display: flex;
-        align-items: center;
-        transition: color 0.2s;
-    }
-    
-    .sidebar-nav a:hover {
-        color: var(--primary-color);
-    }
-    
-    .numbered-item {
-        display: flex;
-        margin-bottom: 15px;
-        align-items: baseline;
-    }
-    
-    .number {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        min-width: 24px;
-        margin-right: 10px;
-        color: var(--text-color);
     }
     
     .team-table {
@@ -240,11 +188,43 @@
         margin-right: 8px;
         color: #64748b;
     }
-        .sidebar-nav li a:hover,
+        /* Sidebar Styling */
+.sidebar {
+    position: sticky;
+    top: 20px;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding-right: 15px;
+}
+
+.sidebar-nav {
+    list-style: none;
+    padding-left: 0;
+}
+
+.sidebar-nav li a {
+    display: block;
+    padding: 8px 12px;
+    border-left: 3px solid transparent;
+    color: #666;
+    transition: all 0.3s;
+    text-decoration: none;
+}
+
+.sidebar-nav li a:hover,
 .sidebar-nav li a.active {
     border-left-color: #2196F3;
     color: #2196F3;
     background: #f5f5f5;
+}
+
+/* Indentasi untuk hierarki heading */
+.sidebar-nav li.level-2 {
+    padding-left: 20px;
+}
+
+.sidebar-nav li.level-3 {
+    padding-left: 40px;
 }
     </style>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -1137,45 +1117,9 @@ float edaMovingAverage(float newVal) {
             <div class="sidebar">
                 <div class="sidebar-section">
                     <h3 class="sidebar-title">ON THIS PAGE</h3>
-                    <ul class="sidebar-nav">
-                        <li><a href="#a-note-on-mental-health">A Note on Mental Health</a></li>
-                        <li><a href="#mental-health-basics">Mental Health Basics</a></li>
-                        <li><a href="#our-team">Our Team</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#code-examples">Code Examples</a></li>
+                    <ul class="sidebar-nav" id="sidebar-nav">
+                        <!-- Daftar isi akan di-generate otomatis oleh JavaScript -->
                     </ul>
-                </div>
-                
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">Our Mission</h3>
-                    <div class="numbered-list">
-                        <div class="numbered-item">
-                            <span class="number">1.</span>
-                            <span>Improve user experience for mental health website visitors.</span>
-                        </div>
-                        <div class="numbered-item">
-                            <span class="number">2.</span>
-                            <span>Grow, strengthen, and empower our community of contributors.</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">Core Principles</h3>
-                    <div class="numbered-list">
-                        <div class="numbered-item">
-                            <span class="number">1.</span>
-                            <span>mentalhealthwebsite.org is a portal to mental health.</span>
-                        </div>
-                        <div class="numbered-item">
-                            <span class="number">2.</span>
-                            <span>mentalhealthwebsite.org is always evolving.</span>
-                        </div>
-                        <div class="numbered-item">
-                            <span class="number">3.</span>
-                            <span>mentalhealthwebsite.org is not a typical product website.</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1184,21 +1128,45 @@ float edaMovingAverage(float newVal) {
             <p>&copy; 2025 Mental Health Website. All rights reserved.</p>
         </footer>
             <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sections = document.querySelectorAll('.content-section h2, .content-section h3');
-    const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
-    
+                document.addEventListener('DOMContentLoaded', function () {
+    const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
+    const sidebarNav = document.getElementById('sidebar-nav');
+
+    // Fungsi untuk generate daftar isi
+    function generateTableOfContents() {
+        let tocHTML = '';
+
+        sections.forEach(section => {
+            const level = parseInt(section.tagName.replace('H', '')); // Ambil level heading (1, 2, 3)
+            const id = section.id || section.textContent.toLowerCase().replace(/ /g, '-'); // Buat ID jika belum ada
+            section.id = id; // Set ID ke heading
+
+            // Tambahkan class level untuk indentasi
+            const levelClass = `level-${level}`;
+
+            // Buat link untuk sidebar
+            tocHTML += `
+                <li class="${levelClass}">
+                    <a href="#${id}">${section.textContent}</a>
+                </li>
+            `;
+        });
+
+        sidebarNav.innerHTML = tocHTML; // Masukkan daftar isi ke sidebar
+    }
+
     // Fungsi untuk update active state
     function updateActiveSection() {
+        const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
         let currentSection = '';
-        
+
         sections.forEach(section => {
             const rect = section.getBoundingClientRect();
             if (rect.top <= 150 && rect.bottom >= 150) {
                 currentSection = '#' + section.id;
             }
         });
-        
+
         sidebarLinks.forEach(link => {
             link.classList.remove('active');
             if (link.getAttribute('href') === currentSection) {
@@ -1207,25 +1175,26 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Observer untuk scroll
-    window.addEventListener('scroll', updateActiveSection);
-    
     // Smooth scroll untuk sidebar
-    sidebarLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
+    sidebarNav.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') {
             e.preventDefault();
-            const target = document.querySelector(link.getAttribute('href'));
+            const target = document.querySelector(e.target.getAttribute('href'));
             window.scrollTo({
                 top: target.offsetTop - 100,
                 behavior: 'smooth'
             });
-        });
+        }
     });
 
-    // Initial check
-    updateActiveSection();
+    // Observer untuk scroll
+    window.addEventListener('scroll', updateActiveSection);
+
+    // Generate daftar isi saat halaman dimuat
+    generateTableOfContents();
+    updateActiveSection(); // Set active section awal
 });
-</script>
+            </script>
     </div>
 </body>
 </html>
