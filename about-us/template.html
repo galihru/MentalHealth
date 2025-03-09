@@ -1823,19 +1823,33 @@ void loop() {
             <p>&copy; 2025 Mental Health Website. All rights reserved.</p>
         </footer>
         <script>
-            window.addEventListener('load', function() {
-            // Hapus skeleton loading
-            const skeletonWrapper = document.querySelector(".skeleton-wrapper");
-            if (skeletonWrapper) {
-                skeletonWrapper.remove(); // atau skeletonWrapper.parentNode.removeChild(skeletonWrapper);
+            document.addEventListener("DOMContentLoaded", function () {
+            // Fungsi untuk mensimulasikan loading
+            function simulateContentLoading() {
+                return new Promise(resolve => {
+                    // Simulasikan delay loading (misalnya 2 detik)
+                    // Dalam kasus nyata, ini bisa menjadi fetch API atau loading resource lainnya
+                    setTimeout(() => {
+                        resolve();
+                    }, 20000000000000000000000000);
+                });
             }
-            
-            // Tampilkan konten asli
-            const pageWrapper = document.querySelector(".page-wrapper");
-            if (pageWrapper) {
-                pageWrapper.style.display = "block";
-            }
-        },2000000);
+
+            // Simulasikan proses loading
+            simulateContentLoading().then(() => {
+                // Hapus skeleton loading setelah konten selesai dimuat
+                const skeletonWrapper = document.querySelector(".skeleton-wrapper");
+                if (skeletonWrapper) {
+                    skeletonWrapper.remove();
+                }
+                
+                // Tampilkan konten asli
+                const pageWrapper = document.querySelector(".page-wrapper");
+                if (pageWrapper) {
+                    pageWrapper.style.display = "block";
+                }
+            });
+        });
     </script>
         <script>
            document.addEventListener('DOMContentLoaded', function () {
