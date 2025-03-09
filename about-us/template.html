@@ -479,7 +479,7 @@
 
 .skeleton-sidebar {
     width: 250px;
-    height: -webkit-fill-available;
+    height: auto;
     background-color: var(--skeleton-color);
     border-radius: 8px;
     background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
@@ -1574,7 +1574,7 @@ void loop() {
                     // Dalam kasus nyata, ini bisa menjadi fetch API atau loading resource lainnya
                     setTimeout(() => {
                         resolve();
-                    }, 2000000000);
+                    }, 2000);
                 });
             }
 
