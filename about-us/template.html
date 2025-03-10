@@ -2806,7 +2806,7 @@ M.P.H.
             // Buat link untuk sidebar
             tocHTML += `
                 <li class="${levelClass}">
-                    <a href="#${id}">${section.textContent}</a>
+                    <a href="#${id}" aria-label="Read more about ${id}">${section.textContent}</a>
                 </li>
             `;
         });
