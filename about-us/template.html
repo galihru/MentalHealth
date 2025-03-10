@@ -2121,9 +2121,6 @@ void loop() {
         // Buat hamburger icon
         const hamburgerIcon = document.createElement('div');
         hamburgerIcon.className = 'hamburger-icon';
-        hamburgerIcon.setAttribute('role', 'button');
-        hamburgerIcon.setAttribute('aria-label', 'Toggle Sidebar');
-        hamburgerIcon.setAttribute('aria-expanded', 'false');
         hamburgerIcon.innerHTML = `
             <span></span>
             <span></span>
@@ -2151,22 +2148,12 @@ void loop() {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
         const hamburgerContainer = document.querySelector('.hamburger-container');
-        const hamburgerIcon = document.querySelector('.hamburger-icon');
-
+        
         // Toggle class 'open' pada sidebar
         sidebar.classList.toggle('open');
 
         // Toggle class 'active' pada overlay
         overlay.classList.toggle('active');
-
-        // Update aria-expanded
-        const isExpanded = sidebar.classList.contains('open');
-        hamburgerIcon.setAttribute('aria-expanded', isExpanded);
-
-        // Fokus ke sidebar jika dibuka
-        if (isExpanded) {
-            sidebar.focus();
-        }
     }
     
     // Fungsi untuk generate ID unik dari teks heading
