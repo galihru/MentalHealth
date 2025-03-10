@@ -264,7 +264,7 @@
 /* Sidebar Styling */
 .sidebar {
     position: sticky;
-    top: 90px;
+    top: 70px;
     max-height: 100vh;
     overflow-y: auto;
     padding: 20px;
@@ -1171,15 +1171,15 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
             <h1 class="logos">Mental Health</h1>
         </div>
     </header>
-    <nav class="top-navigation" role="navigation" aria-label="Top Navigation">
-        <div class="breadcrumbs">
-            <a accesskey="m" href="https://4211421036.github.io/MentalHealth/">HOME</a>
-            <span aria-hidden="true">/</span>
-            <a accesskey="a" href="/about" class="active">ABOUT</a>
-        </div>
-    </nav>
     <div class="page-wrapper">
         <div role="main" class="main-content" id="main-content">
+            <nav class="top-navigation" role="navigation" aria-label="Top Navigation">
+                <div class="breadcrumbs">
+                    <a accesskey="m" href="https://4211421036.github.io/MentalHealth/">HOME</a>
+                    <span aria-hidden="true">/</span>
+                    <a accesskey="a" href="/about" class="active">ABOUT</a>
+                </div>
+            </nav>
             <div class="content-area">
                 <div class="page-meta">
                     Page last updated: February 5, 2025
@@ -1188,6 +1188,20 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                 <div class="page-header">
                     <h1>About Mental Health Website</h1>
                 </div>
+                <aside class="sidebar" role="complementary" aria-labelledby="sidebar-title">
+                <div class="thm">
+                    <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="theme-toggle">
+                        <i class="fas fa-moon" role="tooltip" title="Theme"></i>
+                    </button>
+                    <p role="text" aria-hidden="true">Theme</p>
+                </div
+                <h3 class="sidebar-title" id="sidebar-title">ON THIS PAGE</h3>
+                <div class="sidebar-section">
+                    <ul class="sidebar-nav" id="sidebar-nav" role="list">
+                        <!-- Daftar isi akan di-generate otomatis oleh JavaScript -->
+                    </ul>
+                </div>
+            </aside>
 
                 <div class="content-section" aria-labelledby="about-mental-health">
                     <h2  id="about-mental-health">Introdunce</h2>
@@ -2105,21 +2119,6 @@ void loop() {
                                 </ul>
                 </div>
             </div>
-
-            <aside class="sidebar" role="complementary" aria-labelledby="sidebar-title">
-                <div class="thm">
-                    <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="theme-toggle">
-                        <i class="fas fa-moon" role="tooltip" title="Theme"></i>
-                    </button>
-                    <p role="text" aria-hidden="true">Theme</p>
-                </div
-                <h3 class="sidebar-title" id="sidebar-title">ON THIS PAGE</h3>
-                <div class="sidebar-section">
-                    <ul class="sidebar-nav" id="sidebar-nav" role="list">
-                        <!-- Daftar isi akan di-generate otomatis oleh JavaScript -->
-                    </ul>
-                </div>
-            </aside>
         </div>
 
         <footer class="footer" role="contentinfo">
