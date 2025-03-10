@@ -994,7 +994,9 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
         [data-theme="dark"] .page-meta {
             color: #bbbbbb;
             }
-
+[data-theme="dark"] .hamburger-icon span {
+    background-color: #ffffff;
+}
 
     </style>
     <script type="text/javascript">
@@ -2121,6 +2123,112 @@ void loop() {
         <footer class="footer" role="contentinfo">
             <p role="text">&copy; 2025 Mental Health Website. All rights reserved.</p>
         </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    // Fungsi untuk memeriksa apakah perangkat adalah mobile
+    function isMobile() {
+        return window.innerWidth < 768; // Umumnya 768px adalah breakpoint untuk tablet/mobile
+    }
+    
+    // Fungsi untuk membuat tombol toggle
+    function createToggleButton() {
+        // Cek apakah tombol sudah ada untuk menghindari duplikasi
+        if (document.querySelector('.theme-toggle')) {
+            return;
+        }
+        
+        // Buat elemen button
+        const toggleButton = document.createElement('button');
+        toggleButton.setAttribute('role', 'button');
+        toggleButton.setAttribute('tabindex', '-1');
+        toggleButton.setAttribute('type', 'button');
+        toggleButton.setAttribute('name', 'theme');
+        toggleButton.setAttribute('class', 'theme-toggle');
+        toggleButton.setAttribute('onclick', 'toggleTheme()');
+        toggleButton.setAttribute('title', 'Toggle Theme');
+        toggleButton.setAttribute('aria-label', 'theme-toggle');
+        
+        // Buat ikon di dalam button
+        const icon = document.createElement('i');
+        icon.setAttribute('class', 'fas fa-moon');
+        icon.setAttribute('role', 'tooltip');
+        icon.setAttribute('title', 'Theme');
+        
+        // Tambahkan ikon ke button
+        toggleButton.appendChild(icon);
+        
+        // Temukan elemen dengan class headco
+        const headco = document.querySelector('.headco');
+        
+        // Jika headco ditemukan, tambahkan tombol setelahnya
+        if (headco) {
+            headco.insertAdjacentElement('afterend', toggleButton);
+        } else {
+            // Jika headco tidak ditemukan, tambahkan ke body sebagai fallback
+            document.body.appendChild(toggleButton);
+        }
+    }
+    
+    // Fungsi untuk menghapus tombol jika beralih ke mobile
+    function removeToggleButton() {
+        const toggleButton = document.querySelector('.theme-toggle');
+        if (toggleButton) {
+            toggleButton.remove();
+        }
+    }
+    
+    // Fungsi untuk menangani perubahan ukuran layar
+    function handleResize() {
+        if (!isMobile()) {
+            createToggleButton();
+        } else {
+            removeToggleButton();
+        }
+    }
+    
+    // Jalankan pertama kali saat halaman dimuat
+    handleResize();
+    
+    // Tambahkan event listener untuk menangani perubahan ukuran layar
+    window.addEventListener('resize', handleResize);
+    
+    // Pastikan fungsi toggleTheme tersedia secara global
+    window.toggleTheme = function() {
+        const body = document.body;
+        const themeToggleIcon = document.querySelector('.theme-toggle i');
+        
+        // Toggle data-theme attribute
+        if (body.getAttribute('data-theme') === 'dark') {
+            body.removeAttribute('data-theme');
+            themeToggleIcon.className = 'fas fa-moon';
+            themeToggleIcon.setAttribute('title', 'Switch to Dark Mode');
+            localStorage.setItem('theme', 'light');
+        } else {
+            body.setAttribute('data-theme', 'dark');
+            themeToggleIcon.className = 'fas fa-sun';
+            themeToggleIcon.setAttribute('title', 'Switch to Light Mode');
+            localStorage.setItem('theme', 'dark');
+        }
+    };
+    
+    // Terapkan tema yang disimpan
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    // Determine initial theme
+    const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'light');
+    
+    // Apply initial theme
+    if (initialTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        const icon = document.querySelector('.theme-toggle i');
+        if (icon) {
+            icon.className = 'fas fa-sun';
+            icon.setAttribute('title', 'Switch to Light Mode');
+        }
+    }
+});
+    </script>
     <script>
         function toggleTheme() {
     const body = document.body;
