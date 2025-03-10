@@ -2143,14 +2143,11 @@ void loop() {
         document.body.appendChild(overlay);
     }
     
-    // Fungsi untuk membuka/menutup sidebar
+    // Toggle sidebar
     function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebar-overlay');
-        const hamburgerContainer = document.querySelector('.hamburger-container');
-
-        // Toggle class 'active' pada overlay
-        overlay.classList.toggle('active');
+        sidebar.classList.toggle('active');
+        document.querySelector('.sidebar-overlay').classList.toggle('active');
+        document.body.classList.toggle('sidebar-open');
     }
     
     // Fungsi untuk generate ID unik dari teks heading
@@ -2172,7 +2169,7 @@ void loop() {
             const levelClass = `level-${level}`;
             // Buat link untuk sidebar
             tocHTML += `
-                <li role="listitem" class="${levelClass}" aria-labelledby="${id}">
+                <li class="${levelClass}">
                     <a href="#${id}">${section.textContent}</a>
                 </li>
             `;
