@@ -2824,9 +2824,9 @@ M.P.H.
                 const isMobile = window.innerWidth <= 768; // Breakpoint untuk mobile
 
                 if (isMobile) {
-                    document.body.style.overflow = 'auto'; // Disable scrolling
                     sidebar.classList.add('mobile');
                     document.body.classList.add('mobile-view');
+                    document.body.style.overflow = 'auto';
                 } else {
                     document.body.style.overflow = 'auto'; // Disable scrolling
                     sidebar.classList.remove('mobile');
