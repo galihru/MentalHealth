@@ -1076,9 +1076,9 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
     <div class="page-wrapper">
         <nav class="top-navigation" role="navigation" aria-label="Top Navigation">
             <div class="breadcrumbs">
-                <a href="https://4211421036.github.io/MentalHealth/">HOME</a>
+                <a accesskey="m" href="https://4211421036.github.io/MentalHealth/">HOME</a>
                 <span aria-hidden="true">/</span>
-                <a href="/about" class="active">ABOUT</a>
+                <a accesskey="a" href="/about" class="active">ABOUT</a>
             </div>
         </nav>
 
@@ -1126,7 +1126,7 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                                 <p class="card-description">
                                     A comprehensive mental health monitoring application using modern web technologies.
                                 </p>
-                                <a href="https://github.com/4211421036/MentalHealth/" class="card-link">Visit GitHub Mental Health</a>
+                                <a accesskey="c" href="https://github.com/4211421036/MentalHealth/" class="card-link">Visit GitHub Mental Health</a>
                             </div>
                         </div>
                     </div>
@@ -2116,8 +2116,9 @@ void loop() {
         const hamburgerContainer = document.createElement('div');
         hamburgerContainer.className = 'hamburger-container';
         hamburgerContainer.setAttribute('role', 'button');
-            hamburgerContainer.setAttribute('aria-label', 'Toggle Sidebar');
-            hamburgerContainer.setAttribute('aria-expanded', 'false');
+        hamburgerContainer.setAttribute('aria-label', 'Toggle Sidebar');
+        hamburgerContainer.setAttribute('aria-expanded', 'false');
+        hamburgerContainer.setAttribute('accesskey', 'h');
         
         // Buat hamburger icon
         const hamburgerIcon = document.createElement('div');
