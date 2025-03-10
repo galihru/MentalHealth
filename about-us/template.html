@@ -2115,9 +2115,6 @@ void loop() {
         // Buat container untuk hamburger icon
         const hamburgerContainer = document.createElement('div');
         hamburgerContainer.className = 'hamburger-container';
-        hamburgerContainer.setAttribute('role', 'button');
-        hamburgerContainer.setAttribute('aria-label', 'Toggle Sidebar');
-        hamburgerContainer.setAttribute('accesskey', 'h');
         
         // Buat hamburger icon
         const hamburgerIcon = document.createElement('div');
@@ -2127,13 +2124,6 @@ void loop() {
             <span></span>
             <span></span>
         `;
-     // Tambahkan event listener untuk hamburger icon
-        hamburgerContainer.addEventListener('click', toggleSidebar);
-        hamburgerContainer.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                toggleSidebar();
-            }
-        });
         
         // Tambahkan event listener untuk hamburger icon
         hamburgerIcon.addEventListener('click', toggleSidebar);
