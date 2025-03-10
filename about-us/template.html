@@ -2115,6 +2115,9 @@ void loop() {
         // Buat container untuk hamburger icon
         const hamburgerContainer = document.createElement('div');
         hamburgerContainer.className = 'hamburger-container';
+        hamburgerContainer.setAttribute('role', 'button');
+            hamburgerContainer.setAttribute('aria-label', 'Toggle Sidebar');
+            hamburgerContainer.setAttribute('aria-expanded', 'false');
         
         // Buat hamburger icon
         const hamburgerIcon = document.createElement('div');
@@ -2124,6 +2127,13 @@ void loop() {
             <span></span>
             <span></span>
         `;
+     // Tambahkan event listener untuk hamburger icon
+        hamburgerContainer.addEventListener('click', toggleSidebar);
+        hamburgerContainer.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                toggleSidebar();
+            }
+        });
         
         // Tambahkan event listener untuk hamburger icon
         hamburgerIcon.addEventListener('click', toggleSidebar);
@@ -2146,6 +2156,14 @@ void loop() {
         sidebar.classList.toggle('active');
         document.querySelector('.sidebar-overlay').classList.toggle('active');
         document.body.classList.toggle('sidebar-open');
+        // Update aria-expanded
+        const isExpanded = sidebar.classList.contains('open');
+        hamburgerContainer.setAttribute('aria-expanded', isExpanded);
+
+        // Fokus ke sidebar jika dibuka
+        if (isExpanded) {
+            sidebar.focus();
+        }
     }
     
     // Fungsi untuk generate ID unik dari teks heading
