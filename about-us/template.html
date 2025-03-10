@@ -2791,7 +2791,6 @@ M.P.H.
                     section.id = id; // Set ID ke heading
                     // Tambahkan class level untuk indentasi
                     const levelClass = `level-${level}`;
-                    document.body.style.overflow = 'auto';
                     // Buat link untuk sidebar
                     tocHTML += `
                 <li class="${levelClass}">
@@ -2829,9 +2828,9 @@ M.P.H.
                     document.body.classList.add('mobile-view');
                     document.body.style.overflow = 'auto';
                 } else {
-                    document.body.style.overflow = 'auto'; // Disable scrolling
                     sidebar.classList.remove('mobile');
                     sidebar.classList.remove('active');
+                    document.body.style.overflow = 'auto'; // Disable scrolling
                     document.body.classList.remove('mobile-view');
                     document.body.classList.remove('sidebar-open');
                     document.querySelector('.sidebar-overlay').classList.remove('active');
@@ -2848,6 +2847,7 @@ M.P.H.
                             top: target.offsetTop - 100,
                             behavior: 'smooth'
                         });
+                        document.body.style.overflow = 'auto';
 
                         // Tutup sidebar setelah klik pada mobile
                         if (window.innerWidth <= 768) {
