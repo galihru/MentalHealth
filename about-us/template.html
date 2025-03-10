@@ -2614,8 +2614,8 @@ M.P.H.
             const header = document.querySelector("header");
             if (header) {
                 header.style.display = "block";
+                document.body.style.overflow = 'scroll !important'; // Disable scrolling
             }
-            document.body.style.overflow = 'scroll!important'; // Disable scrolling
         });
     </script>
     <script>
@@ -2824,7 +2824,6 @@ M.P.H.
                 const isMobile = window.innerWidth <= 768; // Breakpoint untuk mobile
 
                 if (isMobile) {
-                    document.body.style.overflow = 'hidden!important'; // Disable scrolling
                     sidebar.classList.add('mobile');
                     document.body.classList.add('mobile-view');
                 } else {
