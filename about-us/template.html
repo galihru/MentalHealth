@@ -11,10 +11,12 @@
     <link rel="icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
     <link rel="preload" href="https://4211421036.github.io/MentalHealth/css/all.min.css" as="style">
     <link rel="apple-touch-icon" href="https://4211421036.github.io/g4lihru/987654567.png">
-    <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="all" onload='"all"!==media&&(media="none")'>
+    <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="all"
+        onload='"all"!==media&&(media="none")'>
     <link rel="dns-prefetch" href="https://4211421036.github.io/" />
     <link href="https://4211421036.github.io/MentalHealth/manifest.webmanifest" rel="manifest">
-    <meta name="description" content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta name="description"
+        content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta name="keywords" content="mental health, monitoring, health app, face analysis, emotion detection">
     <meta name="author" content="GALIH RIDHO UTOMO and Ana Maulida">
     <meta name="google-site-verification" content="OYdjPwgIjGMAbQd3CGwM_l20jLNRRp84mEl3kw06DMg" />
@@ -27,7 +29,8 @@
     <meta http-equiv="Expires" content="0">
     <meta name="color-scheme" content="dark light">
     <meta property="og:title" content="Mental Health">
-    <meta property="og:description" content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta property="og:description"
+        content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta property="og:image" content="https://4211421036.github.io/g4lihru/987654567.png">
     <meta property="og:url" content="https://4211421036.github.io/MentalHealth">
     <meta property="og:image:width" content="425">
@@ -45,7 +48,8 @@
     <meta name="twitter:image:alt" content="Mental Health">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Mental Health">
-    <meta name="twitter:description" content="A comprehensive mental health monitoring application using modern web technologies.">
+    <meta name="twitter:description"
+        content="A comprehensive mental health monitoring application using modern web technologies.">
     <meta name="twitter:image" content="https://4211421036.github.io/g4lihru/987654567.png">
     <style>
         :root {
@@ -113,6 +117,11 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
+            width: -webkit-fill-available;
+            justify-content: space-between;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            align-content: center;
         }
 
         .content-area {
@@ -120,6 +129,7 @@
             max-width: 800px;
             top: 40px;
             position: relative;
+            width: 70%;
         }
 
         .page-header {
@@ -174,27 +184,28 @@
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
+
         .thm {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-.theme-toggle {
-    background: none;
-    border: none;
-    color: var(--primary-light);
-    font-size: 20px;
-    line-height: 1.6;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 12px;
-    transition: background-color 0.3s;
-}
+        .theme-toggle {
+            background: none;
+            border: none;
+            color: var(--primary-light);
+            font-size: 20px;
+            line-height: 1.6;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 12px;
+            transition: background-color 0.3s;
+        }
 
-.theme-toggle:hover {
-    background: var(--text-secondary-light);
-}
+        .theme-toggle:hover {
+            background: var(--text-secondary-light);
+        }
 
         .team-table th {
             background-color: #f5f7f9;
@@ -261,746 +272,838 @@
             margin-right: 8px;
             color: #64748b;
         }
-/* Sidebar Styling */
-.sidebar {
-    position: sticky;
-    top: 70px;
-    max-height: 100vh;
-    overflow-y: auto;
-    padding: 20px;
-    background-color: #f9f9f9; /* Warna background sidebar */
-    border-radius: 8px; /* Sudut melengkung */
-    margin-left: 20px; /* Jarak dari konten utama */
-}
 
-.sidebar-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 16px;
-    padding-left: 12px; /* Jarak dari border */
-}
+        /* Sidebar Styling */
+        .sidebar {
+            position: sticky;
+            top: 70px;
+            max-height: 100vh;
+            padding: 20px;
+            background-color: #f9f9f9;
+            /* Warna background sidebar */
+            border-radius: 8px;
+            /* Sudut melengkung */
+            margin-left: 20px;
+            /* Jarak dari konten utama */
+            overflow-y: auto;
+            /* Aktifkan scrolling vertikal */
+            scrollbar-width: none;
+            /* Firefox: Sembunyikan scrollbar */
+            -webkit-scrollbar-width: none;
+            /* Fallback for Chrome, Safari, and other WebKit browsers */
+            -ms-overflow-style: none;
+            /* IE/Edge: Sembunyikan scrollbar */
+            transition: all 0.3s ease;
+            /* Smooth transition untuk efek hover */
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-in-out;
+        }
 
-.sidebar-nav {
-    list-style: none;
-    padding-left: 0;
-    margin: 0;
-}
+        /* Sembunyikan scrollbar untuk Chrome, Safari, dan Opera */
+        .sidebar::-webkit-scrollbar {
+            width: 0;
+            background: transparent;
+            display: none;
+        }
 
-.sidebar-nav li a {
-    display: block;
-    padding: 10px 12px;
-    color: #555;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    border-radius: 4px; /* Sudut melengkung untuk link */
-    margin: 4px 0; /* Jarak antar link */
-}
+        /* Tampilkan scrollbar ketika hover (untuk Firefox) */
+        .sidebar:hover {
+            scrollbar-width: thin;
+            /* Tampilkan scrollbar tipis di Firefox */
+        }
 
-.sidebar-nav li a:hover {
-    background-color: #e3f2fd; /* Warna background saat hover */
-    color: #1976d2; /* Warna teks saat hover */
-}
+        /* Tampilkan scrollbar ketika hover (untuk Chrome, Safari, dan Opera) */
+        .sidebar:hover::-webkit-scrollbar {
+            width: 5px;
+            /* Lebar scrollbar */
+            display: block;
+        }
 
-.sidebar-nav li a.active {
-    background-color: #1976d2; /* Warna background saat aktif */
-    color: #fff; /* Warna teks saat aktif */
-    font-weight: 500;
-}
+        .sidebar:hover::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+            /* Warna track scrollbar */
+            border-radius: 10px;
+        }
 
-/* Indentasi untuk hierarki heading */
-.sidebar-nav li.level-2 {
-    padding-left: 20px;
-}
+        .sidebar:hover::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.2);
+            /* Warna thumb scrollbar */
+            border-radius: 10px;
+        }
 
-.sidebar-nav li.level-3 {
-    padding-left: 40px;
-}
+        /* Hover state untuk thumb scrollbar */
+        .sidebar:hover::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.3);
+            /* Warna thumb scrollbar saat hover */
+        }
 
-/* Garis vertikal untuk hierarki */
-.sidebar-nav li.level-2::before,
-.sidebar-nav li.level-3::before {
-    content: '';
-    position: absolute;
-    left: 12px;
-    width: 2px;
-    height: 100%;
-    background-color: #e0e0e0; /* Warna garis vertikal */
-}
+        .sidebar-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 16px;
+            padding-left: 12px;
+            /* Jarak dari border */
+        }
 
-.sidebar-nav li.level-2::before {
-    top: 0;
-    height: 100%;
-}
+        .sidebar-nav {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+        }
 
-.sidebar-nav li.level-3::before {
-    top: 0;
-    height: 100%;
-}
+        .sidebar-nav li a {
+            display: block;
+            padding: 10px 12px;
+            color: #555;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border-radius: 4px;
+            /* Sudut melengkung untuk link */
+            margin: 4px 0;
+            /* Jarak antar link */
+        }
+
+        .sidebar-nav li a:hover {
+            background-color: #e3f2fd;
+            /* Warna background saat hover */
+            color: #1976d2;
+            /* Warna teks saat hover */
+        }
+
+        .sidebar-nav li a.active {
+            background-color: #1976d2;
+            /* Warna background saat aktif */
+            color: #fff;
+            /* Warna teks saat aktif */
+            font-weight: 500;
+        }
+
+        /* Indentasi untuk hierarki heading */
+        .sidebar-nav li.level-2 {
+            padding-left: 20px;
+        }
+
+        .sidebar-nav li.level-3 {
+            padding-left: 40px;
+        }
+
+        /* Garis vertikal untuk hierarki */
+        .sidebar-nav li.level-2::before,
+        .sidebar-nav li.level-3::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            width: 2px;
+            height: 100%;
+            background-color: #e0e0e0;
+            /* Warna garis vertikal */
+        }
+
+        .sidebar-nav li.level-2::before {
+            top: 0;
+            height: 100%;
+        }
+
+        .sidebar-nav li.level-3::before {
+            top: 0;
+            height: 100%;
+        }
+
         /* Card Container */
-.card-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: flex-start;
-    padding: 20px;
-}
+        .card-container {
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            padding: 20px;
+        }
 
-/* Card Styling */
-.card {
-    width: 400px;
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-}
+        /* Card Styling */
+        .card {
+            width: 400px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
 
-/* Hover Effect */
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-}
+        /* Hover Effect */
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        }
 
-/* Card Icon */
-.card-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background-color: #f9f9f9;
-}
+        /* Card Icon */
+        .card-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
 
-.card-icon svg {
-    width: 50px;
-    height: 50px;
-    fill: #333; /* Warna logo GitHub */
-}
+        .card-icon svg {
+            width: 50px;
+            height: 50px;
+            fill: #333;
+            /* Warna logo GitHub */
+        }
 
-/* Card Content */
-.card-content {
-    padding: 20px;
-    text-align: center;
-}
+        /* Card Content */
+        .card-content {
+            padding: 20px;
+            text-align: center;
+        }
 
-.card-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 10px;
-}
+        .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
 
-.card-description {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 20px;
-}
+        .card-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 20px;
+        }
 
-/* Card Link */
-.card-link {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #1976d2;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 25px;
-    position: relative;
-    transition: background-color 0.3s ease;
-}
+        /* Card Link */
+        .card-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #1976d2;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            position: relative;
+            transition: background-color 0.3s ease;
+        }
 
-.card-link:hover {
-    background-color: #1565c0;
-}
+        .card-link:hover {
+            background-color: #1565c0;
+        }
 
-/* Animasi Tambahan */
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(25, 118, 210, 0.1);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
+        /* Animasi Tambahan */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(25, 118, 210, 0.1);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
 
-.card:hover::before {
-    opacity: 1;
-}
+        .card:hover::before {
+            opacity: 1;
+        }
+
         header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 70px;
-    background: var(--nav-bg);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 20px;
-    z-index: 2;
-}
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: var(--nav-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 20px;
+            z-index: 2;
+        }
 
-.headco {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: row;
-}
-.logos {
-    margin: 0;
-}
-@keyframes skeleton-loading {
-    0% {
-        background-position: 200% 0;
-    }
-    100% {
-        background-position: -200% 0;
-    }
-}
+        .headco {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-direction: row;
+        }
 
-.skeleton-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1000;
-    background-color: var(--background-light);
-    padding: 20px 10px;
-}
+        .logos {
+            margin: 0;
+        }
 
-.skeleton-header {
-    height: 45px;
-    background-color: var(--skeleton-color);
-    margin-bottom: 20px;
-    border-radius: 4px;
-    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
-    background-size: 200% 100%;
-    animation: var(--skeleton-animation);
-}
+        @keyframes skeleton-loading {
+            0% {
+                background-position: 200% 0;
+            }
 
-.skeleton-breadcrumbs {
-    height: 20px;
-    width: 200px;
-    background-color: var(--skeleton-color);
-    margin-bottom: 20px;
-    border-radius: 4px;
-    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
-    background-size: 200% 100%;
-    animation: var(--skeleton-animation);
-}
+            100% {
+                background-position: -200% 0;
+            }
+        }
 
-.skeleton-main-content {
-    display: flex;
-    gap: 20px;
-}
+        .skeleton-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1000;
+            background-color: var(--background-light);
+            padding: 20px 10px;
+        }
 
-.skeleton-sidebar {
-    width: 250px;
-    height: auto;
-    background-color: var(--skeleton-color);
-    border-radius: 8px;
-    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
-    background-size: 200% 100%;
-    animation: var(--skeleton-animation);
-}
+        .skeleton-header {
+            height: 45px;
+            background-color: var(--skeleton-color);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+            background-size: 200% 100%;
+            animation: var(--skeleton-animation);
+        }
 
-.skeleton-content-area {
-    flex: 1;
-}
+        .skeleton-breadcrumbs {
+            height: 20px;
+            width: 200px;
+            background-color: var(--skeleton-color);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+            background-size: 200% 100%;
+            animation: var(--skeleton-animation);
+        }
 
-.skeleton-page-header {
-    height: 25px;
-    width: 300px;
-    background-color: var(--skeleton-color);
-    margin-bottom: 20px;
-    border-radius: 4px;
-    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
-    background-size: 200% 100%;
-    animation: var(--skeleton-animation);
-}
+        .skeleton-main-content {
+            display: flex;
+            gap: 20px;
+        }
 
-.skeleton-page-meta {
-    height: 45px;
-    width: 100%;
-    background-color: var(--skeleton-color);
-    margin-bottom: 20px;
-    border-radius: 4px;
-    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
-    background-size: 200% 100%;
-    animation: var(--skeleton-animation);
-}
+        .skeleton-sidebar {
+            width: 250px;
+            height: auto;
+            background-color: var(--skeleton-color);
+            border-radius: 8px;
+            background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+            background-size: 200% 100%;
+            animation: var(--skeleton-animation);
+        }
 
-.skeleton-content-section {
-    height: 95px;
-    width: 100%;
-    background-color: var(--skeleton-color);
-    margin-bottom: 20px;
-    border-radius: 4px;
-    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
-    background-size: 200% 100%;
-    animation: var(--skeleton-animation);
-}
+        .skeleton-content-area {
+            flex: 1;
+        }
 
-.skeleton-footer {
-    height: 60px;
-    width: 100%;
-    background-color: var(--skeleton-color);
-    margin-top: 20px;
-    border-radius: 4px;
-    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
-    background-size: 200% 100%;
-    animation: var(--skeleton-animation);
-}
+        .skeleton-page-header {
+            height: 25px;
+            width: 300px;
+            background-color: var(--skeleton-color);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+            background-size: 200% 100%;
+            animation: var(--skeleton-animation);
+        }
+
+        .skeleton-page-meta {
+            height: 45px;
+            width: 100%;
+            background-color: var(--skeleton-color);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+            background-size: 200% 100%;
+            animation: var(--skeleton-animation);
+        }
+
+        .skeleton-content-section {
+            height: 95px;
+            width: 100%;
+            background-color: var(--skeleton-color);
+            margin-bottom: 20px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+            background-size: 200% 100%;
+            animation: var(--skeleton-animation);
+        }
+
+        .skeleton-footer {
+            height: 60px;
+            width: 100%;
+            background-color: var(--skeleton-color);
+            margin-top: 20px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+            background-size: 200% 100%;
+            animation: var(--skeleton-animation);
+        }
 
         .skeleton-card {
-    width: 400px;
-    background-color: var(--skeleton-color);
-    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    animation: var(--skeleton-animation);
-}
+            width: 400px;
+            background-color: var(--skeleton-color);
+            background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            animation: var(--skeleton-animation);
+        }
+
         .skeleton-im {
-    width: 50px;
-    background-color: var(--skeleton-color);
-    background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
-    border-radius: 100%;
-    animation: var(--skeleton-animation);
-}
+            width: 50px;
+            background-color: var(--skeleton-color);
+            background: linear-gradient(90deg, var(--skeleton-color) 25%, #f0f0f0 50%, var(--skeleton-color) 75%);
+            border-radius: 100%;
+            animation: var(--skeleton-animation);
+        }
+
         .skeleton-card-title {
-    font-size: 20px;
+            font-size: 20px;
             width: 360px;
             height: 32px;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 10px;
-}
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
         /* Tambahkan CSS ini ke file CSS Anda */
 
-/* Styling untuk Hamburger Icon */
-.hamburger-container {
-    display: none;
-    margin-left: auto;
-    padding: 10px;
-}
+        /* Styling untuk Hamburger Icon */
+        .hamburger-container {
+            display: none;
+            margin-left: auto;
+            padding: 10px;
+        }
 
-.hamburger-icon {
-    width: 30px;
-    height: 24px;
-    position: relative;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
+        .hamburger-icon {
+            width: 30px;
+            height: 24px;
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-.hamburger-icon span {
-    display: block;
-    width: 100%;
-    height: 3px;
-    background-color: #333;
-    transition: all 0.3s ease;
-}
+        .hamburger-icon span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: #333;
+            transition: all 0.3s ease;
+        }
 
-/* Overlay untuk menutup sidebar saat di-klik */
-.sidebar-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 99;
-    display: none;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-}
+        /* Overlay untuk menutup sidebar saat di-klik */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 99;
+            display: none;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: none;
+        }
 
-.sidebar-overlay.active {
-    display: block;
-}
+        /* CSS untuk scrollable sidebar */
+        .sidebar.scrollable {
+            overflow-y: auto;
+        }
 
-/* Style untuk sidebar pada mobile */
-@media (max-width: 768px) {
-    .hamburger-container {
-        display: flex;
-        position: relative;
-        display: block;
-    }
-    .content-area {
-    max-width: -webkit-fill-available
-    }
-    mjx-math {
-        word-wrap: normal !important;
-        word-spacing: normal !important;
-        white-space: break-spaces !important;
-    }
-    
-    .sidebar {
-        display: none;
-        top: 0;
-        right: -280px;
-        width: 250px;
-        height: 100%;
-        background-color: white;
-        z-index: 100;
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-        transition: right 0.3s ease;
-        padding: 20px;
-        overflow-y: auto;
-        position: fixed;
-    }
-    .team-table {
-        word-break: break-word;
-    word-wrap: normal;
-    }
-    .skeleton-sidebar {
-    display: none;
-}
+        .sidebar-overlay.active {
+            display: block;
+        }
 
-    
-    .sidebar.active {
-        right: 0;
-        display: block;
-    }
-    
-    body.sidebar-open {
-        overflow: hidden;
-    }
-}
+        /* Style untuk sidebar pada mobile */
+        @media (max-width: 768px) {
+            .hamburger-container {
+                display: flex;
+                position: relative;
+                display: block;
+            }
+
+            .content-area {
+                max-width: -webkit-fill-available
+            }
+
+            mjx-math {
+                word-wrap: normal !important;
+                word-spacing: normal !important;
+                white-space: break-spaces !important;
+            }
+
+            .sidebar {
+                display: none;
+                top: 0;
+                right: -280px;
+                width: 250px;
+                height: 100%;
+                background-color: white;
+                z-index: 100;
+                box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+                transition: right 0.3s ease;
+                padding: 20px;
+                overflow-y: auto;
+                position: fixed;
+            }
+
+            .team-table {
+                word-break: break-word;
+                word-wrap: normal;
+            }
+
+            .skeleton-sidebar {
+                display: none;
+            }
+
+
+            .sidebar.active {
+                right: 0;
+                display: block;
+                max-height: unset;
+                transform: translateX(0);
+            }
+
+            body.sidebar-open {
+                overflow: hidden;
+            }
+        }
+
         /* CSS dasar yang sudah ada tetap dipertahankan */
 
-/* Media query untuk tablet */
-@media (max-width: 992px) {
-    .skeleton-main-content {
-        flex-direction: column;
-    }
-    
-    .skeleton-sidebar {
-        width: 100%;
-        height: 150px;
-        margin-bottom: 20px;
-    }
-    
-    .skeleton-content-area {
-        width: 100%;
-    }
-    
-    .skeleton-card {
-        width: 100%;
-        max-width: 400px;
-    }
-}
+        /* Media query untuk tablet */
+        @media (max-width: 992px) {
+            .skeleton-main-content {
+                flex-direction: column;
+            }
 
-/* Media query untuk mobile */
-@media (max-width: 576px) {
-    .skeleton-wrapper {
-        padding: 10px 5px;
-        position: relative;
-        overflow: hidden !important;
-        height: -webkit-fill-available;
-    }
-    
-    .skeleton-header {
-        height: 40px;
-        margin-bottom: 15px;
-    }
-    
-    .skeleton-breadcrumbs {
-        height: 15px;
-        width: -webkit-fill-available;
-        margin-bottom: 15px;
-    }
-    
-    .skeleton-page-header {
-        height: 20px;
-        width: 200px;
-        margin-bottom: 15px;
-    }
-    
-    .skeleton-page-meta {
-        height: 35px;
-        margin-bottom: 15px;
-    }
-    
-    .skeleton-content-section {
-        height: 75px;
-        margin-bottom: 15px;
-    }
-    
-    .skeleton-footer {
-        height: 50px;
-        margin-top: 15px;
-    }
-    
-    .skeleton-card {
-        width: 100%;
-    }
-    
-    .skeleton-card-title {
-        width: 90%;
-        height: 25px;
-        font-size: 18px;
-    }
-    
-    .skeleton-im {
-        width: 40px;
-        height: 40px;
-    }
-}
+            .skeleton-sidebar {
+                width: 100%;
+                height: 150px;
+                margin-bottom: 20px;
+            }
 
-/* Media query untuk perangkat sangat kecil */
-@media (max-width: 320px) {
-    .skeleton-wrapper {
-        padding: 8px 3px;
-    }
-    
-    .skeleton-header {
-        height: 35px;
-        margin-bottom: 10px;
-    }
-    
-    .skeleton-breadcrumbs {
-        height: 12px;
-        width: 120px;
-        margin-bottom: 10px;
-    }
-    
-    .skeleton-page-header {
-        height: 18px;
-        width: 180px;
-        margin-bottom: 10px;
-    }
-    
-    .skeleton-page-meta {
-        height: 30px;
-        margin-bottom: 10px;
-    }
-    
-    .skeleton-content-section {
-        height: 60px;
-        margin-bottom: 10px;
-    }
-    
-    .skeleton-footer {
-        height: 40px;
-        margin-top: 10px;
-    }
-    
-    .skeleton-card-title {
-        width: 85%;
-        height: 22px;
-        font-size: 16px;
-    }
-    
-    .skeleton-im {
-        width: 35px;
-        height: 35px;
-    }
-}
+            .skeleton-content-area {
+                width: 100%;
+            }
 
-/* Style untuk indentasi level heading */
-.sidebar-nav .level-1 {
-    margin-left: 0;
-}
+            .skeleton-card {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
 
-.sidebar-nav .level-2 {
-    margin-left: 15px;
-}
+        /* Media query untuk mobile */
+        @media (max-width: 576px) {
+            .skeleton-wrapper {
+                padding: 10px 5px;
+                position: relative;
+                overflow: hidden !important;
+                height: -webkit-fill-available;
+            }
 
-.sidebar-nav .level-3 {
-    margin-left: 30px;
-}
+            .skeleton-header {
+                height: 40px;
+                margin-bottom: 15px;
+            }
 
-/* Animasi hamburger icon saat sidebar aktif */
-body.sidebar-open .hamburger-icon span:nth-child(1) {
-    transform: translateY(10px) rotate(45deg);
-}
+            .skeleton-breadcrumbs {
+                height: 15px;
+                width: -webkit-fill-available;
+                margin-bottom: 15px;
+            }
 
-body.sidebar-open .hamburger-icon span:nth-child(2) {
-    opacity: 0;
-}
+            .skeleton-page-header {
+                height: 20px;
+                width: 200px;
+                margin-bottom: 15px;
+            }
 
-body.sidebar-open .hamburger-icon span:nth-child(3) {
-    transform: translateY(-10px) rotate(-45deg);
-}
+            .skeleton-page-meta {
+                height: 35px;
+                margin-bottom: 15px;
+            }
+
+            .skeleton-content-section {
+                height: 75px;
+                margin-bottom: 15px;
+            }
+
+            .skeleton-footer {
+                height: 50px;
+                margin-top: 15px;
+            }
+
+            .skeleton-card {
+                width: 100%;
+            }
+
+            .skeleton-card-title {
+                width: 90%;
+                height: 25px;
+                font-size: 18px;
+            }
+
+            .skeleton-im {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        /* Media query untuk perangkat sangat kecil */
+        @media (max-width: 320px) {
+            .skeleton-wrapper {
+                padding: 8px 3px;
+            }
+
+            .skeleton-header {
+                height: 35px;
+                margin-bottom: 10px;
+            }
+
+            .skeleton-breadcrumbs {
+                height: 12px;
+                width: 120px;
+                margin-bottom: 10px;
+            }
+
+            .skeleton-page-header {
+                height: 18px;
+                width: 180px;
+                margin-bottom: 10px;
+            }
+
+            .skeleton-page-meta {
+                height: 30px;
+                margin-bottom: 10px;
+            }
+
+            .skeleton-content-section {
+                height: 60px;
+                margin-bottom: 10px;
+            }
+
+            .skeleton-footer {
+                height: 40px;
+                margin-top: 10px;
+            }
+
+            .skeleton-card-title {
+                width: 85%;
+                height: 22px;
+                font-size: 16px;
+            }
+
+            .skeleton-im {
+                width: 35px;
+                height: 35px;
+            }
+        }
+
+        /* Style untuk indentasi level heading */
+        .sidebar-nav .level-1 {
+            margin-left: 0;
+        }
+
+        .sidebar-nav .level-2 {
+            margin-left: 15px;
+        }
+
+        .sidebar-nav .level-3 {
+            margin-left: 30px;
+        }
+
         /* Animasi hamburger icon saat sidebar aktif */
-body.sidebar-open .hamburger-icon span:nth-child(1) {
-    transform: translateY(10px) rotate(45deg);
-}
+        body.sidebar-open .hamburger-icon span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
 
-body.sidebar-open .hamburger-icon span:nth-child(2) {
-    opacity: 0;
-}
+        body.sidebar-open .hamburger-icon span:nth-child(2) {
+            opacity: 0;
+        }
 
-body.sidebar-open .hamburger-icon span:nth-child(3) {
-    transform: translateY(-10px) rotate(-45deg);
-}
+        body.sidebar-open .hamburger-icon span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
+        /* Animasi hamburger icon saat sidebar aktif */
+        body.sidebar-open .hamburger-icon span:nth-child(1) {
+            transform: translateY(10px) rotate(45deg);
+        }
+
+        body.sidebar-open .hamburger-icon span:nth-child(2) {
+            opacity: 0;
+        }
+
+        body.sidebar-open .hamburger-icon span:nth-child(3) {
+            transform: translateY(-10px) rotate(-45deg);
+        }
+
         .no-js-message {
-    display: none;
-}
+            display: none;
+        }
 
-.skip-link-wrapper {
-    position: relative;
-    z-index: 1000;
-}
+        .skip-link-wrapper {
+            position: relative;
+            z-index: 1000;
+        }
 
-.skip-link {
-    background: var(--button-p);
-    color: var(--button-t);
-    font-weight: 700;
-    left: 50%;
-    padding: 8px 16px;
-    position: absolute;
-    transform: translateX(-50%);
-    text-decoration: none;
-    transition: top 0.3s;
-    border-radius: 0 0 4px 4px;
-}
+        .skip-link {
+            background: var(--button-p);
+            color: var(--button-t);
+            font-weight: 700;
+            left: 50%;
+            padding: 8px 16px;
+            position: absolute;
+            transform: translateX(-50%);
+            text-decoration: none;
+            transition: top 0.3s;
+            border-radius: 0 0 4px 4px;
+        }
 
-/* Hide the skip link by default */
-.skip-link {
-    top: -130px;
-}
+        /* Hide the skip link by default */
+        .skip-link {
+            top: -130px;
+        }
 
-/* Show the skip link when it receives focus */
-.skip-link:focus {
-    top: 0;
-    outline: 3px solid #4a90e2;
-    outline-offset: 2px;
-}
+        /* Show the skip link when it receives focus */
+        .skip-link:focus {
+            top: 0;
+            outline: 3px solid #4a90e2;
+            outline-offset: 2px;
+        }
 
-/* High contrast mode support */
-@media (forced-colors: active) {
-    .skip-link:focus {
-        outline: 3px solid CanvasText;
-    }
-}
+        /* High contrast mode support */
+        @media (forced-colors: active) {
+            .skip-link:focus {
+                outline: 3px solid CanvasText;
+            }
+        }
 
-.progress-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: transparent;
-    z-index: 999999;
-}
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: transparent;
+            z-index: 999999;
+        }
 
-.progress-bar {
-    height: 100%;
-    width: 0;
-    background: linear-gradient(to right, #4a90e2, #67a2e6);
-    transition: width 0.3s ease;
-    position: relative;
-}
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(to right, #4a90e2, #67a2e6);
+            transition: width 0.3s ease;
+            position: relative;
+        }
 
-.progress-bar::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 100px;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
-    animation: progress-animation 1.5s infinite;
-}
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            animation: progress-animation 1.5s infinite;
+        }
 
-@keyframes progress-animation {
-    0% {
-        transform: translateX(-100%);
-    }
+        @keyframes progress-animation {
+            0% {
+                transform: translateX(-100%);
+            }
 
-    100% {
-        transform: translateX(100%);
-    }
-}
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
         [data-theme="dark"] {
-    --primary-color: #90caf9;
-    --background-light: #121212;
-    --background-white: #1e1e1e;
-    --text-color: #e0e0e0;
-    --border-color: #333333;
-    --secondary-color: #64b5f6;
-    --header-color: #1976d2;
-    --skeleton-color: #333333;
-}
+            --primary-color: #90caf9;
+            --background-light: #121212;
+            --background-white: #1e1e1e;
+            --text-color: #e0e0e0;
+            --border-color: #333333;
+            --secondary-color: #64b5f6;
+            --header-color: #1976d2;
+            --skeleton-color: #333333;
+        }
+
         [data-theme="dark"] .team-table {
-    background-color: var(--background-white);
-    color: var(--text-color);
-}
+            background-color: var(--background-white);
+            color: var(--text-color);
+        }
 
-[data-theme="dark"] .team-table th {
-    background-color: var(--background-light);
-}
+        [data-theme="dark"] .team-table th {
+            background-color: var(--background-light);
+        }
 
-[data-theme="dark"] .card {
-    background-color: var(--background-white);
-    color: var(--text-color);
-}
+        [data-theme="dark"] .card {
+            background-color: var(--background-white);
+            color: var(--text-color);
+        }
 
-[data-theme="dark"] .card-icon {
-    background-color: var(--background-light);
-}
+        [data-theme="dark"] .card-icon {
+            background-color: var(--background-light);
+        }
 
-[data-theme="dark"] .card-title {
-    color: var(--text-color);
-}
+        [data-theme="dark"] .card-title {
+            color: var(--text-color);
+        }
 
-[data-theme="dark"] .card-description {
-    color: var(--text-color);
-}
+        [data-theme="dark"] .card-description {
+            color: var(--text-color);
+        }
 
-[data-theme="dark"] .sidebar {
-    background-color: var(--background-white);
-}
+        [data-theme="dark"] .sidebar {
+            background-color: var(--background-white);
+        }
 
-[data-theme="dark"] .sidebar-nav li a {
-    color: var(--text-color);
-}
+        [data-theme="dark"] .sidebar-nav li a {
+            color: var(--text-color);
+        }
 
-[data-theme="dark"] .sidebar-nav li a:hover {
-    background-color: var(--primary-color);
-    color: var(--background-white);
-}
+        [data-theme="dark"] .sidebar-nav li a:hover {
+            background-color: var(--primary-color);
+            color: var(--background-white);
+        }
 
-[data-theme="dark"] .sidebar-nav li a.active {
-    background-color: var(--primary-color);
-    color: var(--background-white);
-}
+        [data-theme="dark"] .sidebar-nav li a.active {
+            background-color: var(--primary-color);
+            color: var(--background-white);
+        }
+
         [data-theme="dark"] .edit-page {
-    background-color: var(--background-white);
-    border-color: var(--border-color);
-    color: var(--text-color);
-}
+            background-color: var(--background-white);
+            border-color: var(--border-color);
+            color: var(--text-color);
+        }
 
-[data-theme="dark"] .footer {
-    background-color: var(--background-white);
-    color: var(--text-color);
-}
+        [data-theme="dark"] .footer {
+            background-color: var(--background-white);
+            color: var(--text-color);
+        }
 
         [data-theme="dark"] .code-block {
-    background: #282828;
-}
+            background: #282828;
+        }
 
         [data-theme="dark"] .page-meta {
             color: #bbbbbb;
-            }
-[data-theme="dark"] .hamburger-icon span {
-    background-color: #ffffff;
-}
-
-        [data-theme="dark"] .card-link {
-    background-color: #082b4d;
         }
 
+        [data-theme="dark"] .hamburger-icon span {
+            background-color: #ffffff;
+        }
+
+        [data-theme="dark"] .card-link {
+            background-color: #082b4d;
+        }
+
+        [data-theme="dark"] .sidebar-title {
+            color: #ffffff;
+        }
     </style>
     <script type="text/javascript">
         (function () {
@@ -1099,7 +1202,24 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
             }
         }
     </script>
-    <noscript> <meta http-equiv="refresh" content="10"> <style> .js-required { display: none; } .no-js-message { display: block; background: #ffeb3b; padding: 1rem; text-align: center; margin: 1rem; border-radius: 4px; } </style> </noscript> <script> window.addEventListener('DOMContentLoaded', function () { const metaRefresh = document.querySelector('meta[http-equiv="refresh"]'); if (metaRefresh) { metaRefresh.remove(); } }); </script>
+    <noscript>
+        <meta http-equiv="refresh" content="10">
+        <style>
+            .js-required {
+                display: none;
+            }
+
+            .no-js-message {
+                display: block;
+                background: #ffeb3b;
+                padding: 1rem;
+                text-align: center;
+                margin: 1rem;
+                border-radius: 4px;
+            }
+        </style>
+    </noscript>
+    <script> window.addEventListener('DOMContentLoaded', function () { const metaRefresh = document.querySelector('meta[http-equiv="refresh"]'); if (metaRefresh) { metaRefresh.remove(); } }); </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
@@ -1153,8 +1273,10 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
         </div>
         <div class="skeleton-footer"></div>
     </div>
-    <div role="meter" id="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" value="0"></div>
-    <div class="progress-container" role="progressbar" id="progress" aria-labelledby="progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" value="0" title="progress bar">
+    <div title="progress" role="meter" id="meter" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" value="0">
+    </div>
+    <div class="progress-container" role="progressbar" id="progress" aria-labelledby="progress" aria-valuemin="0"
+        aria-valuemax="100" aria-valuenow="0" value="0" title="progress bar">
         <div class="progress-bar" id="progress-bar"></div>
     </div>
     <noscript>
@@ -1171,15 +1293,15 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
             <h1 class="logos">Mental Health</h1>
         </div>
     </header>
+    <nav class="top-navigation" role="navigation" aria-label="Top Navigation">
+        <div class="breadcrumbs">
+            <a accesskey="m" href="https://4211421036.github.io/MentalHealth/">HOME</a>
+            <span aria-hidden="true">/</span>
+            <a accesskey="a" href="/about" class="active">ABOUT</a>
+        </div>
+    </nav>
     <div class="page-wrapper">
         <div role="main" class="main-content" id="main-content">
-            <nav class="top-navigation" role="navigation" aria-label="Top Navigation">
-                <div class="breadcrumbs">
-                    <a accesskey="m" href="https://4211421036.github.io/MentalHealth/">HOME</a>
-                    <span aria-hidden="true">/</span>
-                    <a accesskey="a" href="/about" class="active">ABOUT</a>
-                </div>
-            </nav>
             <div class="content-area">
                 <div class="page-meta">
                     Page last updated: February 5, 2025
@@ -1190,24 +1312,28 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                 </div>
 
                 <div class="content-section" aria-labelledby="about-mental-health">
-                    <h2  id="about-mental-health">Introdunce</h2>
-                    <p role="text">Mental Health Website is a public, open-source resource for the mental health community that
+                    <h2 id="about-mental-health">Introdunce</h2>
+                    <p role="text">Mental Health Website is a public, open-source resource for the mental health
+                        community that
                         anyone can contribute to. We have a small core team dedicated to maintaining and developing the
                         site with contributions from thousands of community members across the globe.</p>
 
-                    <p role="text"><strong>Nobody from Mental Health Website will ever contact you. Do not respond.</strong></p>
+                    <p role="text"><strong>Nobody from Mental Health Website will ever contact you. Do not
+                            respond.</strong></p>
                 </div>
 
                 <div class="content-section" aria-labelledby="a-note-on-mental-health">
-                    <h2  id="a-note-on-mental-health">A Note on Mental Health</h2>
+                    <h2 id="a-note-on-mental-health">A Note on Mental Health</h2>
 
-                    <p role="text">It is common for individuals to confuse terms within the mental health landscape, which can lead
+                    <p role="text">It is common for individuals to confuse terms within the mental health landscape,
+                        which can lead
                         to poor mental models about how mental health works. Here is a brief explanation to clarify
                         these concepts:</p>
 
                     <h3 id="mental-health-basics">Mental Health Basics</h3>
 
-                    <p role="text">Mental health is a public concern, a personal journey, and an open-source collaborative effort --
+                    <p role="text">Mental health is a public concern, a personal journey, and an open-source
+                        collaborative effort --
                         operated, governed, managed, and owned by a global community of tens of thousands of
                         professionals, researchers, supporters, and users.</p>
 
@@ -1215,24 +1341,30 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                         <div class="card" role="article">
                             <div class="card-icon" aria-hidden="true">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.652.242 2.873.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                    <path
+                                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.652.242 2.873.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                                 </svg>
                             </div>
                             <div class="card-content">
-                                <h3 class="card-title" aria-describedby="card-description">GitHub Repository Mental Health</h3>
+                                <h3 class="card-title" aria-describedby="card-description">GitHub Repository Mental
+                                    Health</h3>
                                 <p class="card-description" id="card-description" role="tooltip" aria-hidden="true">
                                     A comprehensive mental health monitoring application using modern web technologies.
                                 </p>
-                                <button accesskey="c" style="border: 0" onclick="window.location.href='https://github.com/4211421036/MentalHealth/';" type="button" role="button" class="card-link" aria-describedby="card-description-link" aria-label="Read more about Mental Health">
-                                    <p style="margin-bottom: 0 !important;" role="tooltip" aria-hidden="true">Visit GitHub Mental Health</p>
-                                </a>
+                                <button accesskey="c" style="border: 0"
+                                    onclick="window.location.href='https://github.com/4211421036/MentalHealth/';"
+                                    type="button" role="button" class="card-link"
+                                    aria-describedby="card-description-link" aria-label="Read more about Mental Health">
+                                    <p style="margin-bottom: 0 !important;" role="tooltip" aria-hidden="true">Visit
+                                        GitHub Mental Health</p>
+                                    </a>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="content-section" aria-labelledby="our-team">
-                    <h2  id="our-team">Our Team</h2>
+                    <h2 id="our-team">Our Team</h2>
                     <table class="team-table" aria-label="Our Team">
                         <thead>
                             <tr>
@@ -1246,7 +1378,8 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                             <tr>
                                 <td role="cell">GALIH RIDHO UTOMO</td>
                                 <td role="cell">Developer</td>
-                                <td role="cell"><a href="https://www.instagram.com/galih_ridho_utomo/">Instagram</a></td>
+                                <td role="cell"><a href="https://www.instagram.com/galih_ridho_utomo/">Instagram</a>
+                                </td>
                                 <td role="cell">g4lihru@students.unnes.ac.id</td>
                             </tr>
                             <tr>
@@ -1260,8 +1393,9 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                 </div>
 
                 <div class="content-section" aria-labelledby="features">
-                    <h2  id="features">Features</h2>
-                    <p role="text">Our website provides various tools and resources to help you monitor and improve your mental
+                    <h2 id="features">Features</h2>
+                    <p role="text">Our website provides various tools and resources to help you monitor and improve your
+                        mental
                         health:</p>
                     <ul>
                         <li>Real-time emotion detection using facial analysis</li>
@@ -1272,14 +1406,16 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                 </div>
 
                 <div class="content-section" aria-labelledby="code-examples">
-                    <h2  id="code-examples">Code Examples</h2>
-                    <p role="text">Here is the complete code snippet from our <code>face-analysis.js</code> that you can use to
+                    <h2 id="code-examples">Code Examples</h2>
+                    <p role="text">Here is the complete code snippet from our <code>face-analysis.js</code> that you can
+                        use to
                         integrate emotion detection into your own projects. Each function is explained in detail below,
                         along with mathematical formulas to represent the logic:</p>
 
                     <!-- Function djb2Hash -->
                     <h3>1. Hash Function (djb2Hash)</h3>
-                    <p role="text">This function generates a unique hash value for a given string. It is based on the DJB2
+                    <p role="text">This function generates a unique hash value for a given string. It is based on the
+                        DJB2
                         algorithm, which is a simple and efficient hashing algorithm.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>// djb2Hash: Generates a hash value for a string
@@ -1310,7 +1446,8 @@ function djb2Hash(str) {
 
                     <!-- Function generateFaceID -->
                     <h3>2. Generate Face ID (generateFaceID)</h3>
-                    <p role="text">This function converts facial landmarks into a unique hash string. It normalizes the landmark
+                    <p role="text">This function converts facial landmarks into a unique hash string. It normalizes the
+                        landmark
                         coordinates and uses the <code>djb2Hash</code> function to generate a unique FaceID.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>// generateFaceID: Converts facial landmarks to a unique hash
@@ -1346,7 +1483,8 @@ function generateFaceID(landmarks) {
 
                     <!-- Function analyzeEmotions -->
                     <h3>3. Analyze Emotions (analyzeEmotions)</h3>
-                    <p role="text">This function calculates the intensity of different emotions (happy, sad, angry, surprised,
+                    <p role="text">This function calculates the intensity of different emotions (happy, sad, angry,
+                        surprised,
                         neutral) based on facial landmarks.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>// analyzeEmotions: Calculates emotion intensities
@@ -1405,7 +1543,8 @@ function analyzeEmotions(landmarks) {
 
                     <!-- Function calculateHappiness -->
                     <h3>4. Calculate Happiness (calculateHappiness)</h3>
-                    <p role="text">This function calculates the intensity of happiness based on facial landmarks, specifically
+                    <p role="text">This function calculates the intensity of happiness based on facial landmarks,
+                        specifically
                         focusing on lip and cheek movements.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>// calculateHappiness: Computes happiness intensity
@@ -1451,7 +1590,8 @@ function calculateHappiness(landmarks) {
 
                     <!-- Function calculateSadness -->
                     <h3>5. Calculate Sadness (calculateSadness)</h3>
-                    <p role="text">This function calculates the intensity of sadness based on facial landmarks, focusing on lip
+                    <p role="text">This function calculates the intensity of sadness based on facial landmarks, focusing
+                        on lip
                         depression and brow movement.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>// calculateSadness: Computes sadness intensity
@@ -1490,7 +1630,8 @@ function calculateSadness(landmarks) {
 
                     <!-- Function calculateAnger -->
                     <h3>6. Calculate Anger (calculateAnger)</h3>
-                    <p role="text">This function calculates the intensity of anger based on facial landmarks, focusing on brow
+                    <p role="text">This function calculates the intensity of anger based on facial landmarks, focusing
+                        on brow
                         lowering and lip compression.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>// calculateAnger: Computes anger intensity
@@ -1529,7 +1670,8 @@ function calculateAnger(landmarks) {
 
                     <!-- Function calculateSurprise -->
                     <h3>7. Calculate Surprise (calculateSurprise)</h3>
-                    <p role="text">This function calculates the intensity of surprise based on facial landmarks, focusing on eye
+                    <p role="text">This function calculates the intensity of surprise based on facial landmarks,
+                        focusing on eye
                         openness and jaw drop.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>// calculateSurprise: Computes surprise intensity
@@ -1568,7 +1710,8 @@ function calculateSurprise(landmarks) {
 
                     <!-- Function calculateNeutral -->
                     <h3>8. Calculate Neutral (calculateNeutral)</h3>
-                    <p role="text">This function calculates the intensity of a neutral expression by measuring deviations from a
+                    <p role="text">This function calculates the intensity of a neutral expression by measuring
+                        deviations from a
                         neutral facial position.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>// calculateNeutral: Computes neutral intensity
@@ -1594,7 +1737,8 @@ function calculateNeutral(landmarks) {
                     <p role="text">\[
                         \delta = \sum_{(i,j) \in F} \sqrt{(L_i.x - L_j.x)^2 + (L_i.y - L_j.y)^2}
                         \]</p>
-                    <p role="text">where \(F = \{(152, 4), (61, 291), (105, 334)\}\) represents the set of feature pairs.</p>
+                    <p role="text">where \(F = \{(152, 4), (61, 291), (105, 334)\}\) represents the set of feature
+                        pairs.</p>
                     <p role="text">\[
                         N = \max(0, 1 - 2\delta)
                         \]</p>
@@ -1610,14 +1754,16 @@ function calculateNeutral(landmarks) {
                 </div>
 
                 <section class="content-section" aria-labelledby="code-examples">
-                    <h2  id="code-explanation">Code Explanation for Mental Health Monitoring System</h2>
-                    <p role="text">Below is a detailed explanation of the code for the mental health monitoring system using ESP32
+                    <h2 id="code-explanation">Code Explanation for Mental Health Monitoring System</h2>
+                    <p role="text">Below is a detailed explanation of the code for the mental health monitoring system
+                        using ESP32
                         with GSR, MAX30102, and BH1750 sensors. Each function is explained in detail with relevant
                         mathematical formulations:</p>
 
                     <!-- Configuration and Initialization -->
                     <h3>1. Configuration and Initialization</h3>
-                    <p role="text">This section sets up the WiFi connection, GitHub settings for data storage, and sensor
+                    <p role="text">This section sets up the WiFi connection, GitHub settings for data storage, and
+                        sensor
                         initialization.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>#include "WiFi.h"
@@ -1772,7 +1918,8 @@ String getTimestamp() {
 
                     <!-- Function edaMovingAverage -->
                     <h3>5. Function edaMovingAverage</h3>
-                    <p role="text">This function implements a moving average filter for EDA (Electrodermal Activity) signal based on
+                    <p role="text">This function implements a moving average filter for EDA (Electrodermal Activity)
+                        signal based on
                         Boucsein (2012) methodology.</p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre>
@@ -1810,7 +1957,8 @@ float edaMovingAverage(float newVal) {
 
                     <!-- Function setup -->
                     <h3>6. Function setup</h3>
-                    <p role="text">This function initializes the connection and sensors when the system is powered on.</p>
+                    <p role="text">This function initializes the connection and sensors when the system is powered on.
+                    </p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre><code>void setup() {
   Serial.begin(115200);
@@ -1859,7 +2007,8 @@ float edaMovingAverage(float newVal) {
 
                     <!-- Function loop -->
                     <h3>7. Function loop</h3>
-                    <p role="text">The main function that runs repeatedly to read sensors, process data, and upload it to GitHub.
+                    <p role="text">The main function that runs repeatedly to read sensors, process data, and upload it
+                        to GitHub.
                     </p>
                     <div class="code-block" role="region" aria-label="Code Example">
                         <pre>
@@ -1985,7 +2134,8 @@ void loop() {
 
                         <!-- GSR Component -->
                         <h3>8. GSR Component Analysis</h3>
-                        <p role="text">The Galvanic Skin Response (GSR) or Electrodermal Activity (EDA) is processed according to
+                        <p role="text">The Galvanic Skin Response (GSR) or Electrodermal Activity (EDA) is processed
+                            according to
                             Boucsein (2012) methodology.</p>
                         <p role="text"><strong>Complete Mathematical Formulation:</strong></p>
                         <p role="text">\[
@@ -2012,7 +2162,8 @@ void loop() {
 
                         <!-- Heart Rate Component -->
                         <h3>9. Heart Rate Analysis</h3>
-                        <p role="text">Heart rate is measured using the MAX30102 sensor following the methodology from Shaffer et
+                        <p role="text">Heart rate is measured using the MAX30102 sensor following the methodology from
+                            Shaffer et
                             al. (2014).</p>
                         <p role="text"><strong>Complete Mathematical Formulation:</strong></p>
                         <p role="text">\[
@@ -2032,86 +2183,81 @@ void loop() {
                             \]</p>
                         <p role="text">\[
                             \text{BPM}_{\text{valid}} = \begin{cases}
-                                \end{cases} \]</p>
-                                <p role="text">\[
-                                    \text{HRV}_{\text{avg}} = \frac{1}{4} \sum_{i=0}^{3} \text{rates}[i]
-                                    \]</p>
-                                <p role="text"><strong>Explanation:</strong></p>
-                                <ul>
-                                    <li><strong>IR(t)</strong>: Infrared value read from the MAX30102 sensor.</li>
-                                    <li><strong>Beat detection</strong>: Function to detect heartbeats.</li>
-                                    <li><strong>Δt</strong>: Time interval between heartbeats (ms).</li>
-                                    <li><strong>BPM</strong>: Beats Per Minute, calculated from the interval between
-                                        beats.</li>
-                                    <li><strong>BPM<sub>valid</sub></strong>: Validated BPM within physiological range
-                                        (20-255).</li>
-                                    <li><strong>HRV<sub>avg</sub></strong>: Heart Rate Variability, calculated as the
-                                        average of the last 4 measurements.</li>
-                                    <li>Threshold of 50000 for beat detection refers to Shaffer et al. (2014).</li>
-                                </ul>
+                            \end{cases} \]</p>
+                        <p role="text">\[
+                            \text{HRV}_{\text{avg}} = \frac{1}{4} \sum_{i=0}^{3} \text{rates}[i]
+                            \]</p>
+                        <p role="text"><strong>Explanation:</strong></p>
+                        <ul>
+                            <li><strong>IR(t)</strong>: Infrared value read from the MAX30102 sensor.</li>
+                            <li><strong>Beat detection</strong>: Function to detect heartbeats.</li>
+                            <li><strong>Δt</strong>: Time interval between heartbeats (ms).</li>
+                            <li><strong>BPM</strong>: Beats Per Minute, calculated from the interval between
+                                beats.</li>
+                            <li><strong>BPM<sub>valid</sub></strong>: Validated BPM within physiological range
+                                (20-255).</li>
+                            <li><strong>HRV<sub>avg</sub></strong>: Heart Rate Variability, calculated as the
+                                average of the last 4 measurements.</li>
+                            <li>Threshold of 50000 for beat detection refers to Shaffer et al. (2014).</li>
+                        </ul>
 
-                                <!-- BH1750 Component -->
-                                <h3>10. Light Level Analysis</h3>
-                                <p role="text">Light levels are measured using the BH1750 sensor, referencing Golden et al. (2005)
-                                    regarding the impact of light on mental health.</p>
-                                <p role="text"><strong>Formulation:</strong></p>
-                                <p role="text">\[
-                                    \text{Lux}(t) = \text{lightMeter.readLightLevel()}
-                                    \]</p>
-                                <p role="text"><strong>Explanation:</strong></p>
-                                <ul>
-                                    <li><strong>Lux(t)</strong>: Light level measured in lux.</li>
-                                    <li>Measurement of light levels is crucial in mental health analysis based on
-                                        research by Golden et al. (2005).</li>
-                                    <li>Light levels correlate with circadian rhythms and melatonin production.</li>
-                                </ul>
+                        <!-- BH1750 Component -->
+                        <h3>10. Light Level Analysis</h3>
+                        <p role="text">Light levels are measured using the BH1750 sensor, referencing Golden et al.
+                            (2005)
+                            regarding the impact of light on mental health.</p>
+                        <p role="text"><strong>Formulation:</strong></p>
+                        <p role="text">\[
+                            \text{Lux}(t) = \text{lightMeter.readLightLevel()}
+                            \]</p>
+                        <p role="text"><strong>Explanation:</strong></p>
+                        <ul>
+                            <li><strong>Lux(t)</strong>: Light level measured in lux.</li>
+                            <li>Measurement of light levels is crucial in mental health analysis based on
+                                research by Golden et al. (2005).</li>
+                            <li>Light levels correlate with circadian rhythms and melatonin production.</li>
+                        </ul>
 
-                                <!-- Data Upload Mechanism -->
-                                <h3>11. Data Upload Mechanism</h3>
-                                <p role="text">Sensor data is uploaded to GitHub as a cloud storage system with SHA mechanism for
-                                    version control.</p>
-                                <p role="text"><strong>Process Flow:</strong></p>
-                                <p role="text">\[
-                                    \text{Sensor Data} \rightarrow \text{JSON Documents} \rightarrow \text{Base64
-                                    Encoding} \rightarrow \text{HTTP PUT} \rightarrow \text{GitHub}
-                                    \]</p>
-                                <p role="text"><strong>Explanation:</strong></p>
-                                <ul>
-                                    <li><strong>Upload Interval</strong>: Data is uploaded every 10 seconds (10000 ms).
-                                    </li>
-                                    <li><strong>Data Format</strong>: JSON structure with sensor values and timestamps.
-                                    </li>
-                                    <li><strong>SHA Mechanism</strong>: SHA values are used to ensure data integrity and
-                                        conflict handling.</li>
-                                    <li><strong>Base64 Encoding</strong>: JSON data is encoded with Base64 as per GitHub
-                                        API requirements.</li>
-                                    <li>This system allows for longitudinal data recording for long-term mental health
-                                        trend analysis.</li>
-                                </ul>
+                        <!-- Data Upload Mechanism -->
+                        <h3>11. Data Upload Mechanism</h3>
+                        <p role="text">Sensor data is uploaded to GitHub as a cloud storage system with SHA mechanism
+                            for
+                            version control.</p>
+                        <p role="text"><strong>Process Flow:</strong></p>
+                        <p role="text">\[
+                            \text{Sensor Data} \rightarrow \text{JSON Documents} \rightarrow \text{Base64
+                            Encoding} \rightarrow \text{HTTP PUT} \rightarrow \text{GitHub}
+                            \]</p>
+                        <p role="text"><strong>Explanation:</strong></p>
+                        <ul>
+                            <li><strong>Upload Interval</strong>: Data is uploaded every 10 seconds (10000 ms).
+                            </li>
+                            <li><strong>Data Format</strong>: JSON structure with sensor values and timestamps.
+                            </li>
+                            <li><strong>SHA Mechanism</strong>: SHA values are used to ensure data integrity and
+                                conflict handling.</li>
+                            <li><strong>Base64 Encoding</strong>: JSON data is encoded with Base64 as per GitHub
+                                API requirements.</li>
+                            <li>This system allows for longitudinal data recording for long-term mental health
+                                trend analysis.</li>
+                        </ul>
 
-                                <!-- Scientific References -->
-                                <h3>12. Scientific References</h3>
-                                <p role="text">This code implementation refers to several scientific references:</p>
-                                <ul>
-                                    <li><strong>Boucsein, W. (2012)</strong>: "Electrodermal Activity" - Standard
-                                        reference for processing GSR/EDA signals, including tonic and phasic component
-                                        separation methods.</li>
-                                    <li><strong>Shaffer et al. (2014)</strong>: "A healthy heart is not a metronome: an
-                                        integrative review of the heart's anatomy and heart rate variability" -
-                                        Guidelines for processing and interpreting heart rate variability data.</li>
-                                    <li><strong>Golden et al. (2005)</strong>: "The efficacy of light therapy in the
-                                        treatment of mood disorders: a review and meta-analysis of the evidence" -
-                                        Research on the impact of light levels on mood and mental health.</li>
-                                </ul>
-                </div>
+                        <!-- Scientific References -->
+                        <h3>12. Scientific References</h3>
+                        <p role="text">This code implementation refers to several scientific references:</p>
+                        <ul>
+                            <li><strong>Boucsein, W. (2012)</strong>: "Electrodermal Activity" - Standard
+                                reference for processing GSR/EDA signals, including tonic and phasic component
+                                separation methods.</li>
+                            <li><strong>Shaffer et al. (2014)</strong>: "A healthy heart is not a metronome: an
+                                integrative review of the heart's anatomy and heart rate variability" -
+                                Guidelines for processing and interpreting heart rate variability data.</li>
+                            <li><strong>Golden et al. (2005)</strong>: "The efficacy of light therapy in the
+                                treatment of mood disorders: a review and meta-analysis of the evidence" -
+                                Research on the impact of light levels on mood and mental health.</li>
+                        </ul>
             </div>
-        <aside class="sidebar" role="complementary" aria-labelledby="sidebar-title">
-                <div class="thm">
-                    <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="theme-toggle">
-                        <i class="fas fa-moon" role="tooltip" title="Theme"></i>
-                    </button>
-                    <p role="text" aria-hidden="true">Theme</p>
-                </div
+            <aside class="sidebar" role="complementary" aria-labelledby="sidebar-title">
                 <h3 class="sidebar-title" id="sidebar-title">ON THIS PAGE</h3>
                 <div class="sidebar-section">
                     <ul class="sidebar-nav" id="sidebar-nav" role="list">
@@ -2120,178 +2266,70 @@ void loop() {
                 </div>
             </aside>
         </div>
+    </div>
 
-        <footer class="footer" role="contentinfo">
-            <p role="text">&copy; 2025 Mental Health Website. All rights reserved.</p>
-        </footer>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-    // Fungsi untuk memeriksa apakah perangkat adalah mobile
-    function isMobile() {
-        return window.innerWidth < 768; // Umumnya 768px adalah breakpoint untuk tablet/mobile
-    }
-    
-    // Fungsi untuk membuat tombol toggle
-    function createToggleButton() {
-        // Cek apakah tombol sudah ada untuk menghindari duplikasi
-        if (document.querySelector('.theme-toggle')) {
-            return;
-        }
-        
-        // Buat elemen button
-        const toggleButton = document.createElement('button');
-        toggleButton.setAttribute('role', 'button');
-        toggleButton.setAttribute('tabindex', '-1');
-        toggleButton.setAttribute('type', 'button');
-        toggleButton.setAttribute('name', 'theme');
-        toggleButton.setAttribute('class', 'theme-toggle');
-        toggleButton.setAttribute('onclick', 'toggleTheme()');
-        toggleButton.setAttribute('title', 'Toggle Theme');
-        toggleButton.setAttribute('aria-label', 'theme-toggle');
-        
-        // Buat ikon di dalam button
-        const icon = document.createElement('i');
-        icon.setAttribute('class', 'fas fa-moon');
-        icon.setAttribute('role', 'tooltip');
-        icon.setAttribute('title', 'Theme');
-        
-        // Tambahkan ikon ke button
-        toggleButton.appendChild(icon);
-        
-        // Temukan elemen dengan class headco
-        const headco = document.querySelector('.headco');
-        
-        // Jika headco ditemukan, tambahkan tombol setelahnya
-        if (headco) {
-            headco.insertAdjacentElement('afterend', toggleButton);
-        } else {
-            // Jika headco tidak ditemukan, tambahkan ke body sebagai fallback
-            document.body.appendChild(toggleButton);
-        }
-    }
-    
-    // Fungsi untuk menghapus tombol jika beralih ke mobile
-    function removeToggleButton() {
-        const toggleButton = document.querySelector('.theme-toggle');
-        if (toggleButton) {
-            toggleButton.remove();
-        }
-    }
-    
-    // Fungsi untuk menangani perubahan ukuran layar
-    function handleResize() {
-        if (!isMobile()) {
-            createToggleButton();
-        } else {
-            removeToggleButton();
-        }
-    }
-    
-    // Jalankan pertama kali saat halaman dimuat
-    handleResize();
-    
-    // Tambahkan event listener untuk menangani perubahan ukuran layar
-    window.addEventListener('resize', handleResize);
-    
-    // Pastikan fungsi toggleTheme tersedia secara global
-    window.toggleTheme = function() {
-        const body = document.body;
-        const themeToggleIcon = document.querySelector('.theme-toggle i');
-        
-        // Toggle data-theme attribute
-        if (body.getAttribute('data-theme') === 'dark') {
-            body.removeAttribute('data-theme');
-            themeToggleIcon.className = 'fas fa-moon';
-            themeToggleIcon.setAttribute('title', 'Switch to Dark Mode');
-            localStorage.setItem('theme', 'light');
-        } else {
-            body.setAttribute('data-theme', 'dark');
-            themeToggleIcon.className = 'fas fa-sun';
-            themeToggleIcon.setAttribute('title', 'Switch to Light Mode');
-            localStorage.setItem('theme', 'dark');
-        }
-    };
-    
-    // Terapkan tema yang disimpan
-    const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    // Determine initial theme
-    const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'light');
-    
-    // Apply initial theme
-    if (initialTheme === 'dark') {
-        document.body.setAttribute('data-theme', 'dark');
-        const icon = document.querySelector('.theme-toggle i');
-        if (icon) {
-            icon.className = 'fas fa-sun';
-            icon.setAttribute('title', 'Switch to Light Mode');
-        }
-    }
-});
-    </script>
+    <footer class="footer" role="contentinfo">
+        <p role="text">&copy; 2025 Mental Health Website. All rights reserved.</p>
+    </footer>
     <script>
         function toggleTheme() {
-    const body = document.body;
-    const themeToggleIcon = document.querySelector('.theme-toggle i');
+            const body = document.body;
+            const themeToggleIcon = document.querySelector('.theme-toggle i');
 
-    // Toggle data-theme attribute instead of class
-    if (body.getAttribute('data-theme') === 'dark') {
-        body.removeAttribute('data-theme');
-        themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
-        themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
-        localStorage.setItem('theme', 'light'); // Save theme preference
-    } else {
-        body.setAttribute('data-theme', 'dark');
-        themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
-        themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
-        localStorage.setItem('theme', 'dark'); // Save theme preference
-    }
-}
+            // Toggle data-theme attribute instead of class
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
+                themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
+                localStorage.setItem('theme', 'light'); // Save theme preference
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
+                themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
+                localStorage.setItem('theme', 'dark'); // Save theme preference
+            }
+        }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const savedTheme = localStorage.getItem('theme'); // Get saved theme from localStorage
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; // Check system preference
-    const themeToggleIcon = document.querySelector('.theme-toggle i');
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme'); // Get saved theme from localStorage
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; // Check system preference
+            const themeToggleIcon = document.querySelector('.theme-toggle i');
 
-    // Determine initial theme
-    const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'light');
+            // Determine initial theme
+            const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'light');
 
-    // Apply initial theme
-    if (initialTheme === 'dark') {
-        document.body.setAttribute('data-theme', 'dark');
-        themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
-        themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
-    } else {
-        document.body.removeAttribute('data-theme');
-        themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
-        themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
-    }
-});
+            // Apply initial theme
+            if (initialTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
+                themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
+            } else {
+                document.body.removeAttribute('data-theme');
+                themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
+                themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
+            }
+        });
     </script>
-        <script>
-             // Mendengarkan event 'load' pada window
-        window.addEventListener('load', function() {
+    <script>
+        // Mendengarkan event 'load' pada window
+        window.addEventListener('load', function () {
             // Hapus skeleton loading
             const skeletonWrapper = document.querySelector(".skeleton-wrapper");
             if (skeletonWrapper) {
                 skeletonWrapper.remove();
             }
-            
+
             // Tampilkan header
             const header = document.querySelector("header");
             if (header) {
                 header.style.display = "block";
             }
-            
-            // Ubah overflow body menjadi scroll
-            document.body.style.overflow = "auto"; // atau "scroll" untuk selalu menampilkan scrollbar
-            
+
             // Opsional: Tambahkan kelas untuk animasi transisi jika diinginkan
             document.body.classList.add("loaded");
         });
     </script>
-        <script>
+    <script>
         document.addEventListener('DOMContentLoaded', function () {
             const progressBar = document.getElementById('progress-bar');
             const progressContainer = document.getElementById('progress');
@@ -2328,14 +2366,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateAccessibility();
                     console.log("%c Profile of this website creator!", "color:#2dc9ac;")
                     const profiles = {
-                            "GALIH RIDHO UTOMO": {
-                                Mail: "g4lihru@students.unnes.ac.id",
-                            },                
-                            "Ana Maulida": {
+                        "GALIH RIDHO UTOMO": {
+                            Mail: "g4lihru@students.unnes.ac.id",
+                        },
+                        "Ana Maulida": {
 
-                                Mail: "anamaulida@students.unnes.ac.id",
-                            },
-                        };
+                            Mail: "anamaulida@students.unnes.ac.id",
+                        },
+                    };
                     const tableString = console.table(profiles);
                     console.log("Follow We!\nGALIH RIDHO UTOMO https://instagram.com/galih_ridho_utomo\nAna Maulida https://instagram.com/anma1505")
                     progressBar.parentNode.removeChild(progressBar);
@@ -2343,181 +2381,363 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     </script>
-        <script>
-           document.addEventListener('DOMContentLoaded', function () {
-    const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
-    const sidebarNav = document.getElementById('sidebar-nav');
-    const sidebar = document.querySelector('.sidebar');
-    const topNavigation = document.querySelector('.headco');
-    
-    // Cek apakah elemen ada
-    if (!sidebar || !topNavigation) return;
-    
-    // Buat hamburger menu
-    function createHamburgerMenu() {
-        // Buat container untuk hamburger icon
-        const hamburgerContainer = document.createElement('div');
-        hamburgerContainer.className = 'hamburger-container';
-        
-        // Buat hamburger icon
-        const hamburgerIcon = document.createElement('div');
-        hamburgerIcon.className = 'hamburger-icon';
-        hamburgerIcon.innerHTML = `
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
+            const sidebarNav = document.getElementById('sidebar-nav');
+            const sidebar = document.querySelector('.sidebar');
+            const topNavigation = document.querySelector('.headco');
+
+            // Cek apakah elemen ada
+            if (!sidebar || !topNavigation) return;
+
+            // Buat hamburger menu
+            function createHamburgerMenu() {
+                // Buat container untuk hamburger icon
+                const hamburgerContainer = document.createElement('div');
+                hamburgerContainer.className = 'hamburger-container';
+
+                // Buat hamburger icon
+                const hamburgerIcon = document.createElement('div');
+                hamburgerIcon.className = 'hamburger-icon';
+                hamburgerIcon.innerHTML = `
             <span></span>
             <span></span>
             <span></span>
         `;
-        
-        // Tambahkan event listener untuk hamburger icon
-        hamburgerIcon.addEventListener('click', toggleSidebar);
-        
-        // Tambahkan hamburger icon ke container
-        hamburgerContainer.appendChild(hamburgerIcon);
-        
-        // Tambahkan hamburger container ke navigation
-        topNavigation.appendChild(hamburgerContainer);
-        
-        // Buat overlay untuk menutup sidebar saat di-klik
-        const overlay = document.createElement('div');
-        overlay.className = 'sidebar-overlay';
-        overlay.addEventListener('click', toggleSidebar);
-        document.body.appendChild(overlay);
-    }
-    
-    // Toggle sidebar
-    function toggleSidebar() {
-        sidebar.classList.toggle('active');
-        document.querySelector('.sidebar-overlay').classList.toggle('active');
-        document.body.classList.toggle('sidebar-open');
-    }
-    
-    // Fungsi untuk generate ID unik dari teks heading
-    function generateID(text) {
-        return text
-            .toLowerCase() // Ubah ke huruf kecil
-            .replace(/[^\w\s]/g, '') // Hapus karakter khusus
-            .replace(/\s+/g, '-'); // Ganti spasi dengan tanda hubung
-    }
-    
-    // Fungsi untuk generate daftar isi
-    function generateTableOfContents() {
-        let tocHTML = '';
-        sections.forEach(section => {
-            const level = parseInt(section.tagName.replace('H', '')); // Ambil level heading (1, 2, 3)
-            const id = section.id || generateID(section.textContent); // Generate ID jika belum ada
-            section.id = id; // Set ID ke heading
-            // Tambahkan class level untuk indentasi
-            const levelClass = `level-${level}`;
-            // Buat link untuk sidebar
-            tocHTML += `
+
+                // Tambahkan event listener untuk hamburger icon
+                hamburgerIcon.addEventListener('click', toggleSidebar);
+
+                // Tambahkan hamburger icon ke container
+                hamburgerContainer.appendChild(hamburgerIcon);
+
+                // Tambahkan hamburger container ke navigation
+                topNavigation.appendChild(hamburgerContainer);
+
+                // Buat overlay untuk menutup sidebar saat di-klik
+                const overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                overlay.addEventListener('click', toggleSidebar);
+                document.body.appendChild(overlay);
+            }
+
+            // Toggle sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                document.querySelector('.sidebar-overlay').classList.toggle('active');
+                document.body.classList.toggle('sidebar-open');
+                document.body.style.overflow = 'hidden'; // Disable scrolling
+            }
+
+            // Fungsi untuk handle swipe
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let isSwiping = false;
+
+            // Touch event untuk swipe
+            sidebar.addEventListener('touchstart', function (e) {
+                touchStartX = e.touches[0].clientX;
+                isSwiping = true;
+            }, false);
+
+            sidebar.addEventListener('touchmove', function (e) {
+                if (!isSwiping) return;
+
+                const currentX = e.touches[0].clientX;
+                const deltaX = currentX - touchStartX;
+
+                // Batasi pergerakan sidebar agar tidak melebihi batas
+                if (deltaX > 0) {
+                    // Geser sidebar ke kanan (buka)
+                    sidebar.style.transform = `translateX(${Math.min(deltaX, sidebar.offsetWidth)}px)`;
+                } else if (deltaX < 0) {
+                    // Geser sidebar ke kiri (tutup)
+                    sidebar.style.transform = `translateX(${Math.max(deltaX - sidebar.offsetWidth, 0)}px)`;
+                }
+            }, false);
+
+            sidebar.addEventListener('touchend', function (e) {
+                if (!isSwiping) return;
+
+                touchEndX = e.changedTouches[0].clientX;
+                const deltaX = touchEndX - touchStartX;
+                const swipeThreshold = 50; // Jarak minimal swipe untuk dianggap valid
+
+                if (deltaX < swipeThreshold) {
+                    // Swipe ke kanan - buka sidebar
+                    sidebar.classList.add('active');
+                    document.querySelector('.sidebar-overlay').classList.add('active');
+                    document.body.classList.add('sidebar-open');
+                    sidebar.style.transform = 'translateX(0)'; // Reset transform
+                } else if (deltaX > -swipeThreshold) {
+                    // Swipe ke kiri - tutup sidebar
+                    sidebar.classList.remove('active');
+                    document.querySelector('.sidebar-overlay').classList.remove('active');
+                    document.body.classList.remove('sidebar-open');
+                    document.body.style.overflow = 'auto';
+                    sidebar.style.transform = 'translateX(0%)'; // Reset transform
+                } else {
+                    // Jika swipe tidak mencapai threshold, kembalikan ke posisi awal
+                    sidebar.style.transform = sidebar.classList.contains('active') ? 'translateX(0)' : 'translateX(0%)';
+                }
+
+                isSwiping = false;
+            }, false);
+
+            // Fungsi untuk generate ID unik dari teks heading
+            function generateID(text) {
+                return text
+                    .toLowerCase() // Ubah ke huruf kecil
+                    .replace(/[^\w\s]/g, '') // Hapus karakter khusus
+                    .replace(/\s+/g, '-'); // Ganti spasi dengan tanda hubung
+            }
+
+            // Fungsi untuk generate daftar isi
+            function generateTableOfContents() {
+                let tocHTML = '';
+                sections.forEach(section => {
+                    const level = parseInt(section.tagName.replace('H', '')); // Ambil level heading (1, 2, 3)
+                    const id = section.id || generateID(section.textContent); // Generate ID jika belum ada
+                    section.id = id; // Set ID ke heading
+                    // Tambahkan class level untuk indentasi
+                    const levelClass = `level-${level}`;
+                    // Buat link untuk sidebar
+                    tocHTML += `
                 <li class="${levelClass}">
                     <a href="#${id}">${section.textContent}</a>
                 </li>
             `;
-        });
-        sidebarNav.innerHTML = tocHTML; // Masukkan daftar isi ke sidebar
-    }
-    
-    // Fungsi untuk update active state
-    function updateActiveSection() {
-        const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
-        let currentSection = '';
-        sections.forEach(section => {
-            const rect = section.getBoundingClientRect();
-            if (rect.top <= 150 && rect.bottom >= 150) {
-                currentSection = '#' + section.id;
-            }
-        });
-        sidebarLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === currentSection) {
-                link.classList.add('active');
-            }
-        });
-    }
-    
-    // Fungsi untuk handle responsive behavior
-    function handleResponsive() {
-        const isMobile = window.innerWidth <= 768; // Breakpoint untuk mobile
-        
-        if (isMobile) {
-            sidebar.classList.add('mobile');
-            document.body.classList.add('mobile-view');
-        } else {
-            sidebar.classList.remove('mobile');
-            sidebar.classList.remove('active');
-            document.body.classList.remove('mobile-view');
-            document.body.classList.remove('sidebar-open');
-            document.querySelector('.sidebar-overlay').classList.remove('active');
-        }
-    }
-    
-    // Smooth scroll untuk sidebar
-    sidebarNav.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') {
-            e.preventDefault();
-            const target = document.querySelector(e.target.getAttribute('href'));
-            if (target) {
-                window.scrollTo({
-                    top: target.offsetTop - 100,
-                    behavior: 'smooth'
                 });
-                
-                // Tutup sidebar setelah klik pada mobile
-                if (window.innerWidth <= 768) {
-                    toggleSidebar();
+                sidebarNav.innerHTML = tocHTML; // Masukkan daftar isi ke sidebar
+            }
+
+            // Fungsi untuk update active state
+            function updateActiveSection() {
+                const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+                let currentSection = '';
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 150 && rect.bottom >= 150) {
+                        currentSection = '#' + section.id;
+                    }
+                });
+                sidebarLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            // Fungsi untuk handle responsive behavior
+            function handleResponsive() {
+                const isMobile = window.innerWidth <= 768; // Breakpoint untuk mobile
+
+                if (isMobile) {
+                    document.body.style.overflow = 'hidden!important'; // Disable scrolling
+                    sidebar.classList.add('mobile');
+                    document.body.classList.add('mobile-view');
+                } else {
+                    document.body.style.overflow = 'auto'; // Disable scrolling
+                    sidebar.classList.remove('mobile');
+                    sidebar.classList.remove('active');
+                    document.body.classList.remove('mobile-view');
+                    document.body.classList.remove('sidebar-open');
+                    document.querySelector('.sidebar-overlay').classList.remove('active');
                 }
             }
-        }
-    });
-    
-    // Tambah dukungan swipe
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    // Touch event untuk swipe
-    document.addEventListener('touchstart', function(e) {
-        touchStartX = e.changedTouches[0].screenX;
-    }, false);
-    
-    document.addEventListener('touchend', function(e) {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, false);
-    
-    // Handle swipe
-    function handleSwipe() {
-        if (touchEndX - touchStartX > 100) {
-            // Swipe kanan - buka sidebar
-            sidebar.classList.add('active');
-            document.querySelector('.sidebar-overlay').classList.add('active');
-            document.body.classList.add('sidebar-open');
-        } else if (touchStartX - touchEndX > 100) {
-            // Swipe kiri - tutup sidebar
-            sidebar.classList.remove('active');
-            document.querySelector('.sidebar-overlay').classList.remove('active');
-            document.body.classList.remove('sidebar-open');
-        }
-    }
-    
-    // Generate daftar isi saat halaman dimuat
-    generateTableOfContents();
-    updateActiveSection(); // Set active section awal
-    
-    // Buat hamburger menu
-    createHamburgerMenu();
-    
-    // Set responsive state awal
-    handleResponsive();
-    
-    // Event listener untuk resize
-    window.addEventListener('resize', handleResponsive);
-    
-    // Observer untuk scroll
-    window.addEventListener('scroll', updateActiveSection);
-});
-        </script>
-         <script>
+
+            // Smooth scroll untuk sidebar
+            sidebarNav.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const target = document.querySelector(e.target.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+
+                        // Tutup sidebar setelah klik pada mobile
+                        if (window.innerWidth <= 768) {
+                            toggleSidebar();
+                        }
+                    }
+                }
+            });
+
+            // Fungsi untuk memeriksa apakah sidebar memerlukan scrollbar
+            function checkScrollable() {
+                if (!sidebar) return;
+
+                // Jika konten sidebar lebih tinggi dari tinggi yang terlihat
+                if (sidebar.scrollHeight > sidebar.clientHeight) {
+                    sidebar.classList.add('scrollable');
+                } else {
+                    sidebar.classList.remove('scrollable');
+                }
+            }
+
+            // Jalankan saat halaman dimuat
+            checkScrollable();
+
+            // Jalankan kembali saat ukuran window berubah
+            window.addEventListener('resize', checkScrollable);
+
+            // Opsional: Jalankan kembali setelah konten mungkin berubah
+            const observer = new MutationObserver(checkScrollable);
+            if (sidebar) {
+                observer.observe(sidebar, { childList: true, subtree: true });
+            }
+
+            // Generate daftar isi saat halaman dimuat
+            generateTableOfContents();
+            updateActiveSection(); // Set active section awal
+
+            // Buat hamburger menu
+            createHamburgerMenu();
+
+            // Set responsive state awal
+            handleResponsive();
+
+            // Event listener untuk resize
+            window.addEventListener('resize', handleResponsive);
+
+            // Observer untuk scroll
+            window.addEventListener('scroll', updateActiveSection);
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fungsi untuk memeriksa apakah perangkat adalah mobile
+            function isMobile() {
+                return window.innerWidth < 769; // Umumnya 768px adalah breakpoint untuk tablet/mobile
+            }
+
+            // Fungsi untuk membuat tombol toggle
+            function createToggleButton() {
+                // Cek apakah tombol sudah ada untuk menghindari duplikasi
+                if (document.querySelector('.thm')) {
+                    return;
+                }
+
+                // Buat elemen button
+                const tgb = document.createElement('div');
+                const pgb = document.createElement('p');
+                pgb.setAttribute('role', 'text');
+                pgb.setAttribute('aria-hidden', 'true');
+                pgb.textContent = 'Theme';
+                tgb.setAttribute('class', 'thm');
+                const toggleButton = document.createElement('button');
+                toggleButton.setAttribute('role', 'button');
+                toggleButton.setAttribute('tabindex', '-1');
+                toggleButton.setAttribute('type', 'button');
+                toggleButton.setAttribute('name', 'theme');
+                toggleButton.setAttribute('class', 'theme-toggle');
+                toggleButton.setAttribute('onclick', 'toggleTheme()');
+                toggleButton.setAttribute('title', 'Toggle Theme');
+                toggleButton.setAttribute('aria-label', 'theme-toggle');
+                tgb.appendChild(toggleButton)
+                tgb.appendChild(pgb)
+
+                // Buat ikon di dalam button
+                const icon = document.createElement('i');
+                icon.setAttribute('class', 'fas fa-moon');
+                icon.setAttribute('role', 'tooltip');
+                icon.setAttribute('title', 'Theme');
+
+                // Tambahkan ikon ke button
+                toggleButton.appendChild(icon);
+
+                // Pilih parent container berdasarkan ukuran layar
+                if (isMobile()) {
+                    // Jika mobile, tambahkan ke sidebar di atas sidebar-title
+                    const sidebar = document.querySelector('.sidebar');
+                    const sidebarTitle = document.querySelector('.sidebar-title');
+
+                    if (sidebar && sidebarTitle) {
+                        // Sisipkan di atas sidebar-title
+                        sidebar.insertBefore(tgb, sidebarTitle);
+                    } else if (sidebar) {
+                        // Jika tidak ada sidebar-title, tambahkan di awal sidebar
+                        sidebar.prepend(tgb);
+                    } else {
+                        // Fallback jika sidebar tidak ditemukan
+                        document.body.appendChild(tgb);
+                    }
+                } else {
+                    // Jika desktop, tambahkan ke headco
+                    const headco = document.querySelector('.headco');
+                    if (headco) {
+                        headco.appendChild(tgb);
+                    } else {
+                        // Fallback jika headco tidak ditemukan
+                        document.body.appendChild(tgb);
+                    }
+                }
+            }
+
+            // Fungsi untuk menghapus tombol toggle
+            function removeToggleButton() {
+                const toggleButton = document.querySelector('.thm');
+                if (toggleButton) {
+                    toggleButton.remove();
+                }
+            }
+
+            // Fungsi untuk menangani perubahan ukuran layar
+            function handleResize() {
+                // Hapus tombol terlebih dahulu untuk menghindari duplikasi
+                removeToggleButton();
+                // Buat ulang tombol di lokasi yang tepat
+                createToggleButton();
+            }
+
+            // Jalankan pertama kali saat halaman dimuat
+            handleResize();
+
+            // Tambahkan event listener untuk menangani perubahan ukuran layar
+            window.addEventListener('resize', handleResize);
+
+            // Pastikan fungsi toggleTheme tersedia secara global
+            window.toggleTheme = function () {
+                const body = document.body;
+                const themeToggleIcon = document.querySelector('.theme-toggle i');
+
+                // Toggle data-theme attribute
+                if (body.getAttribute('data-theme') === 'dark') {
+                    body.removeAttribute('data-theme');
+                    themeToggleIcon.className = 'fas fa-moon';
+                    themeToggleIcon.setAttribute('title', 'Switch to Dark Mode');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    body.setAttribute('data-theme', 'dark');
+                    themeToggleIcon.className = 'fas fa-sun';
+                    themeToggleIcon.setAttribute('title', 'Switch to Light Mode');
+                    localStorage.setItem('theme', 'dark');
+                }
+            };
+
+            // Terapkan tema yang disimpan
+            const savedTheme = localStorage.getItem('theme');
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+            // Determine initial theme
+            const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'light');
+
+            // Apply initial theme
+            if (initialTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                const icon = document.querySelector('.theme-toggle i');
+                if (icon) {
+                    icon.className = 'fas fa-sun';
+                    icon.setAttribute('title', 'Switch to Light Mode');
+                }
+            }
+        });
+    </script>
+    <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('https://4211421036.github.io/MentalHealth/sw.js')
