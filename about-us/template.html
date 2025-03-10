@@ -900,12 +900,16 @@
 
         .preview-card {
     display: none;
-    position: fixed;
+    position: fixed; /* Mengubah dari absolute ke fixed */
     background-color: #fff;
     border: 1px solid #ccc;
     padding: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    top: 20px; /* Menambahkan top untuk posisi fixed */
+    left: 50%; /* Menengahkan secara horizontal */
+    transform: translateX(-50%); /* Menengahkan secara horizontal */
+    max-width: 300px; /* Lebar maksimal untuk preview card */
 }
 
 .preview-link-button {
@@ -927,8 +931,10 @@
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
-    align-items: flex-end;
+    align-items: flex-start; /* Mengubah dari flex-end ke flex-start agar modal muncul di atas */
     z-index: 1001;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 }
 
 .modal-content {
@@ -2477,7 +2483,7 @@ M.P.H.
                 document.getElementById('preview-link-button').href = linkUrl;
 
                 const rect = link.getBoundingClientRect();
-                previewCard.style.top = `${rect.bottom}px`;
+                previewCard.style.top = `${rect.top - previewCard.offsetHeight - 10}px`; /* Posisi di atas link */
                 previewCard.style.left = `${rect.left}px`;
                 previewCard.style.display = 'block';
             }
@@ -2500,16 +2506,17 @@ M.P.H.
 
                 modal.classList.add('show');
                 modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Disable scrolling
             }
         });
     });
-
     modal.addEventListener('click', function(event) {
         if (event.target === modal) {
             modal.classList.remove('show');
             setTimeout(() => {
                 modal.style.display = 'none';
                 modalContent.style.transform = 'translateY(0)';
+                document.body.style.overflow = 'auto'; // Disable scrolling
             }, 300);
         }
     });
@@ -2534,9 +2541,11 @@ M.P.H.
             setTimeout(() => {
                 modal.style.display = 'none';
                 modalContent.style.transform = 'translateY(0)';
+                document.body.style.overflow = 'auto'; // Disable scrolling
             }, 300);
         } else {
             modalContent.style.transform = 'translateY(0)';
+            document.body.style.overflow = 'auto'; // Disable scrolling
         }
     });
 });
