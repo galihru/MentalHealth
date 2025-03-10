@@ -428,8 +428,8 @@
 .headco {
     display: flex;
     justify-content: space-between;
-    align-items: start;
-    flex-direction: column;
+    align-items: center;
+    flex-direction: row;
 }
 .logos {
     margin: 0;
@@ -2117,13 +2117,6 @@ void loop() {
         // Buat container untuk hamburger icon
         const hamburgerContainer = document.createElement('div');
         hamburgerContainer.className = 'hamburger-container';
-        // Tambahkan event listener untuk hamburger icon
-        hamburgerContainer.addEventListener('click', toggleSidebar);
-        hamburgerContainer.addEventListener('keydown', (event) => {
-            if (event.key === 'Enter' || event.key === ' ') {
-                toggleSidebar();
-            }
-        });
         
         // Buat hamburger icon
         const hamburgerIcon = document.createElement('div');
