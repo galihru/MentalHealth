@@ -76,12 +76,15 @@
             background-color: var(--background-light);
             color: var(--text-color);
             overflow: hidden;
+            opacity: 0.1;
+            transform: translateX(-100%);
+            transition: none;
         }
 
         body.loaded {
             opacity: 1;
             transform: translateX(0);
-            transition: all 1s ease;
+            transition: transform 1s ease, opacity 1.5s ease;
         }
 
         .page-wrapper {
