@@ -1093,7 +1093,7 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                 </div>
 
                 <div class="content-section" aria-labelledby="about-mental-health">
-                    <h2 role="tooltip" id="about-mental-health">About Mental Health Website</h2>
+                    <h2  id="about-mental-health">About Mental Health Website</h2>
                     <p role="text">Mental Health Website is a public, open-source resource for the mental health community that
                         anyone can contribute to. We have a small core team dedicated to maintaining and developing the
                         site with contributions from thousands of community members across the globe.</p>
@@ -1102,7 +1102,7 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                 </div>
 
                 <div class="content-section" aria-labelledby="a-note-on-mental-health">
-                    <h2 role="tooltip" id="a-note-on-mental-health">A Note on Mental Health</h2>
+                    <h2  id="a-note-on-mental-health">A Note on Mental Health</h2>
 
                     <p role="text">It is common for individuals to confuse terms within the mental health landscape, which can lead
                         to poor mental models about how mental health works. Here is a brief explanation to clarify
@@ -1133,7 +1133,7 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                 </div>
 
                 <div class="content-section" aria-labelledby="our-team">
-                    <h2 role="tooltip" id="our-team">Our Team</h2>
+                    <h2  id="our-team">Our Team</h2>
                     <table class="team-table" aria-label="Our Team">
                         <thead>
                             <tr>
@@ -1161,7 +1161,7 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                 </div>
 
                 <div class="content-section" aria-labelledby="features">
-                    <h2 role="tooltip" id="features">Features</h2>
+                    <h2  id="features">Features</h2>
                     <p role="text">Our website provides various tools and resources to help you monitor and improve your mental
                         health:</p>
                     <ul>
@@ -1173,7 +1173,7 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
                 </div>
 
                 <div class="content-section" aria-labelledby="code-examples">
-                    <h2 role="tooltip" id="code-examples">Code Examples</h2>
+                    <h2  id="code-examples">Code Examples</h2>
                     <p role="text">Here is the complete code snippet from our <code>face-analysis.js</code> that you can use to
                         integrate emotion detection into your own projects. Each function is explained in detail below,
                         along with mathematical formulas to represent the logic:</p>
@@ -1511,7 +1511,7 @@ function calculateNeutral(landmarks) {
                 </div>
 
                 <section class="content-section" aria-labelledby="code-examples">
-                    <h2 role="tooltip" id="code-explanation">Code Explanation for Mental Health Monitoring System</h2>
+                    <h2  id="code-explanation">Code Explanation for Mental Health Monitoring System</h2>
                     <p role="text">Below is a detailed explanation of the code for the mental health monitoring system using ESP32
                         with GSR, MAX30102, and BH1750 sensors. Each function is explained in detail with relevant
                         mathematical formulations:</p>
@@ -2156,11 +2156,6 @@ void loop() {
         sidebar.classList.toggle('active');
         document.querySelector('.sidebar-overlay').classList.toggle('active');
         document.body.classList.toggle('sidebar-open');
-
-        // Fokus ke sidebar jika dibuka
-        if (isExpanded) {
-            sidebar.focus();
-        }
     }
     
     // Fungsi untuk generate ID unik dari teks heading
