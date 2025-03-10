@@ -2114,43 +2114,42 @@ void loop() {
         </footer>
     <script>
         function toggleTheme() {
-            const body = document.body;
-            const themeToggleIcon = document.querySelector('.theme-toggle i');
-        
-            // Toggle dark-theme class
-            body.classList.toggle('dark-theme');
-        
-            // Update icon, title, and localStorage based on dark-theme status
-            if (body.classList.contains('dark-theme')) {
-                themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
-                themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
-                localStorage.setItem('theme', 'dark'); // Save theme preference
-            } else {
-                themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
-                themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
-                localStorage.setItem('theme', 'light'); // Save theme preference
-            }
-        }
-        
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme'); // Get saved theme from localStorage
-            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; // Check system preference
-            const themeToggleIcon = document.querySelector('.theme-toggle i');
-        
-            // Determine initial theme
-            const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'light');
-        
-            // Apply initial theme
-            if (initialTheme === 'dark') {
-                document.body.classList.add('dark-theme');
-                themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
-                themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
-            } else {
-                document.body.classList.remove('dark-theme');
-                themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
-                themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
-            }
-        });
+    const body = document.body;
+    const themeToggleIcon = document.querySelector('.theme-toggle i');
+
+    // Toggle data-theme attribute instead of class
+    if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
+        themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
+        localStorage.setItem('theme', 'light'); // Save theme preference
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
+        themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
+        localStorage.setItem('theme', 'dark'); // Save theme preference
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedTheme = localStorage.getItem('theme'); // Get saved theme from localStorage
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; // Check system preference
+    const themeToggleIcon = document.querySelector('.theme-toggle i');
+
+    // Determine initial theme
+    const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'light');
+
+    // Apply initial theme
+    if (initialTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
+        themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
+    } else {
+        document.body.removeAttribute('data-theme');
+        themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
+        themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
+    }
+});
     </script>
         <script>
              // Mendengarkan event 'load' pada window
