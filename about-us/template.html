@@ -2107,7 +2107,7 @@ void loop() {
     const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
     const sidebarNav = document.getElementById('sidebar-nav');
     const sidebar = document.querySelector('.sidebar');
-    const topNavigation = document.querySelector('.top-navigation');
+    const topNavigation = document.querySelector('.headco');
     
     // Cek apakah elemen ada
     if (!sidebar || !topNavigation) return;
@@ -2116,17 +2116,14 @@ void loop() {
     function createHamburgerMenu() {
         // Buat container untuk hamburger icon
         const hamburgerContainer = document.createElement('div');
-            hamburgerContainer.className = 'hamburger-container';
-            hamburgerContainer.setAttribute('role', 'button');
-            hamburgerContainer.setAttribute('aria-label', 'Toggle Sidebar');
-            
-// Tambahkan event listener untuk hamburger icon
-            hamburgerContainer.addEventListener('click', toggleSidebar);
-            hamburgerContainer.addEventListener('keydown', (event) => {
-                if (event.key === 'Enter' || event.key === ' ') {
-                    toggleSidebar();
-                }
-            });
+        hamburgerContainer.className = 'hamburger-container';
+        // Tambahkan event listener untuk hamburger icon
+        hamburgerContainer.addEventListener('click', toggleSidebar);
+        hamburgerContainer.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                toggleSidebar();
+            }
+        });
         
         // Buat hamburger icon
         const hamburgerIcon = document.createElement('div');
