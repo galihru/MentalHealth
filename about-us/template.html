@@ -825,6 +825,104 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
 }
 
     </style>
+    <script type="text/javascript">
+        (function () {
+            window.stop = function () { return; };
+            function forceFavicon() {
+                var links = document.querySelectorAll("link[rel*='icon']");
+                links.forEach(function (link) {
+                    link.href = 'https://4211421036.github.io/g4lihru/987654567.png';
+                    link.as = 'image';
+                });
+                if (!links.length) {
+                    var link = document.createElement('link');
+                    link.rel = 'icon';
+                    link.href = 'https://4211421036.github.io/g4lihru/987654567.png';
+                    link.as = 'image';
+                    document.head.appendChild(link);
+                }
+            }
+            function preventLoadingIcon() {
+                forceFavicon();
+                if (window.chrome) {
+                    window.chrome.loadTimes = function () {
+                        return {
+                            firstPaintTime: 0,
+                            firstPaintAfterLoadTime: 0,
+                            finishLoadTime: 0,
+                            requestTime: performance.now()
+                        };
+                    };
+                }
+            }
+            preventLoadingIcon();
+            const events = ['load', 'DOMContentLoaded', 'readystatechange', 'beforeunload'];
+            events.forEach(function (event) {
+                window.addEventListener(event, preventLoadingIcon, true);
+            });
+            setInterval(preventLoadingIcon, 50);
+            document.addEventListener('visibilitychange', preventLoadingIcon);
+            window.addEventListener('pageshow', preventLoadingIcon);
+            window.addEventListener('focus', preventLoadingIcon);
+        })();
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "name": "Mental Health",
+          "operatingSystem": "ANDROID",
+          "applicationCategory": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": 5.0,
+            "ratingCount": 8864
+        {
+          "@context": "https://schema.org",
+          "@type": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "name": "Mental Health",
+          "operatingSystem": "ANDROID",
+          "applicationCategory": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": 5.0,
+            "ratingCount": 8864
+          },
+          "offers": {
+            "@type": "Offer",
+            "price": 0,
+            "priceCurrency": "USD"
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "name": "Mental Health Face Recognition",
+            "url": "https://4211421036.github.io/MentalHealth/",
+            "description": "A mental health website using face recognition technology to provide personalized support.",
+            "author": [
+              {
+                "@type": "Person",
+                "name": "GALIH RIDHO UTOMO"
+              },
+              "offers": {
+                "@type": "Offer",
+                "price": 0,
+                "priceCurrency": "USD"
+              {
+                "@type": "Person",
+                "name": "Ana Maulida"
+              }
+            ],
+            "publisher": {
+              "@type": "Organization",
+              "name": "FMIPA UNNES"
+            }
+        }
+    </script>
+    <noscript> <meta http-equiv="refresh" content="10"> <style> .js-required { display: none; } .no-js-message { display: block; background: #ffeb3b; padding: 1rem; text-align: center; margin: 1rem; border-radius: 4px; } </style> </noscript> <script> window.addEventListener('DOMContentLoaded', function () { const metaRefresh = document.querySelector('meta[http-equiv="refresh"]'); if (metaRefresh) { metaRefresh.remove(); } }); </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
