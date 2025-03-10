@@ -898,6 +898,53 @@
             }
         }
 
+        .preview-card {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.preview-link-button {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 3px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
+
+.modal-content {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    width: 80%;
+    max-width: 500px;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-out;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
         /* Style untuk indentasi level heading */
         .sidebar-nav .level-1 {
             margin-left: 0;
@@ -2244,15 +2291,88 @@ void loop() {
                         <h3>12. Scientific References</h3>
                         <p role="text">This code implementation refers to several scientific references:</p>
                         <ul>
-                            <li><strong>Boucsein, W. (2012)</strong>: "Electrodermal Activity" - Standard
+                            <li><a href="#" class="preview-link" data-title=" An Individual-Oriented Algorithm for Stress Detection in Wearable Sensor Measurements" 
+                                    data-abstract="Accurately measuring a person’s level of stress
+ can haveawidevariety of impacts, not only on humanhealth,
+ but also on the perceived feeling of safety when going after
+ daily habits, such as walking, cycling, or driving from one
+ place to another. While there is a vast amount of research
+ done on stress and the related physiological responses of
+ the human body, there is no go-to method when it comes to
+ measuring acute stress in a live setting. This work proposes
+ an advancement of the rule-based stress detection algorithm
+ proposed by Kyriakou et al., to identify moments of stress
+ (MOS) more reliably, through an adaptation, and individu
+alization of the rules proposed in the original paper. The
+ proposed algorithm leverages electrodermal activity (EDA)
+ and skin temperature (ST), both recorded by the Empatica E4 wristband, for the assessment of an individual’s stress
+ when exposed to an audible stimulus. The algorithm achieves an average recall of 81.31%, with a precision of 46.23%,
+ and an accuracy of 92.74%, measured on 16 test subjects. The tradeoff between precision and recall can be controlled
+ by adjusting the MOS threshold that needs to be reached for an MOS to be detected." data-author="Martin Karl Moser
+ , Bernd Resch
+ , and Maximilian Ehrhart" data-year-publication="2023" data-link="https://4211421036.github.io/MentalHealth/about-us/pdf/An_Individual-Oriented_Algorithm_for_Stress_Detection_in_Wearable_Sensor_Measurements.pdf">
+                                    <strong>Boucsein, W. (2012)</strong>: "Electrodermal Activity" - Standard
                                 reference for processing GSR/EDA signals, including tonic and phasic component
-                                separation methods.</li>
-                            <li><strong>Shaffer et al. (2014)</strong>: "A healthy heart is not a metronome: an
+                                separation methods.</a></li>
+                            <li><a href="#" class="preview-link" data-title="A healthy heart is not a metronome: an integrative review of the heart's anatomy and heart rate variability" 
+                                    data-abstract="Heart rate variability (HRV), the change in the time intervals between adjacent heartbeats, is an emergent property of interdependent regulatory systems that operate on different time scales to adapt to challenges and achieve optimal performance. This article briefly reviews neural regulation of the heart, and its basic anatomy, the cardiac cycle, and the sinoatrial and atrioventricular pacemakers. The cardiovascular regulation center in the medulla integrates sensory information and input from higher brain centers, and afferent cardiovascular system inputs to adjust heart rate and blood pressure via sympathetic and parasympathetic efferent pathways. This article reviews sympathetic and parasympathetic influences on the heart, and examines the interpretation of HRV and the association between reduced HRV, risk of disease and mortality, and the loss of regulatory capacity. This article also discusses the intrinsic cardiac nervous system and the heart-brain connection, through which afferent information can influence activity in the subcortical and frontocortical areas, and motor cortex. It also considers new perspectives on the putative underlying physiological mechanisms and properties of the ultra-low-frequency (ULF), very-low-frequency (VLF), low-frequency (LF), and high-frequency (HF) bands. Additionally, it reviews the most common time and frequency domain measurements as well as standardized data collection protocols. In its final section, this article integrates Porges' polyvagal theory, Thayer and colleagues' neurovisceral integration model, Lehrer et al.'s resonance frequency model, and the Institute of HeartMath's coherence model. The authors conclude that a coherent heart is not a metronome because its rhythms are characterized by both complexity and stability over longer time scales. Future research should expand understanding of how the heart and its intrinsic nervous system influence the brain." 
+                                    data-author=" Fred Shaffer, Rollin McCraty and Christopher L. Zerr" data-year-publication="2014" data-link="https://4211421036/MentalHealth/about-us/pdf/fpsyg-05-01040.pdf">
+                                <strong>Shaffer et al. (2014)</strong>: "A healthy heart is not a metronome: an
                                 integrative review of the heart's anatomy and heart rate variability" -
-                                Guidelines for processing and interpreting heart rate variability data.</li>
-                            <li><strong>Golden et al. (2005)</strong>: "The efficacy of light therapy in the
+                                Guidelines for processing and interpreting heart rate variability data.</a></li>
+                            <li><a href="#" class="preview-link" data-title="The Efficacy of Light Therapy in the Treatment of Mood 
+Disorders: A Review and Meta-Analysis of the Evidence" data-abstract=" Objective: The purpose of this study was
+ to assess the evidence base for the efficacy
+ of light therapy in treating mood disorders.
+ Method: The authors systematically
+ searched PubMed (January 1975 to July
+ 2003) to identify randomized, controlled
+ trials of light therapy for mood disorders
+ that fulfilled predefined criteria. These
+ articles were abstracted, and data were
+ synthesized by disease and intervention
+ category.
+ Results: Only 13% of the studies met the
+ inclusion criteria. Meta-analyses revealed
+ that a significant reduction in depression
+ symptom severity was associated with
+ bright light treatment (eight studies, having
+ an effect size of 0.84 and 95% confidence
+ interval [CI] of 0.60 to 1.08) and dawn sim
+ulation in seasonal affective disorder (five
+ studies; effect size=0.73, 95% CI=0.37 to
+ 1.08) and with bright light treatment in
+ nonseasonal depression (three studies; ef
+fect size=0.53, 95% CI=0.18 to 0.89). Bright
+ light as an adjunct to antidepressant phar
+macotherapy for nonseasonal depression
+ was not effective (five studies; effect size=–0.01, 95% CI=–0.36 to 0.34).
+ Conclusions: Many reports of the efficacy
+ of light therapy are not based on rigorous
+ study designs. This analysis of randomized,
+ controlled trials suggests that bright light
+ treatment and dawn simulation for sea
+sonal affective disorder and bright light for
+ nonseasonal depression are efficacious,
+ with effect sizes equivalent to those in most
+ antidepressant pharmacotherapy trials.
+ Adopting standard approaches to light
+ therapy’s specific issues (e.g., defining pa
+rameters of active versus placebo condi
+tions) and incorporating rigorous designs
+ (e.g., adequate group sizes, randomized
+ assignment) are necessary to evaluate light
+ therapy for mood disorders." data-author=" Robert N. Golden, M.D.
+ Bradley N. Gaynes, M.D., M.P.H.
+ R. David Ekstrom, M.A., M.P.H.
+ Robert M. Hamer, Ph.D.
+ Frederick M. Jacobsen, M.D., 
+M.P.H.
+ Trisha Suppes, M.D., Ph.D.
+ Katherine L. Wisner, M.D.
+ Charles B. Nemeroff, M.D., Ph.D." data-year-publication="2005" data-link="https://4211421036/MentalHealth/about-us/pdf/jacobsen-et-al-2005-the-efficacy-of-light-therapy-in-the-treatment-of-mood-disorders-a-review-and-meta-analysis-of-the.pdf"><strong>Golden et al. (2005)</strong>: "The efficacy of light therapy in the
                                 treatment of mood disorders: a review and meta-analysis of the evidence" -
-                                Research on the impact of light levels on mood and mental health.</li>
+                                Research on the impact of light levels on mood and mental health.</a></li>
                         </ul>
             </div>
             <aside class="sidebar" role="complementary" aria-labelledby="sidebar-title">
@@ -2266,9 +2386,91 @@ void loop() {
         </div>
     </div>
 
+    <div id="preview-card" class="preview-card">
+        <h3 id="preview-title"></h3>
+        <p id="preview-abstract"></p>
+        <p><strong>Author:</strong> <span id="preview-author"></span></p>
+        <p><strong>Year:</strong> <span id="preview-year"></span></p>
+        <a id="preview-link-button" class="preview-link-button" href="#" target="_blank">Visit Link</a>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modal-title"></h3>
+            <p id="modal-abstract"></p>
+            <p><strong>Author:</strong> <span id="modal-author"></span></p>
+            <p><strong>Year:</strong> <span id="modal-year"></span></p>
+            <a id="modal-link-button" class="preview-link-button" href="#" target="_blank">Visit Link</a>
+        </div>
+    </div>
+
     <footer class="footer" role="contentinfo">
         <p role="text">&copy; 2025 Mental Health Website. All rights reserved.</p>
     </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+    const links = document.querySelectorAll('.preview-link');
+    const previewCard = document.getElementById('preview-card');
+    const modal = document.getElementById('modal');
+    const modalContent = document.querySelector('.modal-content');
+
+    links.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            if (window.innerWidth > 768) {
+                const title = link.getAttribute('data-title');
+                const abstract = link.getAttribute('data-abstract');
+                const author = link.getAttribute('data-author');
+                const year = link.getAttribute('data-year-publication');
+                const linkUrl = link.getAttribute('data-link');
+
+                document.getElementById('preview-title').textContent = title;
+                document.getElementById('preview-abstract').textContent = abstract;
+                document.getElementById('preview-author').textContent = author;
+                document.getElementById('preview-year').textContent = year;
+                document.getElementById('preview-link-button').href = linkUrl;
+
+                const rect = link.getBoundingClientRect();
+                previewCard.style.top = `${rect.bottom}px`;
+                previewCard.style.left = `${rect.left}px`;
+                previewCard.style.display = 'block';
+            }
+        });
+
+        link.addEventListener('mouseleave', function() {
+            if (window.innerWidth > 768) {
+                previewCard.style.display = 'none';
+            }
+        });
+
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            if (window.innerWidth <= 768) {
+                const title = link.getAttribute('data-title');
+                const abstract = link.getAttribute('data-abstract');
+                const author = link.getAttribute('data-author');
+                const year = link.getAttribute('data-year-publication');
+                const linkUrl = link.getAttribute('data-link');
+
+                document.getElementById('modal-title').textContent = title;
+                document.getElementById('modal-abstract').textContent = abstract;
+                document.getElementById('modal-author').textContent = author;
+                document.getElementById('modal-year').textContent = year;
+                document.getElementById('modal-link-button').href = linkUrl;
+
+                modal.classList.add('show');
+                modal.style.display = 'flex';
+            }
+        });
+    });
+
+    modal.addEventListener('click', function() {
+        modal.classList.remove('show');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    });
+});
+    </script>
     <script>
         function toggleTheme() {
             const body = document.body;
