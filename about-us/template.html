@@ -909,7 +909,7 @@
     top: 20px; /* Menambahkan top untuk posisi fixed */
     left: 50%; /* Menengahkan secara horizontal */
     transform: translateX(-50%); /* Menengahkan secara horizontal */
-    max-width: 300px; /* Lebar maksimal untuk preview card */
+    width: 450px;
 }
 
 .preview-link-button {
@@ -2483,7 +2483,7 @@ M.P.H.
                 document.getElementById('preview-link-button').href = linkUrl;
 
                 const rect = link.getBoundingClientRect();
-                previewCard.style.top = `${rect.top - previewCard.offsetHeight - 10}px`; /* Posisi di atas link */
+                previewCard.style.top = `${rect.top / previewCard.offsetHeight - 10}px`; /* Posisi di atas link */
                 previewCard.style.left = `${rect.left}px`;
                 previewCard.style.display = 'block';
             }
