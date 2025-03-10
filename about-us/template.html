@@ -2117,13 +2117,13 @@ void loop() {
         // Buat container untuk hamburger icon
         const hamburgerContainer = document.createElement('div');
         hamburgerContainer.className = 'hamburger-container';
-        hamburgerContainer.setAttribute('role', 'button');
-        hamburgerContainer.setAttribute('aria-label', 'Toggle Sidebar');
-        hamburgerContainer.setAttribute('aria-expanded', 'false');
         
         // Buat hamburger icon
         const hamburgerIcon = document.createElement('div');
         hamburgerIcon.className = 'hamburger-icon';
+        hamburgerIcon.setAttribute('role', 'button');
+        hamburgerIcon.setAttribute('aria-label', 'Toggle Sidebar');
+        hamburgerIcon.setAttribute('aria-expanded', 'false');
         hamburgerIcon.innerHTML = `
             <span></span>
             <span></span>
@@ -2151,6 +2151,7 @@ void loop() {
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('sidebar-overlay');
         const hamburgerContainer = document.querySelector('.hamburger-container');
+        const hamburgerIcon = document.querySelector('.hamburger-icon');
 
         // Toggle class 'open' pada sidebar
         sidebar.classList.toggle('open');
@@ -2160,7 +2161,7 @@ void loop() {
 
         // Update aria-expanded
         const isExpanded = sidebar.classList.contains('open');
-        hamburgerContainer.setAttribute('aria-expanded', isExpanded);
+        hamburgerIcon.setAttribute('aria-expanded', isExpanded);
 
         // Fokus ke sidebar jika dibuka
         if (isExpanded) {
