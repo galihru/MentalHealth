@@ -914,13 +914,17 @@
 }
 
 .preview-link-button {
-    display: inline-block;
+    display: flex;
     margin-top: 10px;
-    padding: 5px 10px;
-    background-color: #007bff;
+    background-color: #013b79;
     color: #fff;
     text-decoration: none;
-    border-radius: 3px;
+    border-radius: 25px;
+    width: -webkit-fill-available;
+    padding: 10px 20px;
+    align-items: center;
+    justify-content: center;
+    position: relative;
 }
 
 .modal {
@@ -1185,6 +1189,11 @@
         }
         [data-theme="dark"] .modal-content {
             background-color: #282828;
+        }
+
+        [dark-theme="dark"] .preview-link-button {
+            background-color: #fff;
+            color: #013b79;
         }
     </style>
     <script type="text/javascript">
