@@ -2760,7 +2760,7 @@ M.P.H.
         const deltaX = touchEndX - touchStartX;
         const swipeThreshold = 50; // Jarak minimal swipe untuk dianggap valid
 
-        if (deltaX < -swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
+        if (deltaX < swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
             // Swipe ke kiri - tutup sidebar
             sidebar.classList.remove('active');
             document.querySelector('.sidebar-overlay').classList.remove('active');
