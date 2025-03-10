@@ -77,11 +77,7 @@
             color: var(--text-color);
             overflow: hidden;
         }
-
-        body.loaded {
-            opacity: 1;
-        }
-
+        
         .page-wrapper {
             display: flex;
             min-height: 100vh;
@@ -2326,9 +2322,6 @@ void loop() {
             if (header) {
                 header.style.display = "block";
             }
-
-            // Opsional: Tambahkan kelas untuk animasi transisi jika diinginkan
-            document.body.classList.add("loaded");
         });
     </script>
     <script>
