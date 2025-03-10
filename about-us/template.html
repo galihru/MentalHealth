@@ -70,6 +70,7 @@
             line-height: 1.6;
             background-color: var(--background-light);
             color: var(--text-color);
+            overflow: hidden;
         }
 
         .page-wrapper {
@@ -1829,12 +1830,31 @@ void loop() {
             <p>&copy; 2025 Mental Health Website. All rights reserved.</p>
         </footer>
         <script>
-            window.addEventListener('load', function() {
+             // Mendengarkan event 'load' pada window
+        window.addEventListener('load', function() {
             // Hapus skeleton loading
             const skeletonWrapper = document.querySelector(".skeleton-wrapper");
+            if (skeletonWrapper) {
+                skeletonWrapper.remove();
+            }
+            
+            // Tampilkan header
+            const header = document.querySelector("header");
+            if (header) {
+                header.style.display = "block";
+            }
             
             // Tampilkan konten asli
             const pageWrapper = document.querySelector(".page-wrapper");
+            if (pageWrapper) {
+                pageWrapper.style.display = "block";
+            }
+            
+            // Ubah overflow body menjadi scroll
+            document.body.style.overflow = "auto"; // atau "scroll" untuk selalu menampilkan scrollbar
+            
+            // Opsional: Tambahkan kelas untuk animasi transisi jika diinginkan
+            document.body.classList.add("loaded");
         });
     </script>
         <script>
