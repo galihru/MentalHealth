@@ -2048,6 +2048,58 @@ void loop() {
         });
     </script>
         <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const progressBar = document.getElementById('progress-bar');
+            const progressContainer = document.getElementById('progress');
+            const meter = document.getElementById('meter');
+            let progress = 0;
+
+            function updateAccessibility() {
+                progressContainer.setAttribute('aria-valuenow', progress);
+                progressContainer.setAttribute('value', progress);
+                meter.setAttribute('aria-valuenow', progress);
+            }
+            setTimeout(() => {
+                progress = 30;
+                progressBar.style.width = `${progress}%`;
+                updateAccessibility();
+            }, 10);
+            const loadingInterval = setInterval(() => {
+                if (progress < 90) {
+                    progress += Math.random() * 15;
+                    if (progress > 100) progress = 100;
+                    progressBar.style.width = `${progress}%`;
+                    updateAccessibility();
+                }
+            }, 300);
+            window.addEventListener('load', () => {
+                clearInterval(loadingInterval);
+                progress = 100;
+                progressBar.style.width = '100%';
+                updateAccessibility();
+
+                setTimeout(() => {
+                    progress = 0;
+                    progressBar.style.width = '0';
+                    updateAccessibility();
+                    console.log("%c Profile of this website creator!", "color:#2dc9ac;")
+                    const profiles = {
+                            "GALIH RIDHO UTOMO": {
+                                Mail: "g4lihru@students.unnes.ac.id",
+                            },                
+                            "Ana Maulida": {
+
+                                Mail: "anamaulida@students.unnes.ac.id",
+                            },
+                        };
+                    const tableString = console.table(profiles);
+                    console.log("Follow We!\nGALIH RIDHO UTOMO https://instagram.com/galih_ridho_utomo\nAna Maulida https://instagram.com/anma1505")
+                    progressBar.parentNode.removeChild(progressBar);
+                }, 500);
+            });
+        });
+    </script>
+        <script>
            document.addEventListener('DOMContentLoaded', function () {
     const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
     const sidebarNav = document.getElementById('sidebar-nav');
