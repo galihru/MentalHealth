@@ -2760,14 +2760,14 @@ M.P.H.
         const deltaX = touchEndX - touchStartX;
         const swipeThreshold = 50; // Jarak minimal swipe untuk dianggap valid
 
-        if (deltaX < swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
+        if (deltaX > swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
             // Swipe ke kiri - tutup sidebar
             sidebar.classList.remove('active');
             document.querySelector('.sidebar-overlay').classList.remove('active');
             document.body.classList.remove('sidebar-open');
             document.body.style.overflow = 'auto';
             sidebar.style.transform = 'translateX(0)'; // Reset transform
-        } else if (deltaX > swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
+        } else if (deltaX < swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
             // Swipe ke kanan - buka sidebar
             sidebar.classList.add('active');
             document.querySelector('.sidebar-overlay').classList.add('active');
