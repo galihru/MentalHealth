@@ -2518,7 +2518,7 @@ M.P.H.
 
                 modal.classList.add('show');
                 modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden'; // Disable scrolling
+                document.documentElement.style.overflow = 'hidden';
             }
         });
     });
@@ -2528,7 +2528,7 @@ M.P.H.
             setTimeout(() => {
                 modal.style.display = 'none';
                 modalContent.style.transform = 'translateY(0)';
-                document.body.style.overflow = 'auto'; // Disable scrolling
+                document.documentElement.style.overflow = 'auto'; // Disable scrolling
             }, 300);
         }
     });
@@ -2553,11 +2553,11 @@ M.P.H.
             setTimeout(() => {
                 modal.style.display = 'none';
                 modalContent.style.transform = 'translateY(0)';
-                document.body.style.overflow = 'auto'; // Disable scrolling
+                document.documentElement.style.overflow = 'auto'; // Disable scrolling
             }, 300);
         } else {
             modalContent.style.transform = 'translateY(0)';
-            document.body.style.overflow = 'auto'; // Disable scrolling
+            document.documentElement.style.overflow = 'auto'; // Disable scrolling
         }
     });
 });
