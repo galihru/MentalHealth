@@ -945,6 +945,8 @@
     max-width: 500px;
     transform: translateY(100%);
     transition: transform 0.3s ease-out;
+    position: fixed;
+    bottom: 0
 }
 
 .modal.show .modal-content {
@@ -2429,10 +2431,10 @@ M.P.H.
     </div>
 
     <div id="modal" class="modal">
-        <div class="modal-header">
-            <div class="swipe-indicator"></div>
-        </div>
         <div class="modal-content">
+            <div class="modal-header">
+                <div class="swipe-indicator"></div>
+            </div>
             <h3 id="modal-title"></h3>
             <p id="modal-abstract"></p>
             <p><strong>Author:</strong> <span id="modal-author"></span></p>
