@@ -11,6 +11,7 @@
     <link rel="icon" href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
     <link rel="preload" href="https://4211421036.github.io/MentalHealth/style.css" as="style">
     <link rel="apple-touch-icon" href="https://4211421036.github.io/g4lihru/987654567.png">
+    <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="all" onload='"all"!==media&&(media="none")'>
     <link rel="dns-prefetch" href="https://4211421036.github.io/" />
     <link href="https://4211421036.github.io/MentalHealth/manifest.webmanifest" rel="manifest">
     <meta name="description" content="A comprehensive mental health monitoring application using modern web technologies.">
@@ -174,6 +175,27 @@
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
+        .thm {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    color: var(--primary-light);
+    font-size: 20px;
+    line-height: 1.6;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 12px;
+    transition: background-color 0.3s;
+}
+
+.theme-toggle:hover {
+    background: var(--text-secondary-light);
+}
 
         .team-table th {
             background-color: #f5f7f9;
@@ -900,6 +922,69 @@ body.sidebar-open .hamburger-icon span:nth-child(3) {
     100% {
         transform: translateX(100%);
     }
+}
+        [data-theme="dark"] {
+    --primary-color: #90caf9;
+    --background-light: #121212;
+    --background-white: #1e1e1e;
+    --text-color: #e0e0e0;
+    --border-color: #333333;
+    --secondary-color: #64b5f6;
+    --header-color: #1976d2;
+    --skeleton-color: #333333;
+}
+        [data-theme="dark"] .team-table {
+    background-color: var(--background-white);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .team-table th {
+    background-color: var(--background-light);
+}
+
+[data-theme="dark"] .card {
+    background-color: var(--background-white);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .card-icon {
+    background-color: var(--background-light);
+}
+
+[data-theme="dark"] .card-title {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .card-description {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .sidebar {
+    background-color: var(--background-white);
+}
+
+[data-theme="dark"] .sidebar-nav li a {
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .sidebar-nav li a:hover {
+    background-color: var(--primary-color);
+    color: var(--background-white);
+}
+
+[data-theme="dark"] .sidebar-nav li a.active {
+    background-color: var(--primary-color);
+    color: var(--background-white);
+}
+        [data-theme="dark"] .edit-page {
+    background-color: var(--background-white);
+    border-color: var(--border-color);
+    color: var(--text-color);
+}
+
+[data-theme="dark"] .footer {
+    background-color: var(--background-white);
+    color: var(--text-color);
 }
 
     </style>
@@ -2009,6 +2094,12 @@ void loop() {
             </div>
 
             <aside class="sidebar" role="complementary" aria-labelledby="sidebar-title">
+                <div class="thm">
+                    <button role="button" tabindex="-1" type="button" name="theme" class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme" aria-label="theme-toggle">
+                        <i class="fas fa-moon" role="tooltip" title="Theme"></i>
+                    </button>
+                    <p role="text" aria-hidden="true">Theme</p>
+                </div
                 <h3 class="sidebar-title" id="sidebar-title">ON THIS PAGE</h3>
                 <div class="sidebar-section">
                     <ul class="sidebar-nav" id="sidebar-nav" role="list">
@@ -2021,6 +2112,46 @@ void loop() {
         <footer class="footer" role="contentinfo">
             <p role="text">&copy; 2025 Mental Health Website. All rights reserved.</p>
         </footer>
+    <script>
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggleIcon = document.querySelector('.theme-toggle i');
+        
+            // Toggle dark-theme class
+            body.classList.toggle('dark-theme');
+        
+            // Update icon, title, and localStorage based on dark-theme status
+            if (body.classList.contains('dark-theme')) {
+                themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
+                themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
+                localStorage.setItem('theme', 'dark'); // Save theme preference
+            } else {
+                themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
+                themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
+                localStorage.setItem('theme', 'light'); // Save theme preference
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme'); // Get saved theme from localStorage
+            const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; // Check system preference
+            const themeToggleIcon = document.querySelector('.theme-toggle i');
+        
+            // Determine initial theme
+            const initialTheme = savedTheme ? savedTheme : (systemPrefersDark ? 'dark' : 'light');
+        
+            // Apply initial theme
+            if (initialTheme === 'dark') {
+                document.body.classList.add('dark-theme');
+                themeToggleIcon.className = 'fas fa-sun'; // Set icon to sun (light mode)
+                themeToggleIcon.setAttribute('title', 'Switch to Light Mode'); // Update tooltip
+            } else {
+                document.body.classList.remove('dark-theme');
+                themeToggleIcon.className = 'fas fa-moon'; // Set icon to moon (dark mode)
+                themeToggleIcon.setAttribute('title', 'Switch to Dark Mode'); // Update tooltip
+            }
+        });
+    </script>
         <script>
              // Mendengarkan event 'load' pada window
         window.addEventListener('load', function() {
