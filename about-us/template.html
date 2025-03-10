@@ -2672,233 +2672,263 @@ M.P.H.
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
-            const sidebarNav = document.getElementById('sidebar-nav');
-            const sidebar = document.querySelector('.sidebar');
-            const topNavigation = document.querySelector('.headco');
+    const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
+    const sidebarNav = document.getElementById('sidebar-nav');
+    const sidebar = document.querySelector('.sidebar');
+    const topNavigation = document.querySelector('.headco');
 
-            // Cek apakah elemen ada
-            if (!sidebar || !topNavigation) return;
+    // Cek apakah elemen ada
+    if (!sidebar || !topNavigation) return;
 
-            // Buat hamburger menu
-            function createHamburgerMenu() {
-                // Buat container untuk hamburger icon
-                const hamburgerContainer = document.createElement('div');
-                hamburgerContainer.className = 'hamburger-container';
+    // Buat hamburger menu
+    function createHamburgerMenu() {
+        // Buat container untuk hamburger icon
+        const hamburgerContainer = document.createElement('div');
+        hamburgerContainer.className = 'hamburger-container';
 
-                // Buat hamburger icon
-                const hamburgerIcon = document.createElement('div');
-                hamburgerIcon.className = 'hamburger-icon';
-                hamburgerIcon.innerHTML = `
+        // Buat hamburger icon
+        const hamburgerIcon = document.createElement('div');
+        hamburgerIcon.className = 'hamburger-icon';
+        hamburgerIcon.innerHTML = `
             <span></span>
             <span></span>
             <span></span>
         `;
 
-                // Tambahkan event listener untuk hamburger icon
-                hamburgerIcon.addEventListener('click', toggleSidebar);
+        // Tambahkan event listener untuk hamburger icon
+        hamburgerIcon.addEventListener('click', toggleSidebar);
 
-                // Tambahkan hamburger icon ke container
-                hamburgerContainer.appendChild(hamburgerIcon);
+        // Tambahkan hamburger icon ke container
+        hamburgerContainer.appendChild(hamburgerIcon);
 
-                // Tambahkan hamburger container ke navigation
-                topNavigation.appendChild(hamburgerContainer);
+        // Tambahkan hamburger container ke navigation
+        topNavigation.appendChild(hamburgerContainer);
 
-                // Buat overlay untuk menutup sidebar saat di-klik
-                const overlay = document.createElement('div');
-                overlay.className = 'sidebar-overlay';
-                overlay.addEventListener('click', toggleSidebar);
-                document.body.appendChild(overlay);
+        // Buat overlay untuk menutup sidebar saat di-klik
+        const overlay = document.createElement('div');
+        overlay.className = 'sidebar-overlay';
+        overlay.addEventListener('click', toggleSidebar);
+        document.body.appendChild(overlay);
+    }
+
+    // Toggle sidebar
+    function toggleSidebar() {
+        sidebar.classList.toggle('active');
+        document.querySelector('.sidebar-overlay').classList.toggle('active');
+        document.body.classList.toggle('sidebar-open');
+        
+        // PERBAIKAN: Jangan set overflow: hidden, karena mencegah scrolling
+        // Hanya set overflow: hidden pada body jika sidebar terbuka pada mobile
+        if (document.body.classList.contains('sidebar-open') && window.innerWidth <= 768) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+    }
+
+    // Fungsi untuk handle swipe
+    let touchStartX = 0;
+    let touchEndX = 0;
+    let isSwiping = false;
+
+    // Touch event untuk swipe
+    sidebar.addEventListener('touchstart', function (e) {
+        touchStartX = e.touches[0].clientX;
+        isSwiping = true;
+    }, false);
+
+    sidebar.addEventListener('touchmove', function (e) {
+        if (!isSwiping) return;
+
+        const currentX = e.touches[0].clientX;
+        const deltaX = currentX - touchStartX;
+
+        // Batasi pergerakan sidebar agar tidak melebihi batas
+        if (deltaX > 0) {
+            // Geser sidebar ke kanan (buka)
+            sidebar.style.transform = `translateX(${Math.min(deltaX, sidebar.offsetWidth)}px)`;
+        } else if (deltaX < 0) {
+            // Geser sidebar ke kiri (tutup)
+            sidebar.style.transform = `translateX(${Math.max(deltaX - sidebar.offsetWidth, 0)}px)`;
+        }
+    }, false);
+
+    sidebar.addEventListener('touchend', function (e) {
+        if (!isSwiping) return;
+
+        touchEndX = e.changedTouches[0].clientX;
+        const deltaX = touchEndX - touchStartX;
+        const swipeThreshold = 50; // Jarak minimal swipe untuk dianggap valid
+
+        if (deltaX < -swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
+            // Swipe ke kiri - tutup sidebar
+            sidebar.classList.remove('active');
+            document.querySelector('.sidebar-overlay').classList.remove('active');
+            document.body.classList.remove('sidebar-open');
+            document.body.style.overflow = 'auto';
+            sidebar.style.transform = 'translateX(0)'; // Reset transform
+        } else if (deltaX > swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
+            // Swipe ke kanan - buka sidebar
+            sidebar.classList.add('active');
+            document.querySelector('.sidebar-overlay').classList.add('active');
+            document.body.classList.add('sidebar-open');
+            sidebar.style.transform = 'translateX(0)'; // Reset transform
+            
+            // Hanya set overflow hidden pada mobile
+            if (window.innerWidth <= 768) {
+                document.body.style.overflow = 'hidden';
             }
+        } else {
+            // Jika swipe tidak mencapai threshold, kembalikan ke posisi awal
+            sidebar.style.transform = sidebar.classList.contains('active') ? 'translateX(0)' : 'translateX(-100%)';
+        }
 
-            // Toggle sidebar
-            function toggleSidebar() {
-                sidebar.classList.toggle('active');
-                document.querySelector('.sidebar-overlay').classList.toggle('active');
-                document.body.classList.toggle('sidebar-open');
-                document.body.style.overflow = 'hidden'; // Disable scrolling
-            }
+        isSwiping = false;
+    }, false);
 
-            // Fungsi untuk handle swipe
-            let touchStartX = 0;
-            let touchEndX = 0;
-            let isSwiping = false;
+    // Fungsi untuk generate ID unik dari teks heading
+    function generateID(text) {
+        return text
+            .toLowerCase() // Ubah ke huruf kecil
+            .replace(/[^\w\s]/g, '') // Hapus karakter khusus
+            .replace(/\s+/g, '-'); // Ganti spasi dengan tanda hubung
+    }
 
-            // Touch event untuk swipe
-            sidebar.addEventListener('touchstart', function (e) {
-                touchStartX = e.touches[0].clientX;
-                isSwiping = true;
-            }, false);
-
-            sidebar.addEventListener('touchmove', function (e) {
-                if (!isSwiping) return;
-
-                const currentX = e.touches[0].clientX;
-                const deltaX = currentX - touchStartX;
-
-                // Batasi pergerakan sidebar agar tidak melebihi batas
-                if (deltaX > 0) {
-                    // Geser sidebar ke kanan (buka)
-                    sidebar.style.transform = `translateX(${Math.min(deltaX, sidebar.offsetWidth)}px)`;
-                } else if (deltaX < 0) {
-                    // Geser sidebar ke kiri (tutup)
-                    sidebar.style.transform = `translateX(${Math.max(deltaX - sidebar.offsetWidth, 0)}px)`;
-                }
-            }, false);
-
-            sidebar.addEventListener('touchend', function (e) {
-                if (!isSwiping) return;
-
-                touchEndX = e.changedTouches[0].clientX;
-                const deltaX = touchEndX - touchStartX;
-                const swipeThreshold = 50; // Jarak minimal swipe untuk dianggap valid
-
-                if (deltaX < swipeThreshold) {
-                    // Swipe ke kanan - buka sidebar
-                    sidebar.classList.add('active');
-                    document.querySelector('.sidebar-overlay').classList.add('active');
-                    document.body.classList.add('sidebar-open');
-                    sidebar.style.transform = 'translateX(0)'; // Reset transform
-                } else if (deltaX > -swipeThreshold) {
-                    // Swipe ke kiri - tutup sidebar
-                    sidebar.classList.remove('active');
-                    document.querySelector('.sidebar-overlay').classList.remove('active');
-                    document.body.classList.remove('sidebar-open');
-                    document.body.style.overflow = 'auto';
-                    sidebar.style.transform = 'translateX(0%)'; // Reset transform
-                } else {
-                    // Jika swipe tidak mencapai threshold, kembalikan ke posisi awal
-                    sidebar.style.transform = sidebar.classList.contains('active') ? 'translateX(0)' : 'translateX(0%)';
-                }
-
-                isSwiping = false;
-            }, false);
-
-            // Fungsi untuk generate ID unik dari teks heading
-            function generateID(text) {
-                return text
-                    .toLowerCase() // Ubah ke huruf kecil
-                    .replace(/[^\w\s]/g, '') // Hapus karakter khusus
-                    .replace(/\s+/g, '-'); // Ganti spasi dengan tanda hubung
-            }
-
-            // Fungsi untuk generate daftar isi
-            function generateTableOfContents() {
-                let tocHTML = '';
-                sections.forEach(section => {
-                    const level = parseInt(section.tagName.replace('H', '')); // Ambil level heading (1, 2, 3)
-                    const id = section.id || generateID(section.textContent); // Generate ID jika belum ada
-                    section.id = id; // Set ID ke heading
-                    // Tambahkan class level untuk indentasi
-                    const levelClass = `level-${level}`;
-                    // Buat link untuk sidebar
-                    tocHTML += `
+    // Fungsi untuk generate daftar isi
+    function generateTableOfContents() {
+        let tocHTML = '';
+        sections.forEach(section => {
+            const level = parseInt(section.tagName.replace('H', '')); // Ambil level heading (1, 2, 3)
+            const id = section.id || generateID(section.textContent); // Generate ID jika belum ada
+            section.id = id; // Set ID ke heading
+            // Tambahkan class level untuk indentasi
+            const levelClass = `level-${level}`;
+            // Buat link untuk sidebar
+            tocHTML += `
                 <li class="${levelClass}">
                     <a href="#${id}">${section.textContent}</a>
                 </li>
             `;
-                });
-                sidebarNav.innerHTML = tocHTML; // Masukkan daftar isi ke sidebar
-            }
-
-            // Fungsi untuk update active state
-            function updateActiveSection() {
-                const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
-                let currentSection = '';
-                sections.forEach(section => {
-                    const rect = section.getBoundingClientRect();
-                    if (rect.top <= 150 && rect.bottom >= 150) {
-                        currentSection = '#' + section.id;
-                    }
-                });
-                sidebarLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (link.getAttribute('href') === currentSection) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-
-            // Fungsi untuk handle responsive behavior
-            function handleResponsive() {
-                const isMobile = window.innerWidth <= 768; // Breakpoint untuk mobile
-
-                if (isMobile) {
-                    sidebar.classList.add('mobile');
-                    document.body.classList.add('mobile-view');
-                    document.body.style.overflow = 'auto';
-                } else {
-                    document.body.style.overflow = 'auto';
-                    sidebar.classList.remove('mobile');
-                    sidebar.classList.remove('active');
-                    document.body.classList.remove('mobile-view');
-                    document.body.classList.remove('sidebar-open');
-                    document.querySelector('.sidebar-overlay').classList.remove('active');
-                }
-            }
-
-            // Smooth scroll untuk sidebar
-            sidebarNav.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    e.preventDefault();
-                    const target = document.querySelector(e.target.getAttribute('href'));
-                    document.body.style.overflow = 'auto';
-                    if (target) {
-                        document.body.style.overflow = 'auto';
-                        window.scrollTo({
-                            top: target.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
-
-                        // Tutup sidebar setelah klik pada mobile
-                        if (window.innerWidth <= 768) {
-                            toggleSidebar();
-                            document.body.style.overflow = 'auto';
-                        }
-                    }
-                }
-            });
-
-            // Fungsi untuk memeriksa apakah sidebar memerlukan scrollbar
-            function checkScrollable() {
-                if (!sidebar) return;
-
-                // Jika konten sidebar lebih tinggi dari tinggi yang terlihat
-                if (sidebar.scrollHeight > sidebar.clientHeight) {
-                    sidebar.classList.add('scrollable');
-                } else {
-                    sidebar.classList.remove('scrollable');
-                }
-            }
-
-            // Jalankan saat halaman dimuat
-            checkScrollable();
-
-            // Jalankan kembali saat ukuran window berubah
-            window.addEventListener('resize', checkScrollable);
-
-            // Opsional: Jalankan kembali setelah konten mungkin berubah
-            const observer = new MutationObserver(checkScrollable);
-            if (sidebar) {
-                observer.observe(sidebar, { childList: true, subtree: true });
-            }
-
-            // Generate daftar isi saat halaman dimuat
-            generateTableOfContents();
-            updateActiveSection(); // Set active section awal
-
-            // Buat hamburger menu
-            createHamburgerMenu();
-
-            // Set responsive state awal
-            handleResponsive();
-
-            // Event listener untuk resize
-            window.addEventListener('resize', handleResponsive);
-
-            // Observer untuk scroll
-            window.addEventListener('scroll', updateActiveSection);
         });
+        sidebarNav.innerHTML = tocHTML; // Masukkan daftar isi ke sidebar
+    }
+
+    // Fungsi untuk update active state
+    function updateActiveSection() {
+        const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+        let currentSection = '';
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 150 && rect.bottom >= 150) {
+                currentSection = '#' + section.id;
+            }
+        });
+        sidebarLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === currentSection) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    // Fungsi untuk handle responsive behavior
+    function handleResponsive() {
+        const isMobile = window.innerWidth <= 768; // Breakpoint untuk mobile
+
+        if (isMobile) {
+            sidebar.classList.add('mobile');
+            document.body.classList.add('mobile-view');
+            
+            // PERBAIKAN: Hanya set overflow hidden jika sidebar aktif pada mobile
+            if (sidebar.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        } else {
+            document.body.style.overflow = 'auto';
+            sidebar.classList.remove('mobile');
+            sidebar.classList.remove('active');
+            document.body.classList.remove('mobile-view');
+            document.body.classList.remove('sidebar-open');
+            document.querySelector('.sidebar-overlay').classList.remove('active');
+        }
+    }
+
+    // PERBAIKAN: Smooth scroll untuk sidebar
+    sidebarNav.addEventListener('click', (e) => {
+        if (e.target.tagName === 'A') {
+            e.preventDefault();
+            const targetId = e.target.getAttribute('href');
+            const target = document.querySelector(targetId);
+            
+            // Kembalikan overflow ke auto untuk memungkinkan scrolling
+            document.body.style.overflow = 'auto';
+            
+            if (target) {
+                // Scroll ke target dengan offset
+                const offset = 100; // Sesuaikan offset sesuai kebutuhan
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
+                
+                window.scrollTo({
+                    top: targetPosition,
+                    behavior: 'smooth'
+                });
+
+                // Jika pada tampilan mobile, tutup sidebar setelah klik
+                if (window.innerWidth <= 768) {
+                    // Tunggu sedikit sebelum menutup sidebar agar scroll sempat terjadi
+                    setTimeout(() => {
+                        sidebar.classList.remove('active');
+                        document.querySelector('.sidebar-overlay').classList.remove('active');
+                        document.body.classList.remove('sidebar-open');
+                        document.body.style.overflow = 'auto';
+                    }, 300);
+                }
+            }
+        }
+    });
+
+    // Fungsi untuk memeriksa apakah sidebar memerlukan scrollbar
+    function checkScrollable() {
+        if (!sidebar) return;
+
+        // Jika konten sidebar lebih tinggi dari tinggi yang terlihat
+        if (sidebar.scrollHeight > sidebar.clientHeight) {
+            sidebar.classList.add('scrollable');
+        } else {
+            sidebar.classList.remove('scrollable');
+        }
+    }
+
+    // Jalankan saat halaman dimuat
+    checkScrollable();
+
+    // Jalankan kembali saat ukuran window berubah
+    window.addEventListener('resize', checkScrollable);
+
+    // Opsional: Jalankan kembali setelah konten mungkin berubah
+    const observer = new MutationObserver(checkScrollable);
+    if (sidebar) {
+        observer.observe(sidebar, { childList: true, subtree: true });
+    }
+
+    // Generate daftar isi saat halaman dimuat
+    generateTableOfContents();
+    updateActiveSection(); // Set active section awal
+
+    // Buat hamburger menu
+    createHamburgerMenu();
+
+    // Set responsive state awal
+    handleResponsive();
+
+    // Event listener untuk resize
+    window.addEventListener('resize', handleResponsive);
+
+    // Observer untuk scroll
+    window.addEventListener('scroll', updateActiveSection);
+});
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
