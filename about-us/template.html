@@ -907,7 +907,7 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     top: 20px; /* Menambahkan top untuk posisi fixed */
-    left: 50%; /* Menengahkan secara horizontal */
+    left: 50% !important; /* Menengahkan secara horizontal */
     transform: translateX(-50%); /* Menengahkan secara horizontal */
     width: 450px;
 }
@@ -2485,8 +2485,7 @@ M.P.H.
                 document.getElementById('preview-link-button').href = linkUrl;
 
                 const rect = link.getBoundingClientRect();
-                previewCard.style.top = `${rect.top / previewCard.offsetHeight - 10}px`; /* Posisi di atas link */
-                previewCard.style.left = `${rect.left}px`;
+                previewCard.style.top = `${rect.top / previewCard.offsetHeight + 50}px`; /* Posisi di atas link */
                 previewCard.style.display = 'block';
             }
         });
