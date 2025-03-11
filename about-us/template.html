@@ -2433,18 +2433,20 @@ M.P.H.
         </div>
     </div>
 
-    <div id="preview-card" class="preview-card">
+    <div id="preview-card" class="preview-card" role="dialog" aria-labelledby="preview-title">
         <h3 id="preview-title"></h3>
         <p id="preview-abstract"></p>
         <p><strong>Author:</strong> <span id="preview-author"></span></p>
         <p><strong>Year:</strong> <span id="preview-year"></span></p>
         <a id="preview-link-button" class="preview-link-button" href="#" target="_blank">Visit Link</a>
+        <button id="close-preview" aria-label="Close preview">Close</button>
     </div>
-
-    <div id="modal" class="modal">
+    
+    <div id="modal" class="modal" role="dialog" aria-labelledby="modal-title">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="swipe-indicator"></div>
+                <button id="close-modal" aria-label="Close modal">×</button>
             </div>
             <h3 id="modal-title"></h3>
             <p id="modal-abstract"></p>
@@ -2468,15 +2470,19 @@ M.P.H.
 
     previewCard.addEventListener('mouseenter', () => {
         isMouseOverPreviewCard = true;
+        previewCard.setAttribute('aria-hidden', 'false');
+        previewCard.focus();
     });
 
     previewCard.addEventListener('mouseleave', () => {
         isMouseOverPreviewCard = false;
+        previewCard.setAttribute('aria-hidden', 'true');
     });
 
     document.addEventListener('click', function(event) {
         if (!event.target.closest('.preview-link') && !isMouseOverPreviewCard) {
             previewCard.style.display = 'none';
+            previewCard.setAttribute('aria-hidden', 'true');
         }
     });
 
@@ -2498,6 +2504,8 @@ M.P.H.
                 const rect = link.getBoundingClientRect();
                 previewCard.style.top = `${rect.top / previewCard.offsetHeight + 250}px`; /* Posisi di atas link */
                 previewCard.style.display = 'block';
+                previewCard.setAttribute('aria-hidden', 'false');
+                previewCard.focus();
             }
         });
 
@@ -2521,6 +2529,12 @@ M.P.H.
                 document.documentElement.style.overflow = 'hidden';
             }
         });
+    });
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            previewCard.style.display = 'none';
+            previewCard.setAttribute('aria-hidden', 'true');
+        }
     });
     modal.addEventListener('click', function(event) {
         if (event.target === modal) {
