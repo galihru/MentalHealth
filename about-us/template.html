@@ -1379,39 +1379,6 @@
     <script> window.addEventListener('DOMContentLoaded', function () { const metaRefresh = document.querySelector('meta[http-equiv="refresh"]'); if (metaRefresh) { metaRefresh.remove(); } }); </script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    const headers = document.querySelectorAll('th');
-
-    headers.forEach(header => {
-        header.addEventListener('click', function() {
-            const columnIndex = this.parentElement.cellIndex;
-            const table = this.closest('table');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
-
-            // Toggle antara ascending dan descending
-            const isAscending = this.getAttribute('aria-sort') === 'ascending';
-            this.setAttribute('aria-sort', isAscending ? 'descending' : 'ascending');
-
-            // Urutkan baris berdasarkan kolom yang diklik
-            rows.sort((rowA, rowB) => {
-                const cellA = rowA.cells[columnIndex].textContent.trim();
-                const cellB = rowB.cells[columnIndex].textContent.trim();
-
-                if (isAscending) {
-                    return cellA.localeCompare(cellB);
-                } else {
-                    return cellB.localeCompare(cellA);
-                }
-            });
-
-            // Hapus baris yang ada dan tambahkan yang sudah diurutkan
-            rows.forEach(row => tbody.appendChild(row));
-        });
-    });
-});
-    </script>
-    <script>
         document.addEventListener("DOMContentLoaded", function () {
             const sections = document.querySelectorAll("h2, h3");
             const sidebarLinks = document.querySelectorAll(".sidebar-nav a");
@@ -2574,7 +2541,7 @@ M.P.H.
     </footer>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-    const headers = document.querySelectorAll('th button');
+    const headers = document.querySelectorAll('th');
 
     headers.forEach(header => {
         header.addEventListener('click', function() {
