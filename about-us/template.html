@@ -1091,10 +1091,12 @@
         }
 
         .esc-indicator {
-            margin-top: 10px;
-            font-size: 0.9em;
+            font-size: .9em;
             color: #666;
             text-align: center;
+            position: absolute;
+            right: 35px;
+            top: 20px;
         }
         
         kbd {
@@ -1108,9 +1110,21 @@
         }
 
         .close-preview {
-            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            /* gap: 10px; */
+            font-size: 14px;
+            align-self: center;
+            border: 1px solid;
             border-radius: 15px;
-            padding: 2px 5px;
+            width: 70px;
+            padding: 0px 10px 0 10px;
+            position: absolute;
+            right: 25px;
+            top: 20px;
+            height: 28px;
+            font-weight: 700;
         }
 
         @keyframes progress-animation {
@@ -2457,9 +2471,10 @@ M.P.H.
     </div>
 
     <div id="preview-card" class="preview-card" role="dialog" aria-labelledby="preview-title">
-        <div role="button" type="button" id="close-preview" aria-label="Close preview" aria-labelledby="close-preview">
-            ×<div class="esc-indicator"><kbd>Esc</kbd></div>
+        <div role="button" type="button" class="close-preview" id="close-preview" aria-label="Close preview" aria-labelledby="close-preview">
+            ×
         </div>
+        <div class="esc-indicator"><kbd>Esc</kbd></div>
         <h3 id="preview-title"></h3> <!-- Judul dialog -->
         <p id="preview-abstract"></p>
         <p><strong>Author:</strong> <span id="preview-author"></span></p>
