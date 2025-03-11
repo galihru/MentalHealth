@@ -1090,6 +1090,23 @@
             animation: progress-animation 1.5s infinite;
         }
 
+        .esc-indicator {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+            text-align: center;
+        }
+        
+        kbd {
+            background-color: #f7f7f7;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+            padding: 2px 5px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
         @keyframes progress-animation {
             0% {
                 transform: translateX(-100%);
@@ -2440,6 +2457,7 @@ M.P.H.
         <p><strong>Year:</strong> <span id="preview-year"></span></p>
         <a id="preview-link-button" class="preview-link-button" href="#" target="_blank">Visit Link</a>
         <button id="close-preview" aria-label="Close preview">Close</button>
+        <div class="esc-indicator">Press <kbd>Esc</kbd> to close</div>
     </div>
     
     <div id="modal" class="modal" role="dialog" aria-labelledby="modal-title">
