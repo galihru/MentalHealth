@@ -168,7 +168,7 @@
             margin-bottom: 40px;
         }
 
-        th button {
+        .team-button {
             background: none;
             border: none;
             font-weight: bold;
@@ -179,7 +179,7 @@
             color: black;
         }
         
-        th button:hover {
+        .team-button:hover {
             background-color: #f0f0f0;
         }
 
@@ -1257,13 +1257,14 @@
             color: #ffffff;
         }
 
-        [dark-theme="dark"] .team-table th button {
+        [dark-theme="dark"] .team-button {
             color: white;
         }
 
         [dark-theme="dark"] .team-table th {
             background-color: black;
         }
+
     </style>
     <script type="text/javascript">
         (function () {
@@ -1529,16 +1530,16 @@
                         <thead>
                             <tr role="row">
                                 <th role="columnheader" scope="col" aria-sort="ascending">
-                                    <button>Name</button> <!-- Header untuk kolom Name -->
+                                    <button class="team-button">Name</button> <!-- Header untuk kolom Name -->
                                 </th>
                                 <th role="columnheader" scope="col" aria-sort="ascending">
-                                    <button>Role</button> <!-- Header untuk kolom Role -->
+                                    <button class="team-button">Role</button> <!-- Header untuk kolom Role -->
                                 </th>
                                 <th role="columnheader" scope="col" aria-sort="ascending">
-                                    <button>Social Media</button> <!-- Header untuk kolom Social Media -->
+                                    <button class="team-button">Social Media</button> <!-- Header untuk kolom Social Media -->
                                 </th>
                                 <th role="columnheader" scope="col" aria-sort="ascending">
-                                    <button>Contact</button> <!-- Header untuk kolom Contact -->
+                                    <button class="team-button">Contact</button> <!-- Header untuk kolom Contact -->
                                 </th>
                             </tr>
                         </thead>
