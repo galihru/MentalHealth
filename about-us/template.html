@@ -2482,7 +2482,7 @@ M.P.H.
             ×
         </div>
         <div class="esc-indicator"><kbd>Esc</kbd></div>
-        <h3 id="preview-title"></h3> <!-- Judul dialog -->
+        <h3 id="preview-title">Preview Ref</h3> <!-- Judul dialog -->
         <p id="preview-abstract"></p>
         <p><strong>Author:</strong> <span id="preview-author"></span></p>
         <p><strong>Year:</strong> <span id="preview-year"></span></p>
@@ -2496,7 +2496,7 @@ M.P.H.
                 <div class="swipe-indicator"></div>
                 <button id="close-modal" aria-label="Close modal">×</button>
             </div>
-            <h3 id="modal-title"></h3> <!-- Judul dialog -->
+            <h3 id="modal-title">Preview Ref</h3> <!-- Judul dialog -->
             <p id="modal-abstract"></p>
             <p><strong>Author:</strong> <span id="modal-author"></span></p>
             <p><strong>Year:</strong> <span id="modal-year"></span></p>
@@ -2513,6 +2513,7 @@ M.P.H.
     const previewCard = document.getElementById('preview-card');
     const modal = document.getElementById('modal');
     const modalContent = document.querySelector('.modal-content');
+            const closePreview = document.getElementById('close-preview');
 
     let isMouseOverPreviewCard = false;
 
@@ -2524,6 +2525,10 @@ M.P.H.
 
     previewCard.addEventListener('mouseleave', () => {
         isMouseOverPreviewCard = false;
+        previewCard.setAttribute('aria-hidden', 'true');
+    });
+            closePreview.addEventListener('click', function() {
+        previewCard.style.display = 'none';
         previewCard.setAttribute('aria-hidden', 'true');
     });
 
