@@ -1107,6 +1107,12 @@
             font-size: 0.9em;
         }
 
+        .close-preview {
+            border: 1px solid #ccc;
+            border-radius: 15px;
+            padding: 2px 5px;
+        }
+
         @keyframes progress-animation {
             0% {
                 transform: translateX(-100%);
@@ -2451,13 +2457,14 @@ M.P.H.
     </div>
 
     <div id="preview-card" class="preview-card" role="dialog" aria-labelledby="preview-title">
+        <div role="button" type="button" id="close-preview" aria-label="Close preview" aria-labelledby="close-preview">
+            ×<div class="esc-indicator"><kbd>Esc</kbd></div>
+        </button>
         <h3 id="preview-title"></h3> <!-- Judul dialog -->
         <p id="preview-abstract"></p>
         <p><strong>Author:</strong> <span id="preview-author"></span></p>
         <p><strong>Year:</strong> <span id="preview-year"></span></p>
         <a id="preview-link-button" class="preview-link-button" href="#" target="_blank">Visit Link</a>
-        <button id="close-preview" aria-label="Close preview">Close</button>
-        <div class="esc-indicator">Press <kbd>Esc</kbd> to close</div>
     </div>
     
     <!-- Modal -->
