@@ -94,7 +94,7 @@ function processHTML(inputFilePath, outputFilePath) {
                 .replace(/\s+(lang|xml:lang)=["'][^"']*["']/gi, '')
                 .replace(/\s+/g, ' ')
                 .trim();
-            return `<html ${filteredAttrs} lang='"en"' xml:lang='"en"'>`;
+            return `<html ${filteredAttrs} lang='en' xml:lang='en'>`;
         });
 
         // 2. Video captions
