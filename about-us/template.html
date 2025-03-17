@@ -13,7 +13,7 @@
     <link rel='shortcut icon' href="https://4211421036.github.io/g4lihru/987654567.png" type="image/x-icon">
     <link href="https://4211421036.github.io/MentalHealth/manifest.webmanifest" rel="manifest">
     <link href="https://4211421036.github.io/MentalHealth/css/all.min.css" rel="stylesheet" media="all"
-        onload='all"!==media&&(media="none")'>
+        onload="this.onload=null;this.rel='stylesheet'">
     <meta name='description'
         content="A comprehensive mental health monitoring application using modern web technologies.">
     <link rel="dns-prefetch" href="https://4211421036.github.io/" />
@@ -77,7 +77,7 @@
             color: var(--text-color);
             overflow: hidden;
         }
-        
+
         .page-wrapper {
             display: flex;
             min-height: 100vh;
@@ -914,87 +914,94 @@
         }
 
         .preview-card {
-    display: none;
-    position: fixed; /* Mengubah dari absolute ke fixed */
-    background: rgb(255 255 255 / 50%);
-    border: 1px solid #ccc;
-    padding: 20px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    top: 20px; /* Menambahkan top untuk posisi fixed */
-    left: 50% !important; /* Menengahkan secara horizontal */
-    transform: translateX(-50%); /* Menengahkan secara horizontal */
-    width: 450px;
+            display: none;
+            position: fixed;
+            /* Mengubah dari absolute ke fixed */
+            background: rgb(255 255 255 / 50%);
+            border: 1px solid #ccc;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            top: 20px;
+            /* Menambahkan top untuk posisi fixed */
+            left: 50% !important;
+            /* Menengahkan secara horizontal */
+            transform: translateX(-50%);
+            /* Menengahkan secara horizontal */
+            width: 450px;
             border-radius: 25px;
             backdrop-filter: blur(15px);
-}
+            -webkit-backdrop-filter: blur(15px);
+        }
 
-.preview-link-button {
-    display: flex;
-    margin-top: 10px;
-    background-color: #013b79;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 25px;
-    width: -webkit-fill-available;
-    padding: 10px 20px;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
+        .preview-link-button {
+            display: flex;
+            margin-top: 10px;
+            background-color: #013b79;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            width: -webkit-fill-available;
+            padding: 10px 20px;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
 
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: flex-start; /* Mengubah dari flex-end ke flex-start agar modal muncul di atas */
-    z-index: 1001;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-}
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: flex-start;
+            /* Mengubah dari flex-end ke flex-start agar modal muncul di atas */
+            z-index: 1001;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
 
-.modal-content {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px 10px 0 0;
-    width: 100%;
-    max-width: 500px;
-    transform: translateY(100%);
-    transition: transform 0.3s ease-out;
-    position: fixed;
-    bottom: 0
-}
+        .modal-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px 10px 0 0;
+            width: 100%;
+            max-width: 500px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+            position: fixed;
+            bottom: 0
+        }
 
-.modal.show .modal-content {
-    transform: translateY(0);
-}
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
 
-.modal-header {
-    width: 100%;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
-}
+        .modal-header {
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            justify-content: center;
+        }
 
-.swipe-indicator {
-    width: 40px;
-    height: 5px;
-    background-color: #ccc;
-    border-radius: 2.5px;
-}
+        .swipe-indicator {
+            width: 40px;
+            height: 5px;
+            background-color: #ccc;
+            border-radius: 2.5px;
+        }
 
-#preview-abstract, #modal-abstract {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
+        #preview-abstract,
+        #modal-abstract {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
 
         /* Style untuk indentasi level heading */
         .sidebar-nav .level-1 {
@@ -1113,7 +1120,7 @@
             right: 35px;
             top: 20px;
         }
-        
+
         kbd {
             background-color: #f7f7f7;
             border: 1px solid #ccc;
@@ -1238,9 +1245,11 @@
         [data-theme="dark"] .sidebar-title {
             color: #ffffff;
         }
+
         [data-theme="dark"] .preview-card {
             background: rgb(40 40 40 / 50%)
         }
+
         [data-theme="dark"] .modal-content {
             background-color: #282828;
         }
@@ -1249,6 +1258,7 @@
             background-color: #fff;
             color: #013b79;
         }
+
         [dark-theme="dark"] a {
             color: var(--text-color);
         }
@@ -1256,7 +1266,6 @@
         [dark-theme="dark"] .team-button {
             color: var(--text-color);
         }
-
     </style>
     <script type="text/javascript">
         (function () {
@@ -1310,6 +1319,31 @@
             "@type": "AggregateRating",
             "ratingValue": 5.0,
             "ratingCount": 8864
+          }
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Mental Health",
+          "url": "https://4211421036.github.io/MentalHealth/about-us/",
+          "description": "A comprehensive mental health monitoring application using modern web technologies.",
+          "author": {
+            "@type": "Person",
+            "name": "GALIH RIDHO UTOMO"
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "GALIH RIDHO UTOMO",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://4211421036.github.io/g4lihru/987654567.png"
+            }
+          }
+        }
+    </script>
+    <script type="application/ld+json">
         {
           "@context": "https://schema.org",
           "@type": ["HealthApplication", "LifestyleApplication", "HomeApplication", "MobileApplication"],
@@ -1516,16 +1550,24 @@
                         <thead>
                             <tr role="row">
                                 <th role="columnheader" scope="col" aria-sort="ascending" aria-describedby="Name">
-                                    <button role="button" tabindex="-1" type="button" name="name" title="Name" aria-label="name" class="team-button">Name</button> <!-- Header untuk kolom Name -->
+                                    <button role="button" tabindex="-1" type="button" name="name" title="Name"
+                                        aria-label="name" class="team-button">Name</button>
+                                    <!-- Header untuk kolom Name -->
                                 </th>
                                 <th role="columnheader" scope="col" aria-sort="ascending" aria-describedby="Role">
-                                    <button role="button" tabindex="-1" type="button" name="role" title="role" aria-label="role" class="team-button">Role</button> <!-- Header untuk kolom Role -->
+                                    <button role="button" tabindex="-1" type="button" name="role" title="role"
+                                        aria-label="role" class="team-button">Role</button>
+                                    <!-- Header untuk kolom Role -->
                                 </th>
                                 <th role="columnheader" scope="col" aria-sort="ascending" aria-describedby="Sosmed">
-                                    <button role="button" tabindex="-1" type="button" name="sosmed" title="sosmed" aria-label="sosmed" class="team-button">Social Media</button> <!-- Header untuk kolom Social Media -->
+                                    <button role="button" tabindex="-1" type="button" name="sosmed" title="sosmed"
+                                        aria-label="sosmed" class="team-button">Social Media</button>
+                                    <!-- Header untuk kolom Social Media -->
                                 </th>
                                 <th role="columnheader" scope="col" aria-sort="ascending" aria-describedby="Contact">
-                                    <button role="button" tabindex="-1" type="button" name="cp" title="cp" aria-label="cp" class="team-button">Contact</button> <!-- Header untuk kolom Contact -->
+                                    <button role="button" tabindex="-1" type="button" name="cp" title="cp"
+                                        aria-label="cp" class="team-button">Contact</button>
+                                    <!-- Header untuk kolom Contact -->
                                 </th>
                             </tr>
                         </thead>
@@ -1534,7 +1576,8 @@
                                 <td role="cell">GALIH RIDHO UTOMO</td> <!-- Sel data untuk Name -->
                                 <td role="cell">Developer</td> <!-- Sel data untuk Role -->
                                 <td role="cell">
-                                    <a href="https://www.instagram.com/galih_ridho_utomo/">Instagram</a> <!-- Sel data untuk Social Media -->
+                                    <a href="https://www.instagram.com/galih_ridho_utomo/">Instagram</a>
+                                    <!-- Sel data untuk Social Media -->
                                 </td>
                                 <td role="cell">g4lihru@students.unnes.ac.id</td> <!-- Sel data untuk Contact -->
                             </tr>
@@ -1542,7 +1585,8 @@
                                 <td role="cell">Ana Maulida</td> <!-- Sel data untuk Name -->
                                 <td role="cell">Writing Ilmiah</td> <!-- Sel data untuk Role -->
                                 <td role="cell">
-                                    <a href="https://www.instagram.com/anma1505/">Instagram</a> <!-- Sel data untuk Social Media -->
+                                    <a href="https://www.instagram.com/anma1505/">Instagram</a>
+                                    <!-- Sel data untuk Social Media -->
                                 </td>
                                 <td role="cell">anamaulida@students.unnes.ac.id</td> <!-- Sel data untuk Contact -->
                             </tr>
@@ -2404,7 +2448,8 @@ void loop() {
                         <h3>12. Scientific References</h3>
                         <p role="text">This code implementation refers to several scientific references:</p>
                         <ul>
-                            <li><a href="#" class="preview-link" data-title=" An Individual-Oriented Algorithm for Stress Detection in Wearable Sensor Measurements" 
+                            <li><a href="#" class="preview-link"
+                                    data-title=" An Individual-Oriented Algorithm for Stress Detection in Wearable Sensor Measurements"
                                     data-abstract="Accurately measuring a person’s level of stress
  can haveawidevariety of impacts, not only on humanhealth,
  but also on the perceived feeling of safety when going after
@@ -2423,16 +2468,20 @@ alization of the rules proposed in the original paper. The
  and an accuracy of 92.74%, measured on 16 test subjects. The tradeoff between precision and recall can be controlled
  by adjusting the MOS threshold that needs to be reached for an MOS to be detected." data-author="Martin Karl Moser
  , Bernd Resch
- , and Maximilian Ehrhart" data-year-publication="2023" data-link="https://4211421036.github.io/MentalHealth/about-us/pdf/An_Individual-Oriented_Algorithm_for_Stress_Detection_in_Wearable_Sensor_Measurements.pdf">
+ , and Maximilian Ehrhart" data-year-publication="2023"
+                                    data-link="https://4211421036.github.io/MentalHealth/about-us/pdf/An_Individual-Oriented_Algorithm_for_Stress_Detection_in_Wearable_Sensor_Measurements.pdf">
                                     <strong>Boucsein, W. (2012)</strong>: "Electrodermal Activity" - Standard
-                                reference for processing GSR/EDA signals, including tonic and phasic component
-                                separation methods.</a></li>
-                            <li><a href="#" class="preview-link" data-title="A healthy heart is not a metronome: an integrative review of the heart's anatomy and heart rate variability" 
-                                    data-abstract="Heart rate variability (HRV), the change in the time intervals between adjacent heartbeats, is an emergent property of interdependent regulatory systems that operate on different time scales to adapt to challenges and achieve optimal performance. This article briefly reviews neural regulation of the heart, and its basic anatomy, the cardiac cycle, and the sinoatrial and atrioventricular pacemakers. The cardiovascular regulation center in the medulla integrates sensory information and input from higher brain centers, and afferent cardiovascular system inputs to adjust heart rate and blood pressure via sympathetic and parasympathetic efferent pathways. This article reviews sympathetic and parasympathetic influences on the heart, and examines the interpretation of HRV and the association between reduced HRV, risk of disease and mortality, and the loss of regulatory capacity. This article also discusses the intrinsic cardiac nervous system and the heart-brain connection, through which afferent information can influence activity in the subcortical and frontocortical areas, and motor cortex. It also considers new perspectives on the putative underlying physiological mechanisms and properties of the ultra-low-frequency (ULF), very-low-frequency (VLF), low-frequency (LF), and high-frequency (HF) bands. Additionally, it reviews the most common time and frequency domain measurements as well as standardized data collection protocols. In its final section, this article integrates Porges' polyvagal theory, Thayer and colleagues' neurovisceral integration model, Lehrer et al.'s resonance frequency model, and the Institute of HeartMath's coherence model. The authors conclude that a coherent heart is not a metronome because its rhythms are characterized by both complexity and stability over longer time scales. Future research should expand understanding of how the heart and its intrinsic nervous system influence the brain." 
-                                    data-author=" Fred Shaffer, Rollin McCraty and Christopher L. Zerr" data-year-publication="2014" data-link="https://4211421036/MentalHealth/about-us/pdf/fpsyg-05-01040.pdf">
-                                <strong>Shaffer et al. (2014)</strong>: "A healthy heart is not a metronome: an
-                                integrative review of the heart's anatomy and heart rate variability" -
-                                Guidelines for processing and interpreting heart rate variability data.</a></li>
+                                    reference for processing GSR/EDA signals, including tonic and phasic component
+                                    separation methods.</a></li>
+                            <li><a href="#" class="preview-link"
+                                    data-title="A healthy heart is not a metronome: an integrative review of the heart's anatomy and heart rate variability"
+                                    data-abstract="Heart rate variability (HRV), the change in the time intervals between adjacent heartbeats, is an emergent property of interdependent regulatory systems that operate on different time scales to adapt to challenges and achieve optimal performance. This article briefly reviews neural regulation of the heart, and its basic anatomy, the cardiac cycle, and the sinoatrial and atrioventricular pacemakers. The cardiovascular regulation center in the medulla integrates sensory information and input from higher brain centers, and afferent cardiovascular system inputs to adjust heart rate and blood pressure via sympathetic and parasympathetic efferent pathways. This article reviews sympathetic and parasympathetic influences on the heart, and examines the interpretation of HRV and the association between reduced HRV, risk of disease and mortality, and the loss of regulatory capacity. This article also discusses the intrinsic cardiac nervous system and the heart-brain connection, through which afferent information can influence activity in the subcortical and frontocortical areas, and motor cortex. It also considers new perspectives on the putative underlying physiological mechanisms and properties of the ultra-low-frequency (ULF), very-low-frequency (VLF), low-frequency (LF), and high-frequency (HF) bands. Additionally, it reviews the most common time and frequency domain measurements as well as standardized data collection protocols. In its final section, this article integrates Porges' polyvagal theory, Thayer and colleagues' neurovisceral integration model, Lehrer et al.'s resonance frequency model, and the Institute of HeartMath's coherence model. The authors conclude that a coherent heart is not a metronome because its rhythms are characterized by both complexity and stability over longer time scales. Future research should expand understanding of how the heart and its intrinsic nervous system influence the brain."
+                                    data-author=" Fred Shaffer, Rollin McCraty and Christopher L. Zerr"
+                                    data-year-publication="2014"
+                                    data-link="https://4211421036/MentalHealth/about-us/pdf/fpsyg-05-01040.pdf">
+                                    <strong>Shaffer et al. (2014)</strong>: "A healthy heart is not a metronome: an
+                                    integrative review of the heart's anatomy and heart rate variability" -
+                                    Guidelines for processing and interpreting heart rate variability data.</a></li>
                             <li><a href="#" class="preview-link" data-title="The Efficacy of Light Therapy in the Treatment of Mood 
 Disorders: A Review and Meta-Analysis of the Evidence" data-abstract=" Objective: The purpose of this study was
  to assess the evidence base for the efficacy
@@ -2483,9 +2532,11 @@ tions) and incorporating rigorous designs
 M.P.H.
  Trisha Suppes, M.D., Ph.D.
  Katherine L. Wisner, M.D.
- Charles B. Nemeroff, M.D., Ph.D." data-year-publication="2005" data-link="https://4211421036/MentalHealth/about-us/pdf/jacobsen-et-al-2005-the-efficacy-of-light-therapy-in-the-treatment-of-mood-disorders-a-review-and-meta-analysis-of-the.pdf"><strong>Golden et al. (2005)</strong>: "The efficacy of light therapy in the
-                                treatment of mood disorders: a review and meta-analysis of the evidence" -
-                                Research on the impact of light levels on mood and mental health.</a></li>
+ Charles B. Nemeroff, M.D., Ph.D." data-year-publication="2005"
+                                    data-link="https://4211421036/MentalHealth/about-us/pdf/jacobsen-et-al-2005-the-efficacy-of-light-therapy-in-the-treatment-of-mood-disorders-a-review-and-meta-analysis-of-the.pdf"><strong>Golden
+                                        et al. (2005)</strong>: "The efficacy of light therapy in the
+                                    treatment of mood disorders: a review and meta-analysis of the evidence" -
+                                    Research on the impact of light levels on mood and mental health.</a></li>
                         </ul>
             </div>
             <aside class="sidebar" role="complementary" aria-labelledby="sidebar-title">
@@ -2500,7 +2551,8 @@ M.P.H.
     </div>
 
     <div id="preview-card" class="preview-card" role="dialog" aria-labelledby="preview-title">
-        <div role="button" type="button" class="close-preview" id="close-preview" aria-label="Close preview" aria-labelledby="close-preview">
+        <div role="button" type="button" class="close-preview" id="close-preview" aria-label="Close preview"
+            aria-labelledby="close-preview">
             ×
         </div>
         <div class="esc-indicator"><kbd>Esc</kbd></div>
@@ -2510,7 +2562,7 @@ M.P.H.
         <p><strong>Year:</strong> <span id="preview-year"></span></p>
         <a id="preview-link-button" class="preview-link-button" href="#" target="_blank">Visit Link</a>
     </div>
-    
+
     <!-- Modal -->
     <div id="modal" class="modal" role="dialog" aria-labelledby="modal-title">
         <div class="modal-content">
@@ -2529,159 +2581,159 @@ M.P.H.
         <p role="text">&copy; 2025 Mental Health Website. All rights reserved.</p>
     </footer>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    const headers = document.querySelectorAll('th');
+        document.addEventListener('DOMContentLoaded', function () {
+            const headers = document.querySelectorAll('th');
 
-    headers.forEach(header => {
-        header.addEventListener('click', function() {
-            const columnIndex = this.parentElement.cellIndex;
-            const table = this.closest('table');
-            const tbody = table.querySelector('tbody');
-            const rows = Array.from(tbody.querySelectorAll('tr'));
+            headers.forEach(header => {
+                header.addEventListener('click', function () {
+                    const columnIndex = this.parentElement.cellIndex;
+                    const table = this.closest('table');
+                    const tbody = table.querySelector('tbody');
+                    const rows = Array.from(tbody.querySelectorAll('tr'));
 
-            // Toggle antara ascending dan descending
-            const isAscending = this.getAttribute('aria-sort') === 'ascending';
-            this.setAttribute('aria-sort', isAscending ? 'descending' : 'ascending');
+                    // Toggle antara ascending dan descending
+                    const isAscending = this.getAttribute('aria-sort') === 'ascending';
+                    this.setAttribute('aria-sort', isAscending ? 'descending' : 'ascending');
 
-            // Urutkan baris berdasarkan kolom yang diklik
-            rows.sort((rowA, rowB) => {
-                const cellA = rowA.cells[columnIndex].textContent.trim();
-                const cellB = rowB.cells[columnIndex].textContent.trim();
+                    // Urutkan baris berdasarkan kolom yang diklik
+                    rows.sort((rowA, rowB) => {
+                        const cellA = rowA.cells[columnIndex].textContent.trim();
+                        const cellB = rowB.cells[columnIndex].textContent.trim();
 
-                if (isAscending) {
-                    return cellA.localeCompare(cellB);
-                } else {
-                    return cellB.localeCompare(cellA);
+                        if (isAscending) {
+                            return cellA.localeCompare(cellB);
+                        } else {
+                            return cellB.localeCompare(cellA);
+                        }
+                    });
+
+                    // Hapus baris yang ada dan tambahkan yang sudah diurutkan
+                    rows.forEach(row => tbody.appendChild(row));
+                });
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const links = document.querySelectorAll('.preview-link');
+            const previewCard = document.getElementById('preview-card');
+            const modal = document.getElementById('modal');
+            const modalContent = document.querySelector('.modal-content');
+            const closePreview = document.getElementById('close-preview');
+
+            let isMouseOverPreviewCard = false;
+
+            previewCard.addEventListener('mouseenter', () => {
+                isMouseOverPreviewCard = true;
+                previewCard.setAttribute('aria-hidden', 'false');
+                previewCard.focus();
+            });
+
+            previewCard.addEventListener('mouseleave', () => {
+                isMouseOverPreviewCard = false;
+                previewCard.setAttribute('aria-hidden', 'true');
+            });
+            closePreview.addEventListener('click', function () {
+                previewCard.style.display = 'none';
+                previewCard.setAttribute('aria-hidden', 'true');
+            });
+
+            document.addEventListener('click', function (event) {
+                if (!event.target.closest('.preview-link') && !isMouseOverPreviewCard) {
+                    previewCard.style.display = 'none';
+                    previewCard.setAttribute('aria-hidden', 'true');
                 }
             });
 
-            // Hapus baris yang ada dan tambahkan yang sudah diurutkan
-            rows.forEach(row => tbody.appendChild(row));
+            links.forEach(link => {
+                link.addEventListener('mouseenter', function () {
+                    if (window.innerWidth > 768) {
+                        const title = link.getAttribute('data-title');
+                        const abstract = link.getAttribute('data-abstract');
+                        const author = link.getAttribute('data-author');
+                        const year = link.getAttribute('data-year-publication');
+                        const linkUrl = link.getAttribute('data-link');
+
+                        document.getElementById('preview-title').textContent = title;
+                        document.getElementById('preview-abstract').textContent = abstract;
+                        document.getElementById('preview-author').textContent = author;
+                        document.getElementById('preview-year').textContent = year;
+                        document.getElementById('preview-link-button').href = linkUrl;
+
+                        const rect = link.getBoundingClientRect();
+                        previewCard.style.top = `${rect.top / previewCard.offsetHeight + 250}px`; /* Posisi di atas link */
+                        previewCard.style.display = 'block';
+                        previewCard.setAttribute('aria-hidden', 'false');
+                        previewCard.focus();
+                    }
+                });
+
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (window.innerWidth <= 768) {
+                        const title = link.getAttribute('data-title');
+                        const abstract = link.getAttribute('data-abstract');
+                        const author = link.getAttribute('data-author');
+                        const year = link.getAttribute('data-year-publication');
+                        const linkUrl = link.getAttribute('data-link');
+
+                        document.getElementById('modal-title').textContent = title;
+                        document.getElementById('modal-abstract').textContent = abstract;
+                        document.getElementById('modal-author').textContent = author;
+                        document.getElementById('modal-year').textContent = year;
+                        document.getElementById('modal-link-button').href = linkUrl;
+
+                        modal.classList.add('show');
+                        modal.style.display = 'flex';
+                        document.documentElement.style.overflow = 'hidden';
+                    }
+                });
+            });
+            window.addEventListener('keydown', function (e) {
+                if (e.key === 'Escape') {
+                    previewCard.style.display = 'none';
+                    previewCard.setAttribute('aria-hidden', 'true');
+                }
+            });
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) {
+                    modal.classList.remove('show');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                        modalContent.style.transform = 'translateY(0)';
+                        document.documentElement.style.overflow = 'auto'; // Disable scrolling
+                    }, 300);
+                }
+            });
+
+            let startY;
+
+            modalContent.addEventListener('touchstart', function (e) {
+                startY = e.touches[0].clientY;
+            });
+
+            modalContent.addEventListener('touchmove', function (e) {
+                const currentY = e.touches[0].clientY;
+                if (currentY > startY) {
+                    modalContent.style.transform = `translateY(${currentY - startY}px)`;
+                }
+            });
+
+            modalContent.addEventListener('touchend', function (e) {
+                const endY = e.changedTouches[0].clientY;
+                if (endY - startY > 50) {
+                    modal.classList.remove('show');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                        modalContent.style.transform = 'translateY(0)';
+                        document.documentElement.style.overflow = 'auto'; // Disable scrolling
+                    }, 300);
+                } else {
+                    modalContent.style.transform = 'translateY(0)';
+                    document.documentElement.style.overflow = 'auto'; // Disable scrolling
+                }
+            });
         });
-    });
-});
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    const links = document.querySelectorAll('.preview-link');
-    const previewCard = document.getElementById('preview-card');
-    const modal = document.getElementById('modal');
-    const modalContent = document.querySelector('.modal-content');
-            const closePreview = document.getElementById('close-preview');
-
-    let isMouseOverPreviewCard = false;
-
-    previewCard.addEventListener('mouseenter', () => {
-        isMouseOverPreviewCard = true;
-        previewCard.setAttribute('aria-hidden', 'false');
-        previewCard.focus();
-    });
-
-    previewCard.addEventListener('mouseleave', () => {
-        isMouseOverPreviewCard = false;
-        previewCard.setAttribute('aria-hidden', 'true');
-    });
-            closePreview.addEventListener('click', function() {
-        previewCard.style.display = 'none';
-        previewCard.setAttribute('aria-hidden', 'true');
-    });
-
-    document.addEventListener('click', function(event) {
-        if (!event.target.closest('.preview-link') && !isMouseOverPreviewCard) {
-            previewCard.style.display = 'none';
-            previewCard.setAttribute('aria-hidden', 'true');
-        }
-    });
-
-    links.forEach(link => {
-        link.addEventListener('mouseenter', function() {
-            if (window.innerWidth > 768) {
-                const title = link.getAttribute('data-title');
-                const abstract = link.getAttribute('data-abstract');
-                const author = link.getAttribute('data-author');
-                const year = link.getAttribute('data-year-publication');
-                const linkUrl = link.getAttribute('data-link');
-
-                document.getElementById('preview-title').textContent = title;
-                document.getElementById('preview-abstract').textContent = abstract;
-                document.getElementById('preview-author').textContent = author;
-                document.getElementById('preview-year').textContent = year;
-                document.getElementById('preview-link-button').href = linkUrl;
-
-                const rect = link.getBoundingClientRect();
-                previewCard.style.top = `${rect.top / previewCard.offsetHeight + 250}px`; /* Posisi di atas link */
-                previewCard.style.display = 'block';
-                previewCard.setAttribute('aria-hidden', 'false');
-                previewCard.focus();
-            }
-        });
-
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (window.innerWidth <= 768) {
-                const title = link.getAttribute('data-title');
-                const abstract = link.getAttribute('data-abstract');
-                const author = link.getAttribute('data-author');
-                const year = link.getAttribute('data-year-publication');
-                const linkUrl = link.getAttribute('data-link');
-
-                document.getElementById('modal-title').textContent = title;
-                document.getElementById('modal-abstract').textContent = abstract;
-                document.getElementById('modal-author').textContent = author;
-                document.getElementById('modal-year').textContent = year;
-                document.getElementById('modal-link-button').href = linkUrl;
-
-                modal.classList.add('show');
-                modal.style.display = 'flex';
-                document.documentElement.style.overflow = 'hidden';
-            }
-        });
-    });
-    window.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            previewCard.style.display = 'none';
-            previewCard.setAttribute('aria-hidden', 'true');
-        }
-    });
-    modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.style.display = 'none';
-                modalContent.style.transform = 'translateY(0)';
-                document.documentElement.style.overflow = 'auto'; // Disable scrolling
-            }, 300);
-        }
-    });
-
-    let startY;
-
-    modalContent.addEventListener('touchstart', function(e) {
-        startY = e.touches[0].clientY;
-    });
-
-    modalContent.addEventListener('touchmove', function(e) {
-        const currentY = e.touches[0].clientY;
-        if (currentY > startY) {
-            modalContent.style.transform = `translateY(${currentY - startY}px)`;
-        }
-    });
-
-    modalContent.addEventListener('touchend', function(e) {
-        const endY = e.changedTouches[0].clientY;
-        if (endY - startY > 50) {
-            modal.classList.remove('show');
-            setTimeout(() => {
-                modal.style.display = 'none';
-                modalContent.style.transform = 'translateY(0)';
-                document.documentElement.style.overflow = 'auto'; // Disable scrolling
-            }, 300);
-        } else {
-            modalContent.style.transform = 'translateY(0)';
-            document.documentElement.style.overflow = 'auto'; // Disable scrolling
-        }
-    });
-});
     </script>
     <script>
         function toggleTheme() {
@@ -2793,263 +2845,263 @@ M.P.H.
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-    const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
-    const sidebarNav = document.getElementById('sidebar-nav');
-    const sidebar = document.querySelector('.sidebar');
-    const topNavigation = document.querySelector('.headco');
+            const sections = document.querySelectorAll('h1, h2, h3'); // Ambil semua heading
+            const sidebarNav = document.getElementById('sidebar-nav');
+            const sidebar = document.querySelector('.sidebar');
+            const topNavigation = document.querySelector('.headco');
 
-    // Cek apakah elemen ada
-    if (!sidebar || !topNavigation) return;
+            // Cek apakah elemen ada
+            if (!sidebar || !topNavigation) return;
 
-    // Buat hamburger menu
-    function createHamburgerMenu() {
-        // Buat container untuk hamburger icon
-        const hamburgerContainer = document.createElement('div');
-        hamburgerContainer.className = 'hamburger-container';
+            // Buat hamburger menu
+            function createHamburgerMenu() {
+                // Buat container untuk hamburger icon
+                const hamburgerContainer = document.createElement('div');
+                hamburgerContainer.className = 'hamburger-container';
 
-        // Buat hamburger icon
-        const hamburgerIcon = document.createElement('div');
-        hamburgerIcon.className = 'hamburger-icon';
-        hamburgerIcon.innerHTML = `
+                // Buat hamburger icon
+                const hamburgerIcon = document.createElement('div');
+                hamburgerIcon.className = 'hamburger-icon';
+                hamburgerIcon.innerHTML = `
             <span></span>
             <span></span>
             <span></span>
         `;
 
-        // Tambahkan event listener untuk hamburger icon
-        hamburgerIcon.addEventListener('click', toggleSidebar);
+                // Tambahkan event listener untuk hamburger icon
+                hamburgerIcon.addEventListener('click', toggleSidebar);
 
-        // Tambahkan hamburger icon ke container
-        hamburgerContainer.appendChild(hamburgerIcon);
+                // Tambahkan hamburger icon ke container
+                hamburgerContainer.appendChild(hamburgerIcon);
 
-        // Tambahkan hamburger container ke navigation
-        topNavigation.appendChild(hamburgerContainer);
+                // Tambahkan hamburger container ke navigation
+                topNavigation.appendChild(hamburgerContainer);
 
-        // Buat overlay untuk menutup sidebar saat di-klik
-        const overlay = document.createElement('div');
-        overlay.className = 'sidebar-overlay';
-        overlay.addEventListener('click', toggleSidebar);
-        document.body.appendChild(overlay);
-    }
-
-    // Toggle sidebar
-    function toggleSidebar() {
-        sidebar.classList.toggle('active');
-        document.querySelector('.sidebar-overlay').classList.toggle('active');
-        document.body.classList.toggle('sidebar-open');
-        
-        // PERBAIKAN: Jangan set overflow: hidden, karena mencegah scrolling
-        // Hanya set overflow: hidden pada body jika sidebar terbuka pada mobile
-        if (document.body.classList.contains('sidebar-open') && window.innerWidth <= 768) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-    }
-
-    // Fungsi untuk handle swipe
-    let touchStartX = 0;
-    let touchEndX = 0;
-    let isSwiping = false;
-
-    // Touch event untuk swipe
-    sidebar.addEventListener('touchstart', function (e) {
-        touchStartX = e.touches[0].clientX;
-        isSwiping = true;
-    }, false);
-
-    sidebar.addEventListener('touchmove', function (e) {
-        if (!isSwiping) return;
-
-        const currentX = e.touches[0].clientX;
-        const deltaX = currentX - touchStartX;
-
-        // Batasi pergerakan sidebar agar tidak melebihi batas
-        if (deltaX > 0) {
-            // Geser sidebar ke kanan (buka)
-            sidebar.style.transform = `translateX(${Math.min(deltaX, sidebar.offsetWidth)}px)`;
-        } else if (deltaX < 0) {
-            // Geser sidebar ke kiri (tutup)
-            sidebar.style.transform = `translateX(${Math.max(deltaX - sidebar.offsetWidth, 0)}px)`;
-        }
-    }, false);
-
-    sidebar.addEventListener('touchend', function (e) {
-        if (!isSwiping) return;
-
-        touchEndX = e.changedTouches[0].clientX;
-        const deltaX = touchEndX - touchStartX;
-        const swipeThreshold = 50; // Jarak minimal swipe untuk dianggap valid
-
-        if (deltaX > swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
-            // Swipe ke kiri - tutup sidebar
-            sidebar.classList.remove('active');
-            document.querySelector('.sidebar-overlay').classList.remove('active');
-            document.body.classList.remove('sidebar-open');
-            document.body.style.overflow = 'auto';
-            sidebar.style.transform = 'translateX(0)'; // Reset transform
-        } else if (deltaX < swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
-            // Swipe ke kanan - buka sidebar
-            sidebar.classList.add('active');
-            document.querySelector('.sidebar-overlay').classList.add('active');
-            document.body.classList.add('sidebar-open');
-            sidebar.style.transform = 'translateX(0)'; // Reset transform
-            
-            // Hanya set overflow hidden pada mobile
-            if (window.innerWidth <= 768) {
-                document.body.style.overflow = 'hidden';
+                // Buat overlay untuk menutup sidebar saat di-klik
+                const overlay = document.createElement('div');
+                overlay.className = 'sidebar-overlay';
+                overlay.addEventListener('click', toggleSidebar);
+                document.body.appendChild(overlay);
             }
-        } else {
-            // Jika swipe tidak mencapai threshold, kembalikan ke posisi awal
-            sidebar.style.transform = sidebar.classList.contains('active') ? 'translateX(0)' : 'translateX(-100%)';
-        }
 
-        isSwiping = false;
-    }, false);
+            // Toggle sidebar
+            function toggleSidebar() {
+                sidebar.classList.toggle('active');
+                document.querySelector('.sidebar-overlay').classList.toggle('active');
+                document.body.classList.toggle('sidebar-open');
 
-    // Fungsi untuk generate ID unik dari teks heading
-    function generateID(text) {
-        return text
-            .toLowerCase() // Ubah ke huruf kecil
-            .replace(/[^\w\s]/g, '') // Hapus karakter khusus
-            .replace(/\s+/g, '-'); // Ganti spasi dengan tanda hubung
-    }
+                // PERBAIKAN: Jangan set overflow: hidden, karena mencegah scrolling
+                // Hanya set overflow: hidden pada body jika sidebar terbuka pada mobile
+                if (document.body.classList.contains('sidebar-open') && window.innerWidth <= 768) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = 'auto';
+                }
+            }
 
-    // Fungsi untuk generate daftar isi
-    function generateTableOfContents() {
-        let tocHTML = '';
-        sections.forEach(section => {
-            const level = parseInt(section.tagName.replace('H', '')); // Ambil level heading (1, 2, 3)
-            const id = section.id || generateID(section.textContent); // Generate ID jika belum ada
-            section.id = id; // Set ID ke heading
-            // Tambahkan class level untuk indentasi
-            const levelClass = `level-${level}`;
-            // Buat link untuk sidebar
-            tocHTML += `
+            // Fungsi untuk handle swipe
+            let touchStartX = 0;
+            let touchEndX = 0;
+            let isSwiping = false;
+
+            // Touch event untuk swipe
+            sidebar.addEventListener('touchstart', function (e) {
+                touchStartX = e.touches[0].clientX;
+                isSwiping = true;
+            }, false);
+
+            sidebar.addEventListener('touchmove', function (e) {
+                if (!isSwiping) return;
+
+                const currentX = e.touches[0].clientX;
+                const deltaX = currentX - touchStartX;
+
+                // Batasi pergerakan sidebar agar tidak melebihi batas
+                if (deltaX > 0) {
+                    // Geser sidebar ke kanan (buka)
+                    sidebar.style.transform = `translateX(${Math.min(deltaX, sidebar.offsetWidth)}px)`;
+                } else if (deltaX < 0) {
+                    // Geser sidebar ke kiri (tutup)
+                    sidebar.style.transform = `translateX(${Math.max(deltaX - sidebar.offsetWidth, 0)}px)`;
+                }
+            }, false);
+
+            sidebar.addEventListener('touchend', function (e) {
+                if (!isSwiping) return;
+
+                touchEndX = e.changedTouches[0].clientX;
+                const deltaX = touchEndX - touchStartX;
+                const swipeThreshold = 50; // Jarak minimal swipe untuk dianggap valid
+
+                if (deltaX > swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
+                    // Swipe ke kiri - tutup sidebar
+                    sidebar.classList.remove('active');
+                    document.querySelector('.sidebar-overlay').classList.remove('active');
+                    document.body.classList.remove('sidebar-open');
+                    document.body.style.overflow = 'auto';
+                    sidebar.style.transform = 'translateX(0)'; // Reset transform
+                } else if (deltaX < swipeThreshold) { // PERBAIKAN: Fix kondisi swipe
+                    // Swipe ke kanan - buka sidebar
+                    sidebar.classList.add('active');
+                    document.querySelector('.sidebar-overlay').classList.add('active');
+                    document.body.classList.add('sidebar-open');
+                    sidebar.style.transform = 'translateX(0)'; // Reset transform
+
+                    // Hanya set overflow hidden pada mobile
+                    if (window.innerWidth <= 768) {
+                        document.body.style.overflow = 'hidden';
+                    }
+                } else {
+                    // Jika swipe tidak mencapai threshold, kembalikan ke posisi awal
+                    sidebar.style.transform = sidebar.classList.contains('active') ? 'translateX(0)' : 'translateX(-100%)';
+                }
+
+                isSwiping = false;
+            }, false);
+
+            // Fungsi untuk generate ID unik dari teks heading
+            function generateID(text) {
+                return text
+                    .toLowerCase() // Ubah ke huruf kecil
+                    .replace(/[^\w\s]/g, '') // Hapus karakter khusus
+                    .replace(/\s+/g, '-'); // Ganti spasi dengan tanda hubung
+            }
+
+            // Fungsi untuk generate daftar isi
+            function generateTableOfContents() {
+                let tocHTML = '';
+                sections.forEach(section => {
+                    const level = parseInt(section.tagName.replace('H', '')); // Ambil level heading (1, 2, 3)
+                    const id = section.id || generateID(section.textContent); // Generate ID jika belum ada
+                    section.id = id; // Set ID ke heading
+                    // Tambahkan class level untuk indentasi
+                    const levelClass = `level-${level}`;
+                    // Buat link untuk sidebar
+                    tocHTML += `
                 <li class="${levelClass}">
                     <a href="#${id}" aria-label="Read more about ${id}">${section.textContent}</a>
                 </li>
             `;
-        });
-        sidebarNav.innerHTML = tocHTML; // Masukkan daftar isi ke sidebar
-    }
-
-    // Fungsi untuk update active state
-    function updateActiveSection() {
-        const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
-        let currentSection = '';
-        sections.forEach(section => {
-            const rect = section.getBoundingClientRect();
-            if (rect.top <= 150 && rect.bottom >= 150) {
-                currentSection = '#' + section.id;
-            }
-        });
-        sidebarLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === currentSection) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    // Fungsi untuk handle responsive behavior
-    function handleResponsive() {
-        const isMobile = window.innerWidth <= 768; // Breakpoint untuk mobile
-
-        if (isMobile) {
-            sidebar.classList.add('mobile');
-            document.body.classList.add('mobile-view');
-            
-            // PERBAIKAN: Hanya set overflow hidden jika sidebar aktif pada mobile
-            if (sidebar.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = 'auto';
-            }
-        } else {
-            document.body.style.overflow = 'auto';
-            sidebar.classList.remove('mobile');
-            sidebar.classList.remove('active');
-            document.body.classList.remove('mobile-view');
-            document.body.classList.remove('sidebar-open');
-            document.querySelector('.sidebar-overlay').classList.remove('active');
-        }
-    }
-
-    // PERBAIKAN: Smooth scroll untuk sidebar
-    sidebarNav.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') {
-            e.preventDefault();
-            const targetId = e.target.getAttribute('href');
-            const target = document.querySelector(targetId);
-            
-            // Kembalikan overflow ke auto untuk memungkinkan scrolling
-            document.body.style.overflow = 'auto';
-            
-            if (target) {
-                // Scroll ke target dengan offset
-                const offset = 100; // Sesuaikan offset sesuai kebutuhan
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
                 });
+                sidebarNav.innerHTML = tocHTML; // Masukkan daftar isi ke sidebar
+            }
 
-                // Jika pada tampilan mobile, tutup sidebar setelah klik
-                if (window.innerWidth <= 768) {
-                    // Tunggu sedikit sebelum menutup sidebar agar scroll sempat terjadi
-                    setTimeout(() => {
-                        sidebar.classList.remove('active');
-                        document.querySelector('.sidebar-overlay').classList.remove('active');
-                        document.body.classList.remove('sidebar-open');
+            // Fungsi untuk update active state
+            function updateActiveSection() {
+                const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+                let currentSection = '';
+                sections.forEach(section => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top <= 150 && rect.bottom >= 150) {
+                        currentSection = '#' + section.id;
+                    }
+                });
+                sidebarLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === currentSection) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+
+            // Fungsi untuk handle responsive behavior
+            function handleResponsive() {
+                const isMobile = window.innerWidth <= 768; // Breakpoint untuk mobile
+
+                if (isMobile) {
+                    sidebar.classList.add('mobile');
+                    document.body.classList.add('mobile-view');
+
+                    // PERBAIKAN: Hanya set overflow hidden jika sidebar aktif pada mobile
+                    if (sidebar.classList.contains('active')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
                         document.body.style.overflow = 'auto';
-                    }, 300);
+                    }
+                } else {
+                    document.body.style.overflow = 'auto';
+                    sidebar.classList.remove('mobile');
+                    sidebar.classList.remove('active');
+                    document.body.classList.remove('mobile-view');
+                    document.body.classList.remove('sidebar-open');
+                    document.querySelector('.sidebar-overlay').classList.remove('active');
                 }
             }
-        }
-    });
 
-    // Fungsi untuk memeriksa apakah sidebar memerlukan scrollbar
-    function checkScrollable() {
-        if (!sidebar) return;
+            // PERBAIKAN: Smooth scroll untuk sidebar
+            sidebarNav.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const targetId = e.target.getAttribute('href');
+                    const target = document.querySelector(targetId);
 
-        // Jika konten sidebar lebih tinggi dari tinggi yang terlihat
-        if (sidebar.scrollHeight > sidebar.clientHeight) {
-            sidebar.classList.add('scrollable');
-        } else {
-            sidebar.classList.remove('scrollable');
-        }
-    }
+                    // Kembalikan overflow ke auto untuk memungkinkan scrolling
+                    document.body.style.overflow = 'auto';
 
-    // Jalankan saat halaman dimuat
-    checkScrollable();
+                    if (target) {
+                        // Scroll ke target dengan offset
+                        const offset = 100; // Sesuaikan offset sesuai kebutuhan
+                        const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - offset;
 
-    // Jalankan kembali saat ukuran window berubah
-    window.addEventListener('resize', checkScrollable);
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
 
-    // Opsional: Jalankan kembali setelah konten mungkin berubah
-    const observer = new MutationObserver(checkScrollable);
-    if (sidebar) {
-        observer.observe(sidebar, { childList: true, subtree: true });
-    }
+                        // Jika pada tampilan mobile, tutup sidebar setelah klik
+                        if (window.innerWidth <= 768) {
+                            // Tunggu sedikit sebelum menutup sidebar agar scroll sempat terjadi
+                            setTimeout(() => {
+                                sidebar.classList.remove('active');
+                                document.querySelector('.sidebar-overlay').classList.remove('active');
+                                document.body.classList.remove('sidebar-open');
+                                document.body.style.overflow = 'auto';
+                            }, 300);
+                        }
+                    }
+                }
+            });
 
-    // Generate daftar isi saat halaman dimuat
-    generateTableOfContents();
-    updateActiveSection(); // Set active section awal
+            // Fungsi untuk memeriksa apakah sidebar memerlukan scrollbar
+            function checkScrollable() {
+                if (!sidebar) return;
 
-    // Buat hamburger menu
-    createHamburgerMenu();
+                // Jika konten sidebar lebih tinggi dari tinggi yang terlihat
+                if (sidebar.scrollHeight > sidebar.clientHeight) {
+                    sidebar.classList.add('scrollable');
+                } else {
+                    sidebar.classList.remove('scrollable');
+                }
+            }
 
-    // Set responsive state awal
-    handleResponsive();
+            // Jalankan saat halaman dimuat
+            checkScrollable();
 
-    // Event listener untuk resize
-    window.addEventListener('resize', handleResponsive);
+            // Jalankan kembali saat ukuran window berubah
+            window.addEventListener('resize', checkScrollable);
 
-    // Observer untuk scroll
-    window.addEventListener('scroll', updateActiveSection);
-});
+            // Opsional: Jalankan kembali setelah konten mungkin berubah
+            const observer = new MutationObserver(checkScrollable);
+            if (sidebar) {
+                observer.observe(sidebar, { childList: true, subtree: true });
+            }
+
+            // Generate daftar isi saat halaman dimuat
+            generateTableOfContents();
+            updateActiveSection(); // Set active section awal
+
+            // Buat hamburger menu
+            createHamburgerMenu();
+
+            // Set responsive state awal
+            handleResponsive();
+
+            // Event listener untuk resize
+            window.addEventListener('resize', handleResponsive);
+
+            // Observer untuk scroll
+            window.addEventListener('scroll', updateActiveSection);
+        });
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -3193,7 +3245,6 @@ M.P.H.
             });
         }
     </script>
-    </div>
 </body>
 
 </html>
