@@ -194,13 +194,21 @@ function processHTML(inputFilePath, outputFilePath) {
             htmlContent = htmlContent.replace('</body>', `<script nonce="${nonce}">${bfcacheScript}</script></body>`);
         }
 
-        // Minifikasi HTML, termasuk inline JS & CSS
+        // Fix malformed JSON-LD
+        htmlContent = fixJsonLd(htmlContent);
+
+        // Minifikasi HTML, termasuk inline JS & CSS, but preserve JSON-LD integrity
         const minifiedHTML = minify(htmlContent, {
             collapseWhitespace: true,
             removeComments: true,
             removeRedundantAttributes: true,
             removeEmptyAttributes: true,
-            minifyJS: true,
+            minifyJS: {
+                // Special handling for JSON-LD to prevent errors
+                parse: {
+                    json: true
+                }
+            },
             minifyCSS: true,
             collapseBooleanAttributes: true,
             removeScriptTypeAttributes: true,
@@ -221,6 +229,70 @@ function processHTML(inputFilePath, outputFilePath) {
     } catch (error) {
         console.error('Terjadi kesalahan:', error);
     }
+}
+
+// Function to fix malformed JSON-LD
+function fixJsonLd(html) {
+    return html.replace(/<script\s+[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi, (match, jsonContent) => {
+        try {
+            // Try to parse and format JSON to check validity
+            let jsonObj;
+            try {
+                jsonObj = JSON.parse(jsonContent);
+            } catch (e) {
+                // If parsing fails, try to fix common issues
+                
+                // Fix 1: Handle multiple adjacent JSON objects without proper array syntax
+                const multipleJsonFix = jsonContent.replace(/}\s*{/g, '},{');
+                
+                // Fix 2: Handle incomplete/missing brackets
+                let fixedJson = multipleJsonFix;
+                // Count opening and closing braces
+                const openCount = (fixedJson.match(/{/g) || []).length;
+                const closeCount = (fixedJson.match(/}/g) || []).length;
+                
+                if (openCount > closeCount) {
+                    // Add missing closing braces
+                    fixedJson = fixedJson + '}'.repeat(openCount - closeCount);
+                }
+                
+                // Fix 3: Check if there are multiple adjacent objects that should be in an array
+                if (fixedJson.trim().startsWith('{') && fixedJson.includes('},{')) {
+                    fixedJson = '[' + fixedJson + ']';
+                }
+                
+                // Try parsing again after fixes
+                try {
+                    jsonObj = JSON.parse(fixedJson);
+                } catch (e2) {
+                    // If still fails, check for specific issue in your file
+                    if (fixedJson.includes('"offers": {') && fixedJson.includes('"offers": {')) {
+                        // Fix specific issue seen in your examples with duplicate offers
+                        fixedJson = fixedJson.replace(/"offers":\s*{([\s\S]*?)},\s*"offers":/g, '"offers": {$1}, "extraOffers":');
+                        try {
+                            jsonObj = JSON.parse(fixedJson);
+                        } catch (e3) {
+                            // Last resort: extract and fix each individual object
+                            console.error('Failed to parse JSON-LD after automatic fixes. Manual inspection required.');
+                            // Keep original to prevent further issues
+                            return match;
+                        }
+                    } else {
+                        // Keep original if we can't fix
+                        console.error('Failed to parse JSON-LD. Manual inspection required.');
+                        return match;
+                    }
+                }
+            }
+            
+            // Rewrite the script with valid JSON
+            return `<script type="application/ld+json">${JSON.stringify(jsonObj)}</script>`;
+            
+        } catch (e) {
+            console.error('Error processing JSON-LD:', e);
+            return match; // Return original if processing fails
+        }
+    });
 }
 
 const inputPath = path.resolve(process.env.GITHUB_WORKSPACE, 'prerelease.html');
