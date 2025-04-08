@@ -29,7 +29,6 @@ jobs:
       - name: Change ownership of _site directory
         run: sudo chown -R $USER:$USER _site
       
-      # Solusi 1: Pastikan _headers file dibuat dengan benar
       - name: Add Security Headers
         run: |
           echo "Creating _headers file..."
