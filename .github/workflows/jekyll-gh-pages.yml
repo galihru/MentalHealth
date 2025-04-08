@@ -1,44 +1,99 @@
-# Sample workflow for building and deploying a Jekyll site to GitHub Pages
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
-
+name: Deploy Jekyll with Security Headers
 on:
-  # Runs on pushes targeting the default branch
   push:
     branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
   pages: write
   id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
 concurrency:
   group: "pages"
   cancel-in-progress: false
-
 jobs:
-  # Build job
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      
       - name: Setup Pages
         uses: actions/configure-pages@v5
+      
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
+      
+      - name: Change ownership of _site directory
+        run: sudo chown -R $USER:$USER _site
+      
+      # Solusi 1: Pastikan _headers file dibuat dengan benar
+      - name: Add Security Headers
+        run: |
+          echo "Creating _headers file..."
+          cat << 'EOF' > _site/_headers
+          /*
+            Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';
+            Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+            X-Content-Type-Options: nosniff
+            X-Frame-Options: DENY
+            Cross-Origin-Opener-Policy: same-origin
+            Referrer-Policy: strict-origin-when-cross-origin
+            Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+          EOF
+          echo "_headers file created"
+      
+      # Solusi 2: Tambahkan juga _headers.html untuk kompatibilitas
+      - name: Create alternative headers file
+        run: |
+          mkdir -p _site/_includes
+          cat << 'EOF' > _site/_includes/head.html
+          <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';">
+          <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains; preload">
+          <meta http-equiv="X-Content-Type-Options" content="nosniff">
+          <meta http-equiv="X-Frame-Options" content="DENY">
+          <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+          <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+          <meta http-equiv="Permissions-Policy" content="geolocation=(), microphone=(), camera=(), payment=()">
+          EOF
+          echo "head.html file created"
+      
+      # Solusi 3: Buat file netlify.toml (untuk kompatibilitas dengan Netlify jika itu hosting Anda)
+      - name: Create netlify.toml for headers
+        run: |
+          cat << 'EOF' > _site/netlify.toml
+          [[headers]]
+            for = "/*"
+            [headers.values]
+              Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; media-src 'self'; frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none';"
+              Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+              X-Content-Type-Options = "nosniff"
+              X-Frame-Options = "DENY"
+              Cross-Origin-Opener-Policy = "same-origin"
+              Referrer-Policy = "strict-origin-when-cross-origin"
+              Permissions-Policy = "geolocation=(), microphone=(), camera=(), payment=()"
+          EOF
+          echo "netlify.toml file created"
+      
+      - name: List _site directory contents
+        run: |
+          echo "Listing _site directory contents:"
+          find _site -type f | sort
+      
+      - name: Verify headers files
+        run: |
+          echo "Checking _headers file:"
+          cat _site/_headers || echo "_headers file not found"
+          echo "Checking head.html file:"
+          cat _site/_includes/head.html || echo "head.html file not found"
+          echo "Checking netlify.toml file:"
+          cat _site/netlify.toml || echo "netlify.toml file not found"
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
-
-  # Deployment job
+  
   deploy:
     environment:
       name: github-pages
