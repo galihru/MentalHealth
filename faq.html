@@ -1141,14 +1141,11 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     };
     this.currentState = this.states.MINIMIZED;
     this.isMobile = window.innerWidth <= 768;
-    this.isProcessing = false;
-    this.processingProgress = 0;
 
     // Initialize
     this.initializeModel();
     this.initializeUI();
     this.setupEventListeners();
-    this.setupAccessibility();
   }
 
   initializeModel() {
@@ -1178,129 +1175,59 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
   }
 
   initializeUI() {
-    // Main container with proper ARIA role
+    // Main container - Different positioning for mobile vs desktop
     this.chatContainer = document.createElement('div');
     this.chatContainer.className = 'mhc-container minimized';
     this.chatContainer.setAttribute('role', 'dialog');
     this.chatContainer.setAttribute('aria-labelledby', 'mhc-title');
-    this.chatContainer.setAttribute('aria-describedby', 'mhc-description');
     this.chatContainer.setAttribute('aria-modal', 'true');
-    
-    // Add hidden description for screen readers
-    const srDescription = document.createElement('div');
-    srDescription.id = 'mhc-description';
-    srDescription.className = 'sr-only';
-    srDescription.textContent = 'Mental health chatbot assistant to help with questions about mental wellness, anxiety, depression, and stress.';
-    this.chatContainer.appendChild(srDescription);
     
     // Header with swipe handle
     this.header = document.createElement('div');
     this.header.className = 'mhc-header';
     this.header.innerHTML = `
-      <div class="mhc-swipe-handle" role="button" aria-label="Drag to resize chatbot window" tabindex="0"></div>
+      <div class="mhc-swipe-handle" aria-hidden="true"></div>
       <h3 id="mhc-title">Mental Health Assistant</h3>
     `;
     
-    // Skip to input link (for accessibility)
-    const skipLink = document.createElement('a');
-    skipLink.href = '#mhc-input';
-    skipLink.className = 'mhc-skip-link';
-    skipLink.textContent = 'Skip to input';
-    skipLink.setAttribute('aria-label', 'Skip to chat input');
-    this.chatContainer.appendChild(skipLink);
-    
-    // Message area with proper landmark role
+    // Message area
     this.messageArea = document.createElement('div');
     this.messageArea.className = 'mhc-messages';
-    this.messageArea.setAttribute('role', 'log');
-    this.messageArea.setAttribute('aria-label', 'Conversation history');
     this.messageArea.setAttribute('aria-live', 'polite');
-    
-    // Progress indicator for processing
-    this.progressContainer = document.createElement('div');
-    this.progressContainer.className = 'mhc-progress-container';
-    this.progressContainer.style.display = 'none';
-    
-    this.progressBar = document.createElement('div');
-    this.progressBar.className = 'mhc-progress';
-    this.progressBar.setAttribute('role', 'progressbar');
-    this.progressBar.setAttribute('aria-labelledby', 'progress-label');
-    this.progressBar.setAttribute('aria-valuemin', '0');
-    this.progressBar.setAttribute('aria-valuemax', '100');
-    this.progressBar.setAttribute('aria-valuenow', '0');
-    
-    const progressLabel = document.createElement('div');
-    progressLabel.id = 'progress-label';
-    progressLabel.className = 'mhc-progress-label';
-    progressLabel.textContent = 'AI is thinking...';
-    
-    this.progressContainer.appendChild(progressLabel);
-    this.progressContainer.appendChild(this.progressBar);
     
     // Input area (always visible)
     this.inputContainer = document.createElement('div');
     this.inputContainer.className = 'mhc-input-container';
     
-    // Actual label element for input
-    const inputLabel = document.createElement('label');
-    inputLabel.htmlFor = 'mhc-input';
-    inputLabel.className = 'sr-only';
-    inputLabel.textContent = 'Type your message';
-    this.inputContainer.appendChild(inputLabel);
-    
+    // Input field with proper labeling
     this.inputField = document.createElement('input');
     this.inputField.className = 'mhc-input';
-    this.inputField.id = 'mhc-input';
-    this.inputField.type = 'text';
     this.inputField.placeholder = 'Ask about mental health...';
-    this.inputField.setAttribute('aria-label', 'Type your message');
-    this.inputField.setAttribute('autocomplete', 'off');
+    this.inputField.setAttribute('aria-label', 'Type your message about mental health');
+    this.inputField.setAttribute('type', 'text');
+    this.inputField.id = 'mhc-user-input';
     
-    // Analysis meter
-    this.analysisMeter = document.createElement('div');
-    this.analysisMeter.className = 'mhc-analysis-meter';
-    this.analysisMeter.setAttribute('role', 'meter');
-    this.analysisMeter.setAttribute('aria-labelledby', 'analysis-label');
-    this.analysisMeter.setAttribute('aria-valuemin', '0');
-    this.analysisMeter.setAttribute('aria-valuemax', '100');
-    this.analysisMeter.setAttribute('aria-valuenow', '0');
-    this.analysisMeter.style.display = 'none';
-    
-    const analysisLabel = document.createElement('div');
-    analysisLabel.id = 'analysis-label';
-    analysisLabel.className = 'sr-only';
-    analysisLabel.textContent = 'AI is analyzing your question';
-    this.analysisMeter.appendChild(analysisLabel);
-    
-    const analysisFill = document.createElement('div');
-    analysisFill.className = 'mhc-analysis-fill';
-    this.analysisMeter.appendChild(analysisFill);
-    
+    // Send button with accessible name
     this.sendButton = document.createElement('button');
     this.sendButton.className = 'mhc-send-btn';
-    this.sendButton.type = 'button';
+    this.sendButton.innerHTML = '&#10148;';
     this.sendButton.setAttribute('aria-label', 'Send message');
+    this.sendButton.setAttribute('aria-describedby', 'mhc-send-tooltip');
     
-    // Use an accessible icon with text alternative
-    const sendIcon = document.createElement('span');
-    sendIcon.innerHTML = '&#10148;';
-    sendIcon.setAttribute('aria-hidden', 'true');
-    this.sendButton.appendChild(sendIcon);
-    
-    // Add accessible text that's visually hidden
-    const sendText = document.createElement('span');
-    sendText.className = 'sr-only';
-    sendText.textContent = 'Send';
-    this.sendButton.appendChild(sendText);
+    // Tooltip for send button
+    const sendTooltip = document.createElement('span');
+    sendTooltip.id = 'mhc-send-tooltip';
+    sendTooltip.className = 'mhc-tooltip';
+    sendTooltip.setAttribute('role', 'tooltip');
+    sendTooltip.textContent = 'Click to send your message';
+    this.sendButton.appendChild(sendTooltip);
     
     this.inputContainer.appendChild(this.inputField);
-    this.inputContainer.appendChild(this.analysisMeter);
     this.inputContainer.appendChild(this.sendButton);
     
-    // Quick replies with proper ARIA attributes
+    // Quick replies
     this.quickReplies = document.createElement('div');
     this.quickReplies.className = 'mhc-quick-replies';
-    this.quickReplies.setAttribute('role', 'group');
     this.quickReplies.setAttribute('aria-label', 'Quick reply options');
     
     ['Depression', 'Anxiety', 'Stress', 'Self Care'].forEach(topic => {
@@ -1312,30 +1239,58 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       this.quickReplies.appendChild(btn);
     });
     
-    // Tooltip for header
-    const headerTooltip = document.createElement('div');
-    headerTooltip.className = 'mhc-tooltip';
-    headerTooltip.setAttribute('role', 'tooltip');
-    headerTooltip.id = 'header-tooltip';
-    headerTooltip.textContent = 'Click to expand or collapse';
-    this.header.setAttribute('aria-describedby', 'header-tooltip');
+    // Progress bar container (initially hidden)
+    this.progressContainer = document.createElement('div');
+    this.progressContainer.className = 'mhc-progress-container';
+    this.progressContainer.style.display = 'none';
     
-    // Status announcer for screen readers
-    this.statusAnnouncer = document.createElement('div');
-    this.statusAnnouncer.className = 'sr-only';
-    this.statusAnnouncer.setAttribute('aria-live', 'assertive');
-    this.statusAnnouncer.id = 'mhc-status';
+    this.progressBar = document.createElement('div');
+    this.progressBar.className = 'mhc-progress-bar';
+    this.progressBar.setAttribute('role', 'progressbar');
+    this.progressBar.setAttribute('aria-valuemin', '0');
+    this.progressBar.setAttribute('aria-valuemax', '100');
+    this.progressBar.setAttribute('aria-valuenow', '0');
+    this.progressBar.setAttribute('aria-label', 'Message sending progress');
+    
+    this.progressContainer.appendChild(this.progressBar);
+    
+    // Meter element container (initially hidden)
+    this.meterContainer = document.createElement('div');
+    this.meterContainer.className = 'mhc-meter-container';
+    this.meterContainer.style.display = 'none';
+    
+    this.meterElement = document.createElement('div');
+    this.meterElement.className = 'mhc-meter';
+    this.meterElement.setAttribute('role', 'meter');
+    this.meterElement.setAttribute('aria-valuemin', '0');
+    this.meterElement.setAttribute('aria-valuemax', '100');
+    this.meterElement.setAttribute('aria-valuenow', '0');
+    this.meterElement.setAttribute('aria-label', 'AI analysis progress');
+    
+    this.meterLabel = document.createElement('div');
+    this.meterLabel.className = 'mhc-meter-label';
+    this.meterLabel.textContent = 'Sebentar, AI sedang menganalisis pertanyaan Anda untuk dijawab dengan tepat...';
+    this.meterLabel.setAttribute('aria-live', 'polite');
+    
+    this.meterContainer.appendChild(this.meterElement);
+    this.meterContainer.appendChild(this.meterLabel);
     
     // Assemble the container
     this.chatContainer.appendChild(this.header);
-    this.chatContainer.appendChild(headerTooltip);
     this.chatContainer.appendChild(this.messageArea);
     this.chatContainer.appendChild(this.progressContainer);
+    this.chatContainer.appendChild(this.meterContainer);
     this.chatContainer.appendChild(this.quickReplies);
     this.chatContainer.appendChild(this.inputContainer);
-    this.chatContainer.appendChild(this.statusAnnouncer);
     
     document.body.appendChild(this.chatContainer);
+    
+    // Set desktop position if not mobile
+    if (!this.isMobile) {
+      this.chatContainer.classList.add('desktop');
+      // For desktop, we start in partial state
+      this.transitionTo(this.states.PARTIAL);
+    }
     
     // Add initial greeting after a short delay
     setTimeout(() => {
@@ -1343,57 +1298,8 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       // On mobile, transition to PARTIAL view after initial message
       if (this.isMobile) {
         this.transitionTo(this.states.PARTIAL);
-        this.announceStatus("Chatbot opened to partial view");
       }
     }, 1000);
-  }
-
-  setupAccessibility() {
-    // Make sure chatbot can be traversed with Tab key
-    const focusableElements = this.chatContainer.querySelectorAll('button, input, a, [tabindex="0"]');
-    focusableElements.forEach((el, index) => {
-      // Use proper tabindex to ensure correct tab order
-      el.setAttribute('tabindex', '0');
-    });
-    
-    // Add ESC key handling to close/minimize chatbot
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && 
-          (this.currentState === this.states.EXPANDED || this.currentState === this.states.PARTIAL)) {
-        if (this.currentState === this.states.EXPANDED) {
-          this.transitionTo(this.states.PARTIAL);
-          this.announceStatus("Chatbot minimized to partial view");
-        } else {
-          this.transitionTo(this.states.MINIMIZED);
-          this.announceStatus("Chatbot minimized");
-        }
-      }
-    });
-    
-    // Add proper focus management
-    this.header.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        if (this.currentState === this.states.PARTIAL) {
-          this.transitionTo(this.states.EXPANDED);
-          this.announceStatus("Chatbot expanded to full view");
-        } else if (this.currentState === this.states.EXPANDED) {
-          this.transitionTo(this.states.PARTIAL);
-          this.announceStatus("Chatbot minimized to partial view");
-        } else if (this.currentState === this.states.MINIMIZED) {
-          this.transitionTo(this.states.PARTIAL);
-          this.announceStatus("Chatbot opened to partial view");
-        }
-      }
-    });
-  }
-  
-  announceStatus(message) {
-    this.statusAnnouncer.textContent = message;
-    // Clear after announcement is likely read
-    setTimeout(() => {
-      this.statusAnnouncer.textContent = '';
-    }, 3000);
   }
 
   setupEventListeners() {
@@ -1421,13 +1327,10 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.header.addEventListener('click', () => {
       if (this.currentState === this.states.PARTIAL) {
         this.transitionTo(this.states.EXPANDED);
-        this.announceStatus("Chatbot expanded to full view");
       } else if (this.currentState === this.states.EXPANDED) {
         this.transitionTo(this.states.PARTIAL);
-        this.announceStatus("Chatbot minimized to partial view");
       } else if (this.currentState === this.states.MINIMIZED) {
         this.transitionTo(this.states.PARTIAL);
-        this.announceStatus("Chatbot opened to partial view");
       }
     });
     
@@ -1497,23 +1400,19 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         if ((diff > 50) || (isQuickSwipe && diff > 20)) {
           // Swiping down from partial - minimize
           this.transitionTo(this.states.MINIMIZED);
-          this.announceStatus("Chatbot minimized");
         } else if ((diff < -50) || (isQuickSwipe && diff < -20)) {
           // Swiping up from partial - expand
           this.transitionTo(this.states.EXPANDED);
-          this.announceStatus("Chatbot expanded to full view");
         }
       } else if (this.currentState === this.states.EXPANDED) {
         if ((diff > 50) || (isQuickSwipe && diff > 20)) {
           // Swiping down from expanded - return to partial
           this.transitionTo(this.states.PARTIAL);
-          this.announceStatus("Chatbot minimized to partial view");
         }
       } else if (this.currentState === this.states.MINIMIZED) {
         if ((diff < -50) || (isQuickSwipe && diff < -20)) {
           // Swiping up from minimized - return to partial
           this.transitionTo(this.states.PARTIAL);
-          this.announceStatus("Chatbot opened to partial view");
         }
       }
       
@@ -1540,27 +1439,15 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.chatContainer.classList.add(newState);
     this.currentState = newState;
     
-    // Update ARIA attributes
-    if (newState === this.states.MINIMIZED) {
-      this.chatContainer.setAttribute('aria-expanded', 'false');
-    } else {
-      this.chatContainer.setAttribute('aria-expanded', 'true');
-    }
-    
     // Special handling for each state
     if (newState === this.states.MINIMIZED) {
       this.messageArea.style.display = 'none';
       this.quickReplies.style.display = 'none';
       this.header.querySelector('h3').style.display = 'none';
-      this.progressContainer.style.display = 'none';
     } else {
       this.messageArea.style.display = 'block';
       this.quickReplies.style.display = 'flex';
       this.header.querySelector('h3').style.display = 'block';
-      
-      if (this.isProcessing) {
-        this.progressContainer.style.display = 'block';
-      }
       
       if (newState === this.states.PARTIAL) {
         // Scroll to bottom of last message
@@ -1576,97 +1463,73 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     const message = this.inputField.value.trim();
     if (message) {
       this.addUserMessage(message);
-      const userInput = this.inputField.value;
       this.inputField.value = '';
       
-      // Show analysis meter
-      this.showAnalysisMeter();
+      // Disable input while processing
+      this.inputField.disabled = true;
+      this.sendButton.disabled = true;
       
-      // Show the progress bar
-      this.startProgressBar();
+      // Show progress bar
+      this.showProgressBar();
       
-      // Process message with delay to show the analysis
+      // Process message after a short delay to simulate sending
       setTimeout(() => {
-        this.processMessage(userInput);
+        this.hideProgressBar();
+        this.showMeter();
+        this.processMessage(message);
       }, 1500);
       
       // If minimized, transition to partial after sending
       if (this.currentState === this.states.MINIMIZED) {
         this.transitionTo(this.states.PARTIAL);
-        this.announceStatus("Chatbot opened to partial view");
       }
     }
   }
-  
-  showAnalysisMeter() {
-    this.inputField.style.display = 'none';
-    this.analysisMeter.style.display = 'block';
-    
-    // Simulate analysis with meter
+
+  showProgressBar() {
+    this.progressContainer.style.display = 'block';
     let progress = 0;
-    const analysisFill = this.analysisMeter.querySelector('.mhc-analysis-fill');
-    const analysisInterval = setInterval(() => {
+    const interval = setInterval(() => {
       progress += 5;
-      if (progress <= 100) {
-        analysisFill.style.width = `${progress}%`;
-        this.analysisMeter.setAttribute('aria-valuenow', progress);
-        
-        // Add text feedback
-        if (progress < 30) {
-          this.inputField.placeholder = "AI is understanding your question...";
-        } else if (progress < 60) {
-          this.inputField.placeholder = "AI is analyzing relevant information...";
-        } else if (progress < 90) {
-          this.inputField.placeholder = "AI is preparing your response...";
-        } else {
-          this.inputField.placeholder = "Almost ready...";
-        }
-      } else {
-        clearInterval(analysisInterval);
-        // Reset after analysis
-        setTimeout(() => {
-          this.inputField.style.display = 'block';
-          this.analysisMeter.style.display = 'none';
-          this.inputField.placeholder = 'Ask about mental health...';
-        }, 500);
+      this.progressBar.style.width = `${progress}%`;
+      this.progressBar.setAttribute('aria-valuenow', progress);
+      
+      if (progress >= 100) {
+        clearInterval(interval);
       }
     }, 50);
   }
-  
-  startProgressBar() {
-    this.isProcessing = true;
-    this.progressContainer.style.display = this.currentState !== this.states.MINIMIZED ? 'block' : 'none';
-    this.processingProgress = 0;
-    
-    // Reset progress bar
+
+  hideProgressBar() {
+    this.progressContainer.style.display = 'none';
     this.progressBar.style.width = '0%';
     this.progressBar.setAttribute('aria-valuenow', '0');
-    
-    // Simulate progress
-    const progressInterval = setInterval(() => {
-      this.processingProgress += Math.random() * 15;
-      if (this.processingProgress > 100) this.processingProgress = 100;
+  }
+
+  showMeter() {
+    this.meterContainer.style.display = 'block';
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += 2;
+      this.meterElement.style.width = `${progress}%`;
+      this.meterElement.setAttribute('aria-valuenow', progress);
       
-      this.progressBar.style.width = `${this.processingProgress}%`;
-      this.progressBar.setAttribute('aria-valuenow', Math.round(this.processingProgress));
-      
-      if (this.processingProgress >= 100) {
-        clearInterval(progressInterval);
-        // Hide progress bar after completion
+      if (progress >= 100) {
+        clearInterval(interval);
         setTimeout(() => {
-          this.isProcessing = false;
-          this.progressContainer.style.display = 'none';
+          this.meterContainer.style.display = 'none';
+          this.meterElement.style.width = '0%';
+          this.meterElement.setAttribute('aria-valuenow', '0');
         }, 500);
       }
-    }, 300);
+    }, 50);
   }
 
   addUserMessage(text) {
     const message = document.createElement('div');
     message.className = 'mhc-message user-message';
     message.textContent = text;
-    message.setAttribute('role', 'listitem');
-    message.setAttribute('aria-label', `You: ${text}`);
+    message.setAttribute('aria-label', `You said: ${text}`);
     this.messageArea.appendChild(message);
     this.scrollToBottom();
   }
@@ -1675,14 +1538,17 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     const message = document.createElement('div');
     message.className = 'mhc-message bot-message';
     message.textContent = text;
-    message.setAttribute('role', 'listitem');
-    message.setAttribute('aria-label', `Assistant: ${text}`);
+    message.setAttribute('aria-label', `Assistant says: ${text}`);
     this.messageArea.appendChild(message);
+    
+    // Re-enable input after bot responds
+    this.inputField.disabled = false;
+    this.sendButton.disabled = false;
+    this.inputField.focus();
     
     // After adding bot message, transition to partial view if minimized
     if (this.currentState === this.states.MINIMIZED && this.isMobile) {
       this.transitionTo(this.states.PARTIAL);
-      this.announceStatus("Chatbot opened with new message");
     } else {
       this.scrollToBottom();
     }
