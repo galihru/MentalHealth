@@ -516,14 +516,11 @@
         white-space: nowrap;
         border: 0;
     }
-    .mhc-container {
+    /* Base Styling */
+.mhc-container {
   position: fixed;
-  bottom: 0;
-  right: 0;
-  left: 0;
   background: white;
-  border-radius: 24px 24px 0 0;
-  box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
   display: flex;
   flex-direction: column;
   z-index: 1000;
@@ -532,25 +529,60 @@
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-/* Minimized State - Only Input */
-.mhc-container.minimized {
-  height: 60px;
-  border-radius: 24px;
-  bottom: 20px;
-  left: auto;
-  right: 20px;
-  width: 300px;
+/* Mobile positioning and sizing */
+@media (max-width: 768px) {
+  .mhc-container {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-radius: 24px 24px 0 0;
+  }
+  
+  /* Minimized State - Only Input visible */
+  .mhc-container.minimized {
+    height: 60px;
+  }
+  
+  /* Partial State - 30% height */
+  .mhc-container.partial {
+    height: 30vh;
+    max-height: 300px;
+  }
+  
+  /* Expanded State - Full height */
+  .mhc-container.expanded {
+    height: 85vh;
+  }
 }
 
-/* Partial State - 30% height */
-.mhc-container.partial {
-  height: 30vh;
-  max-height: 300px;
-}
-
-/* Expanded State - Full height */
-.mhc-container.expanded {
-  height: 85vh;
+/* Desktop positioning and sizing */
+@media (min-width: 769px) {
+  .mhc-container {
+    bottom: 10px;
+    right: 10px;
+    width: 360px;
+    border-radius: 12px;
+    max-height: calc(100vh - 20px);
+  }
+  
+  .mhc-container.desktop {
+    height: 30vh;
+    min-height: 300px;
+    max-height: 450px;
+  }
+  
+  /* On desktop, minimized isn't actually used but defined for completeness */
+  .mhc-container.desktop.minimized {
+    height: 30vh;
+    min-height: 300px;
+  }
+  
+  /* On desktop, expanded goes taller but not full screen */
+  .mhc-container.desktop.expanded {
+    height: 70vh;
+    max-height: 700px;
+  }
 }
 
 .mhc-header {
@@ -561,6 +593,7 @@
   position: relative;
   cursor: pointer;
   flex-shrink: 0;
+  user-select: none;
 }
 
 .mhc-header h3 {
@@ -576,6 +609,7 @@
   background: rgba(255,255,255,0.5);
   border-radius: 2px;
   margin: 0 auto 8px;
+  cursor: grab;
 }
 
 .mhc-messages {
@@ -583,12 +617,7 @@
   padding: 16px;
   overflow-y: auto;
   background: #f8f9fa;
-  display: none; /* Initially hidden */
-}
-
-.mhc-container.partial .mhc-messages,
-.mhc-container.expanded .mhc-messages {
-  display: block;
+  display: none; /* Initially hidden in minimized state */
 }
 
 .mhc-message {
@@ -628,6 +657,9 @@
   border-top: 1px solid #e9ecef;
   background: white;
   flex-shrink: 0;
+  box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 2;
 }
 
 .mhc-input {
@@ -642,6 +674,7 @@
 
 .mhc-input:focus {
   border-color: #4a6fa5;
+  box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
 }
 
 .mhc-send-btn {
@@ -666,17 +699,12 @@
 }
 
 .mhc-quick-replies {
-  display: none; /* Initially hidden */
+  display: none; /* Initially hidden in minimized state */
   flex-wrap: wrap;
   padding: 8px 12px;
   gap: 8px;
   background: white;
   border-top: 1px solid #e9ecef;
-}
-
-.mhc-container.partial .mhc-quick-replies,
-.mhc-container.expanded .mhc-quick-replies {
-  display: flex;
 }
 
 .mhc-quick-btn {
@@ -691,12 +719,6 @@
 
 .mhc-quick-btn:hover {
   background: #dee2e6;
-}
-
-@media (max-width: 480px) {
-  .mhc-container.minimized {
-    width: calc(100% - 40px);
-  }
 }
     </style>
 </head>
@@ -1044,9 +1066,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         });
     </script>
     <script>
-        // Enhanced Mental Health Chatbot with Predictive AI
-// Enhanced Mental Health Chatbot with Dynamic UI
-class MentalHealthChatbot {
+        class MentalHealthChatbot {
   constructor() {
     // Training data for the AI model
     this.trainingData = [
@@ -1120,6 +1140,7 @@ class MentalHealthChatbot {
       EXPANDED: 'expanded'       // Full screen
     };
     this.currentState = this.states.MINIMIZED;
+    this.isMobile = window.innerWidth <= 768;
 
     // Initialize
     this.initializeModel();
@@ -1154,7 +1175,7 @@ class MentalHealthChatbot {
   }
 
   initializeUI() {
-    // Main container
+    // Main container - Different positioning for mobile vs desktop
     this.chatContainer = document.createElement('div');
     this.chatContainer.className = 'mhc-container minimized';
     
@@ -1200,15 +1221,25 @@ class MentalHealthChatbot {
     // Assemble the container
     this.chatContainer.appendChild(this.header);
     this.chatContainer.appendChild(this.messageArea);
-    this.chatContainer.appendChild(this.inputContainer);
     this.chatContainer.appendChild(this.quickReplies);
+    this.chatContainer.appendChild(this.inputContainer);
     
     document.body.appendChild(this.chatContainer);
     
-    // Add initial greeting
+    // Set desktop position if not mobile
+    if (!this.isMobile) {
+      this.chatContainer.classList.add('desktop');
+      // For desktop, we start in partial state
+      this.transitionTo(this.states.PARTIAL);
+    }
+    
+    // Add initial greeting after a short delay
     setTimeout(() => {
       this.addBotMessage("Hello! I'm your Mental Health Assistant. How can I help you today?");
-      this.transitionTo(this.states.PARTIAL);
+      // On mobile, transition to PARTIAL view after initial message
+      if (this.isMobile) {
+        this.transitionTo(this.states.PARTIAL);
+      }
     }, 1000);
   }
 
@@ -1228,47 +1259,117 @@ class MentalHealthChatbot {
       });
     });
     
-    // Swipe handling
-    let startY, currentY;
-    const swipeHandle = this.header.querySelector('.mhc-swipe-handle');
+    // Only set up swipe handling on mobile
+    if (this.isMobile) {
+      this.setupSwipeHandling();
+    }
     
-    swipeHandle.addEventListener('touchstart', (e) => {
-      startY = e.touches[0].clientY;
-    }, {passive: true});
-    
-    swipeHandle.addEventListener('touchmove', (e) => {
-      if (!startY) return;
-      currentY = e.touches[0].clientY;
-      const diff = currentY - startY;
-      
-      if (this.currentState === this.states.PARTIAL && diff > 0) {
-        // Swiping down from partial view - minimize
-        e.preventDefault();
-        this.transitionTo(this.states.MINIMIZED);
-      } else if (this.currentState === this.states.PARTIAL && diff < -50) {
-        // Swiping up from partial view - expand
-        e.preventDefault();
-        this.transitionTo(this.states.EXPANDED);
-      } else if (this.currentState === this.states.EXPANDED && diff > 50) {
-        // Swiping down from expanded view - return to partial
-        e.preventDefault();
-        this.transitionTo(this.states.PARTIAL);
-      }
-    }, {passive: false});
-    
-    swipeHandle.addEventListener('touchend', () => {
-      startY = null;
-      currentY = null;
-    }, {passive: true});
-    
-    // Click header to toggle between partial and expanded
+    // Click header to toggle between partial and expanded (both mobile and desktop)
     this.header.addEventListener('click', () => {
       if (this.currentState === this.states.PARTIAL) {
         this.transitionTo(this.states.EXPANDED);
       } else if (this.currentState === this.states.EXPANDED) {
         this.transitionTo(this.states.PARTIAL);
+      } else if (this.currentState === this.states.MINIMIZED) {
+        this.transitionTo(this.states.PARTIAL);
       }
     });
+    
+    // Prevent window resizing from breaking the layout
+    window.addEventListener('resize', () => {
+      const wasMobile = this.isMobile;
+      this.isMobile = window.innerWidth <= 768;
+      
+      // Handle transition between mobile and desktop
+      if (wasMobile !== this.isMobile) {
+        if (this.isMobile) {
+          this.chatContainer.classList.remove('desktop');
+          if (this.currentState === this.states.MINIMIZED) {
+            // Keep minimized state on mobile
+          } else {
+            this.transitionTo(this.states.PARTIAL);
+          }
+        } else {
+          this.chatContainer.classList.add('desktop');
+          this.transitionTo(this.states.PARTIAL);
+        }
+      }
+    });
+  }
+  
+  setupSwipeHandling() {
+    let startY, currentY;
+    let touchStartTime;
+    const swipeHandle = this.header.querySelector('.mhc-swipe-handle');
+    const header = this.header;
+    
+    const handleTouchStart = (e) => {
+      startY = e.touches[0].clientY;
+      touchStartTime = new Date().getTime();
+    };
+    
+    const handleTouchMove = (e) => {
+      if (!startY) return;
+      currentY = e.touches[0].clientY;
+      const diff = currentY - startY;
+      
+      // Prevent default browser behavior to allow smooth swipe
+      e.preventDefault();
+      
+      // Add visual feedback during swipe
+      if (diff > 0 && this.currentState !== this.states.MINIMIZED) {
+        // Swiping down - show a subtle pull effect
+        this.chatContainer.style.transform = `translateY(${Math.min(diff * 0.3, 30)}px)`;
+      } else if (diff < 0 && this.currentState !== this.states.EXPANDED) {
+        // Swiping up - show a subtle push effect
+        this.chatContainer.style.transform = `translateY(${Math.max(diff * 0.3, -30)}px)`;
+      }
+    };
+    
+    const handleTouchEnd = (e) => {
+      if (!startY) return;
+      const diff = currentY - startY;
+      const touchEndTime = new Date().getTime();
+      const swipeTime = touchEndTime - touchStartTime;
+      const isQuickSwipe = swipeTime < 300;
+      
+      // Reset transform
+      this.chatContainer.style.transform = '';
+      
+      // Handle different swipe directions based on current state
+      if (this.currentState === this.states.PARTIAL) {
+        if ((diff > 50) || (isQuickSwipe && diff > 20)) {
+          // Swiping down from partial - minimize
+          this.transitionTo(this.states.MINIMIZED);
+        } else if ((diff < -50) || (isQuickSwipe && diff < -20)) {
+          // Swiping up from partial - expand
+          this.transitionTo(this.states.EXPANDED);
+        }
+      } else if (this.currentState === this.states.EXPANDED) {
+        if ((diff > 50) || (isQuickSwipe && diff > 20)) {
+          // Swiping down from expanded - return to partial
+          this.transitionTo(this.states.PARTIAL);
+        }
+      } else if (this.currentState === this.states.MINIMIZED) {
+        if ((diff < -50) || (isQuickSwipe && diff < -20)) {
+          // Swiping up from minimized - return to partial
+          this.transitionTo(this.states.PARTIAL);
+        }
+      }
+      
+      startY = null;
+      currentY = null;
+    };
+    
+    // Add touch event listeners to the swipe handle
+    swipeHandle.addEventListener('touchstart', handleTouchStart, { passive: true });
+    swipeHandle.addEventListener('touchmove', handleTouchMove, { passive: false });
+    swipeHandle.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    // Add touch event listeners to the header as well for better UX
+    header.addEventListener('touchstart', handleTouchStart, { passive: true });
+    header.addEventListener('touchmove', handleTouchMove, { passive: false });
+    header.addEventListener('touchend', handleTouchEnd, { passive: true });
   }
 
   transitionTo(newState) {
@@ -1305,6 +1406,11 @@ class MentalHealthChatbot {
       this.addUserMessage(message);
       this.inputField.value = '';
       this.processMessage(message);
+      
+      // If minimized, transition to partial after sending
+      if (this.currentState === this.states.MINIMIZED) {
+        this.transitionTo(this.states.PARTIAL);
+      }
     }
   }
 
@@ -1323,7 +1429,7 @@ class MentalHealthChatbot {
     this.messageArea.appendChild(message);
     
     // After adding bot message, transition to partial view if minimized
-    if (this.currentState === this.states.MINIMIZED) {
+    if (this.currentState === this.states.MINIMIZED && this.isMobile) {
       this.transitionTo(this.states.PARTIAL);
     } else {
       this.scrollToBottom();
