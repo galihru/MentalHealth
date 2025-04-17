@@ -517,229 +517,209 @@
         border: 0;
     }
     /* Style untuk input field dan label */
-.mhc-input-label {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 14px;
-  color: #333;
+/* Base Styling */
+.mhc-container {
+  position: fixed;
+  background: white;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
-.mhc-input {
-  width: calc(100% - 100px);
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 14px;
+/* Mobile positioning and sizing */
+@media (max-width: 768px) {
+  .mhc-container {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    border-radius: 24px 24px 0 0;
+  }
+  
+  /* Minimized State - Only Input visible */
+  .mhc-container.minimized {
+    height: 60px;
+  }
+  
+  /* Partial State - 30% height */
+  .mhc-container.partial {
+    height: 30vh;
+    max-height: 300px;
+  }
+  
+  /* Expanded State - Full height */
+  .mhc-container.expanded {
+    height: 85vh;
+  }
 }
 
-.mhc-input-hint {
-  display: block;
-  font-size: 12px;
-  color: #666;
-  margin-top: 4px;
+/* Desktop positioning and sizing */
+@media (min-width: 769px) {
+  .mhc-container {
+    bottom: 10px;
+    right: 10px;
+    width: 360px;
+    border-radius: 12px;
+    max-height: calc(100vh - 20px);
+  }
+  
+  .mhc-container.desktop {
+    height: 30vh;
+    min-height: 300px;
+    max-height: 450px;
+  }
+  
+  /* On desktop, minimized isn't actually used but defined for completeness */
+  .mhc-container.desktop.minimized {
+    height: 30vh;
+    min-height: 300px;
+  }
+  
+  /* On desktop, expanded goes taller but not full screen */
+  .mhc-container.desktop.expanded {
+    height: 70vh;
+    max-height: 700px;
+  }
 }
 
-/* Style untuk button container */
-.mhc-button-container {
+.mhc-header {
+  padding: 16px;
+  background: linear-gradient(135deg, #4a6fa5, #3a5a8a);
+  color: white;
+  text-align: center;
   position: relative;
-  display: inline-block;
-  margin-left: 8px;
-}
-
-/* Style untuk send button */
-.mhc-send-btn {
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  padding: 10px 15px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 80px;
+  flex-shrink: 0;
+  user-select: none;
 }
 
-.mhc-send-btn:hover {
-  background-color: #45a049;
+.mhc-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  transition: opacity 0.2s;
 }
 
-.mhc-send-text {
-  margin-left: 5px;
+.mhc-swipe-handle {
+  width: 40px;
+  height: 4px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 2px;
+  margin: 0 auto 8px;
+  cursor: grab;
 }
 
-/* Style untuk tooltip */
-.mhc-tooltip {
-  position: absolute;
-  bottom: -30px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #333;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.3s;
-  z-index: 100;
-}
-
-.mhc-tooltip::after {
-  content: "";
-  position: absolute;
-  top: -5px;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 0 5px 5px;
-  border-style: solid;
-  border-color: #333 transparent;
-}
-
-/* Progress bar styles */
-.mhc-progress-container {
-  width: 100%;
-  background-color: #f1f1f1;
-  border-radius: 4px;
-  margin: 10px 0;
-}
-
-.mhc-progress-bar {
-  height: 6px;
-  background-color: #4CAF50;
-  border-radius: 4px;
-  width: 0%;
-  transition: width 0.1s;
-}
-
-/* Meter styles */
-.mhc-meter-container {
-  width: 100%;
-  margin: 10px 0;
-}
-
-.mhc-meter {
-  height: 6px;
-  background-color: #2196F3;
-  border-radius: 4px;
-  width: 0%;
-  transition: width 0.1s;
-}
-
-.mhc-meter-label {
-  font-size: 12px;
-  color: #666;
-  margin-top: 4px;
-}
-
-/* Quick replies */
-.mhc-quick-replies {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 10px 0;
-}
-
-.mhc-quick-btn {
-  background-color: #f1f1f1;
-  border: none;
-  border-radius: 15px;
-  padding: 6px 12px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.mhc-quick-btn:hover {
-  background-color: #ddd;
-}
-
-/* Message styles */
 .mhc-messages {
+  flex: 1;
+  padding: 16px;
   overflow-y: auto;
-  max-height: 300px;
-  padding: 10px;
+  background: #f8f9fa;
+  display: none; /* Initially hidden in minimized state */
 }
 
 .mhc-message {
-  margin-bottom: 10px;
-  padding: 8px 12px;
+  margin-bottom: 12px;
+  padding: 12px 16px;
   border-radius: 18px;
   max-width: 80%;
+  word-wrap: break-word;
+  line-height: 1.4;
+  font-size: 14px;
+  animation: fadeIn 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .user-message {
-  background-color: #4CAF50;
+  background: #4a6fa5;
   color: white;
   margin-left: auto;
   border-bottom-right-radius: 4px;
 }
 
 .bot-message {
-  background-color: #f1f1f1;
-  color: #333;
+  background: #e9ecef;
+  color: #212529;
   margin-right: auto;
   border-bottom-left-radius: 4px;
 }
 
-/* Container styles */
-.mhc-container {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  width: 350px;
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+.mhc-input-container {
   display: flex;
-  flex-direction: column;
-  transition: all 0.3s ease;
-  z-index: 1000;
+  padding: 12px;
+  border-top: 1px solid #e9ecef;
+  background: white;
+  flex-shrink: 0;
+  box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
+  position: relative;
+  z-index: 2;
 }
 
-.mhc-container.desktop {
-  right: 30px;
-  bottom: 30px;
-}
-
-.mhc-container.minimized {
-  height: 60px;
-}
-
-.mhc-container.partial {
-  height: 300px;
-}
-
-.mhc-container.expanded {
-  height: 80vh;
-}
-
-.mhc-header {
+.mhc-input {
+  flex: 1;
   padding: 12px 16px;
-  background-color: #4CAF50;
+  border: 1px solid #e9ecef;
+  border-radius: 24px;
+  outline: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.mhc-input:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+}
+
+.mhc-send-btn {
+  margin-left: 10px;
+  width: 44px;
+  height: 44px;
+  background: #4a6fa5;
   color: white;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
 }
 
-.mhc-swipe-handle {
-  width: 40px;
-  height: 4px;
-  background-color: rgba(255,255,255,0.5);
-  border-radius: 2px;
-  margin-right: 10px;
+.mhc-send-btn:hover {
+  background: #3a5a8a;
+  transform: scale(1.05);
 }
 
-.mhc-input-container {
-  padding: 10px;
-  background-color: #f9f9f9;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  display: flex;
-  align-items: center;
+.mhc-quick-replies {
+  display: none; /* Initially hidden in minimized state */
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  gap: 8px;
+  background: white;
+  border-top: 1px solid #e9ecef;
+}
+
+.mhc-quick-btn {
+  padding: 8px 12px;
+  background: #e9ecef;
+  border: none;
+  border-radius: 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mhc-quick-btn:hover {
+  background: #dee2e6;
 }
     </style>
 </head>
