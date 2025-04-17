@@ -516,210 +516,230 @@
         white-space: nowrap;
         border: 0;
     }
-    /* Base Styling */
-.mhc-container {
-  position: fixed;
-  background: white;
-  box-shadow: 0 -5px 20px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  z-index: 1000;
-  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  overflow: hidden;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Style untuk input field dan label */
+.mhc-input-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 14px;
+  color: #333;
 }
 
-/* Mobile positioning and sizing */
-@media (max-width: 768px) {
-  .mhc-container {
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100%;
-    border-radius: 24px 24px 0 0;
-  }
-  
-  /* Minimized State - Only Input visible */
-  .mhc-container.minimized {
-    height: 60px;
-  }
-  
-  /* Partial State - 30% height */
-  .mhc-container.partial {
-    height: 30vh;
-    max-height: 300px;
-  }
-  
-  /* Expanded State - Full height */
-  .mhc-container.expanded {
-    height: 85vh;
-  }
+.mhc-input {
+  width: calc(100% - 100px);
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
-/* Desktop positioning and sizing */
-@media (min-width: 769px) {
-  .mhc-container {
-    bottom: 10px;
-    right: 10px;
-    width: 360px;
-    border-radius: 12px;
-    max-height: calc(100vh - 20px);
-  }
-  
-  .mhc-container.desktop {
-    height: 30vh;
-    min-height: 300px;
-    max-height: 450px;
-  }
-  
-  /* On desktop, minimized isn't actually used but defined for completeness */
-  .mhc-container.desktop.minimized {
-    height: 30vh;
-    min-height: 300px;
-  }
-  
-  /* On desktop, expanded goes taller but not full screen */
-  .mhc-container.desktop.expanded {
-    height: 70vh;
-    max-height: 700px;
-  }
+.mhc-input-hint {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
 }
 
-.mhc-header {
-  padding: 16px;
-  background: linear-gradient(135deg, #4a6fa5, #3a5a8a);
-  color: white;
-  text-align: center;
+/* Style untuk button container */
+.mhc-button-container {
   position: relative;
+  display: inline-block;
+  margin-left: 8px;
+}
+
+/* Style untuk send button */
+.mhc-send-btn {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 15px;
   cursor: pointer;
-  flex-shrink: 0;
-  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 80px;
 }
 
-.mhc-header h3 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 500;
-  transition: opacity 0.2s;
-  color: var(--background-color);
+.mhc-send-btn:hover {
+  background-color: #45a049;
 }
 
-.mhc-swipe-handle {
-  width: 40px;
-  height: 4px;
-  background: rgba(255,255,255,0.5);
-  border-radius: 2px;
-  margin: 0 auto 8px;
-  cursor: grab;
+.mhc-send-text {
+  margin-left: 5px;
 }
 
+/* Style untuk tooltip */
+.mhc-tooltip {
+  position: absolute;
+  bottom: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 100;
+}
+
+.mhc-tooltip::after {
+  content: "";
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 0 5px 5px;
+  border-style: solid;
+  border-color: #333 transparent;
+}
+
+/* Progress bar styles */
+.mhc-progress-container {
+  width: 100%;
+  background-color: #f1f1f1;
+  border-radius: 4px;
+  margin: 10px 0;
+}
+
+.mhc-progress-bar {
+  height: 6px;
+  background-color: #4CAF50;
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.1s;
+}
+
+/* Meter styles */
+.mhc-meter-container {
+  width: 100%;
+  margin: 10px 0;
+}
+
+.mhc-meter {
+  height: 6px;
+  background-color: #2196F3;
+  border-radius: 4px;
+  width: 0%;
+  transition: width 0.1s;
+}
+
+.mhc-meter-label {
+  font-size: 12px;
+  color: #666;
+  margin-top: 4px;
+}
+
+/* Quick replies */
+.mhc-quick-replies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.mhc-quick-btn {
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 15px;
+  padding: 6px 12px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.mhc-quick-btn:hover {
+  background-color: #ddd;
+}
+
+/* Message styles */
 .mhc-messages {
-  flex: 1;
-  padding: 16px;
   overflow-y: auto;
-  background: #f8f9fa;
-  display: none; /* Initially hidden in minimized state */
+  max-height: 300px;
+  padding: 10px;
 }
 
 .mhc-message {
-  margin-bottom: 12px;
-  padding: 12px 16px;
+  margin-bottom: 10px;
+  padding: 8px 12px;
   border-radius: 18px;
   max-width: 80%;
-  word-wrap: break-word;
-  line-height: 1.4;
-  font-size: 14px;
-  animation: fadeIn 0.3s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
 }
 
 .user-message {
-  background: #4a6fa5;
+  background-color: #4CAF50;
   color: white;
   margin-left: auto;
   border-bottom-right-radius: 4px;
 }
 
 .bot-message {
-  background: #e9ecef;
-  color: #212529;
+  background-color: #f1f1f1;
+  color: #333;
   margin-right: auto;
   border-bottom-left-radius: 4px;
 }
 
-.mhc-input-container {
+/* Container styles */
+.mhc-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 350px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   display: flex;
-  padding: 12px;
-  border-top: 1px solid #e9ecef;
-  background: white;
-  flex-shrink: 0;
-  box-shadow: 0 -1px 5px rgba(0,0,0,0.05);
-  position: relative;
-  z-index: 2;
-}
-
-.mhc-input {
-  flex: 1;
-  padding: 12px 16px;
-  border: 1px solid #e9ecef;
-  border-radius: 24px;
-  outline: none;
-  font-size: 14px;
+  flex-direction: column;
   transition: all 0.3s ease;
+  z-index: 1000;
 }
 
-.mhc-input:focus {
-  border-color: #4a6fa5;
-  box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
+.mhc-container.desktop {
+  right: 30px;
+  bottom: 30px;
 }
 
-.mhc-send-btn {
-  margin-left: 10px;
-  width: 44px;
-  height: 44px;
-  background: #4a6fa5;
+.mhc-container.minimized {
+  height: 60px;
+}
+
+.mhc-container.partial {
+  height: 300px;
+}
+
+.mhc-container.expanded {
+  height: 80vh;
+}
+
+.mhc-header {
+  padding: 12px 16px;
+  background-color: #4CAF50;
   color: white;
-  border: none;
-  border-radius: 50%;
-  font-size: 16px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
 }
 
-.mhc-send-btn:hover {
-  background: #3a5a8a;
-  transform: scale(1.05);
+.mhc-swipe-handle {
+  width: 40px;
+  height: 4px;
+  background-color: rgba(255,255,255,0.5);
+  border-radius: 2px;
+  margin-right: 10px;
 }
 
-.mhc-quick-replies {
-  display: none; /* Initially hidden in minimized state */
-  flex-wrap: wrap;
-  padding: 8px 12px;
-  gap: 8px;
-  background: white;
-  border-top: 1px solid #e9ecef;
-}
-
-.mhc-quick-btn {
-  padding: 8px 12px;
-  background: #e9ecef;
-  border: none;
-  border-radius: 16px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.mhc-quick-btn:hover {
-  background: #dee2e6;
+.mhc-input-container {
+  padding: 10px;
+  background-color: #f9f9f9;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+  display: flex;
+  align-items: center;
 }
     </style>
 </head>
@@ -1196,35 +1216,75 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.messageArea.className = 'mhc-messages';
     this.messageArea.setAttribute('aria-live', 'polite');
     
-    // Input area (always visible)
+    // Input area with proper labeling
     this.inputContainer = document.createElement('div');
     this.inputContainer.className = 'mhc-input-container';
+    
+    // Label for input field
+    this.inputLabel = document.createElement('label');
+    this.inputLabel.className = 'mhc-input-label';
+    this.inputLabel.textContent = 'Your Message:';
+    this.inputLabel.setAttribute('for', 'mhc-user-input');
+    this.inputLabel.id = 'mhc-input-label';
     
     // Input field with proper labeling
     this.inputField = document.createElement('input');
     this.inputField.className = 'mhc-input';
     this.inputField.placeholder = 'Ask about mental health...';
-    this.inputField.setAttribute('aria-label', 'Type your message about mental health');
+    this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');
     this.inputField.setAttribute('type', 'text');
     this.inputField.id = 'mhc-user-input';
+    this.inputField.setAttribute('aria-describedby', 'mhc-input-hint');
     
-    // Send button with accessible name
+    // Hint text for input field
+    this.inputHint = document.createElement('span');
+    this.inputHint.id = 'mhc-input-hint';
+    this.inputHint.className = 'mhc-input-hint';
+    this.inputHint.textContent = 'You can ask about depression, anxiety, stress, or self-care';
+    
+    // Container for button and tooltip
+    this.buttonContainer = document.createElement('div');
+    this.buttonContainer.className = 'mhc-button-container';
+    
+    // Send button with clear text
     this.sendButton = document.createElement('button');
     this.sendButton.className = 'mhc-send-btn';
-    this.sendButton.innerHTML = '&#10148;';
+    this.sendButton.innerHTML = '<span aria-hidden="true">&#10148;</span><span class="mhc-send-text">Send</span>';
     this.sendButton.setAttribute('aria-label', 'Send message');
+    
+    // External tooltip for send button (will appear below)
+    this.sendTooltip = document.createElement('div');
+    this.sendTooltip.className = 'mhc-tooltip';
+    this.sendTooltip.setAttribute('role', 'tooltip');
+    this.sendTooltip.id = 'mhc-send-tooltip';
+    this.sendTooltip.textContent = 'Click to send your message';
+    
+    // Connect button with tooltip
     this.sendButton.setAttribute('aria-describedby', 'mhc-send-tooltip');
     
-    // Tooltip for send button
-    const sendTooltip = document.createElement('span');
-    sendTooltip.id = 'mhc-send-tooltip';
-    sendTooltip.className = 'mhc-tooltip';
-    sendTooltip.setAttribute('role', 'tooltip');
-    sendTooltip.textContent = 'Click to send your message';
-    this.sendButton.appendChild(sendTooltip);
+    // Events to show/hide tooltip
+    this.sendButton.addEventListener('mouseenter', () => {
+      this.sendTooltip.style.visibility = 'visible';
+      this.sendTooltip.style.opacity = '1';
+    });
     
-    this.inputContainer.appendChild(this.inputField);
-    this.inputContainer.appendChild(this.sendButton);
+    this.sendButton.addEventListener('mouseleave', () => {
+      this.sendTooltip.style.visibility = 'hidden';
+      this.sendTooltip.style.opacity = '0';
+    });
+    
+    this.sendButton.addEventListener('focus', () => {
+      this.sendTooltip.style.visibility = 'visible';
+      this.sendTooltip.style.opacity = '1';
+    });
+    
+    this.sendButton.addEventListener('blur', () => {
+      this.sendTooltip.style.visibility = 'hidden';
+      this.sendTooltip.style.opacity = '0';
+    });
+    
+    this.buttonContainer.appendChild(this.sendButton);
+    this.buttonContainer.appendChild(this.sendTooltip);
     
     // Quick replies
     this.quickReplies = document.createElement('div');
@@ -1282,6 +1342,10 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.chatContainer.appendChild(this.progressContainer);
     this.chatContainer.appendChild(this.meterContainer);
     this.chatContainer.appendChild(this.quickReplies);
+    this.inputContainer.appendChild(this.inputLabel);
+    this.inputContainer.appendChild(this.inputField);
+    this.inputContainer.appendChild(this.inputHint);
+    this.inputContainer.appendChild(this.buttonContainer);
     this.chatContainer.appendChild(this.inputContainer);
     
     document.body.appendChild(this.chatContainer);
