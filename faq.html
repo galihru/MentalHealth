@@ -255,12 +255,13 @@
                 <div class="faq-container">
 
                     <div class="faq-card">
-                        <button id="faq-question-1" class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
+                        <button id="faq-question-1" class="faq-question" aria-expanded="false" aria-controls="faq-answer-1" aria-describedby="faq-tooltip-1">
                             What sensors are used in this system?
                             <span class="toggle-icon" aria-hidden="true">+</span>
+                            <span id="faq-tooltip-1" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-1" class="faq-answer" role="region" aria-labelledby="faq-question-1">
-                            <div class="faq-answer-content">
+                            <div class="faq-answer-content" role="text">
                                 <p>The system uses three main sensors:</p>
                                 <ol>
                                     <li><strong>MAX30102</strong> - Optical heart rate and blood oxygen sensor</li>
@@ -279,12 +280,13 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
                     </div>
 
                     <div class="faq-card">
-                        <button id="faq-question-2" class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">
+                        <button id="faq-question-2" class="faq-question" aria-expanded="false" aria-controls="faq-answer-2" aria-describedby="faq-tooltip-2">
                             How are the sensors connected to the microcontroller?
                             <span class="toggle-icon" aria-hidden="true">+</span>
+                            <span id="faq-tooltip-2" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-2" class="faq-answer" role="region" aria-labelledby="faq-question-2">
-                            <div class="faq-answer-content">
+                            <div class="faq-answer-content" role="text">
                                 <p>The sensors are connected as follows:</p>
                                 <ul>
                                     <li>MAX30102 and BH1750 use I2C communication (connected to SDA and SCL pins)</li>
@@ -310,12 +312,13 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
                 <div class="faq-container">
 
                     <div class="faq-card">
-                        <button id="faq-question-3" class="faq-question" aria-expanded="false" aria-controls="faq-answer-3">
+                        <button id="faq-question-3" class="faq-question" aria-expanded="false" aria-controls="faq-answer-3" aria-describedby="faq-tooltip-3">
                             How does the heart rate detection work?
                             <span class="toggle-icon" aria-hidden="true">+</span>
+                            <span id="faq-tooltip-3" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-3" class="faq-answer" role="region" aria-labelledby="faq-question-3">
-                            <div class="faq-answer-content">
+                            <div class="faq-answer-content" role="text">
                                 <p>The MAX30102 sensor detects heart rate by measuring changes in blood volume using optical technology (PPG). The code implements:</p>
                                 <ol>
                                     <li>IR LED shines light into the skin</li>
@@ -338,12 +341,13 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
                     </div>
 
                     <div class="faq-card">
-                        <button id="faq-question-4" class="faq-question" aria-expanded="false" aria-controls="faq-answer-4">
+                        <button id="faq-question-4" class="faq-question" aria-expanded="false" aria-controls="faq-answer-4" aria-describedby="faq-tooltip-4">
                             What is the purpose of the GSR moving average calculation?
                             <span class="toggle-icon" aria-hidden="true">+</span>
+                            <span id="faq-tooltip-4" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-4" class="faq-answer" role="region" aria-labelledby="faq-question-4">
-                            <div class="faq-answer-content">
+                            <div class="faq-answer-content" role="text">
                                 <p>The moving average calculation separates the GSR signal into two components:</p>
                                 <ul>
                                     <li><strong>Tonic component</strong> (slow-changing baseline)</li>
@@ -368,12 +372,13 @@ float edaMovingAverage(float newVal) {
                     </div>
 
                     <div class="faq-card">
-                        <button id="faq-question-5" class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">
+                        <button id="faq-question-5" class="faq-question" aria-expanded="false" aria-controls="faq-answer-5" aria-describedby="faq-tooltip-5">
                             How is HRV (Heart Rate Variability) calculated?
                             <span class="toggle-icon" aria-hidden="true">+</span>
+                            <span id="faq-tooltip-5" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-5" class="faq-answer" role="region" aria-labelledby="faq-question-5">
-                            <div class="faq-answer-content">
+                            <div class="faq-answer-content" role="text">
                                 <p>HRV is calculated using SDNN (Standard Deviation of NN intervals), which is a well-established metric in psychophysiology research (Castaldo et al., 2019).</p>
                                 <p>The code implements this by:</p>
                                 <ol>
@@ -405,12 +410,13 @@ float calculateSDNN() {
                 <div class="faq-container">
 
                     <div class="faq-card">
-                        <button id="faq-question-6" class="faq-question" aria-expanded="false" aria-controls="faq-answer-6">
+                        <button id="faq-question-6" class="faq-question" aria-expanded="false" aria-controls="faq-answer-6" aria-describedby="faq-tooltip-6">
                             How does the neural network predict mental health status?
                             <span class="toggle-icon" aria-hidden="true">+</span>
+                            <span id="faq-tooltip-6" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-6" class="faq-answer" role="region" aria-labelledby="faq-question-6">
-                            <div class="faq-answer-content">
+                            <div class="faq-answer-content" role="text">
                                 <p>The system uses a neural network (defined in MentalHealthNN.h) that takes sensor inputs and outputs probabilities for four mental states:</p>
                                 <ol>
                                     <li>Normal</li>
@@ -434,12 +440,13 @@ float calculateSDNN() {
                     </div>
 
                     <div class="faq-card">
-                        <button id="faq-question-7" class="faq-question" aria-expanded="false" aria-controls="faq-answer-7">
+                        <button id="faq-question-7" class="faq-question" aria-expanded="false" aria-controls="faq-answer-7" aria-describedby="faq-tooltip-7">
                             What is the significance of the ambient light sensor?
                             <span class="toggle-icon" aria-hidden="true">+</span>
+                            <span id="faq-tooltip-7" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-7" class="faq-answer" role="region" aria-labelledby="faq-question-7">
-                            <div class="faq-answer-content">
+                            <div class="faq-answer-content" role="text">
                                 <p>The BH1750 light sensor measures ambient light levels which are important because:</p>
                                 <ul>
                                     <li>Light exposure affects circadian rhythms and mood (Golden et al., 2005)</li>
@@ -465,12 +472,13 @@ detectMentalHealth(..., lux, ...);</code></pre>
                 <div class="faq-container">
 
                     <div class="faq-card">
-                        <button id="faq-question-8" class="faq-question" aria-expanded="false" aria-controls="faq-answer-8">
+                        <button id="faq-question-8" class="faq-question" aria-expanded="false" aria-controls="faq-answer-8" aria-describedby="faq-tooltip-8">
                             How does the GitHub data upload work?
                             <span class="toggle-icon" aria-hidden="true">+</span>
+                            <span id="faq-tooltip-8" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-8" class="faq-answer" role="region" aria-labelledby="faq-question-8">
-                            <div class="faq-answer-content">
+                            <div class="faq-answer-content" role="text">
                                 <p>The system uploads sensor data to GitHub repositories every 10 seconds using the GitHub API:</p>
                                 <ol>
                                     <li>Data is formatted as JSON documents</li>
