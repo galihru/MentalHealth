@@ -258,12 +258,11 @@
 
         <main id="main-content" role="main">
             <nav id="faq-navigation" role="navigation" aria-label="FAQ Categories">
-                <ul class="nav-list" role="list">
+                <ul class="visually-hidden" role="list">
                     <li id="nav-item-1" role="listitem"><a href="#hardware-heading" id="nav-link-1" role="link">Hardware Setup</a></li>
                     <li id="nav-item-2" role="listitem"><a href="#code-heading" id="nav-link-2" role="link">Code Implementation</a></li>
                     <li id="nav-item-3" role="listitem"><a href="#analysis-heading" id="nav-link-3" role="link">Mental Health Analysis</a></li>
                     <li id="nav-item-4" role="listitem"><a href="#upload-heading" id="nav-link-4" role="link">Data Upload</a></li>
-                    <li id="nav-item-5" role="listitem"><a href="#privacy-heading" id="nav-link-5" role="link">Data Privacy</a></li>
                 </ul>
             </nav>
 
@@ -532,246 +531,63 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
                     </div>
                 </div>
             </section>
-
-            <section class="faq-section" aria-labelledby="privacy-heading" id="privacy-section" role="region">
-                <h2 id="privacy-heading" class="section-title" role="heading" aria-level="2">
-                    <span aria-hidden="true" class="fas fa-shield-alt" id="privacy-icon" role="presentation"></span>
-                    Data Privacy
-                </h2>
-                <div class="faq-container" id="privacy-container" role="list">
-                    <div class="faq-card" id="faq-card-9" role="listitem">
-                        <button id="faq-question-9" class="faq-question" aria-expanded="false" aria-controls="faq-answer-9" role="button">
-                            How is personal health data protected?
-                            <span class="toggle-icon" aria-hidden="true" id="toggle-icon-9" role="presentation">+</span>
-                        </button>
-                        <div id="faq-answer-9" class="faq-answer" role="region" aria-labelledby="faq-question-9">
-                            <div class="faq-answer-content" id="answer-content-9" role="text">
-                                <p id="privacy-intro" role="text">All mental health data collected by the system is protected through:</p>
-                                <ul id="privacy-measures" role="list">
-                                    <li id="privacy-measure-1" role="listitem">End-to-end encryption of all transmitted data</li>
-                                    <li id="privacy-measure-2" role="listitem">Anonymous data storage with user-controlled identifiers</li>
-                                    <li id="privacy-measure-3" role="listitem">Option to store data locally without cloud upload</li>
-                                </ul>
-                                <p id="privacy-compliance" role="text">The system follows HIPAA guidelines for health data privacy and GDPR requirements for data protection.</p>
-                                <div class="note" id="privacy-note" role="note">
-                                    <strong id="privacy-note-label" role="text">Important:</strong> Users should review their GitHub repository privacy settings to ensure their health data remains protected.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section class="faq-section" aria-labelledby="troubleshooting-heading" id="troubleshooting-section" role="region">
-                <h2 id="troubleshooting-heading" class="section-title" role="heading" aria-level="2">
-                    <span aria-hidden="true" class="fas fa-tools" id="troubleshooting-icon" role="presentation"></span>
-                    Troubleshooting
-                </h2>
-                <div class="faq-container" id="troubleshooting-container" role="list">
-                    <div class="faq-card" id="faq-card-10" role="listitem">
-                        <button id="faq-question-10" class="faq-question" aria-expanded="false" aria-controls="faq-answer-10" role="button">
-                            Why is my heart rate sensor not detecting properly?
-                            <span class="toggle-icon" aria-hidden="true" id="toggle-icon-10" role="presentation">+</span>
-                        </button>
-                        <div id="faq-answer-10" class="faq-answer" role="region" aria-labelledby="faq-question-10">
-                            <div class="faq-answer-content" id="answer-content-10" role="text">
-                                <p id="hr-trouble-intro" role="text">Common issues with the MAX30102 heart rate sensor include:</p>
-                                <ul id="hr-trouble-list" role="list">
-                                    <li id="hr-trouble-1" role="listitem">Inadequate finger contact with the sensor (ensure firm but gentle pressure)</li>
-                                    <li id="hr-trouble-2" role="listitem">Incorrect LED intensity settings (adjust in code if signal is too weak)</li>
-                                    <li id="hr-trouble-3" role="listitem">Excess ambient light affecting readings (shield the sensor)</li>
-                                </ul>
-                                <p id="hr-trouble-code" role="text">You can try adjusting these parameters in your code:</p>
-                                <div class="code-block" id="hr-trouble-code-block" role="code">
-                                    <pre id="hr-trouble-code-pre" role="presentation"><code id="hr-trouble-code-content" role="code">// Try these settings for better readings
-particleSensor.setup(60, 4, 2, 100, 411, 4096); 
-// Parameters: LED brightness, sample averaging, LED mode,
-// sample rate, pulse width, ADC range</code></pre>
-                                </div>
-                                <p id="hr-trouble-debug" role="text">For debugging, add this code to print raw values to the Serial Monitor:</p>
-                                <div class="code-block" id="hr-debug-code" role="code">
-                                    <pre id="hr-debug-code-pre" role="presentation"><code id="hr-debug-code-content" role="code">Serial.print("IR=");
-Serial.print(irValue);
-Serial.print("\tBPM=");
-Serial.println(beatsPerMinute);</code></pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </main>
 
         <footer role="contentinfo" id="page-footer">
             <p id="version-info" role="text">Mental Health Monitoring System - Version 1.0.2</p>
-            <p id="contact-info" role="text">For questions about accessibility, please contact <a href="mailto:g4lihru@students.unnes.ac.id" id="support-email" role="link" title="Email support">g4lihru@students.unnes.ac.id</a></p>
-            <div class="footer-links" id="footer-links" role="navigation" aria-label="Footer Links">
-                <a href="#" id="privacy-policy-link" role="link">Privacy Policy</a> | 
-                <a href="#" id="terms-link" role="link">Terms of Use</a> | 
-                <a href="#" id="github-link" role="link">GitHub Project</a>
-            </div>
+            <p id="contact-info" role="text">For questions about accessibility, please contact <a href="mailto:support@mhmonitor.example.org" id="support-email" role="link">support@mhmonitor.example.org</a></p>
         </footer>
     </div>
 
-    <div id="accessibility-dialog" class="modal" role="dialog" aria-labelledby="accessibility-title" aria-modal="true" aria-hidden="true">
-        <div class="modal-content" role="document">
-            <h2 id="accessibility-title" role="heading" aria-level="2">Accessibility Options</h2>
-            <button id="close-dialog" class="close-button" aria-label="Close accessibility dialog" role="button">&times;</button>
-            <div class="accessibility-options" role="group" aria-labelledby="accessibility-title">
-                <div class="option" role="group" aria-labelledby="font-size-label">
-                    <label for="font-size" id="font-size-label">Font Size:</label>
-                    <select id="font-size" name="font-size" aria-labelledby="font-size-label" role="combobox">
-                        <option value="normal" role="option">Normal</option>
-                        <option value="large" role="option">Large</option>
-                        <option value="xlarge" role="option">Extra Large</option>
-                    </select>
-                </div>
-                <div class="option" role="group" aria-labelledby="contrast-label">
-                    <label for="contrast" id="contrast-label">Contrast:</label>
-                    <select id="contrast" name="contrast" aria-labelledby="contrast-label" role="combobox">
-                        <option value="normal" role="option">Normal</option>
-                        <option value="high" role="option">High Contrast</option>
-                        <option value="dark" role="option">Dark Mode</option>
-                    </select>
-                </div>
-                <div class="option" role="group" aria-labelledby="animation-label">
-                    <label for="reduce-animation" id="animation-label">Animations:</label>
-                    <select id="reduce-animation" name="reduce-animation" aria-labelledby="animation-label" role="combobox">
-                        <option value="normal" role="option">Normal</option>
-                        <option value="reduced" role="option">Reduced Motion</option>
-                    </select>
-                </div>
-                <button id="apply-settings" class="btn" role="button">Apply Settings</button>
-                <button id="reset-settings" class="btn" role="button">Reset to Default</button>
-            </div>
-        </div>
-    </div>
-
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Get all FAQ question buttons
-        const faqQuestions = document.querySelectorAll('.faq-question');
-        
-        // Add click event listeners to each question
-        faqQuestions.forEach(question => {
-            const answerId = question.getAttribute('aria-controls');
-            const answer = document.getElementById(answerId);
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all FAQ cards
+            const faqCards = document.querySelectorAll('.faq-card');
             
-            // Initialize ARIA attributes
-            question.setAttribute('aria-expanded', 'false');
-            answer.setAttribute('aria-hidden', 'true');
-            
-            question.addEventListener('click', function() {
-                // Toggle aria-expanded attribute
-                const expanded = this.getAttribute('aria-expanded') === 'true';
-                this.setAttribute('aria-expanded', !expanded);
-                answer.setAttribute('aria-hidden', expanded);
+            faqCards.forEach(card => {
+                const question = card.querySelector('.faq-question');
+                const answerId = question.getAttribute('aria-controls');
+                const answer = document.getElementById(answerId);
                 
-                // Announce state change to screen readers
-                const liveRegion = document.getElementById('aria-live-region');
-                liveRegion.textContent = expanded ? 'Collapsed answer' : 'Expanded answer';
+                // Click handler
+                question.addEventListener('click', () => {
+                    const isExpanded = question.getAttribute('aria-expanded') === 'true';
+                    question.setAttribute('aria-expanded', !isExpanded);
+                    card.classList.toggle('active');
+                    
+                    // Update the toggle icon
+                    const icon = question.querySelector('.toggle-icon');
+                    icon.textContent = isExpanded ? '+' : '-';
+                });
                 
-                // Change the toggle icon
-                const toggleIcon = this.querySelector('.toggle-icon');
-                toggleIcon.textContent = expanded ? '+' : '-';
-                toggleIcon.setAttribute('aria-hidden', 'true');
+                // Keyboard support
+                question.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        question.click();
+                    }
+                });
             });
             
-            // Add keyboard event listener for accessibility
-            question.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    this.click();
-                }
-            });
-        });
-
-        // Accessibility dialog functionality
-        const accessibilityDialog = document.getElementById('accessibility-dialog');
-        const closeDialog = document.getElementById('close-dialog');
-        const applySettings = document.getElementById('apply-settings');
-        const resetSettings = document.getElementById('reset-settings');
-        
-        // Focus trap for modal
-        function trapFocus(e) {
-            if (e.key === 'Tab') {
-                const focusableElements = accessibilityDialog.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-                const firstElement = focusableElements[0];
-                const lastElement = focusableElements[focusableElements.length - 1];
-                
-                if (e.shiftKey) {
-                    if (document.activeElement === firstElement) {
+            // Focus management for better keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    const focusableElements = document.querySelectorAll(
+                        'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+                    );
+                    const firstElement = focusableElements[0];
+                    const lastElement = focusableElements[focusableElements.length - 1];
+                    
+                    if (e.shiftKey && document.activeElement === firstElement) {
+                        e.preventDefault();
                         lastElement.focus();
+                    } else if (!e.shiftKey && document.activeElement === lastElement) {
                         e.preventDefault();
-                    }
-                } else {
-                    if (document.activeElement === lastElement) {
                         firstElement.focus();
-                        e.preventDefault();
                     }
                 }
-            }
-        }
-        
-        document.getElementById('accessibility-link').addEventListener('click', function(e) {
-            e.preventDefault();
-            accessibilityDialog.setAttribute('aria-hidden', 'false');
-            accessibilityDialog.style.display = 'block';
-            closeDialog.focus();
-            
-            // Add event listeners for focus trap
-            document.addEventListener('keydown', trapFocus);
+            });
         });
-
-        closeDialog.addEventListener('click', function() {
-            accessibilityDialog.setAttribute('aria-hidden', 'true');
-            accessibilityDialog.style.display = 'none';
-            document.getElementById('accessibility-link').focus();
-            document.removeEventListener('keydown', trapFocus);
-        });
-
-        applySettings.addEventListener('click', function() {
-            // Apply accessibility settings
-            const fontSize = document.getElementById('font-size').value;
-            const contrast = document.getElementById('contrast').value;
-            const reduceAnimation = document.getElementById('reduce-animation').value;
-            
-            document.body.className = `${fontSize} ${contrast} ${reduceAnimation}`;
-            
-            // Announce changes
-            const liveRegion = document.getElementById('aria-live-region');
-            liveRegion.textContent = 'Accessibility settings applied';
-            
-            // Close dialog
-            closeDialog.click();
-        });
-
-        resetSettings.addEventListener('click', function() {
-            // Reset to default settings
-            document.getElementById('font-size').value = 'normal';
-            document.getElementById('contrast').value = 'normal';
-            document.getElementById('reduce-animation').value = 'normal';
-            document.body.className = '';
-            
-            // Announce changes
-            const liveRegion = document.getElementById('aria-live-region');
-            liveRegion.textContent = 'Accessibility settings reset to default';
-        });
-
-        // Close dialog when clicking outside
-        accessibilityDialog.addEventListener('click', function(e) {
-            if (e.target === accessibilityDialog) {
-                closeDialog.click();
-            }
-        });
-
-        // Add keyboard support for dialog
-        accessibilityDialog.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeDialog.click();
-            }
-        });
-    });
     </script>
 </body>
 </html>
