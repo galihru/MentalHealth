@@ -602,6 +602,7 @@
   font-size: 16px;
   font-weight: 500;
   transition: opacity 0.2s;
+    color: white;
 }
 
 .mhc-swipe-handle {
@@ -1196,75 +1197,35 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.messageArea.className = 'mhc-messages';
     this.messageArea.setAttribute('aria-live', 'polite');
     
-    // Input area with proper labeling
+    // Input area (always visible)
     this.inputContainer = document.createElement('div');
     this.inputContainer.className = 'mhc-input-container';
-    
-    // Label for input field
-    this.inputLabel = document.createElement('label');
-    this.inputLabel.className = 'mhc-input-label';
-    this.inputLabel.textContent = 'Your Message:';
-    this.inputLabel.setAttribute('for', 'mhc-user-input');
-    this.inputLabel.id = 'mhc-input-label';
     
     // Input field with proper labeling
     this.inputField = document.createElement('input');
     this.inputField.className = 'mhc-input';
     this.inputField.placeholder = 'Ask about mental health...';
-    this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');
+    this.inputField.setAttribute('aria-label', 'Type your message about mental health');
     this.inputField.setAttribute('type', 'text');
     this.inputField.id = 'mhc-user-input';
-    this.inputField.setAttribute('aria-describedby', 'mhc-input-hint');
     
-    // Hint text for input field
-    this.inputHint = document.createElement('span');
-    this.inputHint.id = 'mhc-input-hint';
-    this.inputHint.className = 'mhc-input-hint';
-    this.inputHint.textContent = 'You can ask about depression, anxiety, stress, or self-care';
-    
-    // Container for button and tooltip
-    this.buttonContainer = document.createElement('div');
-    this.buttonContainer.className = 'mhc-button-container';
-    
-    // Send button with clear text
+    // Send button with accessible name
     this.sendButton = document.createElement('button');
     this.sendButton.className = 'mhc-send-btn';
-    this.sendButton.innerHTML = '<span aria-hidden="true">&#10148;</span><span class="mhc-send-text">Send</span>';
+    this.sendButton.innerHTML = '&#10148;';
     this.sendButton.setAttribute('aria-label', 'Send message');
-    
-    // External tooltip for send button (will appear below)
-    this.sendTooltip = document.createElement('div');
-    this.sendTooltip.className = 'mhc-tooltip';
-    this.sendTooltip.setAttribute('role', 'tooltip');
-    this.sendTooltip.id = 'mhc-send-tooltip';
-    this.sendTooltip.textContent = 'Click to send your message';
-    
-    // Connect button with tooltip
     this.sendButton.setAttribute('aria-describedby', 'mhc-send-tooltip');
     
-    // Events to show/hide tooltip
-    this.sendButton.addEventListener('mouseenter', () => {
-      this.sendTooltip.style.visibility = 'visible';
-      this.sendTooltip.style.opacity = '1';
-    });
+    // Tooltip for send button
+    const sendTooltip = document.createElement('span');
+    sendTooltip.id = 'mhc-send-tooltip';
+    sendTooltip.className = 'mhc-tooltip';
+    sendTooltip.setAttribute('role', 'tooltip');
+    sendTooltip.textContent = '';
+    this.sendButton.appendChild(sendTooltip);
     
-    this.sendButton.addEventListener('mouseleave', () => {
-      this.sendTooltip.style.visibility = 'hidden';
-      this.sendTooltip.style.opacity = '0';
-    });
-    
-    this.sendButton.addEventListener('focus', () => {
-      this.sendTooltip.style.visibility = 'visible';
-      this.sendTooltip.style.opacity = '1';
-    });
-    
-    this.sendButton.addEventListener('blur', () => {
-      this.sendTooltip.style.visibility = 'hidden';
-      this.sendTooltip.style.opacity = '0';
-    });
-    
-    this.buttonContainer.appendChild(this.sendButton);
-    this.buttonContainer.appendChild(this.sendTooltip);
+    this.inputContainer.appendChild(this.inputField);
+    this.inputContainer.appendChild(this.sendButton);
     
     // Quick replies
     this.quickReplies = document.createElement('div');
@@ -1283,7 +1244,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     // Progress bar container (initially hidden)
     this.progressContainer = document.createElement('div');
     this.progressContainer.className = 'mhc-progress-container';
-    this.progressContainer.style.display = 'none';
+    this.progressContainer.style.display = 'block';
     
     this.progressBar = document.createElement('div');
     this.progressBar.className = 'mhc-progress-bar';
@@ -1298,7 +1259,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     // Meter element container (initially hidden)
     this.meterContainer = document.createElement('div');
     this.meterContainer.className = 'mhc-meter-container';
-    this.meterContainer.style.display = 'none';
+    this.meterContainer.style.display = 'Block';
     
     this.meterElement = document.createElement('div');
     this.meterElement.className = 'mhc-meter';
@@ -1310,7 +1271,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     
     this.meterLabel = document.createElement('div');
     this.meterLabel.className = 'mhc-meter-label';
-    this.meterLabel.textContent = 'Sebentar, AI sedang menganalisis pertanyaan Anda untuk dijawab dengan tepat...';
+    this.meterLabel.textContent = 'Choose one of the following Quick Messages to get started or type what you need.';
     this.meterLabel.setAttribute('aria-live', 'polite');
     
     this.meterContainer.appendChild(this.meterElement);
@@ -1322,10 +1283,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.chatContainer.appendChild(this.progressContainer);
     this.chatContainer.appendChild(this.meterContainer);
     this.chatContainer.appendChild(this.quickReplies);
-    this.inputContainer.appendChild(this.inputLabel);
-    this.inputContainer.appendChild(this.inputField);
-    this.inputContainer.appendChild(this.inputHint);
-    this.inputContainer.appendChild(this.buttonContainer);
     this.chatContainer.appendChild(this.inputContainer);
     
     document.body.appendChild(this.chatContainer);
