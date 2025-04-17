@@ -6,245 +6,522 @@
     <title>Mental Health Monitoring System - FAQ</title>
     <meta name="description" content="Frequently Asked Questions about the Arduino Implementation for Mental Health Monitoring">
     <style>
-        :root {
-            --primary-color: #4a6fa5;
-            --secondary-color: #166088;
-            --accent-color: #4fc3f7;
-            --background-color: #f5f7fa;
-            --text-color: #333;
-            --light-text: #666;
-            --border-color: #ddd;
-            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            --focus-outline: 2px solid var(--accent-color);
-            --link-color: #0056b3;
-            --link-hover-color: #003d82;
-            --link-decoration: underline;
-        }
-
+    :root {
+        --primary-color: #4a6fa5;
+        --secondary-color: #166088;
+        --accent-color: #4fc3f7;
+        --background-color: #f5f7fa;
+        --text-color: #333;
+        --light-text: #666;
+        --border-color: #ddd;
+        --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        --focus-outline: 3px solid var(--accent-color);
+        --focus-outline-offset: 3px;
+        --link-color: #0056b3;
+        --link-hover-color: #003d82;
+        --link-visited-color: #551a8b;
+        --link-decoration: underline;
+        --button-hover-bg: #135a96;
+        --button-active-bg: #0d456e;
+        --transition-time: 0.2s;
+        --footer-bg: #e9ecef;
+        --nav-bg: #f8f9fa;
+        --nav-hover: #e2e6ea;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    html {
+        scroll-behavior: smooth;
+        font-size: 16px;
+    }
+    
+    body {
+        background-color: var(--background-color);
+        color: var(--text-color);
+        line-height: 1.6;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    
+    /* ==================== Skip Link - Enhanced ==================== */
+    .skip-link {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: var(--primary-color);
+        color: white;
+        padding: 12px 20px;
+        z-index: 9999;
+        transform: translateY(-100%);
+        transition: transform var(--transition-time) ease-in-out;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        border-bottom: 2px solid white;
+    }
+    
+    .skip-link:focus {
+        transform: translateY(0);
+        outline: none;
+        box-shadow: 0 0 0 3px var(--accent-color);
+    }
+    
+    .skip-link:hover {
+        background: var(--button-hover-bg);
+        text-decoration: underline;
+    }
+    
+    /* ==================== Typography ==================== */
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 1.2;
+        margin-bottom: 0.75em;
+        color: var(--secondary-color);
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+        margin-top: 0.5em;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    p {
+        margin-bottom: 1em;
+    }
+    
+    /* ==================== Layout ==================== */
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        flex: 1;
+    }
+    
+    header {
+        text-align: center;
+        margin-bottom: 40px;
+        padding: 20px 0;
+        border-bottom: 1px solid var(--border-color);
+    }
+    
+    header img {
+        max-width: 150px;
+        height: auto;
+        margin: 20px 0;
+        border-radius: 8px;
+        box-shadow: var(--card-shadow);
+    }
+    
+    .subtitle {
+        color: var(--light-text);
+        font-size: 1.1rem;
+        margin-top: 0.5em;
+    }
+    
+    /* ==================== FAQ Sections ==================== */
+    .faq-section {
+        margin-bottom: 40px;
+    }
+    
+    .section-title {
+        color: var(--primary-color);
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 2px solid var(--border-color);
+    }
+    
+    .section-title i {
+        color: var(--accent-color);
+        font-size: 1.5rem;
+    }
+    
+    .faq-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    /* ==================== FAQ Cards ==================== */
+    .faq-card {
+        background: white;
+        border-radius: 8px;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        transition: transform var(--transition-time) ease, box-shadow var(--transition-time) ease;
+        border: 1px solid var(--border-color);
+    }
+    
+    .faq-card:hover, .faq-card:focus-within {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .faq-question {
+        padding: 20px;
+        background-color: var(--primary-color);
+        color: white;
+        font-weight: 600;
+        font-size: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: none;
+        width: 100%;
+        text-align: left;
+        transition: background-color var(--transition-time) ease;
+    }
+    
+    .faq-question:hover {
+        background-color: var(--button-hover-bg);
+    }
+    
+    .faq-question:focus {
+        outline: var(--focus-outline);
+        outline-offset: var(--focus-outline-offset);
+        background-color: var(--button-hover-bg);
+    }
+    
+    .faq-question:active {
+        background-color: var(--button-active-bg);
+    }
+    
+    .faq-answer {
+        padding: 0 20px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+    
+    .faq-card.active .faq-answer {
+        padding: 20px;
+        max-height: 1000px;
+    }
+    
+    .faq-answer-content {
+        padding-bottom: 10px;
+    }
+    
+    /* ==================== Code Blocks ==================== */
+    .code-block {
+        background-color: #f0f0f0;
+        border-radius: 5px;
+        padding: 15px;
+        margin: 15px 0;
+        overflow-x: auto;
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 0.9rem;
+        border-left: 4px solid var(--accent-color);
+        position: relative;
+    }
+    
+    .code-block::before {
+        content: "Code";
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: var(--accent-color);
+        color: white;
+        padding: 2px 8px;
+        font-size: 0.8rem;
+        border-radius: 0 0 0 5px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    /* ==================== Toggle Icon ==================== */
+    .toggle-icon {
+        transition: transform 0.3s ease;
+        font-weight: bold;
+        font-size: 1.3rem;
+        min-width: 20px;
+        text-align: center;
+    }
+    
+    .faq-card.active .toggle-icon {
+        transform: rotate(45deg);
+    }
+    
+    /* ==================== References & Notes ==================== */
+    .reference {
+        font-size: 0.9rem;
+        color: var(--light-text);
+        margin-top: 10px;
+        font-style: italic;
+        padding-left: 15px;
+        border-left: 3px solid var(--border-color);
+    }
+    
+    .note {
+        background-color: #fff8e1;
+        padding: 15px;
+        border-left: 4px solid #ffc107;
+        margin: 15px 0;
+        border-radius: 0 4px 4px 0;
+        position: relative;
+    }
+    
+    .note strong {
+        color: #ff9800;
+    }
+    
+    /* ==================== Links & Buttons ==================== */
+    a {
+        color: var(--link-color);
+        text-decoration: var(--link-decoration);
+        font-weight: bold;
+        transition: color var(--transition-time) ease, background-color var(--transition-time) ease;
+    }
+    
+    a:hover, a:focus {
+        color: var(--link-hover-color);
+        text-decoration: underline;
+        outline: none;
+    }
+    
+    a:visited {
+        color: var(--link-visited-color);
+    }
+    
+    button {
+        cursor: pointer;
+        transition: all var(--transition-time) ease;
+    }
+    
+    /* ==================== Lists ==================== */
+    ol, ul {
+        margin-bottom: 1em;
+        padding-left: 2em;
+    }
+    
+    li {
+        margin-bottom: 0.5em;
+    }
+    
+    /* ==================== Navigation ==================== */
+    #faq-navigation {
+        background-color: var(--nav-bg);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        box-shadow: var(--card-shadow);
+    }
+    
+    #faq-navigation ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        list-style: none;
+        padding-left: 0;
+    }
+    
+    #faq-navigation li {
+        margin-bottom: 0;
+    }
+    
+    #faq-navigation a {
+        display: block;
+        padding: 8px 15px;
+        background-color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all var(--transition-time) ease;
+        border: 1px solid var(--border-color);
+    }
+    
+    #faq-navigation a:hover, #faq-navigation a:focus {
+        background-color: var(--nav-hover);
+        color: var(--link-hover-color);
+        text-decoration: none;
+    }
+    
+    /* ==================== Footer ==================== */
+    footer {
+        background-color: var(--footer-bg);
+        padding: 20px;
+        text-align: center;
+        margin-top: 40px;
+        border-top: 1px solid var(--border-color);
+    }
+    
+    footer p {
+        margin-bottom: 0.5em;
+    }
+    
+    footer a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    
+    footer a:hover {
+        text-decoration: underline;
+    }
+    
+    /* ==================== Focus Styles ==================== */
+    a:focus, 
+    button:focus, 
+    input:focus, 
+    select:focus, 
+    textarea:focus,
+    [tabindex="0"]:focus {
+        outline: var(--focus-outline);
+        outline-offset: var(--focus-outline-offset);
+        position: relative;
+    }
+    
+    /* ==================== Media Queries ==================== */
+    @media (prefers-reduced-motion: reduce) {
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+            scroll-behavior: auto !important;
         }
-
-        body {
-            background-color: var(--background-color);
-            color: var(--text-color);
-            line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+        html {
+            font-size: 14px;
         }
-
-        .skip-link {
-            position: absolute;
-            top: -40px;
-            left: 0;
-            background: var(--primary-color);
-            color: white;
-            padding: 8px;
-            z-index: 100;
-            transition: top 0.3s;
-        }
-
-        .skip-link:focus {
-            top: 0;
-        }
-
-        .visually-hidden {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
+        
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+            padding: 15px;
         }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 20px 0;
-            border-bottom: 1px solid var(--border-color);
-        }
-
+    
         h1 {
-            color: var(--secondary-color);
-            margin-bottom: 10px;
-            font-size: 2.2rem;
-        }
-
-        .subtitle {
-            color: var(--light-text);
-            font-size: 1.1rem;
-        }
-
-        .faq-section {
-            margin-bottom: 40px;
-        }
-
-        .section-title {
-            color: var(--primary-color);
-            margin-bottom: 20px;
             font-size: 1.8rem;
-            display: flex;
-            align-items: center;
         }
-
-        .section-title i {
-            margin-right: 10px;
-            color: var(--accent-color);
+        
+        h2 {
+            font-size: 1.5rem;
         }
-
-        .faq-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-        }
-
-        .faq-card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: var(--card-shadow);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-        }
-
-        .faq-card:hover {
-            transform: translateY(-5px);
-        }
-
+    
         .faq-question {
-            padding: 20px;
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 600;
-            font-size: 1.2rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: none;
-            width: 100%;
-            text-align: left;
+            font-size: 1.1rem;
+            padding: 15px;
         }
-
-        .faq-question:focus {
-            outline: var(--focus-outline);
-            outline-offset: 2px;
-        }
-
+    
         .faq-answer {
-            padding: 0 20px;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
+            padding: 0 15px;
         }
-
+    
         .faq-card.active .faq-answer {
-            padding: 20px;
-            max-height: 1000px;
+            padding: 15px;
         }
-
-        .faq-answer-content {
-            padding-bottom: 10px;
+        
+        #faq-navigation ul {
+            flex-direction: column;
+            gap: 10px;
         }
-
+        
+        header img {
+            max-width: 120px;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        html {
+            font-size: 13px;
+        }
+        
+        .section-title {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 5px;
+        }
+        
         .code-block {
-            background-color: #f0f0f0;
-            border-radius: 5px;
-            padding: 15px;
-            margin: 15px 0;
-            overflow-x: auto;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            border-left: 4px solid var(--accent-color);
+            padding: 10px;
+            font-size: 0.8rem;
         }
-
-        .toggle-icon {
-            transition: transform 0.3s ease;
-            font-weight: bold;
-            font-size: 1.3rem;
-            min-width: 20px;
-            text-align: center;
+    }
+    
+    /* ==================== Print Styles ==================== */
+    @media print {
+        .skip-link,
+        .toggle-icon,
+        #faq-navigation {
+            display: none;
         }
-
-        .faq-card.active .toggle-icon {
-            transform: rotate(45deg);
+    
+        body {
+            background-color: white;
+            color: black;
+            font-size: 12pt;
         }
-
-        .sensor-diagram {
-            width: 100%;
-            max-width: 500px;
-            margin: 20px auto;
-            display: block;
-            border-radius: 8px;
-            box-shadow: var(--card-shadow);
+    
+        .faq-card {
+            break-inside: avoid;
+            box-shadow: none;
+            border: 1px solid #ddd;
         }
-
-        .reference {
-            font-size: 0.9rem;
-            color: var(--light-text);
-            margin-top: 10px;
-            font-style: italic;
+        
+        .faq-question {
+            background-color: white !important;
+            color: black !important;
+            padding: 10px !important;
         }
-
-        .note {
-            background-color: #fff8e1;
-            padding: 15px;
-            border-left: 4px solid #ffc107;
-            margin: 15px 0;
-            border-radius: 0 4px 4px 0;
+        
+        .faq-answer {
+            max-height: none !important;
+            display: block !important;
+            padding: 10px !important;
         }
-
-        @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 1.8rem;
-            }
-
-            .faq-question {
-                font-size: 1.1rem;
-                padding: 15px;
-            }
-
-            .faq-answer {
-                padding: 0 15px;
-            }
-
-            .faq-card.active .faq-answer {
-                padding: 15px;
-            }
+        
+        footer {
+            border-top: 1px solid #ddd;
         }
-
-        /* Focus styles for all focusable elements */
-        a:focus, button:focus, input:focus, [tabindex="0"]:focus {
-            outline: var(--focus-outline);
-            outline-offset: 2px;
+    }
+    
+    /* ==================== High Contrast Mode ==================== */
+    @media screen and (-ms-high-contrast: active) {
+        :root {
+            --primary-color: windowText;
+            --background-color: window;
+            --text-color: windowText;
+            --focus-outline: 2px solid highlight;
         }
-
-        /* Link contrast */
-        a {
-            color: var(--link-color);
-            text-decoration: var(--link-decoration);
-            font-weight: bold;
-            border-bottom: 2px solid transparent;
+    
+        .faq-question {
+            -ms-high-contrast-adjust: none;
+            background-color: windowText;
+            color: window;
         }
-
-        a:hover, a:focus {
-            color: var(--link-hover-color);
-            border-bottom: 2px solid var(--link-hover-color);
-            text-decoration: none;
+    
+        .skip-link {
+            border: 2px solid highlight;
         }
+        
+        .faq-card {
+            border: 2px solid windowText;
+        }
+    }
+    
+    /* ==================== Visually Hidden Utility Class ==================== */
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+    }
     </style>
 </head>
 <body role="document" id="page-body">
