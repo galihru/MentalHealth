@@ -16,6 +16,9 @@
             --border-color: #ddd;
             --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             --focus-outline: 2px solid var(--accent-color);
+            --link-color: #0056b3;
+            --link-hover-color: #003d82;
+            --link-decoration: underline;
         }
 
         * {
@@ -231,46 +234,61 @@
 
         /* Link contrast */
         a {
-            color: var(--secondary-color);
-            text-decoration: underline;
+            color: var(--link-color);
+            text-decoration: var(--link-decoration);
+            font-weight: bold;
+            border-bottom: 2px solid transparent;
         }
 
         a:hover, a:focus {
-            color: var(--primary-color);
+            color: var(--link-hover-color);
+            border-bottom: 2px solid var(--link-hover-color);
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <a href="#main-content" class="skip-link" id="skip-to-content">Skip to main content</a>
     
     <div class="container">
         <header role="banner">
             <h1>Mental Health Monitoring System</h1>
-            <p class="subtitle">Frequently Asked Questions about the Arduino Implementation</p>
+            <p role="text"  class="subtitle">Frequently Asked Questions about the Arduino Implementation</p>
         </header>
 
         <main id="main-content" role="main">
+            <nav aria-label="FAQ Categories">
+                <ul class="visually-hidden">
+                    <li><a href="#hardware-heading">Hardware Setup</a></li>
+                    <li><a href="#code-heading">Code Implementation</a></li>
+                    <li><a href="#analysis-heading">Mental Health Analysis</a></li>
+                    <li><a href="#upload-heading">Data Upload</a></li>
+                </ul>
+            </nav>
+
             <section class="faq-section" aria-labelledby="hardware-heading">
-                <h2 id="hardware-heading" class="section-title"><span aria-hidden="true" class="fas fa-microchip"></span><span class="visually-hidden">Icon: </span> Hardware Setup</h2>
+                <h2 id="hardware-heading" class="section-title">
+                    <span aria-hidden="true" class="fas fa-microchip"></span>
+                    Hardware Setup
+                </h2>
                 <div class="faq-container">
 
                     <div class="faq-card">
-                        <button id="faq-question-1" class="faq-question" aria-expanded="false" aria-controls="faq-answer-1" aria-describedby="faq-tooltip-1">
+                        <button id="faq-question-1" class="faq-question" aria-expanded="false" aria-controls="faq-answer-1">
                             What sensors are used in this system?
                             <span class="toggle-icon" aria-hidden="true">+</span>
-                            <span id="faq-tooltip-1" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-1" class="faq-answer" role="region" aria-labelledby="faq-question-1">
-                            <div class="faq-answer-content" role="text">
-                                <p>The system uses three main sensors:</p>
+                            <div class="faq-answer-content">
+                                <p role="text" >The system uses three main sensors:</p>
                                 <ol>
                                     <li><strong>MAX30102</strong> - Optical heart rate and blood oxygen sensor</li>
                                     <li><strong>GSR Sensor</strong> - Galvanic Skin Response sensor for stress detection</li>
                                     <li><strong>BH1750</strong> - Ambient light sensor</li>
                                 </ol>
-                                <p>These sensors work together to collect physiological data that can indicate mental health status.</p>
+                                <p role="text" >These sensors work together to collect physiological data that can indicate mental health status.</p>
                                 <div class="code-block">
-                                    <pre><code>// Sensor Objects in the code
+                                    <p role="text" re><code>// Sensor Objects in the code
 MAX30105 particleSensor;  // MAX30102 sensor object
 BH1750 lightMeter;       // BH1750 light sensor
 const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
@@ -280,21 +298,20 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
                     </div>
 
                     <div class="faq-card">
-                        <button id="faq-question-2" class="faq-question" aria-expanded="false" aria-controls="faq-answer-2" aria-describedby="faq-tooltip-2">
+                        <button id="faq-question-2" class="faq-question" aria-expanded="false" aria-controls="faq-answer-2">
                             How are the sensors connected to the microcontroller?
                             <span class="toggle-icon" aria-hidden="true">+</span>
-                            <span id="faq-tooltip-2" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-2" class="faq-answer" role="region" aria-labelledby="faq-question-2">
-                            <div class="faq-answer-content" role="text">
-                                <p>The sensors are connected as follows:</p>
+                            <div class="faq-answer-content">
+                                <p role="text" >The sensors are connected as follows:</p>
                                 <ul>
                                     <li>MAX30102 and BH1750 use I2C communication (connected to SDA and SCL pins)</li>
                                     <li>GSR sensor is connected to analog pin 34</li>
                                 </ul>
-                                <p>The code initializes these connections in the <code>setup()</code> function:</p>
+                                <p role="text" >The code initializes these connections in the <code>setup()</code> function:</p>
                                 <div class="code-block">
-                                    <pre><code>void setup() {
+                                    <p role="text" re><code>void setup() {
   Wire.begin();  // Initialize I2C
   particleSensor.begin(Wire, I2C_SPEED_FAST); // MAX30102
   lightMeter.begin(); // BH1750
@@ -308,18 +325,20 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
             </section>
 
             <section class="faq-section" aria-labelledby="code-heading">
-                <h2 id="code-heading" class="section-title"><span aria-hidden="true" class="fas fa-code"></span><span class="visually-hidden">Icon: </span> Code Implementation</h2>
+                <h2 id="code-heading" class="section-title">
+                    <span aria-hidden="true" class="fas fa-code"></span>
+                    Code Implementation
+                </h2>
                 <div class="faq-container">
 
                     <div class="faq-card">
-                        <button id="faq-question-3" class="faq-question" aria-expanded="false" aria-controls="faq-answer-3" aria-describedby="faq-tooltip-3">
+                        <button id="faq-question-3" class="faq-question" aria-expanded="false" aria-controls="faq-answer-3">
                             How does the heart rate detection work?
                             <span class="toggle-icon" aria-hidden="true">+</span>
-                            <span id="faq-tooltip-3" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-3" class="faq-answer" role="region" aria-labelledby="faq-question-3">
-                            <div class="faq-answer-content" role="text">
-                                <p>The MAX30102 sensor detects heart rate by measuring changes in blood volume using optical technology (PPG). The code implements:</p>
+                            <div class="faq-answer-content">
+                                <p role="text" >The MAX30102 sensor detects heart rate by measuring changes in blood volume using optical technology (PPG). The code implements:</p>
                                 <ol>
                                     <li>IR LED shines light into the skin</li>
                                     <li>Photodetector measures reflected light</li>
@@ -327,7 +346,7 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
                                     <li>Beat-to-beat intervals are calculated for HRV</li>
                                 </ol>
                                 <div class="code-block">
-                                    <pre><code>if(irValue > 50000) {  // Finger detected
+                                    <p role="text" re><code>if(irValue > 50000) {  // Finger detected
   if(checkForBeat(irValue)) {
     long delta = millis() - lastBeat;
     lastBeat = millis();
@@ -335,27 +354,26 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
   }
 }</code></pre>
                                 </div>
-                                <p class="reference">Based on Shaffer et al. (2014) HRV measurement standards</p>
+                                <p role="text"  class="reference">Based on Shaffer et al. (2014) HRV measurement standards</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="faq-card">
-                        <button id="faq-question-4" class="faq-question" aria-expanded="false" aria-controls="faq-answer-4" aria-describedby="faq-tooltip-4">
+                        <button id="faq-question-4" class="faq-question" aria-expanded="false" aria-controls="faq-answer-4">
                             What is the purpose of the GSR moving average calculation?
                             <span class="toggle-icon" aria-hidden="true">+</span>
-                            <span id="faq-tooltip-4" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-4" class="faq-answer" role="region" aria-labelledby="faq-question-4">
-                            <div class="faq-answer-content" role="text">
-                                <p>The moving average calculation separates the GSR signal into two components:</p>
+                            <div class="faq-answer-content">
+                                <p role="text" >The moving average calculation separates the GSR signal into two components:</p>
                                 <ul>
                                     <li><strong>Tonic component</strong> (slow-changing baseline)</li>
                                     <li><strong>Phasic component</strong> (fast-changing responses)</li>
                                 </ul>
-                                <p>This is implemented with a 5-sample moving average window:</p>
+                                <p role="text" >This is implemented with a 5-sample moving average window:</p>
                                 <div class="code-block">
-                                    <pre><code>// Moving average for EDA tonic (Boucsein, 2012)
+                                    <p role="text" re><code>// Moving average for EDA tonic (Boucsein, 2012)
 float edaMovingAverage(float newVal) {
   eda_buffer[buffer_index] = newVal;
   buffer_index = (buffer_index + 1) % WINDOW_SIZE;
@@ -372,22 +390,21 @@ float edaMovingAverage(float newVal) {
                     </div>
 
                     <div class="faq-card">
-                        <button id="faq-question-5" class="faq-question" aria-expanded="false" aria-controls="faq-answer-5" aria-describedby="faq-tooltip-5">
+                        <button id="faq-question-5" class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">
                             How is HRV (Heart Rate Variability) calculated?
                             <span class="toggle-icon" aria-hidden="true">+</span>
-                            <span id="faq-tooltip-5" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-5" class="faq-answer" role="region" aria-labelledby="faq-question-5">
-                            <div class="faq-answer-content" role="text">
-                                <p>HRV is calculated using SDNN (Standard Deviation of NN intervals), which is a well-established metric in psychophysiology research (Castaldo et al., 2019).</p>
-                                <p>The code implements this by:</p>
+                            <div class="faq-answer-content">
+                                <p role="text" >HRV is calculated using SDNN (Standard Deviation of NN intervals), which is a well-established metric in psychophysiology research (Castaldo et al., 2019).</p>
+                                <p role="text" >The code implements this by:</p>
                                 <ol>
                                     <li>Storing the last 16 RR intervals (time between heartbeats)</li>
                                     <li>Calculating the mean interval</li>
                                     <li>Computing the standard deviation of these intervals</li>
                                 </ol>
                                 <div class="code-block">
-                                    <pre><code>// Calculate SDNN (Standard Deviation of NN intervals)
+                                    <p role="text" re><code>// Calculate SDNN (Standard Deviation of NN intervals)
 float calculateSDNN() {
   float mean = 0.0f;
   for (int i = 0; i &lt; RR_BUFFER_SIZE; i++) {
@@ -398,7 +415,7 @@ float calculateSDNN() {
   return sqrt(variance);
 }</code></pre>
                                 </div>
-                                <p>HRV is an important indicator of autonomic nervous system activity and stress levels.</p>
+                                <p role="text" >HRV is an important indicator of autonomic nervous system activity and stress levels.</p>
                             </div>
                         </div>
                     </div>
@@ -406,27 +423,29 @@ float calculateSDNN() {
             </section>
 
             <section class="faq-section" aria-labelledby="analysis-heading">
-                <h2 id="analysis-heading" class="section-title"><span aria-hidden="true" class="fas fa-brain"></span><span class="visually-hidden">Icon: </span> Mental Health Analysis</h2>
+                <h2 id="analysis-heading" class="section-title">
+                    <span aria-hidden="true" class="fas fa-brain"></span>
+                    Mental Health Analysis
+                </h2>
                 <div class="faq-container">
 
                     <div class="faq-card">
-                        <button id="faq-question-6" class="faq-question" aria-expanded="false" aria-controls="faq-answer-6" aria-describedby="faq-tooltip-6">
+                        <button id="faq-question-6" class="faq-question" aria-expanded="false" aria-controls="faq-answer-6">
                             How does the neural network predict mental health status?
                             <span class="toggle-icon" aria-hidden="true">+</span>
-                            <span id="faq-tooltip-6" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-6" class="faq-answer" role="region" aria-labelledby="faq-question-6">
-                            <div class="faq-answer-content" role="text">
-                                <p>The system uses a neural network (defined in MentalHealthNN.h) that takes sensor inputs and outputs probabilities for four mental states:</p>
+                            <div class="faq-answer-content">
+                                <p role="text" >The system uses a neural network (defined in MentalHealthNN.h) that takes sensor inputs and outputs probabilities for four mental states:</p>
                                 <ol>
                                     <li>Normal</li>
                                     <li>Stress</li>
                                     <li>Anxiety</li>
                                     <li>Depression</li>
                                 </ol>
-                                <p>The prediction happens in the <code>detectMentalHealth()</code> function:</p>
+                                <p role="text" >The prediction happens in the <code>detectMentalHealth()</code> function:</p>
                                 <div class="code-block">
-                                    <pre><code>void detectMentalHealth(float edaTonic, float edaPhasic, float bpm, float hrv, float lux, 
+                                    <p role="text" re><code>void detectMentalHealth(float edaTonic, float edaPhasic, float bpm, float hrv, float lux, 
     MentalHealthStatus& status, float* probabilities) {
   // Get prediction from neural network
   status = mentalHealth.predict(edaTonic, edaPhasic, bpm, hrv, lux);
@@ -434,28 +453,27 @@ float calculateSDNN() {
   mentalHealth.getPredictionProbabilities(edaTonic, edaPhasic, bpm, hrv, lux, probabilities);
 }</code></pre>
                                 </div>
-                                <p>The neural network was likely trained on labeled physiological data from individuals with known mental health conditions.</p>
+                                <p role="text" >The neural network was likely trained on labeled physiological data from individuals with known mental health conditions.</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="faq-card">
-                        <button id="faq-question-7" class="faq-question" aria-expanded="false" aria-controls="faq-answer-7" aria-describedby="faq-tooltip-7">
+                        <button id="faq-question-7" class="faq-question" aria-expanded="false" aria-controls="faq-answer-7">
                             What is the significance of the ambient light sensor?
                             <span class="toggle-icon" aria-hidden="true">+</span>
-                            <span id="faq-tooltip-7" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-7" class="faq-answer" role="region" aria-labelledby="faq-question-7">
-                            <div class="faq-answer-content" role="text">
-                                <p>The BH1750 light sensor measures ambient light levels which are important because:</p>
+                            <div class="faq-answer-content">
+                                <p role="text" >The BH1750 light sensor measures ambient light levels which are important because:</p>
                                 <ul>
                                     <li>Light exposure affects circadian rhythms and mood (Golden et al., 2005)</li>
                                     <li>Low light levels may correlate with depressive symptoms</li>
                                     <li>Sudden light changes can indicate environmental stressors</li>
                                 </ul>
-                                <p>The light data is read and included in the mental health analysis:</p>
+                                <p role="text" >The light data is read and included in the mental health analysis:</p>
                                 <div class="code-block">
-                                    <pre><code>// Read BH1750 ambient light sensor
+                                    <p role="text" re><code>// Read BH1750 ambient light sensor
 float lux = lightMeter.readLightLevel();
 
 // Included in neural network input
@@ -468,18 +486,20 @@ detectMentalHealth(..., lux, ...);</code></pre>
             </section>
 
             <section class="faq-section" aria-labelledby="upload-heading">
-                <h2 id="upload-heading" class="section-title"><span aria-hidden="true" class="fas fa-cloud-upload-alt"></span><span class="visually-hidden">Icon: </span> Data Upload</h2>
+                <h2 id="upload-heading" class="section-title">
+                    <span aria-hidden="true" class="fas fa-cloud-upload-alt"></span>
+                    Data Upload
+                </h2>
                 <div class="faq-container">
 
                     <div class="faq-card">
-                        <button id="faq-question-8" class="faq-question" aria-expanded="false" aria-controls="faq-answer-8" aria-describedby="faq-tooltip-8">
+                        <button id="faq-question-8" class="faq-question" aria-expanded="false" aria-controls="faq-answer-8">
                             How does the GitHub data upload work?
                             <span class="toggle-icon" aria-hidden="true">+</span>
-                            <span id="faq-tooltip-8" role="tooltip" class="visually-hidden">Click to expand answer</span>
                         </button>
                         <div id="faq-answer-8" class="faq-answer" role="region" aria-labelledby="faq-question-8">
-                            <div class="faq-answer-content" role="text">
-                                <p>The system uploads sensor data to GitHub repositories every 10 seconds using the GitHub API:</p>
+                            <div class="faq-answer-content">
+                                <p role="text" >The system uploads sensor data to GitHub repositories every 10 seconds using the GitHub API:</p>
                                 <ol>
                                     <li>Data is formatted as JSON documents</li>
                                     <li>Base64 encoded for GitHub API requirements</li>
@@ -487,7 +507,7 @@ detectMentalHealth(..., lux, ...);</code></pre>
                                     <li>SHA hashes are tracked for version control</li>
                                 </ol>
                                 <div class="code-block">
-                                    <pre><code>// Example of GitHub upload function
+                                    <p role="text" re><code>// Example of GitHub upload function
 void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
   HTTPClient http;
   http.begin(url);
@@ -505,13 +525,18 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
   // ... handle response ...
 }</code></pre>
                                 </div>
-                                <p>Four separate JSON files are maintained for each sensor type and the mental status.</p>
+                                <p role="text" >Four separate JSON files are maintained for each sensor type and the mental status.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
         </main>
+
+        <footer role="contentinfo">
+            <p role="text" >Mental Health Monitoring System - Version 1.0.2</p>
+            <p role="text" >For questions about accessibility, please contact <a href="mailto:support@mhmonitor.example.org">support@mhmonitor.example.org</a></p>
+        </footer>
     </div>
 
     <script>
