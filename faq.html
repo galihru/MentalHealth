@@ -54,25 +54,23 @@
     /* ==================== Skip Link - Enhanced ==================== */
     .skip-link {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        background: var(--primary-color);
-        color: white;
-        padding: 12px 20px;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
         z-index: 9999;
-        transform: translateY(-100%);
-        transition: transform var(--transition-time) ease-in-out;
-        text-align: center;
-        font-weight: bold;
-        text-decoration: none;
-        border-bottom: 2px solid white;
+        background: #0056b3;
+        color: white;
+        padding: 8px;
+        border-radius: 4px;
     }
-    
     .skip-link:focus {
-        transform: translateY(0);
-        outline: none;
-        box-shadow: 0 0 0 3px var(--accent-color);
+        left: 10px;
+        top: 10px;
+        width: auto;
+        height: auto;
+        overflow: visible;
     }
     
     .skip-link:hover {
