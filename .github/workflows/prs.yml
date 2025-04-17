@@ -1,0 +1,105 @@
+name: Batch Auto Merge Pull Requests
+
+on:
+  # Jalankan secara terjadwal setiap jam
+  schedule:
+    - cron: '0 * * * *'
+  # Atau jalankan secara manual dari tab Actions di GitHub
+  workflow_dispatch:
+
+jobs:
+  batch-merge-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          
+      - name: Setup GitHub CLI
+        uses: cli/cli-action@v2
+        
+      - name: Auto-merge pull requests
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AUTHOR_USERNAME: "4211421036"
+        run: |
+          # Dapatkan semua pull requests yang terbuka
+          echo "Mencari pull requests yang memenuhi kriteria..."
+          
+          # Filter pull requests:
+          # 1. Hanya yang dibuat oleh user tertentu
+          # 2. Status cek sudah passed (opsional, hapus --search "status:success" jika tidak diperlukan)
+          # 3. Branch tidak di-protect (disetel secara implisit, PRs ke protected branch tidak akan di-merge)
+          
+          PR_LIST=$(gh pr list --author $AUTHOR_USERNAME --search "status:success" --json number,title,headRefName,baseRefName --jq '.[]')
+          
+          if [ -z "$PR_LIST" ]; then
+            echo "Tidak ada pull requests yang memenuhi kriteria untuk di-merge"
+            exit 0
+          fi
+          
+          echo "$PR_LIST" | while read -r pr; do
+            PR_NUMBER=$(echo "$pr" | jq -r '.number')
+            PR_TITLE=$(echo "$pr" | jq -r '.title')
+            HEAD_BRANCH=$(echo "$pr" | jq -r '.headRefName')
+            BASE_BRANCH=$(echo "$pr" | jq -r '.baseRefName')
+            
+            echo "Mencoba auto-merge PR #$PR_NUMBER: $PR_TITLE dari branch $HEAD_BRANCH ke $BASE_BRANCH"
+            
+            # Coba approve PR terlebih dahulu (jika dibutuhkan)
+            gh pr review $PR_NUMBER --approve || echo "Tidak bisa approve PR #$PR_NUMBER"
+            
+            # Coba merge PR
+            if gh pr merge $PR_NUMBER --merge --delete-branch; then
+              echo "✅ Berhasil merge PR #$PR_NUMBER"
+            else
+              echo "❌ Gagal merge PR #$PR_NUMBER. Cek konflik atau proteksi branch."
+            fi
+          done
+
+  # Job terpisah untuk menangani PR dari Dependabot
+  dependabot-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup GitHub CLI
+        uses: cli/cli-action@v2
+        
+      - name: Auto-merge Dependabot PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Mencari Dependabot pull requests..."
+          
+          DEPENDABOT_PRS=$(gh pr list --author "dependabot[bot]" --json number,title --jq '.[]')
+          
+          if [ -z "$DEPENDABOT_PRS" ]; then
+            echo "Tidak ada Dependabot PRs yang perlu di-merge"
+            exit 0
+          fi
+          
+          echo "$DEPENDABOT_PRS" | while read -r pr; do
+            PR_NUMBER=$(echo "$pr" | jq -r '.number')
+            PR_TITLE=$(echo "$pr" | jq -r '.title')
+            
+            echo "Mencoba auto-merge Dependabot PR #$PR_NUMBER: $PR_TITLE"
+            
+            # Approve PR dari Dependabot
+            gh pr review $PR_NUMBER --approve
+            
+            # Enable auto-merge untuk PR Dependabot (kecuali major version updates)
+            if [[ "$PR_TITLE" != *"major"* ]]; then
+              if gh pr merge $PR_NUMBER --merge --auto; then
+                echo "✅ Berhasil set auto-merge untuk PR #$PR_NUMBER"
+              else
+                echo "❌ Gagal set auto-merge untuk PR #$PR_NUMBER"
+              fi
+            else
+              echo "⚠️ Skipping major version update PR #$PR_NUMBER untuk review manual"
+            fi
+          done
