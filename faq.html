@@ -517,200 +517,187 @@
         border: 0;
     }
     .mhc-container {
-      position: fixed;
-      right: 20px;
-      width: 350px;
-      background: white;
-      border-radius: 24px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      display: flex;
-      flex-direction: column;
-      z-index: 1000;
-      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-      overflow: hidden;
-      transition: all 0.3s ease;
-    }
-    
-    .mhc-container.minimized {
-      bottom: 20px;
-      height: 60px;
-      width: 300px;
-    }
-    
-    .mhc-container.expanded {
-      bottom: 20px;
-      height: 70vh;
-      max-height: 600px;
-    }
-    
-    .mhc-header {
-      padding: 15px;
-      background: linear-gradient(135deg, #4a6fa5, #3a5a8a);
-      color: white;
-      text-align: center;
-      position: relative;
-      cursor: pointer;
-    }
-    
-    .mhc-header h3 {
-      margin: 0;
-      font-size: 16px;
-      font-weight: 500;
-    }
-    
-    .mhc-swipe-area {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    .mhc-swipe-handle {
-      width: 40px;
-      height: 4px;
-      background: rgba(255,255,255,0.5);
-      border-radius: 2px;
-    }
-    
-    .mhc-messages {
-      flex: 1;
-      padding: 15px;
-      overflow-y: auto;
-      background: #f8f9fa;
-    }
-    
-    .mhc-message {
-      margin-bottom: 12px;
-      padding: 12px 16px;
-      border-radius: 18px;
-      max-width: 80%;
-      word-wrap: break-word;
-      line-height: 1.4;
-      font-size: 14px;
-      animation: fadeIn 0.3s ease;
-    }
-    
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    
-    .user-message {
-      background: #4a6fa5;
-      color: white;
-      margin-left: auto;
-      border-bottom-right-radius: 4px;
-    }
-    
-    .bot-message {
-      background: #e9ecef;
-      color: #212529;
-      margin-right: auto;
-      border-bottom-left-radius: 4px;
-    }
-    
-    .mhc-input-container {
-      display: flex;
-      padding: 10px;
-      border-top: 1px solid #e9ecef;
-      background: white;
-    }
-    
-    .mhc-input {
-      flex: 1;
-      padding: 12px 15px;
-      border: 1px solid #e9ecef;
-      border-radius: 24px;
-      outline: none;
-      font-size: 14px;
-      transition: all 0.3s ease;
-    }
-    
-    .mhc-input:focus {
-      border-color: #4a6fa5;
-    }
-    
-    .mhc-send-btn {
-      margin-left: 10px;
-      width: 44px;
-      height: 44px;
-      background: #4a6fa5;
-      color: white;
-      border: none;
-      border-radius: 50%;
-      font-size: 16px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    
-    .mhc-send-btn:hover {
-      background: #3a5a8a;
-    }
-    
-    .mhc-quick-replies {
-      display: flex;
-      flex-wrap: wrap;
-      padding: 10px;
-      gap: 8px;
-      background: white;
-      border-top: 1px solid #e9ecef;
-    }
-    
-    .mhc-quick-btn {
-      padding: 8px 12px;
-      background: #e9ecef;
-      border: none;
-      border-radius: 16px;
-      font-size: 12px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    
-    .mhc-quick-btn:hover {
-      background: #dee2e6;
-    }
-    
-    .mhc-toggle-btn {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      width: 56px;
-      height: 56px;
-      background: #4a6fa5;
-      color: white;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-      cursor: pointer;
-      z-index: 999;
-      transition: all 0.3s ease;
-    }
-    
-    .mhc-toggle-btn:hover {
-      background: #3a5a8a;
-      transform: scale(1.05);
-    }
-    
-    @media (max-width: 480px) {
-      .mhc-container {
-        right: 10px;
-        left: 10px;
-        width: auto;
-      }
-      
-      .mhc-container.minimized {
-        width: calc(100% - 20px);
-      }
-    }
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background: white;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Minimized State - Only Input */
+.mhc-container.minimized {
+  height: 60px;
+  border-radius: 24px;
+  bottom: 20px;
+  left: auto;
+  right: 20px;
+  width: 300px;
+}
+
+/* Partial State - 30% height */
+.mhc-container.partial {
+  height: 30vh;
+  max-height: 300px;
+}
+
+/* Expanded State - Full height */
+.mhc-container.expanded {
+  height: 85vh;
+}
+
+.mhc-header {
+  padding: 16px;
+  background: linear-gradient(135deg, #4a6fa5, #3a5a8a);
+  color: white;
+  text-align: center;
+  position: relative;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.mhc-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  transition: opacity 0.2s;
+}
+
+.mhc-swipe-handle {
+  width: 40px;
+  height: 4px;
+  background: rgba(255,255,255,0.5);
+  border-radius: 2px;
+  margin: 0 auto 8px;
+}
+
+.mhc-messages {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background: #f8f9fa;
+  display: none; /* Initially hidden */
+}
+
+.mhc-container.partial .mhc-messages,
+.mhc-container.expanded .mhc-messages {
+  display: block;
+}
+
+.mhc-message {
+  margin-bottom: 12px;
+  padding: 12px 16px;
+  border-radius: 18px;
+  max-width: 80%;
+  word-wrap: break-word;
+  line-height: 1.4;
+  font-size: 14px;
+  animation: fadeIn 0.3s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.user-message {
+  background: #4a6fa5;
+  color: white;
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+
+.bot-message {
+  background: #e9ecef;
+  color: #212529;
+  margin-right: auto;
+  border-bottom-left-radius: 4px;
+}
+
+.mhc-input-container {
+  display: flex;
+  padding: 12px;
+  border-top: 1px solid #e9ecef;
+  background: white;
+  flex-shrink: 0;
+}
+
+.mhc-input {
+  flex: 1;
+  padding: 12px 16px;
+  border: 1px solid #e9ecef;
+  border-radius: 24px;
+  outline: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.mhc-input:focus {
+  border-color: #4a6fa5;
+}
+
+.mhc-send-btn {
+  margin-left: 10px;
+  width: 44px;
+  height: 44px;
+  background: #4a6fa5;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.mhc-send-btn:hover {
+  background: #3a5a8a;
+  transform: scale(1.05);
+}
+
+.mhc-quick-replies {
+  display: none; /* Initially hidden */
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  gap: 8px;
+  background: white;
+  border-top: 1px solid #e9ecef;
+}
+
+.mhc-container.partial .mhc-quick-replies,
+.mhc-container.expanded .mhc-quick-replies {
+  display: flex;
+}
+
+.mhc-quick-btn {
+  padding: 8px 12px;
+  background: #e9ecef;
+  border: none;
+  border-radius: 16px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mhc-quick-btn:hover {
+  background: #dee2e6;
+}
+
+@media (max-width: 480px) {
+  .mhc-container.minimized {
+    width: calc(100% - 40px);
+  }
+}
     </style>
 </head>
 <body role="document" id="page-body">
@@ -1058,9 +1045,10 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     </script>
     <script>
         // Enhanced Mental Health Chatbot with Predictive AI
+// Enhanced Mental Health Chatbot with Dynamic UI
 class MentalHealthChatbot {
   constructor() {
-    // Training data for the AI model (simplified example)
+    // Training data for the AI model
     this.trainingData = [
       {input: "depression", output: {category: "depression", response: "depression"}},
       {input: "I feel sad", output: {category: "depression", response: "depression"}},
@@ -1076,45 +1064,40 @@ class MentalHealthChatbot {
       {input: "how does this work", output: {category: "sensors", response: "sensors"}}
     ];
 
-    // FAQ Data with more detailed responses
+    // FAQ Data with detailed responses
     this.faqData = {
       "depression": {
         responses: [
           "Common signs of depression include persistent sadness, loss of interest in activities, changes in sleep/appetite, fatigue, and difficulty concentrating.",
-          "Our system monitors physiological indicators like reduced reactivity and light sensitivity that may correlate with depressive states.",
-          "Would you like me to analyze your current metrics for depression indicators?"
+          "Our system monitors physiological indicators like reduced reactivity and light sensitivity that may correlate with depressive states."
         ],
         resources: "https://www.instagram.com/peercounselor.unnes"
       },
       "anxiety": {
         responses: [
           "Anxiety often manifests as excessive worry, restlessness, increased heart rate, sweating, and rapid breathing.",
-          "Our sensors detect elevated GSR responses and irregular heart rhythms that may indicate anxiety.",
-          "Your current heart rate variability suggests your anxiety levels are moderate."
+          "Our sensors detect elevated GSR responses and irregular heart rhythms that may indicate anxiety."
         ],
         resources: "https://www.nimh.nih.gov/health/topics/anxiety-disorders"
       },
       "stress": {
         responses: [
           "Stress symptoms include irritability, headaches, muscle tension, sleep problems, and changes in heart rate variability.",
-          "Our system identifies stress patterns through higher GSR and reduced HRV measurements.",
-          "Based on your recent data, your stress levels appear elevated. Would you like some relaxation techniques?"
+          "Our system identifies stress patterns through higher GSR and reduced HRV measurements."
         ],
         resources: "https://www.cdc.gov/mentalhealth/stress-coping/index.html"
       },
       "self_care": {
         responses: [
           "Effective self-care includes regular exercise, mindfulness meditation, maintaining a sleep schedule, and staying socially connected.",
-          "Our light sensor can help monitor your environment for optimal conditions. Currently, your environment seems well-lit which helps with mood regulation.",
-          "Would you like specific self-care recommendations based on your current state?"
+          "Our light sensor can help monitor your environment for optimal conditions."
         ],
         resources: "https://www.mhanational.org/self-help"
       },
       "help": {
         responses: [
           "You can contact mental health professionals through our partner network.",
-          "Based on your current metrics, I recommend reaching out to:",
-          "Would you like me to connect you with a professional now?"
+          "Based on your current metrics, I recommend reaching out to:"
         ],
         resources: "https://www.instagram.com/peercounselor.unnes"
       },
@@ -1124,29 +1107,31 @@ class MentalHealthChatbot {
           "1. GSR measures skin conductance (emotional arousal)",
           "2. Heart rate sensor tracks cardiovascular activity",
           "3. HRV assesses autonomic nervous system balance",
-          "4. Light sensor monitors environmental factors affecting mood",
-          "Your current sensor readings appear normal."
+          "4. Light sensor monitors environmental factors affecting mood"
         ],
         resources: ""
       }
     };
 
-    // Initialize the model and UI
+    // UI States
+    this.states = {
+      MINIMIZED: 'minimized',    // Only input visible
+      PARTIAL: 'partial',        // 30% height with last response
+      EXPANDED: 'expanded'       // Full screen
+    };
+    this.currentState = this.states.MINIMIZED;
+
+    // Initialize
     this.initializeModel();
     this.initializeUI();
-    
-    // Start with minimized state
-    this.isMinimized = true;
-    this.isExpanded = false;
+    this.setupEventListeners();
   }
 
-  // Simple machine learning model (for demonstration)
   initializeModel() {
-    // In a real app, you would use TensorFlow.js or similar
+    // Simple prediction model
     this.model = {
       predict: (input) => {
         const lowerInput = input.toLowerCase();
-        // Find the best matching training example
         let bestMatch = {score: 0, output: null};
         
         this.trainingData.forEach(example => {
@@ -1156,13 +1141,11 @@ class MentalHealthChatbot {
           }
         });
         
-        // Threshold for matching
         return bestMatch.score > 0.3 ? bestMatch.output : {category: "unknown", response: "unknown"};
       }
     };
   }
 
-  // Simple string similarity function (for demonstration)
   similarity(s1, s2) {
     const words1 = s1.split(' ');
     const words2 = s2.split(' ');
@@ -1170,36 +1153,39 @@ class MentalHealthChatbot {
     return intersection.length / Math.max(words1.length, words2.length);
   }
 
-  // Initialize the chatbot UI
   initializeUI() {
-    // Create main container
+    // Main container
     this.chatContainer = document.createElement('div');
     this.chatContainer.className = 'mhc-container minimized';
     
-    // Create message area
+    // Header with swipe handle
+    this.header = document.createElement('div');
+    this.header.className = 'mhc-header';
+    this.header.innerHTML = `
+      <div class="mhc-swipe-handle"></div>
+      <h3>Mental Health Assistant</h3>
+    `;
+    
+    // Message area
     this.messageArea = document.createElement('div');
     this.messageArea.className = 'mhc-messages';
     
-    // Create input area
+    // Input area (always visible)
     this.inputContainer = document.createElement('div');
     this.inputContainer.className = 'mhc-input-container';
     
     this.inputField = document.createElement('input');
     this.inputField.className = 'mhc-input';
     this.inputField.placeholder = 'Ask about mental health...';
-    this.inputField.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') this.handleSend();
-    });
     
     this.sendButton = document.createElement('button');
     this.sendButton.className = 'mhc-send-btn';
     this.sendButton.innerHTML = '&#10148;';
-    this.sendButton.addEventListener('click', () => this.handleSend());
     
     this.inputContainer.appendChild(this.inputField);
     this.inputContainer.appendChild(this.sendButton);
     
-    // Create quick replies
+    // Quick replies
     this.quickReplies = document.createElement('div');
     this.quickReplies.className = 'mhc-quick-replies';
     
@@ -1207,22 +1193,9 @@ class MentalHealthChatbot {
       const btn = document.createElement('button');
       btn.className = 'mhc-quick-btn';
       btn.textContent = topic;
-      btn.addEventListener('click', () => this.handleQuickReply(topic.toLowerCase()));
+      btn.dataset.topic = topic.toLowerCase().replace(' ', '_');
       this.quickReplies.appendChild(btn);
     });
-    
-    // Create header with swipe area
-    this.header = document.createElement('div');
-    this.header.className = 'mhc-header';
-    this.header.innerHTML = `
-      <div class="mhc-swipe-area">
-        <div class="mhc-swipe-handle"></div>
-      </div>
-      <h3>Mental Health Assistant</h3>
-    `;
-    
-    // Add swipe functionality
-    this.setupSwipeHandlers();
     
     // Assemble the container
     this.chatContainer.appendChild(this.header);
@@ -1233,78 +1206,99 @@ class MentalHealthChatbot {
     document.body.appendChild(this.chatContainer);
     
     // Add initial greeting
-    this.addBotMessage("Hello! I'm your Mental Health Assistant. How can I help you today?");
+    setTimeout(() => {
+      this.addBotMessage("Hello! I'm your Mental Health Assistant. How can I help you today?");
+      this.transitionTo(this.states.PARTIAL);
+    }, 1000);
+  }
+
+  setupEventListeners() {
+    // Send message on button click or Enter key
+    this.sendButton.addEventListener('click', () => this.handleSend());
+    this.inputField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') this.handleSend();
+    });
     
-    // Add toggle button
-    this.createToggleButton();
-  }
-
-  // Create the floating toggle button
-  createToggleButton() {
-    this.toggleButton = document.createElement('div');
-    this.toggleButton.className = 'mhc-toggle-btn';
-    this.toggleButton.innerHTML = '💬';
-    this.toggleButton.addEventListener('click', () => this.toggleChat());
-    document.body.appendChild(this.toggleButton);
-  }
-
-  // Handle swipe gestures
-  setupSwipeHandlers() {
+    // Quick reply buttons
+    this.quickReplies.querySelectorAll('.mhc-quick-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const topic = e.target.dataset.topic;
+        this.addUserMessage(topic.replace('_', ' '));
+        this.processMessage(topic);
+      });
+    });
+    
+    // Swipe handling
     let startY, currentY;
-    const swipeArea = this.header.querySelector('.mhc-swipe-area');
+    const swipeHandle = this.header.querySelector('.mhc-swipe-handle');
     
-    swipeArea.addEventListener('touchstart', (e) => {
+    swipeHandle.addEventListener('touchstart', (e) => {
       startY = e.touches[0].clientY;
     }, {passive: true});
     
-    swipeArea.addEventListener('touchmove', (e) => {
+    swipeHandle.addEventListener('touchmove', (e) => {
       if (!startY) return;
       currentY = e.touches[0].clientY;
       const diff = currentY - startY;
       
-      if (this.isMinimized && diff < 0) {
-        // Swiping up from minimized state
+      if (this.currentState === this.states.PARTIAL && diff > 0) {
+        // Swiping down from partial view - minimize
         e.preventDefault();
-        this.expandChat();
-      } else if (!this.isMinimized && diff > 0) {
-        // Swiping down from expanded state
+        this.transitionTo(this.states.MINIMIZED);
+      } else if (this.currentState === this.states.PARTIAL && diff < -50) {
+        // Swiping up from partial view - expand
         e.preventDefault();
-        this.minimizeChat();
+        this.transitionTo(this.states.EXPANDED);
+      } else if (this.currentState === this.states.EXPANDED && diff > 50) {
+        // Swiping down from expanded view - return to partial
+        e.preventDefault();
+        this.transitionTo(this.states.PARTIAL);
       }
     }, {passive: false});
     
-    swipeArea.addEventListener('touchend', () => {
+    swipeHandle.addEventListener('touchend', () => {
       startY = null;
       currentY = null;
     }, {passive: true});
+    
+    // Click header to toggle between partial and expanded
+    this.header.addEventListener('click', () => {
+      if (this.currentState === this.states.PARTIAL) {
+        this.transitionTo(this.states.EXPANDED);
+      } else if (this.currentState === this.states.EXPANDED) {
+        this.transitionTo(this.states.PARTIAL);
+      }
+    });
   }
 
-  // Toggle between minimized and expanded states
-  toggleChat() {
-    if (this.isMinimized) {
-      this.expandChat();
+  transitionTo(newState) {
+    // Exit current state
+    this.chatContainer.classList.remove(this.currentState);
+    
+    // Enter new state
+    this.chatContainer.classList.add(newState);
+    this.currentState = newState;
+    
+    // Special handling for each state
+    if (newState === this.states.MINIMIZED) {
+      this.messageArea.style.display = 'none';
+      this.quickReplies.style.display = 'none';
+      this.header.querySelector('h3').style.display = 'none';
     } else {
-      this.minimizeChat();
+      this.messageArea.style.display = 'block';
+      this.quickReplies.style.display = 'flex';
+      this.header.querySelector('h3').style.display = 'block';
+      
+      if (newState === this.states.PARTIAL) {
+        // Scroll to bottom of last message
+        this.scrollToLastMessage();
+      } else if (newState === this.states.EXPANDED) {
+        // Scroll to very bottom
+        this.scrollToBottom();
+      }
     }
   }
 
-  // Expand the chat to full view
-  expandChat() {
-    this.isMinimized = false;
-    this.chatContainer.classList.remove('minimized');
-    this.chatContainer.classList.add('expanded');
-    this.toggleButton.style.display = 'none';
-  }
-
-  // Minimize the chat to floating input
-  minimizeChat() {
-    this.isMinimized = true;
-    this.chatContainer.classList.remove('expanded');
-    this.chatContainer.classList.add('minimized');
-    this.toggleButton.style.display = 'flex';
-  }
-
-  // Handle send button click
   handleSend() {
     const message = this.inputField.value.trim();
     if (message) {
@@ -1314,13 +1308,6 @@ class MentalHealthChatbot {
     }
   }
 
-  // Handle quick reply button click
-  handleQuickReply(topic) {
-    this.addUserMessage(topic);
-    this.processMessage(topic);
-  }
-
-  // Add user message to the chat
   addUserMessage(text) {
     const message = document.createElement('div');
     message.className = 'mhc-message user-message';
@@ -1329,76 +1316,74 @@ class MentalHealthChatbot {
     this.scrollToBottom();
   }
 
-  // Add bot message to the chat
   addBotMessage(text) {
     const message = document.createElement('div');
     message.className = 'mhc-message bot-message';
     message.textContent = text;
     this.messageArea.appendChild(message);
-    this.scrollToBottom();
-  }
-
-  // Scroll to the bottom of the message area
-  scrollToBottom() {
-    this.messageArea.scrollTop = this.messageArea.scrollHeight;
-  }
-
-  // Process user message with the AI model
-  processMessage(message) {
-    // Use the model to predict the category
-    const prediction = this.model.predict(message);
     
-    // Get the appropriate response
-    if (prediction.category !== "unknown" && this.faqData[prediction.category]) {
-      const faq = this.faqData[prediction.category];
-      
-      // Show all responses for this category
-      faq.responses.forEach(response => {
-        setTimeout(() => {
-          this.addBotMessage(response);
-        }, 500);
-      });
-      
-      // Show resources if available
-      if (faq.resources) {
-        setTimeout(() => {
-          this.addBotMessage(`More resources: ${faq.resources}`);
-        }, 500 * (faq.responses.length + 1));
-      }
-      
-      // Integrate with sensor data
-      this.integrateSensorData(prediction.category);
+    // After adding bot message, transition to partial view if minimized
+    if (this.currentState === this.states.MINIMIZED) {
+      this.transitionTo(this.states.PARTIAL);
     } else {
-      // Unknown question
-      setTimeout(() => {
-        this.addBotMessage("I'm not sure I understand. Could you try asking about depression, anxiety, stress, or self-care?");
-        this.addBotMessage("For professional help, you can visit: https://www.instagram.com/peercounselor.unnes");
-      }, 500);
+      this.scrollToBottom();
     }
   }
 
-  // Integrate with sensor data from the existing system
+  scrollToBottom() {
+    setTimeout(() => {
+      this.messageArea.scrollTop = this.messageArea.scrollHeight;
+    }, 100);
+  }
+
+  scrollToLastMessage() {
+    setTimeout(() => {
+      const messages = this.messageArea.querySelectorAll('.mhc-message');
+      if (messages.length > 0) {
+        const lastMessage = messages[messages.length - 1];
+        lastMessage.scrollIntoView({behavior: 'smooth', block: 'end'});
+      }
+    }, 100);
+  }
+
+  processMessage(message) {
+    const prediction = this.model.predict(message);
+    
+    if (prediction.category !== "unknown" && this.faqData[prediction.category]) {
+      const faq = this.faqData[prediction.category];
+      
+      // Show responses with delay
+      faq.responses.forEach((response, i) => {
+        setTimeout(() => {
+          this.addBotMessage(response);
+        }, 800 * (i + 1));
+      });
+      
+      // Show resources
+      if (faq.resources) {
+        setTimeout(() => {
+          this.addBotMessage(`More resources: ${faq.resources}`);
+        }, 800 * (faq.responses.length + 1));
+      }
+      
+      // Integrate sensor data
+      this.integrateSensorData(prediction.category);
+    } else {
+      setTimeout(() => {
+        this.addBotMessage("I'm not sure I understand. Could you try asking about depression, anxiety, stress, or self-care?");
+      }, 800);
+    }
+  }
+
   integrateSensorData(topic) {
-    // Get current sensor data from your existing system
     const heartRate = document.getElementById('heartRate')?.textContent || 'N/A';
     const bloodPressure = document.getElementById('bloodPressure')?.textContent || 'N/A/N/A';
-    const conclusion = document.getElementById('conclusion')?.textContent || '';
-    const advice = document.getElementById('advice')?.textContent || '';
     
-    // Only show sensor data if it's available and relevant
     if ((heartRate !== 'N/A' || bloodPressure !== 'N/A/N/A') && 
         (topic === 'depression' || topic === 'anxiety' || topic === 'stress')) {
       setTimeout(() => {
         this.addBotMessage(`Your current metrics - Heart Rate: ${heartRate}, Blood Pressure: ${bloodPressure}`);
-        
-        if (conclusion) {
-          this.addBotMessage(`System analysis: ${conclusion}`);
-        }
-        
-        if (advice) {
-          this.addBotMessage(`Recommendation: ${advice}`);
-        }
-      }, 1000);
+      }, 1500);
     }
   }
 }
