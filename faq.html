@@ -253,7 +253,7 @@
     <div class="container">
         <header role="banner">
             <h1>Mental Health Monitoring System</h1>
-            <p role="text"  class="subtitle">Frequently Asked Questions about the Arduino Implementation</p>
+            <p role="text" class="subtitle">Frequently Asked Questions about the Arduino Implementation</p>
         </header>
 
         <main id="main-content" role="main">
@@ -280,15 +280,15 @@
                         </button>
                         <div id="faq-answer-1" class="faq-answer" role="region" aria-labelledby="faq-question-1">
                             <div class="faq-answer-content">
-                                <p role="text" >The system uses three main sensors:</p>
+                                <p role="text">The system uses three main sensors:</p>
                                 <ol>
                                     <li><strong>MAX30102</strong> - Optical heart rate and blood oxygen sensor</li>
                                     <li><strong>GSR Sensor</strong> - Galvanic Skin Response sensor for stress detection</li>
                                     <li><strong>BH1750</strong> - Ambient light sensor</li>
                                 </ol>
-                                <p role="text" >These sensors work together to collect physiological data that can indicate mental health status.</p>
+                                <p role="text">These sensors work together to collect physiological data that can indicate mental health status.</p>
                                 <div class="code-block">
-                                    <p role="text" re><code>// Sensor Objects in the code
+                                    <pre role="text"><code>// Sensor Objects in the code
 MAX30105 particleSensor;  // MAX30102 sensor object
 BH1750 lightMeter;       // BH1750 light sensor
 const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
@@ -304,14 +304,14 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
                         </button>
                         <div id="faq-answer-2" class="faq-answer" role="region" aria-labelledby="faq-question-2">
                             <div class="faq-answer-content">
-                                <p role="text" >The sensors are connected as follows:</p>
+                                <p role="text">The sensors are connected as follows:</p>
                                 <ul>
                                     <li>MAX30102 and BH1750 use I2C communication (connected to SDA and SCL pins)</li>
                                     <li>GSR sensor is connected to analog pin 34</li>
                                 </ul>
-                                <p role="text" >The code initializes these connections in the <code>setup()</code> function:</p>
+                                <p role="text">The code initializes these connections in the <code>setup()</code> function:</p>
                                 <div class="code-block">
-                                    <p role="text" re><code>void setup() {
+                                    <pre role="text"><code>void setup() {
   Wire.begin();  // Initialize I2C
   particleSensor.begin(Wire, I2C_SPEED_FAST); // MAX30102
   lightMeter.begin(); // BH1750
@@ -338,7 +338,7 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
                         </button>
                         <div id="faq-answer-3" class="faq-answer" role="region" aria-labelledby="faq-question-3">
                             <div class="faq-answer-content">
-                                <p role="text" >The MAX30102 sensor detects heart rate by measuring changes in blood volume using optical technology (PPG). The code implements:</p>
+                                <p role="text">The MAX30102 sensor detects heart rate by measuring changes in blood volume using optical technology (PPG). The code implements:</p>
                                 <ol>
                                     <li>IR LED shines light into the skin</li>
                                     <li>Photodetector measures reflected light</li>
@@ -346,7 +346,7 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
                                     <li>Beat-to-beat intervals are calculated for HRV</li>
                                 </ol>
                                 <div class="code-block">
-                                    <p role="text" re><code>if(irValue > 50000) {  // Finger detected
+                                    <pre role="text"><code>if(irValue > 50000) {  // Finger detected
   if(checkForBeat(irValue)) {
     long delta = millis() - lastBeat;
     lastBeat = millis();
@@ -354,7 +354,7 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
   }
 }</code></pre>
                                 </div>
-                                <p role="text"  class="reference">Based on Shaffer et al. (2014) HRV measurement standards</p>
+                                <p role="text" class="reference">Based on Shaffer et al. (2014) HRV measurement standards</p>
                             </div>
                         </div>
                     </div>
@@ -366,14 +366,14 @@ const int GSR_PIN = 34;  // GSR sensor pin</code></pre>
                         </button>
                         <div id="faq-answer-4" class="faq-answer" role="region" aria-labelledby="faq-question-4">
                             <div class="faq-answer-content">
-                                <p role="text" >The moving average calculation separates the GSR signal into two components:</p>
+                                <p role="text">The moving average calculation separates the GSR signal into two components:</p>
                                 <ul>
                                     <li><strong>Tonic component</strong> (slow-changing baseline)</li>
                                     <li><strong>Phasic component</strong> (fast-changing responses)</li>
                                 </ul>
-                                <p role="text" >This is implemented with a 5-sample moving average window:</p>
+                                <p role="text">This is implemented with a 5-sample moving average window:</p>
                                 <div class="code-block">
-                                    <p role="text" re><code>// Moving average for EDA tonic (Boucsein, 2012)
+                                    <pre role="text"><code>// Moving average for EDA tonic (Boucsein, 2012)
 float edaMovingAverage(float newVal) {
   eda_buffer[buffer_index] = newVal;
   buffer_index = (buffer_index + 1) % WINDOW_SIZE;
@@ -396,15 +396,15 @@ float edaMovingAverage(float newVal) {
                         </button>
                         <div id="faq-answer-5" class="faq-answer" role="region" aria-labelledby="faq-question-5">
                             <div class="faq-answer-content">
-                                <p role="text" >HRV is calculated using SDNN (Standard Deviation of NN intervals), which is a well-established metric in psychophysiology research (Castaldo et al., 2019).</p>
-                                <p role="text" >The code implements this by:</p>
+                                <p role="text">HRV is calculated using SDNN (Standard Deviation of NN intervals), which is a well-established metric in psychophysiology research (Castaldo et al., 2019).</p>
+                                <p role="text">The code implements this by:</p>
                                 <ol>
                                     <li>Storing the last 16 RR intervals (time between heartbeats)</li>
                                     <li>Calculating the mean interval</li>
                                     <li>Computing the standard deviation of these intervals</li>
                                 </ol>
                                 <div class="code-block">
-                                    <p role="text" re><code>// Calculate SDNN (Standard Deviation of NN intervals)
+                                    <pre role="text"><code>// Calculate SDNN (Standard Deviation of NN intervals)
 float calculateSDNN() {
   float mean = 0.0f;
   for (int i = 0; i &lt; RR_BUFFER_SIZE; i++) {
@@ -415,7 +415,7 @@ float calculateSDNN() {
   return sqrt(variance);
 }</code></pre>
                                 </div>
-                                <p role="text" >HRV is an important indicator of autonomic nervous system activity and stress levels.</p>
+                                <p role="text">HRV is an important indicator of autonomic nervous system activity and stress levels.</p>
                             </div>
                         </div>
                     </div>
@@ -436,16 +436,16 @@ float calculateSDNN() {
                         </button>
                         <div id="faq-answer-6" class="faq-answer" role="region" aria-labelledby="faq-question-6">
                             <div class="faq-answer-content">
-                                <p role="text" >The system uses a neural network (defined in MentalHealthNN.h) that takes sensor inputs and outputs probabilities for four mental states:</p>
+                                <p role="text">The system uses a neural network (defined in MentalHealthNN.h) that takes sensor inputs and outputs probabilities for four mental states:</p>
                                 <ol>
                                     <li>Normal</li>
                                     <li>Stress</li>
                                     <li>Anxiety</li>
                                     <li>Depression</li>
                                 </ol>
-                                <p role="text" >The prediction happens in the <code>detectMentalHealth()</code> function:</p>
+                                <p role="text">The prediction happens in the <code>detectMentalHealth()</code> function:</p>
                                 <div class="code-block">
-                                    <p role="text" re><code>void detectMentalHealth(float edaTonic, float edaPhasic, float bpm, float hrv, float lux, 
+                                    <pre role="text"><code>void detectMentalHealth(float edaTonic, float edaPhasic, float bpm, float hrv, float lux, 
     MentalHealthStatus& status, float* probabilities) {
   // Get prediction from neural network
   status = mentalHealth.predict(edaTonic, edaPhasic, bpm, hrv, lux);
@@ -453,7 +453,7 @@ float calculateSDNN() {
   mentalHealth.getPredictionProbabilities(edaTonic, edaPhasic, bpm, hrv, lux, probabilities);
 }</code></pre>
                                 </div>
-                                <p role="text" >The neural network was likely trained on labeled physiological data from individuals with known mental health conditions.</p>
+                                <p role="text">The neural network was likely trained on labeled physiological data from individuals with known mental health conditions.</p>
                             </div>
                         </div>
                     </div>
@@ -465,13 +465,13 @@ float calculateSDNN() {
                         </button>
                         <div id="faq-answer-7" class="faq-answer" role="region" aria-labelledby="faq-question-7">
                             <div class="faq-answer-content">
-                                <p role="text" >The BH1750 light sensor measures ambient light levels which are important because:</p>
+                                <p role="text">The BH1750 light sensor measures ambient light levels which are important because:</p>
                                 <ul>
                                     <li>Light exposure affects circadian rhythms and mood (Golden et al., 2005)</li>
                                     <li>Low light levels may correlate with depressive symptoms</li>
                                     <li>Sudden light changes can indicate environmental stressors</li>
                                 </ul>
-                                <p role="text" >The light data is read and included in the mental health analysis:</p>
+                                <p role="text">The light data is read and included in the mental health analysis:</p>
                                 <div class="code-block">
                                     <p role="text" re><code>// Read BH1750 ambient light sensor
 float lux = lightMeter.readLightLevel();
@@ -499,7 +499,7 @@ detectMentalHealth(..., lux, ...);</code></pre>
                         </button>
                         <div id="faq-answer-8" class="faq-answer" role="region" aria-labelledby="faq-question-8">
                             <div class="faq-answer-content">
-                                <p role="text" >The system uploads sensor data to GitHub repositories every 10 seconds using the GitHub API:</p>
+                                <p role="text">The system uploads sensor data to GitHub repositories every 10 seconds using the GitHub API:</p>
                                 <ol>
                                     <li>Data is formatted as JSON documents</li>
                                     <li>Base64 encoded for GitHub API requirements</li>
@@ -507,7 +507,7 @@ detectMentalHealth(..., lux, ...);</code></pre>
                                     <li>SHA hashes are tracked for version control</li>
                                 </ol>
                                 <div class="code-block">
-                                    <p role="text" re><code>// Example of GitHub upload function
+                                    <pre role="text"><code>// Example of GitHub upload function
 void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
   HTTPClient http;
   http.begin(url);
@@ -525,7 +525,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
   // ... handle response ...
 }</code></pre>
                                 </div>
-                                <p role="text" >Four separate JSON files are maintained for each sensor type and the mental status.</p>
+                                <p role="text">Four separate JSON files are maintained for each sensor type and the mental status.</p>
                             </div>
                         </div>
                     </div>
@@ -534,8 +534,8 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         </main>
 
         <footer role="contentinfo">
-            <p role="text" >Mental Health Monitoring System - Version 1.0.2</p>
-            <p role="text" >For questions about accessibility, please contact <a href="mailto:support@mhmonitor.example.org">support@mhmonitor.example.org</a></p>
+            <p role="text">Mental Health Monitoring System - Version 1.0.2</p>
+            <p role="text">For questions about accessibility, please contact <a href="mailto:support@mhmonitor.example.org">support@mhmonitor.example.org</a></p>
         </footer>
     </div>
 
