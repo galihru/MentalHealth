@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health Monitoring System - FAQ</title>
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #166088;
+            --accent-color: #4fc3f7;
+            --background-color: #f5f7fa;
+            --text-color: #333;
+            --light-text: #666;
+            --border-color: #ddd;
+            --card-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+        }
+
+        .subtitle {
+            color: var(--light-text);
+            font-size: 1.1rem;
+        }
+
+        .faq-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            color: var(--accent-color);
+        }
+
+        .faq-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .faq-card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .faq-question {
+            padding: 20px;
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-card.active .faq-answer {
+            padding: 20px;
+            max-height: 1000px;
+        }
+
+        .faq-answer-content {
+            padding-bottom: 10px;
+        }
+
+        .code-block {
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.9rem;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        .toggle-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-card.active .toggle-icon {
+            transform: rotate(45deg);
+        }
+
+        .sensor-diagram {
+            width: 100%;
+            max-width: 500px;
+            margin: 20px auto;
+            display: block;
+            border-radius: 8px;
+            box-shadow: var(--card-shadow);
+        }
+
+        .reference {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .note {
+            background-color: #fff8e1;
+            padding: 15px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .faq-question {
+                font-size: 1.1rem;
+                padding: 15px;
+            }
+
+            .faq-answer {
+                padding: 0 15px;
+            }
+
+            .faq-card.active .faq-answer {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mental Health Monitoring System</h1>
+            <p class="subtitle">Frequently Asked Questions about the Arduino Implementation</p>
+        </header>
+
+        <section class="faq-section">
+            <h2 class="section-title"><i class="fas fa-microchip"></i> Hardware Setup</h2>
+            <div class="faq-container">
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        What sensors are used in this system?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>The system uses three main sensors:</p>
+                            <ol>
+                                <li><strong>MAX30102</strong> - Optical heart rate and blood oxygen sensor</li>
+                                <li><strong>GSR Sensor</strong> - Galvanic Skin Response sensor for stress detection</li>
+                                <li><strong>BH1750</strong> - Ambient light sensor</li>
+                            </ol>
+                            <p>These sensors work together to collect physiological data that can indicate mental health status.</p>
+                            <div class="code-block">
+                                // Sensor Objects in the code<br>
+                                MAX30105 particleSensor;  // MAX30102 sensor object<br>
+                                BH1750 lightMeter;       // BH1750 light sensor<br>
+                                const int GSR_PIN = 34;  // GSR sensor pin
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        How are the sensors connected to the microcontroller?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>The sensors are connected as follows:</p>
+                            <ul>
+                                <li>MAX30102 and BH1750 use I2C communication (connected to SDA and SCL pins)</li>
+                                <li>GSR sensor is connected to analog pin 34</li>
+                            </ul>
+                            <p>The code initializes these connections in the <code>setup()</code> function:</p>
+                            <div class="code-block">
+                                void setup() {<br>
+                                &nbsp;&nbsp;Wire.begin();  // Initialize I2C<br>
+                                &nbsp;&nbsp;particleSensor.begin(Wire, I2C_SPEED_FAST); // MAX30102<br>
+                                &nbsp;&nbsp;lightMeter.begin(); // BH1750<br>
+                                &nbsp;&nbsp;// GSR is analog so only needs pin declaration<br>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2 class="section-title"><i class="fas fa-code"></i> Code Implementation</h2>
+            <div class="faq-container">
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        How does the heart rate detection work?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>The MAX30102 sensor detects heart rate by measuring changes in blood volume using optical technology (PPG). The code implements:</p>
+                            <ol>
+                                <li>IR LED shines light into the skin</li>
+                                <li>Photodetector measures reflected light</li>
+                                <li>Pulse detection algorithm identifies beats</li>
+                                <li>Beat-to-beat intervals are calculated for HRV</li>
+                            </ol>
+                            <div class="code-block">
+                                if(irValue > 50000) {  // Finger detected<br>
+                                &nbsp;&nbsp;if(checkForBeat(irValue)) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;long delta = millis() - lastBeat;<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;lastBeat = millis();<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;beatsPerMinute = 60000.0 / delta;<br>
+                                &nbsp;&nbsp;}<br>
+                                }
+                            </div>
+                            <p class="reference">Based on Shaffer et al. (2014) HRV measurement standards</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        What is the purpose of the GSR moving average calculation?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>The moving average calculation separates the GSR signal into two components:</p>
+                            <ul>
+                                <li><strong>Tonic component</strong> (slow-changing baseline)</li>
+                                <li><strong>Phasic component</strong> (fast-changing responses)</li>
+                            </ul>
+                            <p>This is implemented with a 5-sample moving average window:</p>
+                            <div class="code-block">
+                                // Moving average for EDA tonic (Boucsein, 2012)<br>
+                                float edaMovingAverage(float newVal) {<br>
+                                &nbsp;&nbsp;eda_buffer[buffer_index] = newVal;<br>
+                                &nbsp;&nbsp;buffer_index = (buffer_index + 1) % WINDOW_SIZE;<br>
+                                &nbsp;&nbsp;float sum = 0;<br>
+                                &nbsp;&nbsp;for(int i=0; i&lt;WINDOW_SIZE; i++) sum += eda_buffer[i];<br>
+                                &nbsp;&nbsp;return sum/WINDOW_SIZE;<br>
+                                }
+                            </div>
+                            <div class="note">
+                                <strong>Note:</strong> The window size of 5 samples was chosen based on Boucsein's (2012) research on electrodermal activity measurement.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        How is HRV (Heart Rate Variability) calculated?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>HRV is calculated using SDNN (Standard Deviation of NN intervals), which is a well-established metric in psychophysiology research (Castaldo et al., 2019).</p>
+                            <p>The code implements this by:</p>
+                            <ol>
+                                <li>Storing the last 16 RR intervals (time between heartbeats)</li>
+                                <li>Calculating the mean interval</li>
+                                <li>Computing the standard deviation of these intervals</li>
+                            </ol>
+                            <div class="code-block">
+                                // Calculate SDNN (Standard Deviation of NN intervals)<br>
+                                float calculateSDNN() {<br>
+                                &nbsp;&nbsp;float mean = 0.0f;<br>
+                                &nbsp;&nbsp;for (int i = 0; i &lt; RR_BUFFER_SIZE; i++) {<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;mean += rrIntervals[i];<br>
+                                &nbsp;&nbsp;}<br>
+                                &nbsp;&nbsp;mean /= RR_BUFFER_SIZE;<br>
+                                &nbsp;&nbsp;// ... variance calculation ...<br>
+                                &nbsp;&nbsp;return sqrt(variance);<br>
+                                }
+                            </div>
+                            <p>HRV is an important indicator of autonomic nervous system activity and stress levels.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2 class="section-title"><i class="fas fa-brain"></i> Mental Health Analysis</h2>
+            <div class="faq-container">
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        How does the neural network predict mental health status?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>The system uses a neural network (defined in MentalHealthNN.h) that takes sensor inputs and outputs probabilities for four mental states:</p>
+                            <ol>
+                                <li>Normal</li>
+                                <li>Stress</li>
+                                <li>Anxiety</li>
+                                <li>Depression</li>
+                            </ol>
+                            <p>The prediction happens in the <code>detectMentalHealth()</code> function:</p>
+                            <div class="code-block">
+                                void detectMentalHealth(float edaTonic, float edaPhasic, float bpm, float hrv, float lux, <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;MentalHealthStatus& status, float* probabilities) {<br>
+                                &nbsp;&nbsp;// Get prediction from neural network<br>
+                                &nbsp;&nbsp;status = mentalHealth.predict(edaTonic, edaPhasic, bpm, hrv, lux);<br>
+                                &nbsp;&nbsp;// Get probabilities for each class<br>
+                                &nbsp;&nbsp;mentalHealth.getPredictionProbabilities(edaTonic, edaPhasic, bpm, hrv, lux, probabilities);<br>
+                                }
+                            </div>
+                            <p>The neural network was likely trained on labeled physiological data from individuals with known mental health conditions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        What is the significance of the ambient light sensor?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>The BH1750 light sensor measures ambient light levels which are important because:</p>
+                            <ul>
+                                <li>Light exposure affects circadian rhythms and mood (Golden et al., 2005)</li>
+                                <li>Low light levels may correlate with depressive symptoms</li>
+                                <li>Sudden light changes can indicate environmental stressors</li>
+                            </ul>
+                            <p>The light data is read and included in the mental health analysis:</p>
+                            <div class="code-block">
+                                // Read BH1750 ambient light sensor<br>
+                                float lux = lightMeter.readLightLevel();<br>
+                                <br>
+                                // Included in neural network input<br>
+                                detectMentalHealth(..., lux, ...);
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2 class="section-title"><i class="fas fa-cloud-upload-alt"></i> Data Upload</h2>
+            <div class="faq-container">
+
+                <div class="faq-card">
+                    <div class="faq-question">
+                        How does the GitHub data upload work?
+                        <span class="toggle-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            <p>The system uploads sensor data to GitHub repositories every 10 seconds using the GitHub API:</p>
+                            <ol>
+                                <li>Data is formatted as JSON documents</li>
+                                <li>Base64 encoded for GitHub API requirements</li>
+                                <li>Uploaded using HTTP PUT requests with authentication</li>
+                                <li>SHA hashes are tracked for version control</li>
+                            </ol>
+                            <div class="code-block">
+                                // Example of GitHub upload function<br>
+                                void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {<br>
+                                &nbsp;&nbsp;HTTPClient http;<br>
+                                &nbsp;&nbsp;http.begin(url);<br>
+                                &nbsp;&nbsp;http.addHeader("Content-Type", "application/json");<br>
+                                &nbsp;&nbsp;http.addHeader("Authorization", token);<br>
+                                <br>
+                                &nbsp;&nbsp;String jsonStr;<br>
+                                &nbsp;&nbsp;serializeJson(doc, jsonStr);<br>
+                                &nbsp;&nbsp;String encodedData = base64::encode(jsonStr);<br>
+                                <br>
+                                &nbsp;&nbsp;String payload = "{\"message\":\"Update data\",\"content\":\"" + <br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;encodedData + "\",\"sha\":\"" + lastSHA + "\"}";<br>
+                                <br>
+                                &nbsp;&nbsp;int httpCode = http.PUT(payload);<br>
+                                &nbsp;&nbsp;// ... handle response ...<br>
+                                }
+                            </div>
+                            <p>Four separate JSON files are maintained for each sensor type and the mental status.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqCards = document.querySelectorAll('.faq-card');
+            
+            faqCards.forEach(card => {
+                const question = card.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                    
+                    // Update the toggle icon
+                    const icon = question.querySelector('.toggle-icon');
+                    if (card.classList.contains('active')) {
+                        icon.textContent = '-';
+                    } else {
+                        icon.textContent = '+';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
