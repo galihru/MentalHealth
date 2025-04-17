@@ -3,9 +3,12 @@ name: Batch Auto Merge Pull Requests
 on:
   # Jalankan secara terjadwal setiap jam
   schedule:
-    - cron: '5 * * * *'
+    - cron: '0 * * * *'
   # Atau jalankan secara manual dari tab Actions di GitHub
   workflow_dispatch:
+  # Tambahkan trigger saat PR dibuka atau diupdate
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 jobs:
   batch-merge-open-prs:
@@ -185,4 +188,123 @@ jobs:
                 echo "❌ Gagal reopen Dependabot PR #$PR_NUMBER"
               fi
             done
+          fi
+
+  # Job khusus untuk cloudflare-workers-and-pages bot
+  cloudflare-bot-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup GitHub CLI
+        uses: cli/cli-action@v2
+        
+      - name: Auto-merge Cloudflare bot PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Mencari Cloudflare bot pull requests..."
+          
+          # Tangani Cloudflare bot PRs yang terbuka
+          # Perhatikan nama author yang sesuai dengan PR #16 yang Anda sebutkan
+          CLOUDFLARE_PRS=$(gh pr list --author "cloudflare-workers-and-pages" --state open --json number,title,headRefName,baseRefName --jq '.[]')
+          
+          if [ -z "$CLOUDFLARE_PRS" ]; then
+            echo "Tidak ada Cloudflare bot PRs terbuka yang perlu di-merge"
+          else
+            echo "$CLOUDFLARE_PRS" | while read -r pr; do
+              PR_NUMBER=$(echo "$pr" | jq -r '.number')
+              PR_TITLE=$(echo "$pr" | jq -r '.title')
+              HEAD_BRANCH=$(echo "$pr" | jq -r '.headRefName')
+              BASE_BRANCH=$(echo "$pr" | jq -r '.baseRefName')
+              
+              echo "Mencoba auto-merge Cloudflare bot PR #$PR_NUMBER: $PR_TITLE dari branch $HEAD_BRANCH ke $BASE_BRANCH"
+              
+              # Approve PR dari Cloudflare bot
+              gh pr review $PR_NUMBER --approve || echo "Tidak bisa approve PR #$PR_NUMBER"
+              
+              # Merge PR
+              if gh pr merge $PR_NUMBER --merge --delete-branch; then
+                echo "✅ Berhasil merge Cloudflare bot PR #$PR_NUMBER"
+              else
+                echo "❌ Gagal merge Cloudflare bot PR #$PR_NUMBER. Cek konflik atau proteksi branch."
+              fi
+            done
+          fi
+          
+          # Tangani Cloudflare bot PRs yang closed
+          echo "Mencari closed Cloudflare bot pull requests..."
+          CLOSED_CLOUDFLARE_PRS=$(gh pr list --author "cloudflare-workers-and-pages" --state closed --limit 30 --json number,title,headRefName,baseRefName,closedAt --jq '.[] | select(.closedAt > (now - 604800 | todate))')
+          
+          if [ -z "$CLOSED_CLOUDFLARE_PRS" ]; then
+            echo "Tidak ada closed Cloudflare bot PRs yang perlu ditangani"
+          else
+            echo "$CLOSED_CLOUDFLARE_PRS" | while read -r pr; do
+              PR_NUMBER=$(echo "$pr" | jq -r '.number')
+              PR_TITLE=$(echo "$pr" | jq -r '.title')
+              HEAD_BRANCH=$(echo "$pr" | jq -r '.headRefName')
+              BASE_BRANCH=$(echo "$pr" | jq -r '.baseRefName')
+              
+              echo "Mencoba reopen dan merge closed Cloudflare bot PR #$PR_NUMBER: $PR_TITLE"
+              
+              # Cek apakah branch masih ada
+              if gh api repos/${{ github.repository }}/branches/$HEAD_BRANCH --silent; then
+                # Coba reopen PR
+                if gh pr reopen $PR_NUMBER; then
+                  echo "✅ Berhasil reopen Cloudflare bot PR #$PR_NUMBER"
+                  
+                  # Coba approve dan merge PR
+                  gh pr review $PR_NUMBER --approve || echo "Tidak bisa approve PR #$PR_NUMBER"
+                  
+                  if gh pr merge $PR_NUMBER --merge --delete-branch; then
+                    echo "✅ Berhasil merge reopened Cloudflare bot PR #$PR_NUMBER"
+                  else
+                    echo "❌ Gagal merge reopened Cloudflare bot PR #$PR_NUMBER. Cek konflik atau proteksi branch."
+                  fi
+                else
+                  echo "❌ Gagal reopen Cloudflare bot PR #$PR_NUMBER"
+                fi
+              else
+                echo "⚠️ Branch $HEAD_BRANCH untuk PR #$PR_NUMBER sudah tidak ada"
+              fi
+            done
+          fi
+
+  # Job untuk menangani pull request yang baru saja dibuat atau diupdate
+  handle-current-pr:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup GitHub CLI
+        uses: cli/cli-action@v2
+        
+      - name: Auto-merge current PR based on author
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          echo "Menangani PR #$PR_NUMBER dari $PR_AUTHOR"
+          
+          # Cek jika author adalah salah satu dari yang diizinkan
+          if [[ "$PR_AUTHOR" == "4211421036" || "$PR_AUTHOR" == "dependabot[bot]" || "$PR_AUTHOR" == "cloudflare-workers-and-pages" ]]; then
+            echo "PR author termasuk dalam daftar yang diizinkan untuk auto-merge"
+            
+            # Approve PR
+            gh pr review $PR_NUMBER --approve || echo "Tidak bisa approve PR #$PR_NUMBER"
+            
+            # Coba merge PR
+            if gh pr merge $PR_NUMBER --merge --delete-branch; then
+              echo "✅ Berhasil auto-merge PR #$PR_NUMBER"
+            else
+              echo "❌ Gagal auto-merge PR #$PR_NUMBER. Cek konflik atau proteksi branch."
+            fi
+          else
+            echo "PR author tidak termasuk dalam daftar yang diizinkan untuk auto-merge"
           fi
