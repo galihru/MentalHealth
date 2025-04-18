@@ -3,23 +3,26 @@
 
 <head>
   <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental Health - FAQ</title>
-    <meta name="description" content="Comprehensive FAQ about the Arduino Implementation for Mental Health Monitoring including hardware setup, code implementation, analysis, and data upload.">
-    <meta name="keywords" content="mental health, arduino, monitoring system, sensors, MAX30102, GSR, BH1750, neural network, HRV, GitHub upload">
-    <meta name="author" content="GALIH RIDHO UTOMO">
-    <meta name="robots" content="index, follow">
-    <meta property="og:title" content="Mental Health - FAQ">
-    <meta property="og:description" content="Learn about the Arduino-based Mental Health Monitoring System - hardware setup, code implementation, analysis methods, and data upload features.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.mentalhealthmonitoring.com/faq">
-    <meta property="og:image" content="https://4211421036.github.io/MentalHealth/logo/mh.png">
-    <link rel="canonical" href="https://www.mentalhealthmonitoring.com/faq">
-    <link href="https://4211421036.github.io/g4lihru/987654567.png" rel=icon type="image/x-icon">
-    <link href="https://4211421036.github.io/g4lihru/987654567.png" rel="shortcut icon" type="image/x-icon">
-    <link href="https://4211421036.github.io/g4lihru/987654567.png" rel="apple-touch-icon">
-    <link href="https://4211421036.github.io/MentalHealth/manifest.webmanifest" rel="manifest">
-    <script type="application/ld+json">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mental Health - FAQ</title>
+  <meta name="description"
+    content="Comprehensive FAQ about the Arduino Implementation for Mental Health Monitoring including hardware setup, code implementation, analysis, and data upload.">
+  <meta name="keywords"
+    content="mental health, arduino, monitoring system, sensors, MAX30102, GSR, BH1750, neural network, HRV, GitHub upload">
+  <meta name="author" content="GALIH RIDHO UTOMO">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Mental Health - FAQ">
+  <meta property="og:description"
+    content="Learn about the Arduino-based Mental Health Monitoring System - hardware setup, code implementation, analysis methods, and data upload features.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.mentalhealthmonitoring.com/faq">
+  <meta property="og:image" content="https://4211421036.github.io/MentalHealth/logo/mh.png">
+  <link rel="canonical" href="https://www.mentalhealthmonitoring.com/faq">
+  <link href="https://4211421036.github.io/g4lihru/987654567.png" rel=icon type="image/x-icon">
+  <link href="https://4211421036.github.io/g4lihru/987654567.png" rel="shortcut icon" type="image/x-icon">
+  <link href="https://4211421036.github.io/g4lihru/987654567.png" rel="apple-touch-icon">
+  <link href="https://4211421036.github.io/MentalHealth/manifest.webmanifest" rel="manifest">
+  <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -1849,226 +1852,227 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
             this.body.style.overflow = 'auto';
           }
         }
-    }
-
-    handleSend() {
-      // Ambil teks dengan cara yang aksesibel
-      const message = this.inputField.innerText.trim();
-
-      if (message && message !== this.inputField.dataset.placeholder) {
-        this.addUserMessage(message);
-        this.inputField.innerHTML = '';
-
-        // Atur ulang ARIA attributes
-        this.inputField.setAttribute('aria-live', 'polite');
-        this.inputField.setAttribute('aria-atomic', 'true');
-
-        // Update live region
-        if (this.liveRegion) {
-          this.liveRegion.textContent = `Message sent: ${message}`;
-        }
-
-        // Disable input while processing
-        this.inputField.setAttribute('contenteditable', 'false');
-        this.sendButton.disabled = true;
-
-        // Show progress bar
-        this.showProgressBar();
-
-        // Process message after a short delay to simulate sending
-        setTimeout(() => {
-          this.hideProgressBar();
-          this.showMeter();
-          this.processMessage(message);
-
-          // Re-enable input
-          this.inputField.setAttribute('contenteditable', 'true');
-          this.sendButton.disabled = false;
-          this.inputField.focus();
-        }, 1500);
-
-        // If minimized, transition to partial after sending
-        if (this.currentState === this.states.MINIMIZED) {
-          this.transitionTo(this.states.PARTIAL);
-        }
       }
-    }
 
-    showProgressBar() {
-      this.progressContainer.style.display = 'block';
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 5;
-        this.progressBar.style.width = `${progress}%`;
-        this.progressBar.setAttribute('aria-valuenow', progress);
+      handleSend() {
+        // Ambil teks dengan cara yang aksesibel
+        const message = this.inputField.innerText.trim();
 
-        if (progress >= 100) {
-          clearInterval(interval);
-        }
-      }, 50);
-    }
+        if (message && message !== this.inputField.dataset.placeholder) {
+          this.addUserMessage(message);
+          this.inputField.innerHTML = '';
 
-    hideProgressBar() {
-      this.progressContainer.style.display = 'none';
-      this.progressBar.style.width = '0%';
-      this.progressBar.setAttribute('aria-valuenow', '0');
-    }
+          // Atur ulang ARIA attributes
+          this.inputField.setAttribute('aria-live', 'polite');
+          this.inputField.setAttribute('aria-atomic', 'true');
 
-    showMeter() {
-      this.meterContainer.style.display = 'block';
-      let progress = 0;
-      const interval = setInterval(() => {
-        progress += 2;
-        this.meterElement.style.width = `${progress}%`;
-        this.meterElement.setAttribute('aria-valuenow', progress);
+          // Update live region
+          if (this.liveRegion) {
+            this.liveRegion.textContent = `Message sent: ${message}`;
+          }
 
-        if (progress >= 100) {
-          clearInterval(interval);
+          // Disable input while processing
+          this.inputField.setAttribute('contenteditable', 'false');
+          this.sendButton.disabled = true;
+
+          // Show progress bar
+          this.showProgressBar();
+
+          // Process message after a short delay to simulate sending
           setTimeout(() => {
-            this.meterContainer.style.display = 'none';
-            this.meterElement.style.width = '0%';
-            this.meterElement.setAttribute('aria-valuenow', '0');
-          }, 500);
+            this.hideProgressBar();
+            this.showMeter();
+            this.processMessage(message);
+
+            // Re-enable input
+            this.inputField.setAttribute('contenteditable', 'true');
+            this.sendButton.disabled = false;
+            this.inputField.focus();
+          }, 1500);
+
+          // If minimized, transition to partial after sending
+          if (this.currentState === this.states.MINIMIZED) {
+            this.transitionTo(this.states.PARTIAL);
+          }
         }
-      }, 50);
-    }
-
-    addUserMessage(text) {
-      const message = document.createElement('div');
-      message.className = 'mhc-message user-message';
-      message.textContent = text;
-      message.setAttribute('aria-label', `You said: ${text}`);
-      this.messageArea.appendChild(message);
-      this.scrollToBottom();
-    }
-
-    addBotMessage(text) {
-      const message = document.createElement('div');
-      message.className = 'mhc-message bot-message';
-      message.setAttribute('aria-label', `Assistant says: ${text}`);
-
-      // Check if the text contains a URL
-      const urlRegex = /(https?:\/\/[^\s]+)/g;
-      const urls = text.match(urlRegex);
-
-      if (urls && urls.length > 0) {
-        // If there's a URL, create an iframe container
-        const url = urls[0];
-        const nonUrlText = text.replace(urlRegex, '').trim();
-
-        if (nonUrlText) {
-          // Add the non-URL text first
-          const textPart = document.createElement('div');
-          textPart.textContent = nonUrlText;
-          message.appendChild(textPart);
-        }
-
-        // Create iframe container
-        const iframeContainer = document.createElement('div');
-        iframeContainer.className = 'mhc-iframe-container';
-
-        // Create pop-out button
-        const popOutBtn = document.createElement('button');
-        popOutBtn.className = 'mhc-pop-out-btn';
-        popOutBtn.innerHTML = '&#x2197;'; // Arrow icon
-        popOutBtn.setAttribute('aria-label', 'Open link in new tab');
-        popOutBtn.setAttribute('title', 'Open in new tab');
-        popOutBtn.addEventListener('click', () => {
-          window.open(url, '_blank');
-        });
-
-        // Create iframe
-        const iframe = document.createElement('iframe');
-        iframe.src = url;
-        iframe.title = 'Resource from Mental Health Assistant';
-        iframe.setAttribute('aria-label', 'Embedded resource content');
-        iframe.setAttribute('frameborder', '0');
-        iframe.setAttribute('scrolling', 'no');
-        iframe.setAttribute('allow', 'fullscreen');
-
-        // Append elements
-        iframeContainer.appendChild(iframe);
-        iframeContainer.appendChild(popOutBtn);
-        message.appendChild(iframeContainer);
-      } else {
-        // Regular text message
-        message.textContent = text;
       }
 
-      this.messageArea.appendChild(message);
+      showProgressBar() {
+        this.progressContainer.style.display = 'block';
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 5;
+          this.progressBar.style.width = `${progress}%`;
+          this.progressBar.setAttribute('aria-valuenow', progress);
 
-      // Re-enable input after bot responds
-      this.inputField.disabled = false;
-      this.sendButton.disabled = false;
-      this.inputField.focus();
+          if (progress >= 100) {
+            clearInterval(interval);
+          }
+        }, 50);
+      }
 
-      // After adding bot message, transition to partial view if minimized
-      if (this.currentState === this.states.MINIMIZED && this.isMobile) {
-        this.transitionTo(this.states.PARTIAL);
-      } else {
+      hideProgressBar() {
+        this.progressContainer.style.display = 'none';
+        this.progressBar.style.width = '0%';
+        this.progressBar.setAttribute('aria-valuenow', '0');
+      }
+
+      showMeter() {
+        this.meterContainer.style.display = 'block';
+        let progress = 0;
+        const interval = setInterval(() => {
+          progress += 2;
+          this.meterElement.style.width = `${progress}%`;
+          this.meterElement.setAttribute('aria-valuenow', progress);
+
+          if (progress >= 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+              this.meterContainer.style.display = 'none';
+              this.meterElement.style.width = '0%';
+              this.meterElement.setAttribute('aria-valuenow', '0');
+            }, 500);
+          }
+        }, 50);
+      }
+
+      addUserMessage(text) {
+        const message = document.createElement('div');
+        message.className = 'mhc-message user-message';
+        message.textContent = text;
+        message.setAttribute('aria-label', `You said: ${text}`);
+        this.messageArea.appendChild(message);
         this.scrollToBottom();
       }
-    }
 
-    scrollToBottom() {
-      setTimeout(() => {
-        this.messageArea.scrollTop = this.messageArea.scrollHeight;
-      }, 100);
-    }
+      addBotMessage(text) {
+        const message = document.createElement('div');
+        message.className = 'mhc-message bot-message';
+        message.setAttribute('aria-label', `Assistant says: ${text}`);
 
-    scrollToLastMessage() {
-      setTimeout(() => {
-        const messages = this.messageArea.querySelectorAll('.mhc-message');
-        if (messages.length > 0) {
-          const lastMessage = messages[messages.length - 1];
-          lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        // Check if the text contains a URL
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        const urls = text.match(urlRegex);
+
+        if (urls && urls.length > 0) {
+          // If there's a URL, create an iframe container
+          const url = urls[0];
+          const nonUrlText = text.replace(urlRegex, '').trim();
+
+          if (nonUrlText) {
+            // Add the non-URL text first
+            const textPart = document.createElement('div');
+            textPart.textContent = nonUrlText;
+            message.appendChild(textPart);
+          }
+
+          // Create iframe container
+          const iframeContainer = document.createElement('div');
+          iframeContainer.className = 'mhc-iframe-container';
+
+          // Create pop-out button
+          const popOutBtn = document.createElement('button');
+          popOutBtn.className = 'mhc-pop-out-btn';
+          popOutBtn.innerHTML = '&#x2197;'; // Arrow icon
+          popOutBtn.setAttribute('aria-label', 'Open link in new tab');
+          popOutBtn.setAttribute('title', 'Open in new tab');
+          popOutBtn.addEventListener('click', () => {
+            window.open(url, '_blank');
+          });
+
+          // Create iframe
+          const iframe = document.createElement('iframe');
+          iframe.src = url;
+          iframe.title = 'Resource from Mental Health Assistant';
+          iframe.setAttribute('aria-label', 'Embedded resource content');
+          iframe.setAttribute('frameborder', '0');
+          iframe.setAttribute('scrolling', 'no');
+          iframe.setAttribute('allow', 'fullscreen');
+
+          // Append elements
+          iframeContainer.appendChild(iframe);
+          iframeContainer.appendChild(popOutBtn);
+          message.appendChild(iframeContainer);
+        } else {
+          // Regular text message
+          message.textContent = text;
         }
-      }, 100);
-    }
 
-    processMessage(message) {
-      const normalizedInput = message.toLowerCase()
-        .replace(/-/g, ' ')
-        .replace(/_/g, ' ')
-        .trim();
+        this.messageArea.appendChild(message);
 
-      const prediction = this.model.predict(normalizedInput);
+        // Re-enable input after bot responds
+        this.inputField.disabled = false;
+        this.sendButton.disabled = false;
+        this.inputField.focus();
 
-      if (prediction.category !== "unknown" && this.faqData[prediction.category]) {
-        const faq = this.faqData[prediction.category];
-
-        // Show responses with delay
-        faq.responses.forEach((response, i) => {
-          setTimeout(() => {
-            this.addBotMessage(response);
-          }, 800 * (i + 1));
-        });
-
-        // Show resources
-        if (faq.resources) {
-          setTimeout(() => {
-            this.addBotMessage(`More resources: ${faq.resources}`);
-          }, 800 * (faq.responses.length + 1));
+        // After adding bot message, transition to partial view if minimized
+        if (this.currentState === this.states.MINIMIZED && this.isMobile) {
+          this.transitionTo(this.states.PARTIAL);
+        } else {
+          this.scrollToBottom();
         }
-
-        // Integrate sensor data
-        this.integrateSensorData(prediction.category);
-      } else {
-        setTimeout(() => {
-          this.addBotMessage("I'm not sure I understand. Could you try asking about depression, anxiety, stress, or self-care?");
-        }, 800);
       }
-    }
 
-    integrateSensorData(topic) {
-      const heartRate = document.getElementById('heartRate')?.textContent || 'N/A';
-      const bloodPressure = document.getElementById('bloodPressure')?.textContent || 'N/A/N/A';
-
-      if ((heartRate !== 'N/A' || bloodPressure !== 'N/A/N/A') &&
-        (topic === 'depression' || topic === 'anxiety' || topic === 'stress')) {
+      scrollToBottom() {
         setTimeout(() => {
-          this.addBotMessage(`Your current metrics - Heart Rate: ${heartRate}, Blood Pressure: ${bloodPressure}`);
-        }, 1500);
+          this.messageArea.scrollTop = this.messageArea.scrollHeight;
+        }, 100);
+      }
+
+      scrollToLastMessage() {
+        setTimeout(() => {
+          const messages = this.messageArea.querySelectorAll('.mhc-message');
+          if (messages.length > 0) {
+            const lastMessage = messages[messages.length - 1];
+            lastMessage.scrollIntoView({ behavior: 'smooth', block: 'end' });
+          }
+        }, 100);
+      }
+
+      processMessage(message) {
+        const normalizedInput = message.toLowerCase()
+          .replace(/-/g, ' ')
+          .replace(/_/g, ' ')
+          .trim();
+
+        const prediction = this.model.predict(normalizedInput);
+
+        if (prediction.category !== "unknown" && this.faqData[prediction.category]) {
+          const faq = this.faqData[prediction.category];
+
+          // Show responses with delay
+          faq.responses.forEach((response, i) => {
+            setTimeout(() => {
+              this.addBotMessage(response);
+            }, 800 * (i + 1));
+          });
+
+          // Show resources
+          if (faq.resources) {
+            setTimeout(() => {
+              this.addBotMessage(`More resources: ${faq.resources}`);
+            }, 800 * (faq.responses.length + 1));
+          }
+
+          // Integrate sensor data
+          this.integrateSensorData(prediction.category);
+        } else {
+          setTimeout(() => {
+            this.addBotMessage("I'm not sure I understand. Could you try asking about depression, anxiety, stress, or self-care?");
+          }, 800);
+        }
+      }
+
+      integrateSensorData(topic) {
+        const heartRate = document.getElementById('heartRate')?.textContent || 'N/A';
+        const bloodPressure = document.getElementById('bloodPressure')?.textContent || 'N/A/N/A';
+
+        if ((heartRate !== 'N/A' || bloodPressure !== 'N/A/N/A') &&
+          (topic === 'depression' || topic === 'anxiety' || topic === 'stress')) {
+          setTimeout(() => {
+            this.addBotMessage(`Your current metrics - Heart Rate: ${heartRate}, Blood Pressure: ${bloodPressure}`);
+          }, 1500);
+        }
       }
     }
 
