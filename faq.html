@@ -1201,6 +1201,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
 this.chatContainer.className = 'mhc-container minimized';
 this.chatContainer.setAttribute('role', 'dialog');
 this.chatContainer.setAttribute('aria-labelledby', 'mhc-title');
+this.chatContainer.setAttribute('aria-describedby', 'mhc-instructions'); // Tambahkan deskripsi
 this.chatContainer.setAttribute('aria-modal', 'true');
 
 // Header with swipe handle
@@ -1234,7 +1235,8 @@ this.inputField.placeholder = 'Ask about mental health...';
 this.inputField.setAttribute('type', 'text');
 this.inputField.id = 'mhc-user-input';
 this.inputField.setAttribute('aria-required', 'true');
-
+this.inputField.setAttribute('aria-describedby', 'mhc-instructions'); // Tambahkan referensi ke instruksi
+      
 // Send button with accessible name
 this.sendButton = document.createElement('button');
 this.sendButton.className = 'mhc-send-btn';
@@ -1247,7 +1249,7 @@ const sendTooltip = document.createElement('span');
 sendTooltip.id = 'mhc-send-tooltip';
 sendTooltip.className = 'mhc-tooltip';
 sendTooltip.setAttribute('role', 'tooltip');
-sendTooltip.textContent = 'Send your message';
+sendTooltip.textContent = '.';
 this.sendButton.appendChild(sendTooltip);
 
 this.inputContainer.appendChild(inputLabel);
@@ -1259,15 +1261,19 @@ this.quickReplies = document.createElement('div');
 this.quickReplies.className = 'mhc-quick-replies';
 this.quickReplies.setAttribute('role', 'menu');
 this.quickReplies.setAttribute('aria-label', 'Quick reply options');
+this.quickReplies.setAttribute('aria-orientation', 'horizontal'); // Untuk menu horizontal
 
+// Menu items dengan proper aksesibilitas
 ['Depression', 'Anxiety', 'Stress', 'Self Care'].forEach(topic => {
   const menuItem = document.createElement('button');
   menuItem.className = 'mhc-quick-btn';
   menuItem.textContent = topic;
   menuItem.dataset.topic = topic.toLowerCase().replace(' ', '_');
   menuItem.setAttribute('role', 'menuitem');
-  menuItem.setAttribute('aria-label', `Ask about ${topic}`);
-  menuItem.setAttribute('tabindex', '0');
+  menuItem.setAttribute('aria-label', `Quick reply about ${topic}`);
+  menuItem.setAttribute('tabindex', '-1'); // Awalnya -1, diatur ke 0 saat fokus
+  menuItem.setAttribute('aria-posinset', (['Depression', 'Anxiety', 'Stress', 'Self Care'].indexOf(topic) + 1);
+  menuItem.setAttribute('aria-setsize', '4');
   this.quickReplies.appendChild(menuItem);
 });
 
@@ -1322,20 +1328,48 @@ this.meterContainer.appendChild(meterLabel);
 this.meterContainer.appendChild(this.meterElement);
 this.meterContainer.appendChild(this.meterLabelText);
 
-// Adding explicit keyboard navigation to menu items
+      // Perbaikan keyboard navigation
 this.setKeyboardNavigation = () => {
   const menuItems = this.quickReplies.querySelectorAll('[role="menuitem"]');
+  
+  // Atur tabindex pertama ke 0
+  if (menuItems.length > 0) {
+    menuItems[0].setAttribute('tabindex', '0');
+  }
+
   menuItems.forEach((item, index) => {
     item.addEventListener('keydown', (e) => {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
         e.preventDefault();
-        const nextItem = menuItems[(index + 1) % menuItems.length];
-        nextItem.focus();
+        menuItems[index].setAttribute('tabindex', '-1');
+        const nextIndex = (index + 1) % menuItems.length;
+        menuItems[nextIndex].setAttribute('tabindex', '0');
+        menuItems[nextIndex].focus();
       } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
         e.preventDefault();
-        const prevItem = menuItems[(index - 1 + menuItems.length) % menuItems.length];
-        prevItem.focus();
+        menuItems[index].setAttribute('tabindex', '-1');
+        const prevIndex = (index - 1 + menuItems.length) % menuItems.length;
+        menuItems[prevIndex].setAttribute('tabindex', '0');
+        menuItems[prevIndex].focus();
+      } else if (e.key === 'Home') {
+        e.preventDefault();
+        menuItems[index].setAttribute('tabindex', '-1');
+        menuItems[0].setAttribute('tabindex', '0');
+        menuItems[0].focus();
+      } else if (e.key === 'End') {
+        e.preventDefault();
+        menuItems[index].setAttribute('tabindex', '-1');
+        menuItems[menuItems.length - 1].setAttribute('tabindex', '0');
+        menuItems[menuItems.length - 1].focus();
+      } else if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        item.click();
       }
+    });
+
+    item.addEventListener('click', () => {
+      // Pastikan fokus kembali ke menu item setelah aksi
+      item.focus();
     });
   });
 };
