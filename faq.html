@@ -2541,7 +2541,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('allow', 'fullscreen');
             iframe.setAttribute('loading', 'lazy');
-            iframe.setAttribute('scroll', 'no');
+            iframe.setAttribute('scrolling', 'no');
             return iframe;
           } catch (e) {
             console.error('Failed to create iframe:', e);
