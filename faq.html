@@ -945,6 +945,49 @@
       white-space: nowrap;
       border-width: 0;
     }
+    .mhc-container.tablet {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 300px;
+      height: 100vh;
+      max-height: 100vh;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+      border-right: 1px solid #ccc;
+    }
+    
+    .mhc-container.tablet.partial,
+    .mhc-container.tablet.expanded,
+    .mhc-container.tablet.minimized {
+      transform: translateX(0);
+    }
+    
+    .mhc-container.tablet.hidden {
+      transform: translateX(-100%);
+    }
+    
+    .mhc-toggle-btn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 999;
+      background: #4a6fa5;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 10px;
+      font-size: 20px;
+      cursor: pointer;
+      display: none;
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .mhc-toggle-btn {
+        display: block;
+      }
+    }
   </style>
 </head>
 
@@ -1408,11 +1451,16 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         this.states = {
           MINIMIZED: 'minimized',    // Only input visible
           PARTIAL: 'partial',        // 30% height with last response
-          EXPANDED: 'expanded'       // Full screen
+          EXPANDED: 'expanded',      // Full screen
+          HIDDEN: 'hidden'           // Completely hidden (tablet mode)
         };
         this.currentState = this.states.MINIMIZED;
         this.isMobile = window.innerWidth <= 768;
+        this.isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
 
+         // Panel visibility for tablet
+        this.panelVisible = false;
+        
         // Initialize
         this.initializeModel();
         this.initializeUI();
@@ -1610,6 +1658,14 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         this.meterContainer.appendChild(this.meterElement);
         this.meterContainer.appendChild(this.meterLabelText);
 
+         // For tablet: create toggle button
+        this.toggleButton = document.createElement('button');
+        this.toggleButton.className = 'mhc-toggle-btn';
+        this.toggleButton.innerHTML = '&#9776;'; // Hamburger icon
+        this.toggleButton.setAttribute('aria-label', 'Toggle chat panel');
+        this.toggleButton.setAttribute('aria-expanded', 'false');
+        document.body.appendChild(this.toggleButton);
+
         // Perbaikan keyboard navigation
         this.setKeyboardNavigation = () => {
           const menuItems = this.quickReplies.querySelectorAll('[role="menuitem"]');
@@ -1669,10 +1725,22 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         document.body.appendChild(this.chatContainer);
 
         // Set desktop position if not mobile
-        if (!this.isMobile) {
-          this.chatContainer.classList.add('desktop');
-          // For desktop, we start in partial state
+        if (this.isMobile) {
+          this.chatContainer.classList.remove('desktop');
+          this.chatContainer.classList.remove('tablet');
           this.transitionTo(this.states.PARTIAL);
+          this.toggleButton.style.display = 'none';
+        } else if (this.isTablet) {
+          this.chatContainer.classList.add('tablet');
+          this.chatContainer.classList.remove('desktop');
+          this.transitionTo(this.states.HIDDEN);
+          this.toggleButton.style.display = 'block';
+          this.panelVisible = false;
+        } else {
+          this.chatContainer.classList.add('desktop');
+          this.chatContainer.classList.remove('tablet');
+          this.transitionTo(this.states.PARTIAL);
+          this.toggleButton.style.display = 'none';
         }
 
         // Add initial greeting after a short delay
@@ -1709,6 +1777,12 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           this.setupSwipeHandling();
         }
 
+        // Setup swipe handling for tablet
+        if (this.isTablet) {
+          this.setupTabletSwipeHandling();
+        }
+
+
         // Click header to toggle between partial and expanded (both mobile and desktop)
         this.header.addEventListener('click', () => {
           if (this.currentState === this.states.PARTIAL) {
@@ -1723,27 +1797,34 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           }
         });
 
-        // Prevent window resizing from breaking the layout
-        window.addEventListener('resize', () => {
-          const wasMobile = this.isMobile;
-          this.isMobile = window.innerWidth <= 768;
+        // Toggle button for tablet
+        this.toggleButton.addEventListener('click', () => {
+          this.togglePanel();
+        });
 
-          // Handle transition between mobile and desktop
-          if (wasMobile !== this.isMobile) {
+        // Prevent window resizing from breaking the layout
+         window.addEventListener('resize', () => {
+          const wasMobile = this.isMobile;
+          const wasTablet = this.isTablet;
+          
+          this.isMobile = window.innerWidth <= 768;
+          this.isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+    
+          // Handle transition between device types
+          if (wasMobile !== this.isMobile || wasTablet !== this.isTablet) {
             if (this.isMobile) {
+              this.chatContainer.classList.remove('desktop', 'tablet');
+              this.toggleButton.style.display = 'none';
+              this.transitionTo(this.states.PARTIAL);
+            } else if (this.isTablet) {
+              this.chatContainer.classList.add('tablet');
               this.chatContainer.classList.remove('desktop');
-              if (this.currentState === this.states.MINIMIZED) {
-                // Keep minimized state on mobile
-              } else {
-                this.transitionTo(this.states.PARTIAL);
-              }
-              if (this.currentState === this.states.EXPANDED) {
-                this.body.style.overflow = 'hidden';
-              } else {
-                this.body.style.overflow = 'auto';
-              }
+              this.toggleButton.style.display = 'block';
+              this.transitionTo(this.panelVisible ? this.states.PARTIAL : this.states.HIDDEN);
             } else {
               this.chatContainer.classList.add('desktop');
+              this.chatContainer.classList.remove('tablet');
+              this.toggleButton.style.display = 'none';
               this.transitionTo(this.states.PARTIAL);
             }
           }
@@ -1753,6 +1834,8 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       setupSwipeHandling() {
         let startY, currentY;
         let touchStartTime;
+        const threshold = 50; // Minimum swipe distance to trigger
+        const velocityThreshold = 0.3; // Minimum swipe velocity to trigger
         const swipeHandle = this.header.querySelector('.mhc-swipe-handle');
         const header = this.header;
 
@@ -1777,6 +1860,14 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
             // Swiping up - show a subtle push effect
             this.chatContainer.style.transform = `translateY(${Math.max(diff * 0.3, -30)}px)`;
           }
+          // Visual feedback during swipe
+          if (diff > 0 && !this.panelVisible) {
+            // Swiping right - show panel coming in from left
+            this.chatContainer.style.transform = `translateX(${Math.min(diff - this.chatContainer.offsetWidth, 0)}px)`;
+          } else if (diff < 0 && this.panelVisible) {
+            // Swiping left - show panel going out to left
+            this.chatContainer.style.transform = `translateX(${Math.max(diff, -this.chatContainer.offsetWidth)}px)`;
+          }
         };
 
         const handleTouchEnd = (e) => {
@@ -1785,9 +1876,21 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           const touchEndTime = new Date().getTime();
           const swipeTime = touchEndTime - touchStartTime;
           const isQuickSwipe = swipeTime < 300;
+          const velocity = Math.abs(diff) / swipeTime;
 
           // Reset transform
           this.chatContainer.style.transform = '';
+
+          // Determine if swipe should trigger panel toggle
+          if (Math.abs(diff) > threshold || velocity > velocityThreshold) {
+            if (diff > 0 && !this.panelVisible) {
+              // Swipe right to open panel
+              this.showPanel();
+            } else if (diff < 0 && this.panelVisible) {
+              // Swipe left to close panel
+              this.hidePanel();
+            }
+          }
 
           // Handle different swipe directions based on current state
           if (this.currentState === this.states.PARTIAL) {
@@ -1825,6 +1928,28 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         header.addEventListener('touchend', handleTouchEnd, { passive: true });
       }
 
+      togglePanel() {
+        if (this.panelVisible) {
+          this.hidePanel();
+        } else {
+          this.showPanel();
+        }
+      }
+
+      showPanel() {
+        this.chatContainer.style.transform = 'translateX(0)';
+        this.transitionTo(this.states.PARTIAL);
+        this.panelVisible = true;
+        this.toggleButton.setAttribute('aria-expanded', 'true');
+      }
+    
+      hidePanel() {
+        this.chatContainer.style.transform = 'translateX(-100%)';
+        this.transitionTo(this.states.HIDDEN);
+        this.panelVisible = false;
+        this.toggleButton.setAttribute('aria-expanded', 'false');
+      }
+
       transitionTo(newState) {
         // Exit current state
         this.chatContainer.classList.remove(this.currentState);
@@ -1838,17 +1963,22 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           this.messageArea.style.display = 'none';
           this.quickReplies.style.display = 'none';
           this.header.querySelector('h3').style.display = 'none';
+        } else if (newState === this.states.HIDDEN) {
+          // Tablet-specific hidden state
+          this.messageArea.style.display = 'none';
+          this.quickReplies.style.display = 'none';
+          this.header.querySelector('h3').style.display = 'none';
+          this.chatContainer.style.display = 'none';
         } else {
           this.messageArea.style.display = 'block';
           this.quickReplies.style.display = 'flex';
           this.header.querySelector('h3').style.display = 'block';
-
+          this.chatContainer.style.display = 'block';
+    
           if (newState === this.states.PARTIAL) {
-            // Scroll to bottom of last message
             this.scrollToLastMessage();
             this.body.style.overflow = 'auto';
           } else if (newState === this.states.EXPANDED) {
-            // Scroll to very bottom
             this.scrollToBottom();
             this.body.style.overflow = 'hidden';
           } else {
