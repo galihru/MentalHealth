@@ -1703,38 +1703,47 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
   }
 
   handleSend() {
-     const message = this.inputField.innerText.trim();
-  
-  if (message && message !== this.inputField.dataset.placeholder) {
-    this.addUserMessage(message);
-    this.inputField.innerHTML = '';
-    
-    // Atur ulang ARIA attributes
-    this.inputField.setAttribute('aria-live', 'polite');
-    this.inputField.setAttribute('aria-atomic', 'true');
-      
-// Di method handleSend(), tambahkan:
-this.liveRegion.textContent = `Message sent: ${message}`;
-      // Disable input while processing
-      this.inputField.disabled = true;
-      this.sendButton.disabled = true;
-      
-      // Show progress bar
-      this.showProgressBar();
-      
-      // Process message after a short delay to simulate sending
-      setTimeout(() => {
-        this.hideProgressBar();
-        this.showMeter();
-        this.processMessage(message);
-      }, 1500);
-      
-      // If minimized, transition to partial after sending
-      if (this.currentState === this.states.MINIMIZED) {
-        this.transitionTo(this.states.PARTIAL);
-      }
+        // Ambil teks dengan cara yang aksesibel
+        const message = this.inputField.innerText.trim();
+        
+        if (message && message !== this.inputField.dataset.placeholder) {
+            this.addUserMessage(message);
+            this.inputField.innerHTML = '';
+            
+            // Atur ulang ARIA attributes
+            this.inputField.setAttribute('aria-live', 'polite');
+            this.inputField.setAttribute('aria-atomic', 'true');
+            
+            // Update live region
+            if (this.liveRegion) {
+                this.liveRegion.textContent = `Message sent: ${message}`;
+            }
+            
+            // Disable input while processing
+            this.inputField.setAttribute('contenteditable', 'false');
+            this.sendButton.disabled = true;
+            
+            // Show progress bar
+            this.showProgressBar();
+            
+            // Process message after a short delay to simulate sending
+            setTimeout(() => {
+                this.hideProgressBar();
+                this.showMeter();
+                this.processMessage(message);
+                
+                // Re-enable input
+                this.inputField.setAttribute('contenteditable', 'true');
+                this.sendButton.disabled = false;
+                this.inputField.focus();
+            }, 1500);
+            
+            // If minimized, transition to partial after sending
+            if (this.currentState === this.states.MINIMIZED) {
+                this.transitionTo(this.states.PARTIAL);
+            }
+        }
     }
-  }
 
   showProgressBar() {
     this.progressContainer.style.display = 'block';
