@@ -2541,13 +2541,14 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
             iframe.setAttribute('frameborder', '0');
             iframe.setAttribute('allow', 'fullscreen');
             iframe.setAttribute('loading', 'lazy');
+            iframe.setAttribute('scroll', 'no');
             return iframe;
           } catch (e) {
             console.error('Failed to create iframe:', e);
             const fallback = document.createElement('div');
             fallback.innerHTML = `
-              <p>Content cannot be displayed. 
-                <a href="${url}" target="_blank" rel="noopener">Open in new tab</a>
+              <p>Content cannot be displayed because problem Security. Please open URL. 
+                <a href="${url}" target="_blank" rel="noopener">${url}</a>
               </p>
             `;
             return fallback;
