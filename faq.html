@@ -1240,20 +1240,24 @@ this.inputContainer = document.createElement('div');
 this.inputContainer.className = 'mhc-input-container';
 
 // Input field with proper labeling
+// Input Field with proper accessible name
 const inputWrapper = document.createElement('div');
 inputWrapper.className = 'mhc-input-wrapper';
 
+// Create a visible label (you can hide it visually if needed)
 const inputLabel = document.createElement('label');
 inputLabel.setAttribute('for', 'mhc-user-input');
-inputLabel.className = 'mhc-visually-hidden';
-inputLabel.textContent = 'Type your message about mental health';
+inputLabel.id = 'mhc-input-label';  // Added ID for reference
+inputLabel.className = 'mhc-input-label';
+inputLabel.textContent = 'Message input';
 
+// Create the textbox div
 this.inputField = document.createElement('div');
 this.inputField.className = 'mhc-input';
 this.inputField.id = 'mhc-user-input';
 this.inputField.setAttribute('role', 'textbox');
 this.inputField.setAttribute('aria-required', 'true');
-this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');
+this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');  // Linked to label
 this.inputField.setAttribute('contenteditable', 'true');
 this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
 this.inputField.dataset.placeholder = 'Ask about mental health...';
@@ -1262,9 +1266,9 @@ this.inputField.dataset.placeholder = 'Ask about mental health...';
 this.sendButton = document.createElement('input');
 this.sendButton.className = 'mhc-send-btn';
 this.sendButton.setAttribute('type', 'button');
-this.sendButton.setAttribute('value', '&#10148;');
+this.sendButton.setAttribute('value', '→');  // Unicode right arrow
 this.sendButton.setAttribute('aria-label', 'Send message');
-
+      
 // Tooltip untuk screen reader
 const sendTooltip = document.createElement('span');
 sendTooltip.className = 'mhc-visually-hidden';
