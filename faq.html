@@ -1736,7 +1736,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
               } else {
                 this.transitionTo(this.states.PARTIAL);
               }
-              if (newState === this.states.EXPANDED) {
+              if (this.currentState === this.states.EXPANDED) {
                 this.body.style.overflow = 'hidden';
               } else {
                 this.body.style.overflow = 'auto';
