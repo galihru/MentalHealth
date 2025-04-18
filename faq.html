@@ -1271,12 +1271,11 @@ this.quickReplies.setAttribute('aria-orientation', 'horizontal'); // Untuk menu 
   menuItem.dataset.topic = topic.toLowerCase().replace(' ', '_');
   menuItem.setAttribute('role', 'menuitem');
   menuItem.setAttribute('aria-label', `Quick reply about ${topic}`);
-  menuItem.setAttribute('tabindex', '-1'); // Awalnya -1, diatur ke 0 saat fokus
-  menuItem.setAttribute('aria-posinset', (['Depression', 'Anxiety', 'Stress', 'Self Care'].indexOf(topic) + 1);
+  menuItem.setAttribute('tabindex', '-1');
+  menuItem.setAttribute('aria-posinset', (['Depression', 'Anxiety', 'Stress', 'Self Care'].indexOf(topic) + 1).toString());
   menuItem.setAttribute('aria-setsize', '4');
   this.quickReplies.appendChild(menuItem);
 });
-
 // Progress bar container (initially hidden)
 this.progressContainer = document.createElement('div');
 this.progressContainer.className = 'mhc-progress-container';
