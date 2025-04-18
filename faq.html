@@ -684,6 +684,11 @@
   pointer-events: none;
 }
 
+        .mhc-input[contenteditable="true"]:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+}
+        
 .mhc-send-btn {
   margin-left: 10px;
   width: 44px;
@@ -1300,6 +1305,20 @@ this.inputField.setAttribute('contenteditable', 'true');
 this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
 this.inputField.dataset.placeholder = 'Ask about mental health...';
 
+
+      // Tambahkan event listeners untuk placeholder behavior
+this.inputField.addEventListener('focus', () => {
+  if (this.inputField.textContent === this.inputField.dataset.placeholder) {
+    this.inputField.textContent = '';
+  }
+});
+
+this.inputField.addEventListener('blur', () => {
+  if (this.inputField.textContent === '') {
+    this.inputField.textContent = this.inputField.dataset.placeholder;
+  }
+});
+
 this.sendButton = document.createElement('input');
 this.sendButton.className = 'mhc-send-btn';
 this.sendButton.setAttribute('type', 'button');
@@ -1467,7 +1486,10 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
     // Send message on button click or Enter key
     this.sendButton.addEventListener('click', () => this.handleSend());
     this.inputField.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') this.handleSend();
+      if (e.key === 'Enter') {
+        e.preventDefault(); // Tambahkan ini untuk mencegah perilaku default
+        this.handleSend();
+      }
     });
     
     // Quick reply buttons
@@ -1621,10 +1643,11 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
   }
 
   handleSend() {
-    const message = this.inputField.value.trim();
-    if (message) {
-      this.addUserMessage(message);
-      this.inputField.value = '';
+     const message = this.inputField.textContent.trim();
+  
+  if (message) {
+    this.addUserMessage(message);
+    this.inputField.textContent = ''; // Kosongkan contenteditable
       
       // Disable input while processing
       this.inputField.disabled = true;
@@ -1736,6 +1759,7 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
       iframe.title = 'Resource from Mental Health Assistant';
       iframe.setAttribute('aria-label', 'Embedded resource content');
       iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('scrolling', 'no');
       iframe.setAttribute('allow', 'fullscreen');
       
       // Append elements
