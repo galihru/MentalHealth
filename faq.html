@@ -756,7 +756,24 @@
     white-space: nowrap;
     border: 0;
   }
-        
+    .mhc-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.mhc-tooltip[aria-hidden="false"] {
+  opacity: 1;
+}    
     </style>
 </head>
 <body role="document" id="page-body">
