@@ -547,7 +547,7 @@
   
   /* Partial State - 30% height */
   .mhc-container.partial {
-    height: 30vh;
+    height: 33vh;
     max-height: 300px;
   }
   
@@ -1273,7 +1273,7 @@ this.sendTooltip = document.createElement('span');
 this.sendTooltip.className = 'mhc-visually-hidden';
 this.sendTooltip.textContent = 'Click to send your message';
 this.sendTooltip.setAttribute('role', 'tooltip');
-this.sendButton.appendChild(sendTooltip);
+this.sendButton.appendChild(this.sendTooltip);
 
 this.inputContainer.appendChild(inputLabel);
 this.inputContainer.appendChild(this.inputField);
