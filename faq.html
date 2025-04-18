@@ -1889,6 +1889,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.quickReplies.setAttribute('role', 'menu');
     this.quickReplies.setAttribute('aria-label', 'Quick reply options');
     this.quickReplies.setAttribute('aria-orientation', 'horizontal'); // Untuk menu horizontal
+    this.quickReplies.style.display = 'flex';
 
     // Menu items dengan proper aksesibilitas
     ['Depression', 'Anxiety', 'Stress', 'Self Care'].forEach(topic => {
