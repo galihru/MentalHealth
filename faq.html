@@ -678,6 +678,11 @@
   border-color: #4a6fa5;
   box-shadow: 0 0 0 2px rgba(74, 111, 165, 0.2);
 }
+        .mhc-input[data-placeholder]:empty::before {
+  content: attr(data-placeholder);
+  color: #999;
+  pointer-events: none;
+}
 
 .mhc-send-btn {
   margin-left: 10px;
@@ -1235,44 +1240,35 @@ this.inputContainer = document.createElement('div');
 this.inputContainer.className = 'mhc-input-container';
 
 // Input field with proper labeling
-// Input field dengan label yang benar
 const inputWrapper = document.createElement('div');
 inputWrapper.className = 'mhc-input-wrapper';
 
-const inputLabel = document.createElement('span');
-inputLabel.id = 'mhc-input-label';
-inputLabel.className = 'mhc-input-label';
+const inputLabel = document.createElement('label');
+inputLabel.setAttribute('for', 'mhc-user-input');
+inputLabel.className = 'mhc-visually-hidden';
 inputLabel.textContent = 'Type your message about mental health';
 
-// 2. Div dengan role textbox
 this.inputField = document.createElement('div');
 this.inputField.className = 'mhc-input';
 this.inputField.id = 'mhc-user-input';
 this.inputField.setAttribute('role', 'textbox');
 this.inputField.setAttribute('aria-required', 'true');
 this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');
-this.inputField.setAttribute('contenteditable', 'true'); // <-- Penting untuk div
+this.inputField.setAttribute('contenteditable', 'true');
 this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
+this.inputField.dataset.placeholder = 'Ask about mental health...';
 
-inputWrapper.appendChild(inputLabel);
-inputWrapper.appendChild(this.inputField);
-      
-// Send button with accessible name
+// 2. Send Button sebagai Input
 this.sendButton = document.createElement('input');
 this.sendButton.className = 'mhc-send-btn';
-this.sendButton.innerHTML = `
-  <span aria-hidden="true">&#10148;</span>
-  <span class="mhc-visually-hidden">Send message</span>
-`;
 this.sendButton.setAttribute('type', 'button');
+this.sendButton.setAttribute('value', '&#10148;');
 this.sendButton.setAttribute('aria-label', 'Send message');
 
-// Tooltip for send button
+// Tooltip untuk screen reader
 const sendTooltip = document.createElement('span');
-sendTooltip.id = 'mhc-send-tooltip';
-sendTooltip.className = 'mhc-tooltip';
-sendTooltip.setAttribute('role', 'tooltip');
-sendTooltip.textContent = '.';
+sendTooltip.className = 'mhc-visually-hidden';
+sendTooltip.textContent = 'Click to send your message';
 this.sendButton.appendChild(sendTooltip);
 
 this.inputContainer.appendChild(inputLabel);
