@@ -2530,30 +2530,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         const message = document.createElement('div');
         message.className = 'mhc-message bot-message';
         message.setAttribute('aria-label', `Assistant says: ${text}`);
-        
-        // Fungsi createIframe didefinisikan di dalam method
-        const createIframe = (url) => {
-          const iframe = document.createElement('iframe');
-          try {
-            iframe.src = url;
-            iframe.title = 'Resource from Mental Health Assistant';
-            iframe.setAttribute('aria-label', 'Embedded resource content');
-            iframe.setAttribute('frameborder', '0');
-            iframe.setAttribute('allow', 'fullscreen');
-            iframe.setAttribute('loading', 'lazy');
-            iframe.setAttribute('scrolling', 'no');
-            return iframe;
-          } catch (e) {
-            console.error('Failed to create iframe:', e);
-            const fallback = document.createElement('div');
-            fallback.innerHTML = `
-              <p>Content cannot be displayed because problem Security. Please open URL. 
-                <a href="${url}" target="_blank" rel="noopener">${url}</a>
-              </p>
-            `;
-            return fallback;
-          }
-        };
       
         // Enhanced URL detection
         const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -2561,36 +2537,57 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         if (urls && urls.length > 0) {
           const url = urls[0];
           const nonUrlText = text.replace(urlRegex, '').trim();
+          
+          // Add text content first if exists
           if (nonUrlText) {
             const textPart = document.createElement('div');
             textPart.textContent = nonUrlText;
             message.appendChild(textPart);
           }
-          const iframeContainer = document.createElement('div');
-          iframeContainer.className = 'mhc-iframe-container';
+      
+          // Instead of iframe, always create a link container
+          const linkContainer = document.createElement('div');
+          linkContainer.className = 'mhc-link-container';
+          linkContainer.style.margin = '10px 0';
+          linkContainer.style.padding = '10px';
+          linkContainer.style.border = '1px solid #ddd';
+          linkContainer.style.borderRadius = '5px';
+          linkContainer.style.backgroundColor = '#f9f9f9';
+      
+          // Create link preview with icon and text
+          const linkPreview = document.createElement('div');
+          linkPreview.style.display = 'flex';
+          linkPreview.style.alignItems = 'center';
           
-          // Enhanced pop-out button
-          const popOutBtn = document.createElement('a'); // Changed to <a> element
-          popOutBtn.className = 'mhc-pop-out-btn';
-          popOutBtn.innerHTML = '&#x2197;';
-          popOutBtn.setAttribute('aria-label', 'Open link in new tab');
-          popOutBtn.setAttribute('title', 'Open in new tab');
-          popOutBtn.setAttribute('href', url);
-          popOutBtn.setAttribute('target', '_blank');
-          popOutBtn.setAttribute('rel', 'noopener noreferrer');
+          // Add link icon
+          const linkIcon = document.createElement('span');
+          linkIcon.innerHTML = '🔗'; // Link emoji icon
+          linkIcon.style.marginRight = '8px';
+          linkIcon.style.fontSize = '16px';
           
-          // Add proper button styling
-          popOutBtn.style.cursor = 'pointer';
-          popOutBtn.style.textDecoration = 'none';
-          popOutBtn.style.display = 'inline-block';
+          // Create link text and actual link
+          const linkText = document.createElement('div');
           
-          // Create iframe using our helper function
-          const iframe = createIframe(url);
+          // Get the domain from the URL
+          let domain;
+          try {
+            domain = new URL(url).hostname;
+          } catch (e) {
+            domain = url.split('/')[2] || 'website';
+          }
           
-          // Append elements
-          iframeContainer.appendChild(iframe);
-          iframeContainer.appendChild(popOutBtn);
-          message.appendChild(iframeContainer);
+          linkText.innerHTML = `<p style="margin: 0; font-weight: bold;">Link to ${domain}</p>
+            <a href="${url}" target="_blank" rel="noopener noreferrer" 
+               style="color: #0066cc; text-decoration: none; word-break: break-all;">${url}</a>
+            <p style="margin: 5px 0 0 0; font-size: 0.9em; color: #666;">
+              This link may not display in this chat. Click to open in a new tab.
+            </p>`;
+          
+          // Assemble the link preview
+          linkPreview.appendChild(linkIcon);
+          linkPreview.appendChild(linkText);
+          linkContainer.appendChild(linkPreview);
+          message.appendChild(linkContainer);
         } else {
           message.textContent = text;
         }
