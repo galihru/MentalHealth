@@ -1845,6 +1845,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           if (newState === this.states.PARTIAL) {
             // Scroll to bottom of last message
             this.scrollToLastMessage();
+            this.body.style.overflow = 'auto';
           } else if (newState === this.states.EXPANDED) {
             // Scroll to very bottom
             this.scrollToBottom();
