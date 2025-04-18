@@ -1235,6 +1235,38 @@
         border: 0;
       }
     }
+    .breadcrumb ol {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1rem 0;
+        display: flex;
+        gap: 0.5rem;
+      }
+      
+      .breadcrumb li {
+        display: flex;
+        align-items: center;
+      }
+      
+      .breadcrumb li:not(:last-child)::after {
+        content: "›";
+        margin-left: 0.5rem;
+        color: #666;
+      }
+      
+      .breadcrumb a {
+        color: #0066cc;
+        text-decoration: none;
+      }
+      
+      .breadcrumb a:hover {
+        text-decoration: underline;
+      }
+      
+      .breadcrumb [aria-current="page"] {
+        color: #333;
+        font-weight: bold;
+      }
   </style>
 </head>
 
@@ -1249,6 +1281,16 @@
     </header>
 
     <main id="main-content" role="main">
+      <nav aria-label="Breadcrumb" class="breadcrumb" role="navigation">
+        <ol role="list">
+          <li role="listitem">
+            <a href="/" role="link" aria-current="false">Home</a>
+          </li>
+          <li role="listitem" aria-current="page">
+            <span role="text">FAQ about Arduino Implementation</span>
+          </li>
+        </ol>
+      </nav>
       <nav id="faq-navigation" role="navigation" aria-label="FAQ Categories">
         <ul class="visually-hidden" role="list">
           <li id="nav-item-1" role="listitem"><a href="#hardware-heading" id="nav-link-1" role="link">Hardware Setup</a>
