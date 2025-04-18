@@ -729,6 +729,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
         }
+        .mhc-visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
         
     </style>
 </head>
@@ -1187,111 +1198,157 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
   initializeUI() {
     // Main container - Different positioning for mobile vs desktop
     this.chatContainer = document.createElement('div');
-    this.chatContainer.className = 'mhc-container minimized';
-    this.chatContainer.setAttribute('role', 'dialog');
-    this.chatContainer.setAttribute('aria-labelledby', 'mhc-title');
-    this.chatContainer.setAttribute('aria-modal', 'true');
-    
-    // Header with swipe handle
-    this.header = document.createElement('div');
-    this.header.className = 'mhc-header';
-    this.header.innerHTML = `
-      <div class="mhc-swipe-handle" aria-hidden="true"></div>
-      <h3 id="mhc-title">Mental Health Assistant</h3>
-    `;
-    
-    // Message area
-    this.messageArea = document.createElement('div');
-    this.messageArea.className = 'mhc-messages';
-    this.messageArea.setAttribute('aria-live', 'polite');
-    
-    // Input area (always visible)
-    this.inputContainer = document.createElement('div');
-    this.inputContainer.className = 'mhc-input-container';
-    
-    // Input field with proper labeling
-    this.inputField = document.createElement('input');
-    this.inputField.className = 'mhc-input';
-    this.inputField.placeholder = 'Ask about mental health...';
-    this.inputField.setAttribute('aria-label', 'Type your message about mental health');
-    this.inputField.setAttribute('type', 'text');
-    this.inputField.id = 'mhc-user-input';
-    
-    // Send button with accessible name
-    this.sendButton = document.createElement('button');
-    this.sendButton.className = 'mhc-send-btn';
-    this.sendButton.innerHTML = '&#10148;';
-    this.sendButton.setAttribute('aria-label', 'Send message');
-    this.sendButton.setAttribute('aria-describedby', 'mhc-send-tooltip');
-    
-    // Tooltip for send button
-    const sendTooltip = document.createElement('span');
-    sendTooltip.id = 'mhc-send-tooltip';
-    sendTooltip.className = 'mhc-tooltip';
-    sendTooltip.setAttribute('role', 'tooltip');
-    sendTooltip.textContent = '.';
-    this.sendButton.appendChild(sendTooltip);
-    
-    this.inputContainer.appendChild(this.inputField);
-    this.inputContainer.appendChild(this.sendButton);
-    
-    // Quick replies
-    this.quickReplies = document.createElement('div');
-    this.quickReplies.className = 'mhc-quick-replies';
-    this.quickReplies.setAttribute('aria-label', 'Quick reply options');
-    
-    ['Depression', 'Anxiety', 'Stress', 'Self Care'].forEach(topic => {
-      const btn = document.createElement('button');
-      btn.className = 'mhc-quick-btn';
-      btn.textContent = topic;
-      btn.dataset.topic = topic.toLowerCase().replace(' ', '_');
-      btn.setAttribute('aria-label', `Ask about ${topic}`);
-      this.quickReplies.appendChild(btn);
+this.chatContainer.className = 'mhc-container minimized';
+this.chatContainer.setAttribute('role', 'dialog');
+this.chatContainer.setAttribute('aria-labelledby', 'mhc-title');
+this.chatContainer.setAttribute('aria-modal', 'true');
+
+// Header with swipe handle
+this.header = document.createElement('div');
+this.header.className = 'mhc-header';
+this.header.innerHTML = `
+  <div class="mhc-swipe-handle" aria-hidden="true"></div>
+  <h3 id="mhc-title">Mental Health Assistant</h3>
+`;
+
+// Message area
+this.messageArea = document.createElement('div');
+this.messageArea.className = 'mhc-messages';
+this.messageArea.setAttribute('aria-live', 'polite');
+this.messageArea.setAttribute('role', 'log');
+this.messageArea.setAttribute('aria-label', 'Conversation messages');
+
+// Input area (always visible)
+this.inputContainer = document.createElement('div');
+this.inputContainer.className = 'mhc-input-container';
+
+// Input field with proper labeling
+const inputLabel = document.createElement('label');
+inputLabel.setAttribute('for', 'mhc-user-input');
+inputLabel.className = 'mhc-visually-hidden';
+inputLabel.textContent = 'Type your message about mental health';
+
+this.inputField = document.createElement('input');
+this.inputField.className = 'mhc-input';
+this.inputField.placeholder = 'Ask about mental health...';
+this.inputField.setAttribute('type', 'text');
+this.inputField.id = 'mhc-user-input';
+this.inputField.setAttribute('aria-required', 'true');
+
+// Send button with accessible name
+this.sendButton = document.createElement('button');
+this.sendButton.className = 'mhc-send-btn';
+this.sendButton.innerHTML = '&#10148;';
+this.sendButton.setAttribute('aria-label', 'Send message');
+this.sendButton.setAttribute('type', 'button');
+
+// Tooltip for send button
+const sendTooltip = document.createElement('span');
+sendTooltip.id = 'mhc-send-tooltip';
+sendTooltip.className = 'mhc-tooltip';
+sendTooltip.setAttribute('role', 'tooltip');
+sendTooltip.textContent = 'Send your message';
+this.sendButton.appendChild(sendTooltip);
+
+this.inputContainer.appendChild(inputLabel);
+this.inputContainer.appendChild(this.inputField);
+this.inputContainer.appendChild(this.sendButton);
+
+// Quick replies - Converting to an accessible menu pattern
+this.quickReplies = document.createElement('div');
+this.quickReplies.className = 'mhc-quick-replies';
+this.quickReplies.setAttribute('role', 'menu');
+this.quickReplies.setAttribute('aria-label', 'Quick reply options');
+
+['Depression', 'Anxiety', 'Stress', 'Self Care'].forEach(topic => {
+  const menuItem = document.createElement('button');
+  menuItem.className = 'mhc-quick-btn';
+  menuItem.textContent = topic;
+  menuItem.dataset.topic = topic.toLowerCase().replace(' ', '_');
+  menuItem.setAttribute('role', 'menuitem');
+  menuItem.setAttribute('aria-label', `Ask about ${topic}`);
+  menuItem.setAttribute('tabindex', '0');
+  this.quickReplies.appendChild(menuItem);
+});
+
+// Progress bar container (initially hidden)
+this.progressContainer = document.createElement('div');
+this.progressContainer.className = 'mhc-progress-container';
+this.progressContainer.style.display = 'block';
+
+// Creating a label for the progress bar
+const progressBarLabel = document.createElement('span');
+progressBarLabel.className = 'mhc-visually-hidden';
+progressBarLabel.id = 'mhc-progress-label';
+progressBarLabel.textContent = 'Message sending progress';
+
+this.progressBar = document.createElement('div');
+this.progressBar.className = 'mhc-progress-bar';
+this.progressBar.setAttribute('role', 'progressbar');
+this.progressBar.setAttribute('aria-valuemin', '0');
+this.progressBar.setAttribute('aria-valuemax', '100');
+this.progressBar.setAttribute('aria-valuenow', '0');
+this.progressBar.setAttribute('aria-labelledby', 'mhc-progress-label');
+
+this.progressContainer.appendChild(progressBarLabel);
+this.progressContainer.appendChild(this.progressBar);
+
+// Meter element container (initially hidden)
+this.meterContainer = document.createElement('div');
+this.meterContainer.className = 'mhc-meter-container';
+this.meterContainer.style.display = 'Block';
+
+// Creating a label for the meter
+const meterLabel = document.createElement('span');
+meterLabel.className = 'mhc-visually-hidden';
+meterLabel.id = 'mhc-meter-label';
+meterLabel.textContent = 'AI analysis progress';
+
+this.meterElement = document.createElement('div');
+this.meterElement.className = 'mhc-meter';
+this.meterElement.setAttribute('role', 'meter');
+this.meterElement.setAttribute('aria-valuemin', '0');
+this.meterElement.setAttribute('aria-valuemax', '100');
+this.meterElement.setAttribute('aria-valuenow', '0');
+this.meterElement.setAttribute('aria-labelledby', 'mhc-meter-label');
+
+this.meterLabelText = document.createElement('div');
+this.meterLabelText.className = 'mhc-meter-label';
+this.meterLabelText.textContent = 'Choose one of the following Quick Messages to get started or type what you need.';
+this.meterLabelText.setAttribute('aria-live', 'polite');
+this.meterLabelText.id = 'mhc-instructions';
+
+this.meterContainer.appendChild(meterLabel);
+this.meterContainer.appendChild(this.meterElement);
+this.meterContainer.appendChild(this.meterLabelText);
+
+// Adding explicit keyboard navigation to menu items
+this.setKeyboardNavigation = () => {
+  const menuItems = this.quickReplies.querySelectorAll('[role="menuitem"]');
+  menuItems.forEach((item, index) => {
+    item.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        const nextItem = menuItems[(index + 1) % menuItems.length];
+        nextItem.focus();
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        const prevItem = menuItems[(index - 1 + menuItems.length) % menuItems.length];
+        prevItem.focus();
+      }
     });
-    
-    // Progress bar container (initially hidden)
-    this.progressContainer = document.createElement('div');
-    this.progressContainer.className = 'mhc-progress-container';
-    this.progressContainer.style.display = 'block';
-    
-    this.progressBar = document.createElement('div');
-    this.progressBar.className = 'mhc-progress-bar';
-    this.progressBar.setAttribute('role', 'progressbar');
-    this.progressBar.setAttribute('aria-valuemin', '0');
-    this.progressBar.setAttribute('aria-valuemax', '100');
-    this.progressBar.setAttribute('aria-valuenow', '0');
-    this.progressBar.setAttribute('aria-label', 'Message sending progress');
-    
-    this.progressContainer.appendChild(this.progressBar);
-    
-    // Meter element container (initially hidden)
-    this.meterContainer = document.createElement('div');
-    this.meterContainer.className = 'mhc-meter-container';
-    this.meterContainer.style.display = 'Block';
-    
-    this.meterElement = document.createElement('div');
-    this.meterElement.className = 'mhc-meter';
-    this.meterElement.setAttribute('role', 'meter');
-    this.meterElement.setAttribute('aria-valuemin', '0');
-    this.meterElement.setAttribute('aria-valuemax', '100');
-    this.meterElement.setAttribute('aria-valuenow', '0');
-    this.meterElement.setAttribute('aria-label', 'AI analysis progress');
-    
-    this.meterLabel = document.createElement('div');
-    this.meterLabel.className = 'mhc-meter-label';
-    this.meterLabel.textContent = 'Choose one of the following Quick Messages to get started or type what you need.';
-    this.meterLabel.setAttribute('aria-live', 'polite');
-    
-    this.meterContainer.appendChild(this.meterElement);
-    this.meterContainer.appendChild(this.meterLabel);
-    
-    // Assemble the container
-    this.chatContainer.appendChild(this.header);
-    this.chatContainer.appendChild(this.messageArea);
-    this.chatContainer.appendChild(this.progressContainer);
-    this.chatContainer.appendChild(this.meterContainer);
-    this.chatContainer.appendChild(this.quickReplies);
-    this.chatContainer.appendChild(this.inputContainer);
+  });
+};
+      // Assemble the container
+this.chatContainer.appendChild(this.header);
+this.chatContainer.appendChild(this.messageArea);
+this.chatContainer.appendChild(this.progressContainer);
+this.chatContainer.appendChild(this.meterContainer);
+this.chatContainer.appendChild(this.quickReplies);
+this.chatContainer.appendChild(this.inputContainer);
+
+// Initialize keyboard navigation after elements are added to DOM
+setTimeout(() => this.setKeyboardNavigation(), 0);
     
     document.body.appendChild(this.chatContainer);
     
