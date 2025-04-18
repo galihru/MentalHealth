@@ -1288,7 +1288,6 @@ this.liveRegion = document.createElement('div');
 this.liveRegion.setAttribute('aria-live', 'polite');
 this.liveRegion.setAttribute('aria-atomic', 'true');
 this.liveRegion.className = 'sr-only';
-this.chatContainer.appendChild(this.liveRegion);
 
 // Di method handleSend(), tambahkan:
 this.liveRegion.textContent = `Message sent: ${message}`;
@@ -1299,6 +1298,7 @@ this.chatContainer.setAttribute('role', 'dialog');
 this.chatContainer.setAttribute('aria-labelledby', 'mhc-title');
 this.chatContainer.setAttribute('aria-describedby', 'mhc-instructions'); // Tambahkan deskripsi
 this.chatContainer.setAttribute('aria-modal', 'true');
+this.chatContainer.appendChild(this.liveRegion);
 
 // Header with swipe handle
 this.header = document.createElement('div');
