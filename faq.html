@@ -756,24 +756,7 @@
     white-space: nowrap;
     border: 0;
   }
-    .mhc-tooltip {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #333;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  white-space: nowrap;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.mhc-tooltip[aria-hidden="false"] {
-  opacity: 1;
-}    
+    
     </style>
 </head>
 <body role="document" id="page-body">
@@ -1279,42 +1262,17 @@ this.inputField.setAttribute('contenteditable', 'true');
 this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
 this.inputField.dataset.placeholder = 'Ask about mental health...';
 
-// 1. Create send button
-this.sendButton = document.createElement('button'); // Lebih baik menggunakan <button>
+this.sendButton = document.createElement('input');
 this.sendButton.className = 'mhc-send-btn';
 this.sendButton.setAttribute('type', 'button');
+this.sendButton.setAttribute('value', '→');  // Unicode right arrow
 this.sendButton.setAttribute('aria-label', 'Send message');
-this.sendButton.innerHTML = '→'; // Unicode arrow
-
-// 2. Create proper ARIA tooltip
-const sendTooltip = document.createElement('span');
-sendTooltip.id = 'mhc-send-tooltip';
-sendTooltip.className = 'mhc-tooltip';
-sendTooltip.setAttribute('role', 'tooltip');
-sendTooltip.setAttribute('aria-hidden', 'true'); // Awalnya disembunyikan
-sendTooltip.textContent = 'Click to send your message';
-
-// 3. Hubungkan button dengan tooltip
-this.sendButton.setAttribute('aria-describedby', 'mhc-send-tooltip');
-
-// 4. Tambahkan event untuk menampilkan tooltip
-this.sendButton.addEventListener('mouseover', () => {
-  sendTooltip.setAttribute('aria-hidden', 'false');
-});
-
-this.sendButton.addEventListener('mouseout', () => {
-  sendTooltip.setAttribute('aria-hidden', 'true');
-});
-
-this.sendButton.addEventListener('focus', () => {
-  sendTooltip.setAttribute('aria-hidden', 'false');
-});
-
-this.sendButton.addEventListener('blur', () => {
-  sendTooltip.setAttribute('aria-hidden', 'true');
-});
-
-// 5. Tambahkan ke DOM
+      
+// Tooltip untuk screen reader
+this.sendTooltip = document.createElement('span');
+this.sendTooltip.className = 'mhc-visually-hidden';
+this.sendTooltip.textContent = 'Click to send your message';
+this.sendTooltip.setAttribute('role', 'tooltip');
 this.sendButton.appendChild(sendTooltip);
 
 this.inputContainer.appendChild(inputLabel);
