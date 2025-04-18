@@ -729,17 +729,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
         }
-        .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
+        
     </style>
 </head>
 <body role="document" id="page-body">
@@ -1205,9 +1195,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     // Header with swipe handle
     this.header = document.createElement('div');
     this.header.className = 'mhc-header';
-    this.header.setAttribute('role', 'button');
-    this.header.setAttribute('aria-label', 'Toggle chatbot size');
-    this.header.setAttribute('tabindex', '0');
     this.header.innerHTML = `
       <div class="mhc-swipe-handle" aria-hidden="true"></div>
       <h3 id="mhc-title">Mental Health Assistant</h3>
@@ -1217,51 +1204,40 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.messageArea = document.createElement('div');
     this.messageArea.className = 'mhc-messages';
     this.messageArea.setAttribute('aria-live', 'polite');
-    this.messageArea.setAttribute('role', 'log');
-    this.messageArea.setAttribute('aria-label', 'Conversation messages');
     
     // Input area (always visible)
     this.inputContainer = document.createElement('div');
     this.inputContainer.className = 'mhc-input-container';
-    this.inputContainer.setAttribute('role', 'group');
-    this.inputContainer.setAttribute('aria-label', 'Message input area');
-    
-    // Create label for input field
-    const inputLabel = document.createElement('label');
-    inputLabel.setAttribute('for', 'mhc-user-input');
-    inputLabel.className = 'sr-only'; // Visually hidden but available to screen readers
-    inputLabel.textContent = 'Type your message about mental health';
     
     // Input field with proper labeling
     this.inputField = document.createElement('input');
     this.inputField.className = 'mhc-input';
     this.inputField.placeholder = 'Ask about mental health...';
+    this.inputField.setAttribute('aria-label', 'Type your message about mental health');
     this.inputField.setAttribute('type', 'text');
     this.inputField.id = 'mhc-user-input';
-    this.inputField.setAttribute('aria-describedby', 'mhc-input-description');
-    
-    // Input description
-    const inputDescription = document.createElement('span');
-    inputDescription.id = 'mhc-input-description';
-    inputDescription.className = 'sr-only';
-    inputDescription.textContent = 'Type your question about mental health and press Enter or the Send button to submit';
     
     // Send button with accessible name
     this.sendButton = document.createElement('button');
     this.sendButton.className = 'mhc-send-btn';
     this.sendButton.innerHTML = '&#10148;';
     this.sendButton.setAttribute('aria-label', 'Send message');
-    this.sendButton.setAttribute('type', 'button');
+    this.sendButton.setAttribute('aria-describedby', 'mhc-send-tooltip');
     
-    this.inputContainer.appendChild(inputLabel);
+    // Tooltip for send button
+    const sendTooltip = document.createElement('span');
+    sendTooltip.id = 'mhc-send-tooltip';
+    sendTooltip.className = 'mhc-tooltip';
+    sendTooltip.setAttribute('role', 'tooltip');
+    sendTooltip.textContent = '.';
+    this.sendButton.appendChild(sendTooltip);
+    
     this.inputContainer.appendChild(this.inputField);
-    this.inputContainer.appendChild(inputDescription);
     this.inputContainer.appendChild(this.sendButton);
     
     // Quick replies
     this.quickReplies = document.createElement('div');
     this.quickReplies.className = 'mhc-quick-replies';
-    this.quickReplies.setAttribute('role', 'group');
     this.quickReplies.setAttribute('aria-label', 'Quick reply options');
     
     ['Depression', 'Anxiety', 'Stress', 'Self Care'].forEach(topic => {
@@ -1270,7 +1246,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       btn.textContent = topic;
       btn.dataset.topic = topic.toLowerCase().replace(' ', '_');
       btn.setAttribute('aria-label', `Ask about ${topic}`);
-      btn.setAttribute('type', 'button');
       this.quickReplies.appendChild(btn);
     });
     
@@ -1278,14 +1253,14 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.progressContainer = document.createElement('div');
     this.progressContainer.className = 'mhc-progress-container';
     this.progressContainer.style.display = 'block';
-    this.progressContainer.setAttribute('role', 'progressbar');
-    this.progressContainer.setAttribute('aria-label', 'Message sending progress');
     
     this.progressBar = document.createElement('div');
     this.progressBar.className = 'mhc-progress-bar';
+    this.progressBar.setAttribute('role', 'progressbar');
     this.progressBar.setAttribute('aria-valuemin', '0');
     this.progressBar.setAttribute('aria-valuemax', '100');
     this.progressBar.setAttribute('aria-valuenow', '0');
+    this.progressBar.setAttribute('aria-label', 'Message sending progress');
     
     this.progressContainer.appendChild(this.progressBar);
     
@@ -1306,94 +1281,9 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.meterLabel.className = 'mhc-meter-label';
     this.meterLabel.textContent = 'Choose one of the following Quick Messages to get started or type what you need.';
     this.meterLabel.setAttribute('aria-live', 'polite');
-    this.meterLabel.id = 'mhc-meter-label';
-    this.meterElement.setAttribute('aria-describedby', 'mhc-meter-label');
     
     this.meterContainer.appendChild(this.meterElement);
     this.meterContainer.appendChild(this.meterLabel);
-    
-    // Navigation menu for additional options (new addition)
-    this.navMenu = document.createElement('nav');
-    this.navMenu.className = 'mhc-nav-menu';
-    this.navMenu.setAttribute('aria-label', 'Chatbot menu options');
-    
-    // Create menu items list
-    const menuList = document.createElement('ul');
-    menuList.setAttribute('role', 'menu');
-    
-    // Add menu items
-    const menuItems = [
-      { name: 'Resources', action: 'resources' },
-      { name: 'Settings', action: 'settings' },
-      { name: 'Help', action: 'help' }
-    ];
-    
-    menuItems.forEach(item => {
-      const menuItem = document.createElement('li');
-      menuItem.setAttribute('role', 'menuitem');
-      
-      const menuButton = document.createElement('button');
-      menuButton.className = 'mhc-menu-item';
-      menuButton.textContent = item.name;
-      menuButton.dataset.action = item.action;
-      menuButton.setAttribute('aria-label', item.name);
-      menuButton.setAttribute('type', 'button');
-      
-      menuItem.appendChild(menuButton);
-      menuList.appendChild(menuItem);
-    });
-    
-    this.navMenu.appendChild(menuList);
-    
-    // Create tree view for resources (initially hidden)
-    this.resourceTree = document.createElement('div');
-    this.resourceTree.className = 'mhc-resource-tree';
-    this.resourceTree.style.display = 'none';
-    this.resourceTree.setAttribute('role', 'tree');
-    this.resourceTree.setAttribute('aria-label', 'Mental health resources');
-    
-    // Add tree items
-    const resourceCategories = [
-      { name: 'Depression Resources', id: 'depression-resources' },
-      { name: 'Anxiety Resources', id: 'anxiety-resources' },
-      { name: 'Stress Management', id: 'stress-management' }
-    ];
-    
-    resourceCategories.forEach(category => {
-      const treeItem = document.createElement('div');
-      treeItem.setAttribute('role', 'treeitem');
-      treeItem.setAttribute('aria-expanded', 'false');
-      treeItem.setAttribute('aria-label', category.name);
-      treeItem.id = category.id;
-      treeItem.className = 'mhc-treeitem';
-      treeItem.textContent = category.name;
-      treeItem.setAttribute('tabindex', '0');
-      
-      this.resourceTree.appendChild(treeItem);
-    });
-    
-    // Add external links with proper accessibility
-    this.externalLinks = document.createElement('div');
-    this.externalLinks.className = 'mhc-external-links';
-    this.externalLinks.setAttribute('role', 'navigation');
-    this.externalLinks.setAttribute('aria-label', 'External resources');
-    
-    const links = [
-      { name: 'Crisis Helpline', url: 'https://www.crisistextline.org/', description: 'Get help in a crisis' },
-      { name: 'Find a Therapist', url: 'https://www.psychologytoday.com/us/therapists', description: 'Search for mental health professionals' }
-    ];
-    
-    links.forEach(link => {
-      const anchorElement = document.createElement('a');
-      anchorElement.href = link.url;
-      anchorElement.className = 'mhc-link';
-      anchorElement.textContent = link.name;
-      anchorElement.setAttribute('aria-label', `${link.name}: ${link.description}`);
-      anchorElement.setAttribute('target', '_blank');
-      anchorElement.setAttribute('rel', 'noopener noreferrer');
-      
-      this.externalLinks.appendChild(anchorElement);
-    });
     
     // Assemble the container
     this.chatContainer.appendChild(this.header);
@@ -1402,9 +1292,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.chatContainer.appendChild(this.meterContainer);
     this.chatContainer.appendChild(this.quickReplies);
     this.chatContainer.appendChild(this.inputContainer);
-    this.chatContainer.appendChild(this.navMenu);
-    this.chatContainer.appendChild(this.resourceTree);
-    this.chatContainer.appendChild(this.externalLinks);
     
     document.body.appendChild(this.chatContainer);
     
@@ -1439,45 +1326,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         this.addUserMessage(topic.replace('_', ' '));
         this.processMessage(topic);
       });
-    });
-    
-    // Menu item buttons
-    const menuButtons = this.navMenu.querySelectorAll('.mhc-menu-item');
-    menuButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        const action = e.target.dataset.action;
-        this.handleMenuAction(action);
-      });
-    });
-    
-    // Tree items
-    const treeItems = this.resourceTree.querySelectorAll('[role="treeitem"]');
-    treeItems.forEach(item => {
-      item.addEventListener('click', (e) => {
-        this.toggleTreeItem(e.target);
-      });
-      
-      // Keyboard accessibility for tree items
-      item.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          this.toggleTreeItem(e.target);
-        }
-      });
-    });
-    
-    // Header keyboard accessibility
-    this.header.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        if (this.currentState === this.states.PARTIAL) {
-          this.transitionTo(this.states.EXPANDED);
-        } else if (this.currentState === this.states.EXPANDED) {
-          this.transitionTo(this.states.PARTIAL);
-        } else if (this.currentState === this.states.MINIMIZED) {
-          this.transitionTo(this.states.PARTIAL);
-        }
-      }
     });
     
     // Only set up swipe handling on mobile
@@ -1516,33 +1364,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         }
       }
     });
-  }
-  
-  toggleTreeItem(item) {
-    const expanded = item.getAttribute('aria-expanded') === 'true';
-    item.setAttribute('aria-expanded', !expanded);
-    
-    // Toggle the visibility of child items if they exist
-    const itemId = item.id;
-    const childItems = document.querySelectorAll(`[aria-labelledby="${itemId}"]`);
-    
-    childItems.forEach(child => {
-      child.style.display = expanded ? 'none' : 'block';
-    });
-  }
-  
-  handleMenuAction(action) {
-    switch(action) {
-      case 'resources':
-        this.resourceTree.style.display = this.resourceTree.style.display === 'none' ? 'block' : 'none';
-        break;
-      case 'settings':
-        this.addBotMessage("Settings panel will be available in the next update.");
-        break;
-      case 'help':
-        this.addBotMessage("Need help using the Mental Health Assistant? You can type your questions about depression, anxiety, stress, or self-care. Or use the quick reply buttons above.");
-        break;
-    }
   }
   
   setupSwipeHandling() {
@@ -1633,65 +1454,19 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       this.messageArea.style.display = 'none';
       this.quickReplies.style.display = 'none';
       this.header.querySelector('h3').style.display = 'none';
-      this.navMenu.style.display = 'none';
-      this.resourceTree.style.display = 'none';
-      this.externalLinks.style.display = 'none';
-      
-      // Update ARIA attributes for minimized state
-      this.chatContainer.setAttribute('aria-expanded', 'false');
-      this.header.setAttribute('aria-label', 'Open chatbot');
     } else {
       this.messageArea.style.display = 'block';
       this.quickReplies.style.display = 'flex';
       this.header.querySelector('h3').style.display = 'block';
-      this.navMenu.style.display = 'block';
-      this.externalLinks.style.display = 'block';
-      
-      // Update ARIA attributes for expanded states
-      this.chatContainer.setAttribute('aria-expanded', 'true');
       
       if (newState === this.states.PARTIAL) {
-        this.header.setAttribute('aria-label', 'Expand chatbot fully');
         // Scroll to bottom of last message
         this.scrollToLastMessage();
       } else if (newState === this.states.EXPANDED) {
-        this.header.setAttribute('aria-label', 'Collapse chatbot to partial view');
         // Scroll to very bottom
         this.scrollToBottom();
       }
     }
-    
-    // Announce state change to screen readers
-    this.announceStateChange(newState);
-  }
-  
-  announceStateChange(state) {
-    // Create a live region to announce the state change
-    let liveRegion = document.getElementById('mhc-live-region');
-    if (!liveRegion) {
-      liveRegion = document.createElement('div');
-      liveRegion.id = 'mhc-live-region';
-      liveRegion.className = 'sr-only';
-      liveRegion.setAttribute('aria-live', 'polite');
-      liveRegion.setAttribute('role', 'status');
-      document.body.appendChild(liveRegion);
-    }
-    
-    // Set the announcement text based on the state
-    let announcementText = '';
-    switch(state) {
-      case this.states.MINIMIZED:
-        announcementText = 'Chatbot minimized. Click to expand.';
-        break;
-      case this.states.PARTIAL:
-        announcementText = 'Chatbot partially expanded. Click to maximize.';
-        break;
-      case this.states.EXPANDED:
-        announcementText = 'Chatbot fully expanded. Click to minimize.';
-        break;
-    }
-    
-    liveRegion.textContent = announcementText;
   }
 
   handleSend() {
@@ -1704,10 +1479,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       this.inputField.disabled = true;
       this.sendButton.disabled = true;
       
-      // Update ARIA attributes to indicate loading
-      this.inputField.setAttribute('aria-busy', 'true');
-      this.sendButton.setAttribute('aria-busy', 'true');
-      
       // Show progress bar
       this.showProgressBar();
       
@@ -1715,11 +1486,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       setTimeout(() => {
         this.hideProgressBar();
         this.showMeter();
-        
-        // Update ARIA attributes to indicate no longer loading
-        this.inputField.setAttribute('aria-busy', 'false');
-        this.sendButton.setAttribute('aria-busy', 'false');
-        
         this.processMessage(message);
       }, 1500);
       
@@ -1737,7 +1503,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       progress += 5;
       this.progressBar.style.width = `${progress}%`;
       this.progressBar.setAttribute('aria-valuenow', progress);
-      this.progressContainer.setAttribute('aria-valuetext', `${progress}% complete`);
       
       if (progress >= 100) {
         clearInterval(interval);
@@ -1749,7 +1514,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     this.progressContainer.style.display = 'none';
     this.progressBar.style.width = '0%';
     this.progressBar.setAttribute('aria-valuenow', '0');
-    this.progressContainer.setAttribute('aria-valuetext', '0% complete');
   }
 
   showMeter() {
@@ -1759,18 +1523,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       progress += 2;
       this.meterElement.style.width = `${progress}%`;
       this.meterElement.setAttribute('aria-valuenow', progress);
-      this.meterContainer.setAttribute('aria-valuetext', `Analysis ${progress}% complete`);
-      
-      // Update the meter label based on progress
-      if (progress < 30) {
-        this.meterLabel.textContent = 'Analyzing your question...';
-      } else if (progress < 60) {
-        this.meterLabel.textContent = 'Retrieving relevant information...';
-      } else if (progress < 90) {
-        this.meterLabel.textContent = 'Preparing response...';
-      } else {
-        this.meterLabel.textContent = 'Finalizing answer...';
-      }
       
       if (progress >= 100) {
         clearInterval(interval);
@@ -1778,8 +1530,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           this.meterContainer.style.display = 'none';
           this.meterElement.style.width = '0%';
           this.meterElement.setAttribute('aria-valuenow', '0');
-          this.meterContainer.setAttribute('aria-valuetext', '0% complete');
-          this.meterLabel.textContent = 'Choose one of the following Quick Messages to get started or type what you need.';
         }, 500);
       }
     }, 50);
@@ -1790,7 +1540,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     message.className = 'mhc-message user-message';
     message.textContent = text;
     message.setAttribute('aria-label', `You said: ${text}`);
-    message.setAttribute('role', 'listitem');
     this.messageArea.appendChild(message);
     this.scrollToBottom();
   }
@@ -1800,17 +1549,11 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     message.className = 'mhc-message bot-message';
     message.textContent = text;
     message.setAttribute('aria-label', `Assistant says: ${text}`);
-    message.setAttribute('role', 'listitem');
     this.messageArea.appendChild(message);
     
     // Re-enable input after bot responds
     this.inputField.disabled = false;
     this.sendButton.disabled = false;
-    
-    // Reset ARIA attributes
-    this.inputField.setAttribute('aria-busy', 'false');
-    this.sendButton.setAttribute('aria-busy', 'false');
-    
     this.inputField.focus();
     
     // After adding bot message, transition to partial view if minimized
@@ -1819,24 +1562,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     } else {
       this.scrollToBottom();
     }
-    
-    // Announce new message to screen readers
-    this.announceNewMessage(text);
-  }
-  
-  announceNewMessage(text) {
-    // Create or get live region for message announcements
-    let messageAnnouncer = document.getElementById('mhc-message-announcer');
-    if (!messageAnnouncer) {
-      messageAnnouncer = document.createElement('div');
-      messageAnnouncer.id = 'mhc-message-announcer';
-      messageAnnouncer.className = 'sr-only';
-      messageAnnouncer.setAttribute('aria-live', 'polite');
-      document.body.appendChild(messageAnnouncer);
-    }
-    
-    // Set the text to be announced
-    messageAnnouncer.textContent = `New message: ${text}`;
   }
 
   scrollToBottom() {
@@ -1871,22 +1596,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       // Show resources
       if (faq.resources) {
         setTimeout(() => {
-          // Create a resource link with proper accessibility attributes
-          const resourceMessage = document.createElement('div');
-          resourceMessage.className = 'mhc-message bot-message';
-          
-          const resourceLink = document.createElement('a');
-          resourceLink.href = faq.resources;
-          resourceLink.textContent = `More resources: ${faq.resources}`;
-          resourceLink.setAttribute('aria-label', `Visit website for more information about ${prediction.category}`);
-          resourceLink.setAttribute('target', '_blank');
-          resourceLink.setAttribute('rel', 'noopener noreferrer');
-          
-          resourceMessage.appendChild(resourceLink);
-          resourceMessage.setAttribute('role', 'listitem');
-          this.messageArea.appendChild(resourceMessage);
-          
-          this.scrollToBottom();
+          this.addBotMessage(`More resources: ${faq.resources}`);
         }, 800 * (faq.responses.length + 1));
       }
       
