@@ -1235,38 +1235,38 @@
         border: 0;
       }
     }
-    .breadcrumb ol {
-        list-style: none;
-        padding: 0;
-        margin: 0 0 1rem 0;
-        display: flex;
-        gap: 0.5rem;
-      }
-      
-      .breadcrumb li {
-        display: flex;
-        align-items: center;
-      }
-      
-      .breadcrumb li:not(:last-child)::after {
-        content: "›";
-        margin-left: 0.5rem;
-        color: #666;
-      }
-      
-      .breadcrumb a {
-        color: #0066cc;
-        text-decoration: none;
-      }
-      
-      .breadcrumb a:hover {
-        text-decoration: underline;
-      }
-      
-      .breadcrumb [aria-current="page"] {
-        color: #333;
-        font-weight: bold;
-      }
+    /* Breadcrumb Styles */
+    .breadcrumb-list {
+      display: flex;
+      list-style: none;
+      padding: 0;
+      margin: 0 0 1rem 0;
+      gap: 0.5rem;
+    }
+    
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .breadcrumb-item a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    
+    .breadcrumb-item a:hover {
+      text-decoration: underline;
+    }
+    
+    .breadcrumb-item[aria-current="page"] span {
+      color: #333;
+      font-weight: bold;
+    }
+    
+    [aria-hidden="true"] {
+      color: #666;
+    }
   </style>
 </head>
 
@@ -1275,11 +1275,12 @@
 
   <div class="container" id="main-container" role="presentation">
     <nav aria-label="Breadcrumb trail" role="navigation">
-      <ol role="tree" class="breadcrumb-list" aria-label="Breadcrumb">
-        <li role="treeitem" class="breadcrumb-item">
-          <a href="./" role="link" aria-label="Home page">Home</a>
+      <ol class="breadcrumb-list" role="tree" aria-label="Navigation hierarchy">
+        <li class="breadcrumb-item" role="treeitem" aria-level="1">
+          <a href="/" role="link">Home</a>
+          <span role="presentation" aria-hidden="true">/</span>
         </li>
-        <li role="treeitem" class="breadcrumb-item" aria-current="page">
+        <li class="breadcrumb-item" role="treeitem" aria-level="2" aria-current="page">
           <span>FAQ</span>
         </li>
       </ol>
