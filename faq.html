@@ -921,20 +921,23 @@
       right: 8px;
       width: 30px;
       height: 30px;
-      background: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.9);
       border: none;
       border-radius: 50%;
-      cursor: pointer;
+      color: #333;
       font-size: 16px;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s;
+      z-index: 10;
+      text-decoration: none;
     }
-
+    
     .mhc-pop-out-btn:hover {
       background: rgba(255, 255, 255, 1);
       transform: scale(1.1);
+      color: #0066cc;
     }
 
     .sr-only {
@@ -2527,69 +2530,91 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         const message = document.createElement('div');
         message.className = 'mhc-message bot-message';
         message.setAttribute('aria-label', `Assistant says: ${text}`);
-
-        // Check if the text contains a URL
+      
+        // Enhanced URL detection
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         const urls = text.match(urlRegex);
-
+      
         if (urls && urls.length > 0) {
-          // If there's a URL, create an iframe container
           const url = urls[0];
           const nonUrlText = text.replace(urlRegex, '').trim();
-
+      
           if (nonUrlText) {
-            // Add the non-URL text first
             const textPart = document.createElement('div');
             textPart.textContent = nonUrlText;
             message.appendChild(textPart);
           }
-
-          // Create iframe container
+      
           const iframeContainer = document.createElement('div');
           iframeContainer.className = 'mhc-iframe-container';
-
-          // Create pop-out button
-          const popOutBtn = document.createElement('button');
+      
+          // Enhanced pop-out button
+          const popOutBtn = document.createElement('a'); // Changed to <a> element
           popOutBtn.className = 'mhc-pop-out-btn';
-          popOutBtn.innerHTML = '&#x2197;'; // Arrow icon
+          popOutBtn.innerHTML = '&#x2197;';
           popOutBtn.setAttribute('aria-label', 'Open link in new tab');
           popOutBtn.setAttribute('title', 'Open in new tab');
-          popOutBtn.addEventListener('click', () => {
-            window.open(url, '_blank');
-          });
-
+          popOutBtn.setAttribute('href', url);
+          popOutBtn.setAttribute('target', '_blank');
+          popOutBtn.setAttribute('rel', 'noopener noreferrer');
+          
+          // Remove click handler since we're using anchor tag
+          // Add proper button styling
+          popOutBtn.style.cursor = 'pointer';
+          popOutBtn.style.textDecoration = 'none';
+          popOutBtn.style.display = 'inline-block';
+      
           // Create iframe
           const iframe = document.createElement('iframe');
           iframe.src = url;
           iframe.title = 'Resource from Mental Health Assistant';
           iframe.setAttribute('aria-label', 'Embedded resource content');
           iframe.setAttribute('frameborder', '0');
-          iframe.setAttribute('scrolling', 'no');
           iframe.setAttribute('allow', 'fullscreen');
-
+          iframe.setAttribute('loading', 'lazy');
+      
           // Append elements
           iframeContainer.appendChild(iframe);
           iframeContainer.appendChild(popOutBtn);
           message.appendChild(iframeContainer);
         } else {
-          // Regular text message
           message.textContent = text;
         }
-
+      
+        // Rest of the method remains the same...
         this.messageArea.appendChild(message);
-
-        // Re-enable input after bot responds
         this.inputField.disabled = false;
         this.sendButton.disabled = false;
         this.inputField.focus();
-
-        // After adding bot message, transition to partial view if minimized
+      
         if (this.currentState === this.states.MINIMIZED && this.isMobile) {
           this.transitionTo(this.states.PARTIAL);
         } else {
           this.scrollToBottom();
         }
       }
+
+      // Tambahkan pengecekan sebelum membuat iframe
+      const createIframe = (url) => {
+        const iframe = document.createElement('iframe');
+        try {
+          iframe.src = url;
+          // Set other attributes...
+          return iframe;
+        } catch (e) {
+          console.error('Failed to create iframe:', e);
+          const fallback = document.createElement('div');
+          fallback.innerHTML = `
+            <p>Content cannot be displayed. 
+              <a href="${url}" target="_blank" rel="noopener">Open in new tab</a>
+            </p>
+          `;
+          return fallback;
+        }
+      };
+      
+      // Dalam addBotMessage:
+      const iframe = createIframe(url);
 
       scrollToBottom() {
         setTimeout(() => {
