@@ -1176,6 +1176,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
     <script>
         class MentalHealthChatbot {
   constructor() {
+      this.body = document.body;
     // Training data for the AI model
     this.trainingData = [
       {input: "depression", output: {category: "depression", response: "depression"}},
@@ -1557,10 +1558,13 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
     this.header.addEventListener('click', () => {
       if (this.currentState === this.states.PARTIAL) {
         this.transitionTo(this.states.EXPANDED);
+        this.body.style.overflow = 'hidden';
       } else if (this.currentState === this.states.EXPANDED) {
         this.transitionTo(this.states.PARTIAL);
+          this.body.style.overflow = '';
       } else if (this.currentState === this.states.MINIMIZED) {
         this.transitionTo(this.states.PARTIAL);
+          this.body.style.overflow = '';
       }
     });
     
@@ -1577,6 +1581,11 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
             // Keep minimized state on mobile
           } else {
             this.transitionTo(this.states.PARTIAL);
+          }
+          if (newState === this.states.EXPANDED) {
+            this.body.style.overflow = 'hidden';
+          } else {
+            this.body.style.overflow = 'auto';
           }
         } else {
           this.chatContainer.classList.add('desktop');
@@ -1685,6 +1694,10 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
       } else if (newState === this.states.EXPANDED) {
         // Scroll to very bottom
         this.scrollToBottom();
+        this.body.style.overflow = 'hidden';
+        } else {
+          this.body.style.overflow = 'auto';
+        }
       }
     }
   }
