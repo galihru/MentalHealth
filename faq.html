@@ -740,6 +740,17 @@
     white-space: nowrap;
     border: 0;
   }
+        .mhc-input-label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
         
     </style>
 </head>
@@ -1224,25 +1235,35 @@ this.inputContainer = document.createElement('div');
 this.inputContainer.className = 'mhc-input-container';
 
 // Input field with proper labeling
+// Input field dengan label yang benar
+const inputWrapper = document.createElement('div');
+inputWrapper.className = 'mhc-input-wrapper';
+
 const inputLabel = document.createElement('label');
 inputLabel.setAttribute('for', 'mhc-user-input');
-inputLabel.className = 'mhc-visually-hidden';
-inputLabel.textContent = 'Type your message about mental health';
+inputLabel.className = 'mhc-input-label'; // Bisa di-style sesuai kebutuhan
+inputLabel.textContent = 'Type your message';
 
 this.inputField = document.createElement('input');
 this.inputField.className = 'mhc-input';
-this.inputField.placeholder = 'Ask about mental health...';
-this.inputField.setAttribute('type', 'text');
 this.inputField.id = 'mhc-user-input';
+this.inputField.setAttribute('type', 'text');
 this.inputField.setAttribute('aria-required', 'true');
-this.inputField.setAttribute('aria-describedby', 'mhc-instructions'); // Tambahkan referensi ke instruksi
+this.inputField.setAttribute('aria-labelledby', 'mhc-input-label'); // Mengacu ke label
+this.inputField.setAttribute('placeholder', 'Ask about mental health...');
+
+inputWrapper.appendChild(inputLabel);
+inputWrapper.appendChild(this.inputField);
       
 // Send button with accessible name
 this.sendButton = document.createElement('button');
 this.sendButton.className = 'mhc-send-btn';
-this.sendButton.innerHTML = '&#10148;';
-this.sendButton.setAttribute('aria-label', 'Send message');
+this.sendButton.innerHTML = `
+  <span aria-hidden="true">&#10148;</span>
+  <span class="mhc-visually-hidden">Send message</span>
+`;
 this.sendButton.setAttribute('type', 'button');
+this.sendButton.setAttribute('aria-label', 'Send message');
 
 // Tooltip for send button
 const sendTooltip = document.createElement('span');
@@ -1252,7 +1273,7 @@ sendTooltip.setAttribute('role', 'tooltip');
 sendTooltip.textContent = '.';
 this.sendButton.appendChild(sendTooltip);
 
-this.inputContainer.appendChild(inputLabel);
+this.inputContainer.appendChild(inputWrapper);
 this.inputContainer.appendChild(this.inputField);
 this.inputContainer.appendChild(this.sendButton);
 
