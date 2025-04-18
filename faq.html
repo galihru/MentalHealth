@@ -1239,19 +1239,20 @@ this.inputContainer.className = 'mhc-input-container';
 const inputWrapper = document.createElement('div');
 inputWrapper.className = 'mhc-input-wrapper';
 
-const inputLabel = document.createElement('label');
-inputLabel.setAttribute('for', 'mhc-user-input');
-inputLabel.className = 'mhc-input-label'; // Bisa di-style sesuai kebutuhan
-inputLabel.textContent = 'Type your message';
+const inputLabel = document.createElement('span');
+inputLabel.id = 'mhc-input-label';
+inputLabel.className = 'mhc-input-label';
+inputLabel.textContent = 'Type your message about mental health';
 
+// 2. Div dengan role textbox
 this.inputField = document.createElement('div');
 this.inputField.className = 'mhc-input';
 this.inputField.id = 'mhc-user-input';
 this.inputField.setAttribute('role', 'textbox');
-this.inputField.setAttribute('type', 'text');
 this.inputField.setAttribute('aria-required', 'true');
-this.inputField.setAttribute('aria-labelledby', 'mhc-input-label'); // Mengacu ke label
-this.inputField.setAttribute('placeholder', 'Ask about mental health...');
+this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');
+this.inputField.setAttribute('contenteditable', 'true'); // <-- Penting untuk div
+this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
 
 inputWrapper.appendChild(inputLabel);
 inputWrapper.appendChild(this.inputField);
@@ -1274,7 +1275,7 @@ sendTooltip.setAttribute('role', 'tooltip');
 sendTooltip.textContent = '.';
 this.sendButton.appendChild(sendTooltip);
 
-this.inputContainer.appendChild(inputWrapper);
+this.inputContainer.appendChild(inputLabel);
 this.inputContainer.appendChild(this.inputField);
 this.inputContainer.appendChild(this.sendButton);
 
