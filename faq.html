@@ -3,10 +3,94 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mental Health Monitoring System - FAQ</title>
-  <meta name="description"
-    content="Frequently Asked Questions about the Arduino Implementation for Mental Health Monitoring">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental Health - FAQ</title>
+    <meta name="description" content="Comprehensive FAQ about the Arduino Implementation for Mental Health Monitoring including hardware setup, code implementation, analysis, and data upload.">
+    <meta name="keywords" content="mental health, arduino, monitoring system, sensors, MAX30102, GSR, BH1750, neural network, HRV, GitHub upload">
+    <meta name="author" content="GALIH RIDHO UTOMO">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Mental Health - FAQ">
+    <meta property="og:description" content="Learn about the Arduino-based Mental Health Monitoring System - hardware setup, code implementation, analysis methods, and data upload features.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.mentalhealthmonitoring.com/faq">
+    <meta property="og:image" content="https://4211421036.github.io/MentalHealth/logo/mh.png">
+    <link rel="canonical" href="https://www.mentalhealthmonitoring.com/faq">
+    <link href="https://4211421036.github.io/g4lihru/987654567.png" rel=icon type="image/x-icon">
+    <link href="https://4211421036.github.io/g4lihru/987654567.png" rel="shortcut icon" type="image/x-icon">
+    <link href="https://4211421036.github.io/g4lihru/987654567.png" rel="apple-touch-icon">
+    <link href="https://4211421036.github.io/MentalHealth/manifest.webmanifest" rel="manifest">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What sensors are used in this system?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The system uses three main sensors: 1) MAX30102 - Optical heart rate and blood oxygen sensor, 2) GSR Sensor - Galvanic Skin Response sensor for stress detection, 3) BH1750 - Ambient light sensor. These sensors work together to collect physiological data that can indicate mental health status."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How are the sensors connected to the microcontroller?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The sensors are connected as follows: MAX30102 and BH1750 use I2C communication (connected to SDA and SCL pins), and the GSR sensor is connected to analog pin 34. The code initializes these connections in the setup() function."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the heart rate detection work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The MAX30102 sensor detects heart rate by measuring changes in blood volume using optical technology (PPG). The code implements: 1) IR LED shines light into the skin, 2) Photodetector measures reflected light, 3) Pulse detection algorithm identifies beats, 4) Beat-to-beat intervals are calculated for HRV. This is based on Shaffer et al. (2014) HRV measurement standards."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the purpose of the GSR moving average calculation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The moving average calculation separates the GSR signal into two components: Tonic component (slow-changing baseline) and Phasic component (fast-changing responses). This is implemented with a 5-sample moving average window. The window size of 5 samples was chosen based on Boucsein's (2012) research on electrodermal activity measurement."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is HRV (Heart Rate Variability) calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "HRV is calculated using SDNN (Standard Deviation of NN intervals), which is a well-established metric in psychophysiology research (Castaldo et al., 2019). The code implements this by: 1) Storing the last 16 RR intervals (time between heartbeats), 2) Calculating the mean interval, 3) Computing the standard deviation of these intervals. HRV is an important indicator of autonomic nervous system activity and stress levels."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the neural network predict mental health status?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The system uses a neural network (defined in MentalHealthNN.h) that takes sensor inputs and outputs probabilities for four mental states: Normal, Stress, Anxiety, and Depression. The prediction happens in the detectMentalHealth() function. The neural network was likely trained on labeled physiological data from individuals with known mental health conditions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the significance of the ambient light sensor?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The BH1750 light sensor measures ambient light levels which are important because: Light exposure affects circadian rhythms and mood (Golden et al., 2005), low light levels may correlate with depressive symptoms, and sudden light changes can indicate environmental stressors. The light data is read and included in the mental health analysis."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the GitHub data upload work?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The system uploads sensor data to GitHub repositories every 10 seconds using the GitHub API. The process includes: 1) Data is formatted as JSON documents, 2) Base64 encoded for GitHub API requirements, 3) Uploaded using HTTP PUT requests with authentication, 4) SHA hashes are tracked for version control. Four separate JSON files are maintained for each sensor type and the mental status."
+                }
+            }
+        ]
+    }
+    </script>
   <style>
     :root {
       --primary-color: #4a6fa5;
