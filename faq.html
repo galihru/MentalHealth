@@ -1244,9 +1244,10 @@ inputLabel.setAttribute('for', 'mhc-user-input');
 inputLabel.className = 'mhc-input-label'; // Bisa di-style sesuai kebutuhan
 inputLabel.textContent = 'Type your message';
 
-this.inputField = document.createElement('input');
+this.inputField = document.createElement('div');
 this.inputField.className = 'mhc-input';
 this.inputField.id = 'mhc-user-input';
+this.inputField.setAttribute('role', 'textbox');
 this.inputField.setAttribute('type', 'text');
 this.inputField.setAttribute('aria-required', 'true');
 this.inputField.setAttribute('aria-labelledby', 'mhc-input-label'); // Mengacu ke label
