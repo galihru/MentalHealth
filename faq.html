@@ -1286,7 +1286,7 @@ this.quickReplies.setAttribute('aria-orientation', 'horizontal'); // Untuk menu 
 
 // Menu items dengan proper aksesibilitas
 ['Depression', 'Anxiety', 'Stress', 'Self Care'].forEach(topic => {
-  const menuItem = document.createElement('button');
+  const menuItem = document.createElement('div');
   menuItem.className = 'mhc-quick-btn';
   menuItem.textContent = topic;
   menuItem.dataset.topic = topic.toLowerCase().replace(' ', '_');
