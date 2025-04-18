@@ -2564,19 +2564,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           popOutBtn.style.textDecoration = 'none';
           popOutBtn.style.display = 'inline-block';
       
-          // Create iframe
-          const iframe = document.createElement('iframe');
-          iframe.src = url;
-          iframe.title = 'Resource from Mental Health Assistant';
-          iframe.setAttribute('aria-label', 'Embedded resource content');
-          iframe.setAttribute('frameborder', '0');
-          iframe.setAttribute('allow', 'fullscreen');
-          iframe.setAttribute('loading', 'lazy');
-      
-          // Append elements
-          iframeContainer.appendChild(iframe);
-          iframeContainer.appendChild(popOutBtn);
-          message.appendChild(iframeContainer);
+          const iframe = createIframe(url);
         } else {
           message.textContent = text;
         }
@@ -2599,7 +2587,19 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         const iframe = document.createElement('iframe');
         try {
           iframe.src = url;
-          // Set other attributes...
+          // Create iframe
+          const iframe = document.createElement('iframe');
+          iframe.src = url;
+          iframe.title = 'Resource from Mental Health Assistant';
+          iframe.setAttribute('aria-label', 'Embedded resource content');
+          iframe.setAttribute('frameborder', '0');
+          iframe.setAttribute('allow', 'fullscreen');
+          iframe.setAttribute('loading', 'lazy');
+      
+          // Append elements
+          iframeContainer.appendChild(iframe);
+          iframeContainer.appendChild(popOutBtn);
+          message.appendChild(iframeContainer);
           return iframe;
         } catch (e) {
           console.error('Failed to create iframe:', e);
@@ -2612,9 +2612,6 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           return fallback;
         }
       };
-      
-      // Dalam addBotMessage:
-      const iframe = createIframe(url);
 
       scrollToBottom() {
         setTimeout(() => {
