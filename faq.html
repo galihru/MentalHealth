@@ -756,7 +756,45 @@
     white-space: nowrap;
     border: 0;
   }
-    
+    /* Iframe container styling */
+.mhc-iframe-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin-top: 10px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.mhc-iframe-container iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Pop-out button styling */
+.mhc-pop-out-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  background: rgba(255, 255, 255, 0.8);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.mhc-pop-out-btn:hover {
+  background: rgba(255, 255, 255, 1);
+  transform: scale(1.1);
+}
     </style>
 </head>
 <body role="document" id="page-body">
@@ -1660,8 +1698,55 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
   addBotMessage(text) {
     const message = document.createElement('div');
     message.className = 'mhc-message bot-message';
-    message.textContent = text;
     message.setAttribute('aria-label', `Assistant says: ${text}`);
+    
+    // Check if the text contains a URL
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const urls = text.match(urlRegex);
+    
+    if (urls && urls.length > 0) {
+      // If there's a URL, create an iframe container
+      const url = urls[0];
+      const nonUrlText = text.replace(urlRegex, '').trim();
+      
+      if (nonUrlText) {
+        // Add the non-URL text first
+        const textPart = document.createElement('div');
+        textPart.textContent = nonUrlText;
+        message.appendChild(textPart);
+      }
+      
+      // Create iframe container
+      const iframeContainer = document.createElement('div');
+      iframeContainer.className = 'mhc-iframe-container';
+      
+      // Create pop-out button
+      const popOutBtn = document.createElement('button');
+      popOutBtn.className = 'mhc-pop-out-btn';
+      popOutBtn.innerHTML = '&#x2197;'; // Arrow icon
+      popOutBtn.setAttribute('aria-label', 'Open link in new tab');
+      popOutBtn.setAttribute('title', 'Open in new tab');
+      popOutBtn.addEventListener('click', () => {
+        window.open(url, '_blank');
+      });
+      
+      // Create iframe
+      const iframe = document.createElement('iframe');
+      iframe.src = url;
+      iframe.title = 'Resource from Mental Health Assistant';
+      iframe.setAttribute('aria-label', 'Embedded resource content');
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('allow', 'fullscreen');
+      
+      // Append elements
+      iframeContainer.appendChild(iframe);
+      iframeContainer.appendChild(popOutBtn);
+      message.appendChild(iframeContainer);
+    } else {
+      // Regular text message
+      message.textContent = text;
+    }
+    
     this.messageArea.appendChild(message);
     
     // Re-enable input after bot responds
