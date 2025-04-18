@@ -688,6 +688,23 @@
   content: attr(data-placeholder);
   color: #999;
 }
+
+        .mhc-input-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Untuk screen reader tetap bisa mengakses label */
+.mhc-input[aria-labelledby] {
+  -ms-aria-flowto: mhc-input-label;
+}
         
 .mhc-send-btn {
   margin-left: 10px;
@@ -799,6 +816,17 @@
 .mhc-pop-out-btn:hover {
   background: rgba(255, 255, 255, 1);
   transform: scale(1.1);
+}
+        .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
     </style>
 </head>
@@ -1256,6 +1284,15 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
 
   initializeUI() {
     // Main container - Different positioning for mobile vs desktop
+this.liveRegion = document.createElement('div');
+this.liveRegion.setAttribute('aria-live', 'polite');
+this.liveRegion.setAttribute('aria-atomic', 'true');
+this.liveRegion.className = 'sr-only';
+this.chatContainer.appendChild(this.liveRegion);
+
+// Di method handleSend(), tambahkan:
+this.liveRegion.textContent = `Message sent: ${message}`;
+      
     this.chatContainer = document.createElement('div');
 this.chatContainer.className = 'mhc-container minimized';
 this.chatContainer.setAttribute('role', 'dialog');
@@ -1283,24 +1320,28 @@ this.inputContainer = document.createElement('div');
 this.inputContainer.className = 'mhc-input-container';
 
 // Input field with proper labeling
-// Input Field with proper accessible name
-const inputWrapper = document.createElement('div');
-inputWrapper.className = 'mhc-input-wrapper';
-
-// Create a visible label (you can hide it visually if needed)
 const inputLabel = document.createElement('label');
 inputLabel.setAttribute('for', 'mhc-user-input');
-inputLabel.id = 'mhc-input-label';  // Added ID for reference
+inputLabel.id = 'mhc-input-label';
 inputLabel.className = 'mhc-input-label';
 inputLabel.textContent = 'Message input';
 
-// Create the textbox div
+// Dengan ini:
+const inputWrapper = document.createElement('div');
+inputWrapper.className = 'mhc-input-wrapper';
+
+const inputLabel = document.createElement('span');
+inputLabel.className = 'mhc-input-label';
+inputLabel.id = 'mhc-input-label';
+inputLabel.textContent = 'Message input';
+inputLabel.setAttribute('aria-hidden', 'true'); // Karena kita akan menggunakan ARIA
+
 this.inputField = document.createElement('div');
 this.inputField.className = 'mhc-input';
 this.inputField.id = 'mhc-user-input';
 this.inputField.setAttribute('role', 'textbox');
-this.inputField.setAttribute('aria-required', 'true');
-this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');  // Linked to label
+this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');
+this.inputField.setAttribute('aria-label', 'Type your message here'); // Fallback
 this.inputField.setAttribute('contenteditable', 'true');
 this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
 this.inputField.dataset.placeholder = 'Ask about mental health...';
@@ -1643,11 +1684,15 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
   }
 
   handleSend() {
-     const message = this.inputField.textContent.trim();
+     const message = this.inputField.innerText.trim();
   
-  if (message) {
+  if (message && message !== this.inputField.dataset.placeholder) {
     this.addUserMessage(message);
-    this.inputField.textContent = ''; // Kosongkan contenteditable
+    this.inputField.innerHTML = '';
+    
+    // Atur ulang ARIA attributes
+    this.inputField.setAttribute('aria-live', 'polite');
+    this.inputField.setAttribute('aria-atomic', 'true');
       
       // Disable input while processing
       this.inputField.disabled = true;
