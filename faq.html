@@ -1373,620 +1373,774 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
   </script>
   <script>
     class MentalHealthChatbot {
-      constructor() {
-        this.body = document.body;
-        // Training data for the AI model
-        this.trainingData = [
-          { input: "depression", output: { category: "depression", response: "depression" } },
-          { input: "I feel sad", output: { category: "depression", response: "depression" } },
-          { input: "anxiety", output: { category: "anxiety", response: "anxiety" } },
-          { input: "I'm always worried", output: { category: "anxiety", response: "anxiety" } },
-          { input: "stress", output: { category: "stress", response: "stress" } },
-          { input: "I'm so stressed", output: { category: "stress", response: "stress" } },
-          { input: "how to relax", output: { category: "self_care", response: "self_care" } },
-          { input: "self care", output: { category: "self_care", response: "self_care" } },
-          { input: "selfcare", output: { category: "self_care", response: "self_care" } },
-          { input: "self-care", output: { category: "self_care", response: "self_care" } },
-          { input: "relaxation", output: { category: "self_care", response: "self_care" } },
-          { input: "how to take care of myself", output: { category: "self_care", response: "self_care" } },
-          { input: "help", output: { category: "help", response: "help" } },
-          { input: "I need help", output: { category: "help", response: "help" } },
-          { input: "sensors", output: { category: "sensors", response: "sensors" } },
-          { input: "how does this work", output: { category: "sensors", response: "sensors" } }
-        ];
+  constructor() {
+    this.body = document.body;
+    // Training data for the AI model
+    this.trainingData = [
+      { input: "depression", output: { category: "depression", response: "depression" } },
+      { input: "I feel sad", output: { category: "depression", response: "depression" } },
+      { input: "anxiety", output: { category: "anxiety", response: "anxiety" } },
+      { input: "I'm always worried", output: { category: "anxiety", response: "anxiety" } },
+      { input: "stress", output: { category: "stress", response: "stress" } },
+      { input: "I'm so stressed", output: { category: "stress", response: "stress" } },
+      { input: "how to relax", output: { category: "self_care", response: "self_care" } },
+      { input: "self care", output: { category: "self_care", response: "self_care" } },
+      { input: "selfcare", output: { category: "self_care", response: "self_care" } },
+      { input: "self-care", output: { category: "self_care", response: "self_care" } },
+      { input: "relaxation", output: { category: "self_care", response: "self_care" } },
+      { input: "how to take care of myself", output: { category: "self_care", response: "self_care" } },
+      { input: "help", output: { category: "help", response: "help" } },
+      { input: "I need help", output: { category: "help", response: "help" } },
+      { input: "sensors", output: { category: "sensors", response: "sensors" } },
+      { input: "how does this work", output: { category: "sensors", response: "sensors" } }
+    ];
 
-        // FAQ Data with detailed responses
-        this.faqData = {
-          "depression": {
-            responses: [
-              "Common signs of depression include persistent sadness, loss of interest in activities, changes in sleep/appetite, fatigue, and difficulty concentrating.",
-              "Our system monitors physiological indicators like reduced reactivity and light sensitivity that may correlate with depressive states."
-            ],
-            resources: "https://www.instagram.com/peercounselor.unnes"
-          },
-          "anxiety": {
-            responses: [
-              "Anxiety often manifests as excessive worry, restlessness, increased heart rate, sweating, and rapid breathing.",
-              "Our sensors detect elevated GSR responses and irregular heart rhythms that may indicate anxiety."
-            ],
-            resources: "https://www.nimh.nih.gov/health/topics/anxiety-disorders"
-          },
-          "stress": {
-            responses: [
-              "Stress symptoms include irritability, headaches, muscle tension, sleep problems, and changes in heart rate variability.",
-              "Our system identifies stress patterns through higher GSR and reduced HRV measurements."
-            ],
-            resources: "https://www.cdc.gov/mentalhealth/stress-coping/index.html"
-          },
-          "self_care": {
-            responses: [
-              "Self-care is essential for mental wellbeing. Try these techniques:",
-              "1. Take short breaks during work",
-              "2. Practice deep breathing exercises",
-              "3. Maintain a regular sleep schedule",
-              "4. Engage in physical activity you enjoy"
-            ],
-            resources: "https://www.mentalhealth.org.uk/publications/how-to-mental-health"
-          },
-          "help": {
-            responses: [
-              "You can contact mental health professionals through our partner network.",
-              "Based on your current metrics, I recommend reaching out to:"
-            ],
-            resources: "https://www.instagram.com/peercounselor.unnes"
-          },
-          "sensors": {
-            responses: [
-              "Our system uses multiple sensors:",
-              "1. GSR measures skin conductance (emotional arousal)",
-              "2. Heart rate sensor tracks cardiovascular activity",
-              "3. HRV assesses autonomic nervous system balance",
-              "4. Light sensor monitors environmental factors affecting mood"
-            ],
-            resources: ""
-          }
-        };
-
-        // UI States
-        this.states = {
-          MINIMIZED: 'minimized',    // Only input visible
-          PARTIAL: 'partial',        // 30% height with last response
-          EXPANDED: 'expanded',      // Full screen
-          HIDDEN: 'hidden'           // Completely hidden (tablet mode)
-        };
-        this.currentState = this.states.MINIMIZED;
-        this.isMobile = window.innerWidth <= 768;
-        this.isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
-
-         // Panel visibility for tablet
-        this.panelVisible = false;
-        
-        // Initialize
-        this.initializeModel();
-        this.initializeUI();
-        this.setupEventListeners();
+    // FAQ Data with detailed responses
+    this.faqData = {
+      "depression": {
+        responses: [
+          "Common signs of depression include persistent sadness, loss of interest in activities, changes in sleep/appetite, fatigue, and difficulty concentrating.",
+          "Our system monitors physiological indicators like reduced reactivity and light sensitivity that may correlate with depressive states."
+        ],
+        resources: "https://www.instagram.com/peercounselor.unnes"
+      },
+      "anxiety": {
+        responses: [
+          "Anxiety often manifests as excessive worry, restlessness, increased heart rate, sweating, and rapid breathing.",
+          "Our sensors detect elevated GSR responses and irregular heart rhythms that may indicate anxiety."
+        ],
+        resources: "https://www.nimh.nih.gov/health/topics/anxiety-disorders"
+      },
+      "stress": {
+        responses: [
+          "Stress symptoms include irritability, headaches, muscle tension, sleep problems, and changes in heart rate variability.",
+          "Our system identifies stress patterns through higher GSR and reduced HRV measurements."
+        ],
+        resources: "https://www.cdc.gov/mentalhealth/stress-coping/index.html"
+      },
+      "self_care": {
+        responses: [
+          "Self-care is essential for mental wellbeing. Try these techniques:",
+          "1. Take short breaks during work",
+          "2. Practice deep breathing exercises",
+          "3. Maintain a regular sleep schedule",
+          "4. Engage in physical activity you enjoy"
+        ],
+        resources: "https://www.mentalhealth.org.uk/publications/how-to-mental-health"
+      },
+      "help": {
+        responses: [
+          "You can contact mental health professionals through our partner network.",
+          "Based on your current metrics, I recommend reaching out to:"
+        ],
+        resources: "https://www.instagram.com/peercounselor.unnes"
+      },
+      "sensors": {
+        responses: [
+          "Our system uses multiple sensors:",
+          "1. GSR measures skin conductance (emotional arousal)",
+          "2. Heart rate sensor tracks cardiovascular activity",
+          "3. HRV assesses autonomic nervous system balance",
+          "4. Light sensor monitors environmental factors affecting mood"
+        ],
+        resources: ""
       }
+    };
 
-      initializeModel() {
-        // Simple prediction model
-        this.model = {
-          predict: (input) => {
-            const lowerInput = input.toLowerCase();
-            let bestMatch = { score: 0, output: null };
+    // UI States
+    this.states = {
+      MINIMIZED: 'minimized',    // Only input visible
+      PARTIAL: 'partial',        // 30% height with last response
+      EXPANDED: 'expanded',       // Full screen
+      PANEL: 'panel'             // Collapsed to panel (tablet only)
+    };
+    this.currentState = this.states.MINIMIZED;
+    
+    // Device detection
+    this.isMobile = window.innerWidth <= 768;
+    this.isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
 
-            this.trainingData.forEach(example => {
-              const score = this.similarity(lowerInput, example.input.toLowerCase());
-              if (score > bestMatch.score) {
-                bestMatch = { score, output: example.output };
-              }
-            });
+    // Initialize
+    this.initializeModel();
+    this.initializeUI();
+    this.setupEventListeners();
+  }
 
-            return bestMatch.score > 0.3 ? bestMatch.output : { category: "unknown", response: "unknown" };
-          }
-        };
-      }
+  initializeModel() {
+    // Simple prediction model
+    this.model = {
+      predict: (input) => {
+        const lowerInput = input.toLowerCase();
+        let bestMatch = { score: 0, output: null };
 
-      similarity(s1, s2) {
-        // Normalisasi string sebelum dibandingkan
-        const normalize = str => str.toLowerCase()
-          .replace(/-/g, ' ')
-          .replace(/_/g, ' ')
-          .trim();
-
-        const words1 = normalize(s1).split(' ');
-        const words2 = normalize(s2).split(' ');
-
-        const intersection = words1.filter(word => words2.includes(word));
-        return intersection.length / Math.max(words1.length, words2.length);
-      }
-
-      initializeUI() {
-        // Main container - Different positioning for mobile vs desktop
-        this.liveRegion = document.createElement('div');
-        this.liveRegion.setAttribute('aria-live', 'polite');
-        this.liveRegion.setAttribute('aria-atomic', 'true');
-        this.liveRegion.className = 'sr-only';
-
-
-        this.chatContainer = document.createElement('div');
-        this.chatContainer.className = 'mhc-container minimized';
-        this.chatContainer.setAttribute('role', 'dialog');
-        this.chatContainer.setAttribute('aria-labelledby', 'mhc-title');
-        this.chatContainer.setAttribute('aria-describedby', 'mhc-instructions'); // Tambahkan deskripsi
-        this.chatContainer.setAttribute('aria-modal', 'true');
-        this.chatContainer.appendChild(this.liveRegion);
-
-        // Header with swipe handle
-        this.header = document.createElement('div');
-        this.header.className = 'mhc-header';
-        this.header.innerHTML = `
-  <div class="mhc-swipe-handle" aria-hidden="true"></div>
-  <h3 id="mhc-title" lang="id">MH AI</h3>
-`;
-
-        // Message area
-        this.messageArea = document.createElement('div');
-        this.messageArea.className = 'mhc-messages';
-        this.messageArea.setAttribute('aria-live', 'polite');
-        this.messageArea.setAttribute('role', 'log');
-        this.messageArea.setAttribute('aria-label', 'Conversation messages');
-
-        // Input area (always visible)
-        this.inputContainer = document.createElement('div');
-        this.inputContainer.className = 'mhc-input-container';
-
-        // Input Field dengan proper accessible name
-        const inputWrapper = document.createElement('div');
-        inputWrapper.className = 'mhc-input-wrapper';
-
-        // Label yang sudah dimodifikasi
-        const inputLabel = document.createElement('label');
-        inputLabel.setAttribute('for', 'mhc-user-input');
-        inputLabel.id = 'mhc-input-label';
-        inputLabel.className = 'mhc-input-label';
-        inputLabel.textContent = 'Message input';
-
-        // Create the textbox div
-        this.inputField = document.createElement('div');
-        this.inputField.className = 'mhc-input';
-        this.inputField.id = 'mhc-user-input';
-        this.inputField.setAttribute('role', 'textbox');
-        this.inputField.setAttribute('aria-required', 'true');
-        this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');
-        this.inputField.setAttribute('contenteditable', 'true');
-        this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
-        this.inputField.dataset.placeholder = 'Ask about mental health...';
-
-        // Tambahkan event listeners untuk placeholder behavior
-        this.inputField.addEventListener('focus', () => {
-          if (this.inputField.textContent === this.inputField.dataset.placeholder) {
-            this.inputField.textContent = '';
+        this.trainingData.forEach(example => {
+          const score = this.similarity(lowerInput, example.input.toLowerCase());
+          if (score > bestMatch.score) {
+            bestMatch = { score, output: example.output };
           }
         });
 
-        this.inputField.addEventListener('blur', () => {
-          if (this.inputField.textContent === '') {
-            this.inputField.textContent = this.inputField.dataset.placeholder;
-          }
-        });
+        return bestMatch.score > 0.3 ? bestMatch.output : { category: "unknown", response: "unknown" };
+      }
+    };
+  }
 
-        this.sendButton = document.createElement('input');
-        this.sendButton.className = 'mhc-send-btn';
-        this.sendButton.setAttribute('type', 'button');
-        this.sendButton.setAttribute('value', '→');  // Unicode right arrow
-        this.sendButton.setAttribute('aria-label', 'Send message');
+  similarity(s1, s2) {
+    // Normalisasi string sebelum dibandingkan
+    const normalize = str => str.toLowerCase()
+      .replace(/-/g, ' ')
+      .replace(/_/g, ' ')
+      .trim();
 
-        // Tooltip untuk screen reader
-        this.sendTooltip = document.createElement('span');
-        this.sendTooltip.className = 'mhc-visually-hidden';
-        this.sendTooltip.textContent = 'Click to send your message';
-        this.sendTooltip.setAttribute('role', 'tooltip');
-        this.sendButton.appendChild(this.sendTooltip);
+    const words1 = normalize(s1).split(' ');
+    const words2 = normalize(s2).split(' ');
 
-        this.inputContainer.appendChild(inputLabel);
-        this.inputContainer.appendChild(this.inputField);
-        this.inputContainer.appendChild(this.sendButton);
+    const intersection = words1.filter(word => words2.includes(word));
+    return intersection.length / Math.max(words1.length, words2.length);
+  }
 
-        // Quick replies - Converting to an accessible menu pattern
-        this.quickReplies = document.createElement('div');
-        this.quickReplies.className = 'mhc-quick-replies';
-        this.quickReplies.setAttribute('role', 'menu');
-        this.quickReplies.setAttribute('aria-label', 'Quick reply options');
-        this.quickReplies.setAttribute('aria-orientation', 'horizontal'); // Untuk menu horizontal
+  initializeUI() {
+    // Main container - Different positioning for mobile vs desktop vs tablet
+    this.liveRegion = document.createElement('div');
+    this.liveRegion.setAttribute('aria-live', 'polite');
+    this.liveRegion.setAttribute('aria-atomic', 'true');
+    this.liveRegion.className = 'sr-only';
 
-        // Menu items dengan proper aksesibilitas
-        ['Depression', 'Anxiety', 'Stress', 'Self Care'].forEach(topic => {
-          const menuItem = document.createElement('div');
-          menuItem.className = 'mhc-quick-btn';
-          menuItem.textContent = topic;
-          menuItem.dataset.topic = topic.toLowerCase().replace(' ', '_');
-          menuItem.setAttribute('role', 'menuitem');
-          menuItem.setAttribute('aria-label', `Quick reply about ${topic}`);
-          menuItem.setAttribute('tabindex', '-1');
-          menuItem.setAttribute('aria-posinset', (['Depression', 'Anxiety', 'Stress', 'Self Care'].indexOf(topic) + 1).toString());
-          menuItem.setAttribute('aria-setsize', '4');
-          this.quickReplies.appendChild(menuItem);
-        });
-        // Progress bar container (initially hidden)
-        this.progressContainer = document.createElement('div');
-        this.progressContainer.className = 'mhc-progress-container';
-        this.progressContainer.style.display = 'block';
+    this.chatContainer = document.createElement('div');
+    this.chatContainer.className = 'mhc-container minimized';
+    this.chatContainer.setAttribute('role', 'dialog');
+    this.chatContainer.setAttribute('aria-labelledby', 'mhc-title');
+    this.chatContainer.setAttribute('aria-describedby', 'mhc-instructions');
+    this.chatContainer.setAttribute('aria-modal', 'true');
+    this.chatContainer.appendChild(this.liveRegion);
 
-        // Creating a label for the progress bar
-        const progressBarLabel = document.createElement('span');
-        progressBarLabel.className = 'mhc-visually-hidden';
-        progressBarLabel.id = 'mhc-progress-label';
-        progressBarLabel.textContent = 'Message sending progress';
+    // Header with swipe handle and collapse button for tablet
+    this.header = document.createElement('div');
+    this.header.className = 'mhc-header';
+    
+    // Tablet specific collapse button
+    const collapseButtonHTML = `
+      <button class="mhc-collapse-btn" aria-label="Collapse chatbot to panel">
+        |→
+      </button>
+    `;
+    
+    this.header.innerHTML = `
+      <div class="mhc-swipe-handle" aria-hidden="true"></div>
+      <h3 id="mhc-title" lang="id">MH AI</h3>
+      ${this.isTablet ? collapseButtonHTML : ''}
+    `;
 
-        this.progressBar = document.createElement('div');
-        this.progressBar.className = 'mhc-progress-bar';
-        this.progressBar.setAttribute('role', 'progressbar');
-        this.progressBar.setAttribute('aria-valuemin', '0');
-        this.progressBar.setAttribute('aria-valuemax', '100');
-        this.progressBar.setAttribute('aria-valuenow', '0');
-        this.progressBar.setAttribute('aria-labelledby', 'mhc-progress-label');
+    // Message area
+    this.messageArea = document.createElement('div');
+    this.messageArea.className = 'mhc-messages';
+    this.messageArea.setAttribute('aria-live', 'polite');
+    this.messageArea.setAttribute('role', 'log');
+    this.messageArea.setAttribute('aria-label', 'Conversation messages');
 
-        this.progressContainer.appendChild(progressBarLabel);
-        this.progressContainer.appendChild(this.progressBar);
+    // Input area (always visible)
+    this.inputContainer = document.createElement('div');
+    this.inputContainer.className = 'mhc-input-container';
 
-        // Meter element container (initially hidden)
-        this.meterContainer = document.createElement('div');
-        this.meterContainer.className = 'mhc-meter-container';
-        this.meterContainer.style.display = 'Block';
+    // Input Field dengan proper accessible name
+    const inputWrapper = document.createElement('div');
+    inputWrapper.className = 'mhc-input-wrapper';
 
-        // Creating a label for the meter
-        const meterLabel = document.createElement('span');
-        meterLabel.className = 'mhc-visually-hidden';
-        meterLabel.id = 'mhc-meter-label';
-        meterLabel.textContent = 'AI analysis progress';
+    // Label yang sudah dimodifikasi
+    const inputLabel = document.createElement('label');
+    inputLabel.setAttribute('for', 'mhc-user-input');
+    inputLabel.id = 'mhc-input-label';
+    inputLabel.className = 'mhc-input-label';
+    inputLabel.textContent = 'Message input';
 
-        this.meterElement = document.createElement('div');
-        this.meterElement.className = 'mhc-meter';
-        this.meterElement.setAttribute('role', 'meter');
-        this.meterElement.setAttribute('aria-valuemin', '0');
-        this.meterElement.setAttribute('aria-valuemax', '100');
-        this.meterElement.setAttribute('aria-valuenow', '0');
-        this.meterElement.setAttribute('aria-labelledby', 'mhc-meter-label');
+    // Create the textbox div
+    this.inputField = document.createElement('div');
+    this.inputField.className = 'mhc-input';
+    this.inputField.id = 'mhc-user-input';
+    this.inputField.setAttribute('role', 'textbox');
+    this.inputField.setAttribute('aria-required', 'true');
+    this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');
+    this.inputField.setAttribute('contenteditable', 'true');
+    this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
+    this.inputField.dataset.placeholder = 'Ask about mental health...';
 
-        this.meterLabelText = document.createElement('div');
-        this.meterLabelText.className = 'mhc-meter-label';
-        this.meterLabelText.textContent = 'Choose one of the following Quick Messages to get started or type what you need.';
-        this.meterLabelText.setAttribute('aria-live', 'polite');
-        this.meterLabelText.id = 'mhc-instructions';
+    // Tambahkan event listeners untuk placeholder behavior
+    this.inputField.addEventListener('focus', () => {
+      if (this.inputField.textContent === this.inputField.dataset.placeholder) {
+        this.inputField.textContent = '';
+      }
+    });
 
-        this.meterContainer.appendChild(meterLabel);
-        this.meterContainer.appendChild(this.meterElement);
-        this.meterContainer.appendChild(this.meterLabelText);
+    this.inputField.addEventListener('blur', () => {
+      if (this.inputField.textContent === '') {
+        this.inputField.textContent = this.inputField.dataset.placeholder;
+      }
+    });
 
-         // For tablet: create toggle button
-        this.toggleButton = document.createElement('button');
-        this.toggleButton.className = 'mhc-toggle-btn';
-        this.toggleButton.innerHTML = '&#9776;'; // Hamburger icon
-        this.toggleButton.setAttribute('aria-label', 'Toggle chat panel');
-        this.toggleButton.setAttribute('aria-expanded', 'false');
-        document.body.appendChild(this.toggleButton);
+    this.sendButton = document.createElement('input');
+    this.sendButton.className = 'mhc-send-btn';
+    this.sendButton.setAttribute('type', 'button');
+    this.sendButton.setAttribute('value', '→');  // Unicode right arrow
+    this.sendButton.setAttribute('aria-label', 'Send message');
 
-        // Perbaikan keyboard navigation
-        this.setKeyboardNavigation = () => {
-          const menuItems = this.quickReplies.querySelectorAll('[role="menuitem"]');
+    // Tooltip untuk screen reader
+    this.sendTooltip = document.createElement('span');
+    this.sendTooltip.className = 'mhc-visually-hidden';
+    this.sendTooltip.textContent = 'Click to send your message';
+    this.sendTooltip.setAttribute('role', 'tooltip');
+    this.sendButton.appendChild(this.sendTooltip);
 
-          // Atur tabindex pertama ke 0
-          if (menuItems.length > 0) {
+    this.inputContainer.appendChild(inputLabel);
+    this.inputContainer.appendChild(this.inputField);
+    this.inputContainer.appendChild(this.sendButton);
+
+    // Quick replies - Converting to an accessible menu pattern
+    this.quickReplies = document.createElement('div');
+    this.quickReplies.className = 'mhc-quick-replies';
+    this.quickReplies.setAttribute('role', 'menu');
+    this.quickReplies.setAttribute('aria-label', 'Quick reply options');
+    this.quickReplies.setAttribute('aria-orientation', 'horizontal'); // Untuk menu horizontal
+
+    // Menu items dengan proper aksesibilitas
+    ['Depression', 'Anxiety', 'Stress', 'Self Care'].forEach(topic => {
+      const menuItem = document.createElement('div');
+      menuItem.className = 'mhc-quick-btn';
+      menuItem.textContent = topic;
+      menuItem.dataset.topic = topic.toLowerCase().replace(' ', '_');
+      menuItem.setAttribute('role', 'menuitem');
+      menuItem.setAttribute('aria-label', `Quick reply about ${topic}`);
+      menuItem.setAttribute('tabindex', '-1');
+      menuItem.setAttribute('aria-posinset', (['Depression', 'Anxiety', 'Stress', 'Self Care'].indexOf(topic) + 1).toString());
+      menuItem.setAttribute('aria-setsize', '4');
+      this.quickReplies.appendChild(menuItem);
+    });
+    
+    // Progress bar container (initially hidden)
+    this.progressContainer = document.createElement('div');
+    this.progressContainer.className = 'mhc-progress-container';
+    this.progressContainer.style.display = 'block';
+
+    // Creating a label for the progress bar
+    const progressBarLabel = document.createElement('span');
+    progressBarLabel.className = 'mhc-visually-hidden';
+    progressBarLabel.id = 'mhc-progress-label';
+    progressBarLabel.textContent = 'Message sending progress';
+
+    this.progressBar = document.createElement('div');
+    this.progressBar.className = 'mhc-progress-bar';
+    this.progressBar.setAttribute('role', 'progressbar');
+    this.progressBar.setAttribute('aria-valuemin', '0');
+    this.progressBar.setAttribute('aria-valuemax', '100');
+    this.progressBar.setAttribute('aria-valuenow', '0');
+    this.progressBar.setAttribute('aria-labelledby', 'mhc-progress-label');
+
+    this.progressContainer.appendChild(progressBarLabel);
+    this.progressContainer.appendChild(this.progressBar);
+
+    // Meter element container (initially hidden)
+    this.meterContainer = document.createElement('div');
+    this.meterContainer.className = 'mhc-meter-container';
+    this.meterContainer.style.display = 'Block';
+
+    // Creating a label for the meter
+    const meterLabel = document.createElement('span');
+    meterLabel.className = 'mhc-visually-hidden';
+    meterLabel.id = 'mhc-meter-label';
+    meterLabel.textContent = 'AI analysis progress';
+
+    this.meterElement = document.createElement('div');
+    this.meterElement.className = 'mhc-meter';
+    this.meterElement.setAttribute('role', 'meter');
+    this.meterElement.setAttribute('aria-valuemin', '0');
+    this.meterElement.setAttribute('aria-valuemax', '100');
+    this.meterElement.setAttribute('aria-valuenow', '0');
+    this.meterElement.setAttribute('aria-labelledby', 'mhc-meter-label');
+
+    this.meterLabelText = document.createElement('div');
+    this.meterLabelText.className = 'mhc-meter-label';
+    this.meterLabelText.textContent = 'Choose one of the following Quick Messages to get started or type what you need.';
+    this.meterLabelText.setAttribute('aria-live', 'polite');
+    this.meterLabelText.id = 'mhc-instructions';
+
+    this.meterContainer.appendChild(meterLabel);
+    this.meterContainer.appendChild(this.meterElement);
+    this.meterContainer.appendChild(this.meterLabelText);
+
+    // Tablet panel UI (initially hidden)
+    if (this.isTablet) {
+      this.createTabletPanel();
+    }
+
+    // Perbaikan keyboard navigation
+    this.setKeyboardNavigation = () => {
+      const menuItems = this.quickReplies.querySelectorAll('[role="menuitem"]');
+
+      // Atur tabindex pertama ke 0
+      if (menuItems.length > 0) {
+        menuItems[0].setAttribute('tabindex', '0');
+      }
+
+      menuItems.forEach((item, index) => {
+        item.addEventListener('keydown', (e) => {
+          if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+            e.preventDefault();
+            menuItems[index].setAttribute('tabindex', '-1');
+            const nextIndex = (index + 1) % menuItems.length;
+            menuItems[nextIndex].setAttribute('tabindex', '0');
+            menuItems[nextIndex].focus();
+          } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+            e.preventDefault();
+            menuItems[index].setAttribute('tabindex', '-1');
+            const prevIndex = (index - 1 + menuItems.length) % menuItems.length;
+            menuItems[prevIndex].setAttribute('tabindex', '0');
+            menuItems[prevIndex].focus();
+          } else if (e.key === 'Home') {
+            e.preventDefault();
+            menuItems[index].setAttribute('tabindex', '-1');
             menuItems[0].setAttribute('tabindex', '0');
-          }
-
-          menuItems.forEach((item, index) => {
-            item.addEventListener('keydown', (e) => {
-              if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-                e.preventDefault();
-                menuItems[index].setAttribute('tabindex', '-1');
-                const nextIndex = (index + 1) % menuItems.length;
-                menuItems[nextIndex].setAttribute('tabindex', '0');
-                menuItems[nextIndex].focus();
-              } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-                e.preventDefault();
-                menuItems[index].setAttribute('tabindex', '-1');
-                const prevIndex = (index - 1 + menuItems.length) % menuItems.length;
-                menuItems[prevIndex].setAttribute('tabindex', '0');
-                menuItems[prevIndex].focus();
-              } else if (e.key === 'Home') {
-                e.preventDefault();
-                menuItems[index].setAttribute('tabindex', '-1');
-                menuItems[0].setAttribute('tabindex', '0');
-                menuItems[0].focus();
-              } else if (e.key === 'End') {
-                e.preventDefault();
-                menuItems[index].setAttribute('tabindex', '-1');
-                menuItems[menuItems.length - 1].setAttribute('tabindex', '0');
-                menuItems[menuItems.length - 1].focus();
-              } else if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                item.click();
-              }
-            });
-
-            item.addEventListener('click', () => {
-              // Pastikan fokus kembali ke menu item setelah aksi
-              item.focus();
-            });
-          });
-        };
-        // Assemble the container
-        this.chatContainer.appendChild(this.header);
-        this.chatContainer.appendChild(this.messageArea);
-        this.chatContainer.appendChild(this.progressContainer);
-        this.chatContainer.appendChild(this.meterContainer);
-        this.chatContainer.appendChild(this.quickReplies);
-        this.chatContainer.appendChild(this.inputContainer);
-
-        // Initialize keyboard navigation after elements are added to DOM
-        setTimeout(() => this.setKeyboardNavigation(), 0);
-
-        document.body.appendChild(this.chatContainer);
-
-        // Set desktop position if not mobile
-        if (this.isMobile) {
-          this.chatContainer.classList.remove('desktop');
-          this.chatContainer.classList.remove('tablet');
-          this.transitionTo(this.states.PARTIAL);
-          this.toggleButton.style.display = 'none';
-        } else if (this.isTablet) {
-          this.chatContainer.classList.add('tablet');
-          this.chatContainer.classList.remove('desktop');
-          this.transitionTo(this.states.HIDDEN);
-          this.toggleButton.style.display = 'block';
-          this.panelVisible = false;
-        } else {
-          this.chatContainer.classList.add('desktop');
-          this.chatContainer.classList.remove('tablet');
-          this.transitionTo(this.states.PARTIAL);
-          this.toggleButton.style.display = 'none';
-        }
-
-        // Add initial greeting after a short delay
-        setTimeout(() => {
-          this.addBotMessage("Hello! I'm your Mental Health Assistant. How can I help you today?");
-          // On mobile, transition to PARTIAL view after initial message
-          if (this.isMobile) {
-            this.transitionTo(this.states.PARTIAL);
-          }
-        }, 1000);
-      }
-
-      setupEventListeners() {
-        // Send message on button click or Enter key
-        this.sendButton.addEventListener('click', () => this.handleSend());
-        this.inputField.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-            e.preventDefault(); // Tambahkan ini untuk mencegah perilaku default
-            this.handleSend();
+            menuItems[0].focus();
+          } else if (e.key === 'End') {
+            e.preventDefault();
+            menuItems[index].setAttribute('tabindex', '-1');
+            menuItems[menuItems.length - 1].setAttribute('tabindex', '0');
+            menuItems[menuItems.length - 1].focus();
+          } else if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            item.click();
           }
         });
 
-        // Quick reply buttons
-        this.quickReplies.querySelectorAll('.mhc-quick-btn').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            const topic = e.target.dataset.topic;
-            this.addUserMessage(topic.replace('_', ' '));
-            this.processMessage(topic);
-          });
+        item.addEventListener('click', () => {
+          // Pastikan fokus kembali ke menu item setelah aksi
+          item.focus();
         });
-
-        // Only set up swipe handling on mobile
-        if (this.isMobile) {
-          this.setupSwipeHandling();
-        }
-
-        // Setup swipe handling for tablet
-        if (this.isTablet) {
-          this.setupTabletSwipeHandling();
-        }
-
-
-        // Click header to toggle between partial and expanded (both mobile and desktop)
-        this.header.addEventListener('click', () => {
-          if (this.currentState === this.states.PARTIAL) {
-            this.transitionTo(this.states.EXPANDED);
-            this.body.style.overflow = 'hidden';
-          } else if (this.currentState === this.states.EXPANDED) {
-            this.transitionTo(this.states.PARTIAL);
-            this.body.style.overflow = '';
-          } else if (this.currentState === this.states.MINIMIZED) {
-            this.transitionTo(this.states.PARTIAL);
-            this.body.style.overflow = '';
-          }
-        });
-
-        // Toggle button for tablet
-        this.toggleButton.addEventListener('click', () => {
-          this.togglePanel();
-        });
-
-        // Prevent window resizing from breaking the layout
-         window.addEventListener('resize', () => {
-          const wasMobile = this.isMobile;
-          const wasTablet = this.isTablet;
-          
-          this.isMobile = window.innerWidth <= 768;
-          this.isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+      });
+    };
     
-          // Handle transition between device types
-          if (wasMobile !== this.isMobile || wasTablet !== this.isTablet) {
-            if (this.isMobile) {
-              this.chatContainer.classList.remove('desktop', 'tablet');
-              this.toggleButton.style.display = 'none';
-              this.transitionTo(this.states.PARTIAL);
-            } else if (this.isTablet) {
-              this.chatContainer.classList.add('tablet');
-              this.chatContainer.classList.remove('desktop');
-              this.toggleButton.style.display = 'block';
-              this.transitionTo(this.panelVisible ? this.states.PARTIAL : this.states.HIDDEN);
-            } else {
-              this.chatContainer.classList.add('desktop');
-              this.chatContainer.classList.remove('tablet');
-              this.toggleButton.style.display = 'none';
-              this.transitionTo(this.states.PARTIAL);
-            }
-          }
-        });
-      }
+    // Assemble the container
+    this.chatContainer.appendChild(this.header);
+    this.chatContainer.appendChild(this.messageArea);
+    this.chatContainer.appendChild(this.progressContainer);
+    this.chatContainer.appendChild(this.meterContainer);
+    this.chatContainer.appendChild(this.quickReplies);
+    this.chatContainer.appendChild(this.inputContainer);
 
-      setupSwipeHandling() {
-        let startY, currentY;
-        let touchStartTime;
-        const threshold = 50; // Minimum swipe distance to trigger
-        const velocityThreshold = 0.3; // Minimum swipe velocity to trigger
-        const swipeHandle = this.header.querySelector('.mhc-swipe-handle');
-        const header = this.header;
+    // Initialize keyboard navigation after elements are added to DOM
+    setTimeout(() => this.setKeyboardNavigation(), 0);
 
-        const handleTouchStart = (e) => {
-          startY = e.touches[0].clientY;
-          touchStartTime = new Date().getTime();
-        };
+    document.body.appendChild(this.chatContainer);
 
-        const handleTouchMove = (e) => {
-          if (!startY) return;
-          currentY = e.touches[0].clientY;
-          const diff = currentY - startY;
+    // Set appropriate class based on device type
+    if (this.isTablet) {
+      this.chatContainer.classList.add('tablet');
+      // For tablet, we start in partial state
+      this.transitionTo(this.states.PARTIAL);
+    } else if (!this.isMobile) {
+      this.chatContainer.classList.add('desktop');
+      // For desktop, we start in partial state
+      this.transitionTo(this.states.PARTIAL);
+    }
 
-          // Prevent default browser behavior to allow smooth swipe
-          e.preventDefault();
-
-          // Add visual feedback during swipe
-          if (diff > 0 && this.currentState !== this.states.MINIMIZED) {
-            // Swiping down - show a subtle pull effect
-            this.chatContainer.style.transform = `translateY(${Math.min(diff * 0.3, 30)}px)`;
-          } else if (diff < 0 && this.currentState !== this.states.EXPANDED) {
-            // Swiping up - show a subtle push effect
-            this.chatContainer.style.transform = `translateY(${Math.max(diff * 0.3, -30)}px)`;
-          }
-          // Visual feedback during swipe
-          if (diff > 0 && !this.panelVisible) {
-            // Swiping right - show panel coming in from left
-            this.chatContainer.style.transform = `translateX(${Math.min(diff - this.chatContainer.offsetWidth, 0)}px)`;
-          } else if (diff < 0 && this.panelVisible) {
-            // Swiping left - show panel going out to left
-            this.chatContainer.style.transform = `translateX(${Math.max(diff, -this.chatContainer.offsetWidth)}px)`;
-          }
-        };
-
-        const handleTouchEnd = (e) => {
-          if (!startY) return;
-          const diff = currentY - startY;
-          const touchEndTime = new Date().getTime();
-          const swipeTime = touchEndTime - touchStartTime;
-          const isQuickSwipe = swipeTime < 300;
-          const velocity = Math.abs(diff) / swipeTime;
-
-          // Reset transform
-          this.chatContainer.style.transform = '';
-
-          // Determine if swipe should trigger panel toggle
-          if (Math.abs(diff) > threshold || velocity > velocityThreshold) {
-            if (diff > 0 && !this.panelVisible) {
-              // Swipe right to open panel
-              this.showPanel();
-            } else if (diff < 0 && this.panelVisible) {
-              // Swipe left to close panel
-              this.hidePanel();
-            }
-          }
-
-          // Handle different swipe directions based on current state
-          if (this.currentState === this.states.PARTIAL) {
-            if ((diff > 50) || (isQuickSwipe && diff > 20)) {
-              // Swiping down from partial - minimize
-              this.transitionTo(this.states.MINIMIZED);
-            } else if ((diff < -50) || (isQuickSwipe && diff < -20)) {
-              // Swiping up from partial - expand
-              this.transitionTo(this.states.EXPANDED);
-            }
-          } else if (this.currentState === this.states.EXPANDED) {
-            if ((diff > 50) || (isQuickSwipe && diff > 20)) {
-              // Swiping down from expanded - return to partial
-              this.transitionTo(this.states.PARTIAL);
-            }
-          } else if (this.currentState === this.states.MINIMIZED) {
-            if ((diff < -50) || (isQuickSwipe && diff < -20)) {
-              // Swiping up from minimized - return to partial
-              this.transitionTo(this.states.PARTIAL);
-            }
-          }
-
-          startY = null;
-          currentY = null;
-        };
-
-        // Add touch event listeners to the swipe handle
-        swipeHandle.addEventListener('touchstart', handleTouchStart, { passive: true });
-        swipeHandle.addEventListener('touchmove', handleTouchMove, { passive: false });
-        swipeHandle.addEventListener('touchend', handleTouchEnd, { passive: true });
-
-        // Add touch event listeners to the header as well for better UX
-        header.addEventListener('touchstart', handleTouchStart, { passive: true });
-        header.addEventListener('touchmove', handleTouchMove, { passive: false });
-        header.addEventListener('touchend', handleTouchEnd, { passive: true });
-      }
-
-      togglePanel() {
-        if (this.panelVisible) {
-          this.hidePanel();
-        } else {
-          this.showPanel();
-        }
-      }
-
-      showPanel() {
-        this.chatContainer.style.transform = 'translateX(0)';
+    // Add initial greeting after a short delay
+    setTimeout(() => {
+      this.addBotMessage("Hello! I'm your Mental Health Assistant. How can I help you today?");
+      // On mobile, transition to PARTIAL view after initial message
+      if (this.isMobile) {
         this.transitionTo(this.states.PARTIAL);
-        this.panelVisible = true;
-        this.toggleButton.setAttribute('aria-expanded', 'true');
       }
+    }, 1000);
+  }
+
+  createTabletPanel() {
+    // Create the side panel button that will appear when MHC is collapsed
+    this.tabletPanel = document.createElement('div');
+    this.tabletPanel.className = 'mhc-tablet-panel';
+    this.tabletPanel.setAttribute('role', 'button');
+    this.tabletPanel.setAttribute('aria-label', 'Open Mental Health Assistant');
+    this.tabletPanel.setAttribute('tabindex', '0');
     
-      hidePanel() {
-        this.chatContainer.style.transform = 'translateX(-100%)';
-        this.transitionTo(this.states.HIDDEN);
-        this.panelVisible = false;
-        this.toggleButton.setAttribute('aria-expanded', 'false');
+    // Panel icon (simple chat icon)
+    const panelIcon = document.createElement('div');
+    panelIcon.className = 'mhc-panel-icon';
+    panelIcon.innerHTML = '&#128172;'; // Speech bubble emoji
+    
+    this.tabletPanel.appendChild(panelIcon);
+    this.tabletPanel.style.display = 'none'; // Initially hidden
+    
+    document.body.appendChild(this.tabletPanel);
+  }
+
+  setupEventListeners() {
+    // Send message on button click or Enter key
+    this.sendButton.addEventListener('click', () => this.handleSend());
+    this.inputField.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault(); // Tambahkan ini untuk mencegah perilaku default
+        this.handleSend();
       }
+    });
 
-      transitionTo(newState) {
-        // Exit current state
-        this.chatContainer.classList.remove(this.currentState);
+    // Quick reply buttons
+    this.quickReplies.querySelectorAll('.mhc-quick-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const topic = e.target.dataset.topic;
+        this.addUserMessage(topic.replace('_', ' '));
+        this.processMessage(topic);
+      });
+    });
 
-        // Enter new state
-        this.chatContainer.classList.add(newState);
-        this.currentState = newState;
+    // Set up swipe handling for mobile and tablet
+    if (this.isMobile) {
+      this.setupSwipeHandling();
+    } else if (this.isTablet) {
+      this.setupTabletGestures();
+    }
 
-        // Special handling for each state
-        if (newState === this.states.MINIMIZED) {
-          this.messageArea.style.display = 'none';
-          this.quickReplies.style.display = 'none';
-          this.header.querySelector('h3').style.display = 'none';
-        } else if (newState === this.states.HIDDEN) {
-          // Tablet-specific hidden state
-          this.messageArea.style.display = 'none';
-          this.quickReplies.style.display = 'none';
-          this.header.querySelector('h3').style.display = 'none';
-          this.chatContainer.style.display = 'none';
-        } else {
-          this.messageArea.style.display = 'block';
-          this.quickReplies.style.display = 'flex';
-          this.header.querySelector('h3').style.display = 'block';
-          this.chatContainer.style.display = 'block';
+    // Click header to toggle between partial and expanded (both mobile and desktop)
+    this.header.addEventListener('click', (e) => {
+      // Don't trigger if we clicked the collapse button
+      if (e.target.classList.contains('mhc-collapse-btn')) {
+        return;
+      }
+      
+      if (this.currentState === this.states.PARTIAL) {
+        this.transitionTo(this.states.EXPANDED);
+        this.body.style.overflow = 'hidden';
+      } else if (this.currentState === this.states.EXPANDED) {
+        this.transitionTo(this.states.PARTIAL);
+        this.body.style.overflow = '';
+      } else if (this.currentState === this.states.MINIMIZED) {
+        this.transitionTo(this.states.PARTIAL);
+        this.body.style.overflow = '';
+      }
+    });
+
+    // Tablet-specific: Collapse button handler
+    if (this.isTablet) {
+      const collapseBtn = this.header.querySelector('.mhc-collapse-btn');
+      if (collapseBtn) {
+        collapseBtn.addEventListener('click', () => {
+          this.transitionTo(this.states.PANEL);
+        });
+      }
+      
+      // Panel click handler
+      this.tabletPanel.addEventListener('click', () => {
+        this.transitionTo(this.states.PARTIAL);
+      });
+      
+      // Keyboard accessibility for panel
+      this.tabletPanel.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          this.transitionTo(this.states.PARTIAL);
+        }
+      });
+    }
+
+    // Prevent window resizing from breaking the layout
+    window.addEventListener('resize', () => {
+      const wasMobile = this.isMobile;
+      const wasTablet = this.isTablet;
+      
+      this.isMobile = window.innerWidth <= 768;
+      this.isTablet = window.innerWidth > 768 && window.innerWidth <= 1024;
+
+      // Handle transitions between device types
+      if (wasMobile !== this.isMobile || wasTablet !== this.isTablet) {
+        // Update UI based on new device type
+        this.updateUIForDeviceType();
+      }
+    });
+  }
+
+  updateUIForDeviceType() {
+    // Remove previous device classes
+    this.chatContainer.classList.remove('desktop', 'mobile', 'tablet');
     
-          if (newState === this.states.PARTIAL) {
-            this.scrollToLastMessage();
-            this.body.style.overflow = 'auto';
-          } else if (newState === this.states.EXPANDED) {
-            this.scrollToBottom();
-            this.body.style.overflow = 'hidden';
-          } else {
-            this.body.style.overflow = 'auto';
-          }
+    // Add appropriate device class
+    if (this.isMobile) {
+      this.chatContainer.classList.add('mobile');
+      this.setupSwipeHandling();
+      // Create tablet panel if it doesn't exist
+      if (this.isTablet && !this.tabletPanel) {
+        this.createTabletPanel();
+        this.setupTabletGestures();
+      }
+      
+      // Remove collapse button from header if it exists
+      const collapseBtn = this.header.querySelector('.mhc-collapse-btn');
+      if (collapseBtn) {
+        collapseBtn.remove();
+      }
+      
+      // Reset to partial state
+      if (this.currentState !== this.states.MINIMIZED) {
+        this.transitionTo(this.states.PARTIAL);
+      }
+    } else if (this.isTablet) {
+      this.chatContainer.classList.add('tablet');
+      
+      // Add collapse button to header if it doesn't exist
+      if (!this.header.querySelector('.mhc-collapse-btn')) {
+        const collapseBtn = document.createElement('button');
+        collapseBtn.className = 'mhc-collapse-btn';
+        collapseBtn.innerHTML = '|→';
+        collapseBtn.setAttribute('aria-label', 'Collapse chatbot to panel');
+        
+        collapseBtn.addEventListener('click', () => {
+          this.transitionTo(this.states.PANEL);
+        });
+        
+        this.header.appendChild(collapseBtn);
+      }
+      
+      // Create tablet panel if it doesn't exist
+      if (!this.tabletPanel) {
+        this.createTabletPanel();
+      }
+      
+      this.setupTabletGestures();
+      
+      // Reset to partial state
+      if (this.currentState !== this.states.PANEL) {
+        this.transitionTo(this.states.PARTIAL);
+      }
+    } else {
+      // Desktop
+      this.chatContainer.classList.add('desktop');
+      
+      // Remove collapse button from header if it exists
+      const collapseBtn = this.header.querySelector('.mhc-collapse-btn');
+      if (collapseBtn) {
+        collapseBtn.remove();
+      }
+      
+      // Reset to partial state
+      this.transitionTo(this.states.PARTIAL);
+    }
+  }
+
+  setupSwipeHandling() {
+    let startY, currentY;
+    let touchStartTime;
+    const swipeHandle = this.header.querySelector('.mhc-swipe-handle');
+    const header = this.header;
+
+    const handleTouchStart = (e) => {
+      startY = e.touches[0].clientY;
+      touchStartTime = new Date().getTime();
+    };
+
+    const handleTouchMove = (e) => {
+      if (!startY) return;
+      currentY = e.touches[0].clientY;
+      const diff = currentY - startY;
+
+      // Prevent default browser behavior to allow smooth swipe
+      e.preventDefault();
+
+      // Add visual feedback during swipe
+      if (diff > 0 && this.currentState !== this.states.MINIMIZED) {
+        // Swiping down - show a subtle pull effect
+        this.chatContainer.style.transform = `translateY(${Math.min(diff * 0.3, 30)}px)`;
+      } else if (diff < 0 && this.currentState !== this.states.EXPANDED) {
+        // Swiping up - show a subtle push effect
+        this.chatContainer.style.transform = `translateY(${Math.max(diff * 0.3, -30)}px)`;
+      }
+    };
+
+    const handleTouchEnd = (e) => {
+      if (!startY) return;
+      const diff = currentY - startY;
+      const touchEndTime = new Date().getTime();
+      const swipeTime = touchEndTime - touchStartTime;
+      const isQuickSwipe = swipeTime < 300;
+
+      // Reset transform
+      this.chatContainer.style.transform = '';
+
+      // Handle different swipe directions based on current state
+      if (this.currentState === this.states.PARTIAL) {
+        if ((diff > 50) || (isQuickSwipe && diff > 20)) {
+          // Swiping down from partial - minimize
+          this.transitionTo(this.states.MINIMIZED);
+        } else if ((diff < -50) || (isQuickSwipe && diff < -20)) {
+          // Swiping up from partial - expand
+          this.transitionTo(this.states.EXPANDED);
+        }
+      } else if (this.currentState === this.states.EXPANDED) {
+        if ((diff > 50) || (isQuickSwipe && diff > 20)) {
+          // Swiping down from expanded - return to partial
+          this.transitionTo(this.states.PARTIAL);
+        }
+      } else if (this.currentState === this.states.MINIMIZED) {
+        if ((diff < -50) || (isQuickSwipe && diff < -20)) {
+          // Swiping up from minimized - return to partial
+          this.transitionTo(this.states.PARTIAL);
         }
       }
 
+      startY = null;
+      currentY = null;
+    };
+
+    // Add touch event listeners to the swipe handle
+    swipeHandle.addEventListener('touchstart', handleTouchStart, { passive: true });
+    swipeHandle.addEventListener('touchmove', handleTouchMove, { passive: false });
+    swipeHandle.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    // Add touch event listeners to the header as well for better UX
+    header.addEventListener('touchstart', handleTouchStart, { passive: true });
+    header.addEventListener('touchmove', handleTouchMove, { passive: false });
+    header.addEventListener('touchend', handleTouchEnd, { passive: true });
+  }
+
+  setupTabletGestures() {
+    let startX, currentX;
+    let touchStartTime;
+    const chatContainer = this.chatContainer;
+    const header = this.header;
+
+    const handleTouchStart = (e) => {
+      startX = e.touches[0].clientX;
+      touchStartTime = new Date().getTime();
+    };
+
+    const handleTouchMove = (e) => {
+      if (!startX) return;
+      currentX = e.touches[0].clientX;
+      const diff = currentX - startX;
+
+      // For horizontal swipe in tablet mode
+      if (Math.abs(diff) > 10) {
+        e.preventDefault();
+        
+        if (this.currentState !== this.states.PANEL && diff > 0) {
+          // Swiping right - show panel effect
+          chatContainer.style.transform = `translateX(${Math.min(diff * 0.5, 100)}px)`;
+        } else if (this.currentState === this.states.PANEL && diff < 0) {
+          // Swiping left from panel - show chatbot effect
+          this.tabletPanel.style.transform = `translateX(${Math.max(diff * 0.5, -50)}px)`;
+        }
+      }
+    };
+
+    const handleTouchEnd = (e) => {
+      if (!startX) return;
+      const diff = currentX - startX;
+      const touchEndTime = new Date().getTime();
+      const swipeTime = touchEndTime - touchStartTime;
+      const isQuickSwipe = swipeTime < 300;
+
+      // Reset transforms
+      chatContainer.style.transform = '';
+      if (this.tabletPanel) {
+        this.tabletPanel.style.transform = '';
+      }
+
+      // Handle horizontal swipe in tablet mode
+      if (this.currentState !== this.states.PANEL) {
+        if ((diff > 100) || (isQuickSwipe && diff > 50)) {
+          // Swiping right - collapse to panel
+          this.transitionTo(this.states.PANEL);
+        }
+      } else if (this.currentState === this.states.PANEL) {
+        if ((diff < -100) || (isQuickSwipe && diff < -50)) {
+          // Swiping left from panel - show chatbot
+          this.transitionTo(this.states.PARTIAL);
+        }
+      }
+
+      startX = null;
+      currentX = null;
+    };
+
+    // Add touch event listeners for horizontal swipe in tablet mode
+    chatContainer.addEventListener('touchstart', handleTouchStart, { passive: true });
+    chatContainer.addEventListener('touchmove', handleTouchMove, { passive: false });
+    chatContainer.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    // Add touch event listeners to the panel too
+    if (this.tabletPanel) {
+      this.tabletPanel.addEventListener('touchstart', handleTouchStart, { passive: true });
+      this.tabletPanel.addEventListener('touchmove', handleTouchMove, { passive: false });
+      this.tabletPanel.addEventListener('touchend', handleTouchEnd, { passive: true });
+    }
+  }
+
+  transitionTo(newState) {
+      // Exit current state
+      this.chatContainer.classList.remove(this.currentState);
+    
+      // Handle tablet panel state specially
+      if (newState === this.states.PANEL && this.isTablet) {
+        // Show panel button
+        if (this.tabletPanel) {
+          this.tabletPanel.style.display = 'flex';
+        }
+        // Hide the main chatbot container
+        this.chatContainer.style.display = 'none';
+        
+        // Announce state change for screen readers
+        this.liveRegion.textContent = 'Mental health assistant collapsed to side panel';
+      } else {
+        // For any other state, make sure panel is hidden and chatbot is visible
+        if (this.tabletPanel) {
+          this.tabletPanel.style.display = 'none';
+        }
+        this.chatContainer.style.display = 'flex';
+      }
+    
+      // Enter new state
+      this.chatContainer.classList.add(newState);
+      
+      // Specific behavior for different states
+      if (newState === this.states.MINIMIZED) {
+        // In minimized state, only show input area
+        this.messageArea.style.display = 'none';
+        this.progressContainer.style.display = 'none';
+        this.meterContainer.style.display = 'none';
+        
+        // Announce state change
+        this.liveRegion.textContent = 'Mental health assistant minimized';
+      } else if (newState === this.states.PARTIAL) {
+        // In partial state, show messages but with reduced height
+        this.messageArea.style.display = 'block';
+        this.progressContainer.style.display = 'block';
+        this.meterContainer.style.display = 'block';
+        
+        // Reset body scroll for partial view
+        this.body.style.overflow = '';
+        
+        // Announce state change
+        this.liveRegion.textContent = 'Mental health assistant partially expanded';
+      } else if (newState === this.states.EXPANDED) {
+        // In expanded state, show everything in full height
+        this.messageArea.style.display = 'block';
+        this.progressContainer.style.display = 'block';
+        this.meterContainer.style.display = 'block';
+        
+        // Lock body scroll for full screen view on mobile
+        if (this.isMobile) {
+          this.body.style.overflow = 'hidden';
+        }
+        
+        // Announce state change
+        this.liveRegion.textContent = 'Mental health assistant fully expanded';
+        
+        // Scroll to bottom when expanded
+        this.messageArea.scrollTop = this.messageArea.scrollHeight;
+      }
+      
+      // Update current state
+      this.currentState = newState;
+      
+      // Focus on input field for better UX except in panel state
+      if (newState !== this.states.PANEL) {
+        setTimeout(() => this.inputField.focus(), 300);
+      }
+    }
       handleSend() {
         // Ambil teks dengan cara yang aksesibel
         const message = this.inputField.innerText.trim();
