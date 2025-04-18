@@ -1184,8 +1184,12 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
       {input: "I'm always worried", output: {category: "anxiety", response: "anxiety"}},
       {input: "stress", output: {category: "stress", response: "stress"}},
       {input: "I'm so stressed", output: {category: "stress", response: "stress"}},
-      {input: "self care", output: {category: "self_care", response: "self_care"}},
       {input: "how to relax", output: {category: "self_care", response: "self_care"}},
+      {input: "self care", output: {category: "self_care", response: "self_care"}},
+      {input: "selfcare", output: {category: "self_care", response: "self_care"}},
+      {input: "self-care", output: {category: "self_care", response: "self_care"}},
+      {input: "relaxation", output: {category: "self_care", response: "self_care"}},
+      {input: "how to take care of myself", output: {category: "self_care", response: "self_care"}},
       {input: "help", output: {category: "help", response: "help"}},
       {input: "I need help", output: {category: "help", response: "help"}},
       {input: "sensors", output: {category: "sensors", response: "sensors"}},
@@ -1215,13 +1219,16 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
         ],
         resources: "https://www.cdc.gov/mentalhealth/stress-coping/index.html"
       },
-      "self_care": {
-        responses: [
-          "Effective self-care includes regular exercise, mindfulness meditation, maintaining a sleep schedule, and staying socially connected.",
-          "Our light sensor can help monitor your environment for optimal conditions."
-        ],
-        resources: "https://www.mhanational.org/self-help"
-      },
+        "self_care": {
+    responses: [
+      "Self-care is essential for mental wellbeing. Try these techniques:",
+      "1. Take short breaks during work",
+      "2. Practice deep breathing exercises",
+      "3. Maintain a regular sleep schedule",
+      "4. Engage in physical activity you enjoy"
+    ],
+    resources: "https://www.mentalhealth.org.uk/publications/how-to-mental-health"
+  },
       "help": {
         responses: [
           "You can contact mental health professionals through our partner network.",
@@ -1276,11 +1283,18 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
   }
 
   similarity(s1, s2) {
-    const words1 = s1.split(' ');
-    const words2 = s2.split(' ');
-    const intersection = words1.filter(word => words2.includes(word));
-    return intersection.length / Math.max(words1.length, words2.length);
-  }
+  // Normalisasi string sebelum dibandingkan
+  const normalize = str => str.toLowerCase()
+    .replace(/-/g, ' ')
+    .replace(/_/g, ' ')
+    .trim();
+  
+  const words1 = normalize(s1).split(' ');
+  const words2 = normalize(s2).split(' ');
+  
+  const intersection = words1.filter(word => words2.includes(word));
+  return intersection.length / Math.max(words1.length, words2.length);
+}
 
   initializeUI() {
     // Main container - Different positioning for mobile vs desktop
@@ -1842,7 +1856,12 @@ this.liveRegion.textContent = `Message sent: ${message}`;
   }
 
   processMessage(message) {
-    const prediction = this.model.predict(message);
+      const normalizedInput = message.toLowerCase()
+    .replace(/-/g, ' ')
+    .replace(/_/g, ' ')
+    .trim();
+  
+      const prediction = this.model.predict(normalizedInput);
     
     if (prediction.category !== "unknown" && this.faqData[prediction.category]) {
       const faq = this.faqData[prediction.category];
