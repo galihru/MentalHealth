@@ -1319,33 +1319,27 @@ this.messageArea.setAttribute('aria-label', 'Conversation messages');
 this.inputContainer = document.createElement('div');
 this.inputContainer.className = 'mhc-input-container';
 
-// Input field with proper labeling
+// Input Field dengan proper accessible name
+const inputWrapper = document.createElement('div');
+inputWrapper.className = 'mhc-input-wrapper';
+
+// Label yang sudah dimodifikasi
 const inputLabel = document.createElement('label');
 inputLabel.setAttribute('for', 'mhc-user-input');
 inputLabel.id = 'mhc-input-label';
 inputLabel.className = 'mhc-input-label';
 inputLabel.textContent = 'Message input';
 
-// Dengan ini:
-const inputWrapper = document.createElement('div');
-inputWrapper.className = 'mhc-input-wrapper';
-
-const inputLabel = document.createElement('span');
-inputLabel.className = 'mhc-input-label';
-inputLabel.id = 'mhc-input-label';
-inputLabel.textContent = 'Message input';
-inputLabel.setAttribute('aria-hidden', 'true'); // Karena kita akan menggunakan ARIA
-
+// Create the textbox div
 this.inputField = document.createElement('div');
 this.inputField.className = 'mhc-input';
 this.inputField.id = 'mhc-user-input';
 this.inputField.setAttribute('role', 'textbox');
+this.inputField.setAttribute('aria-required', 'true');
 this.inputField.setAttribute('aria-labelledby', 'mhc-input-label');
-this.inputField.setAttribute('aria-label', 'Type your message here'); // Fallback
 this.inputField.setAttribute('contenteditable', 'true');
 this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
 this.inputField.dataset.placeholder = 'Ask about mental health...';
-
 
       // Tambahkan event listeners untuk placeholder behavior
 this.inputField.addEventListener('focus', () => {
