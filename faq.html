@@ -1262,17 +1262,42 @@ this.inputField.setAttribute('contenteditable', 'true');
 this.inputField.setAttribute('aria-placeholder', 'Ask about mental health...');
 this.inputField.dataset.placeholder = 'Ask about mental health...';
 
-// 2. Send Button sebagai Input
-this.sendButton = document.createElement('input');
+// 1. Create send button
+this.sendButton = document.createElement('button'); // Lebih baik menggunakan <button>
 this.sendButton.className = 'mhc-send-btn';
 this.sendButton.setAttribute('type', 'button');
-this.sendButton.setAttribute('value', '→');  // Unicode right arrow
 this.sendButton.setAttribute('aria-label', 'Send message');
-      
-// Tooltip untuk screen reader
+this.sendButton.innerHTML = '→'; // Unicode arrow
+
+// 2. Create proper ARIA tooltip
 const sendTooltip = document.createElement('span');
-sendTooltip.className = 'mhc-visually-hidden';
+sendTooltip.id = 'mhc-send-tooltip';
+sendTooltip.className = 'mhc-tooltip';
+sendTooltip.setAttribute('role', 'tooltip');
+sendTooltip.setAttribute('aria-hidden', 'true'); // Awalnya disembunyikan
 sendTooltip.textContent = 'Click to send your message';
+
+// 3. Hubungkan button dengan tooltip
+this.sendButton.setAttribute('aria-describedby', 'mhc-send-tooltip');
+
+// 4. Tambahkan event untuk menampilkan tooltip
+this.sendButton.addEventListener('mouseover', () => {
+  sendTooltip.setAttribute('aria-hidden', 'false');
+});
+
+this.sendButton.addEventListener('mouseout', () => {
+  sendTooltip.setAttribute('aria-hidden', 'true');
+});
+
+this.sendButton.addEventListener('focus', () => {
+  sendTooltip.setAttribute('aria-hidden', 'false');
+});
+
+this.sendButton.addEventListener('blur', () => {
+  sendTooltip.setAttribute('aria-hidden', 'true');
+});
+
+// 5. Tambahkan ke DOM
 this.sendButton.appendChild(sendTooltip);
 
 this.inputContainer.appendChild(inputLabel);
