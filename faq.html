@@ -1686,6 +1686,8 @@ setTimeout(() => this.setKeyboardNavigation(), 0);
     this.inputField.setAttribute('aria-live', 'polite');
     this.inputField.setAttribute('aria-atomic', 'true');
       
+// Di method handleSend(), tambahkan:
+this.liveRegion.textContent = `Message sent: ${message}`;
       // Disable input while processing
       this.inputField.disabled = true;
       this.sendButton.disabled = true;
