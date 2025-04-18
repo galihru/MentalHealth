@@ -2545,7 +2545,7 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
             message.appendChild(textPart);
           }
       
-          // Always create URL information text at the top for security
+          // Create URL information text at the top for security
           const urlInfo = document.createElement('div');
           urlInfo.className = 'mhc-url-info';
           urlInfo.style.marginBottom = '8px';
@@ -2555,21 +2555,17 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           urlInfo.textContent = `Source: ${url}`;
           message.appendChild(urlInfo);
       
-          // Create container for iframe/fallback
-          const contentContainer = document.createElement('div');
-          contentContainer.className = 'mhc-content-container';
-          
-          // Create an iframe with error handling
+          // Create iframe container
           const iframeContainer = document.createElement('div');
           iframeContainer.className = 'mhc-iframe-container';
           iframeContainer.style.position = 'relative';
           iframeContainer.style.width = '100%';
-          iframeContainer.style.minHeight = '200px';
+          iframeContainer.style.minHeight = '300px';
           iframeContainer.style.border = '1px solid #ddd';
           iframeContainer.style.borderRadius = '4px';
           iframeContainer.style.overflow = 'hidden';
           
-          // Create iframe
+          // Create iframe with simpler approach
           const iframe = document.createElement('iframe');
           iframe.src = url;
           iframe.title = 'Resource from Assistant';
@@ -2579,6 +2575,55 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           iframe.setAttribute('loading', 'lazy');
           iframe.style.width = '100%';
           iframe.style.height = '300px';
+          iframe.style.border = 'none';
+          
+          // Create loading indicator
+          const loadingDiv = document.createElement('div');
+          loadingDiv.className = 'mhc-iframe-loading';
+          loadingDiv.style.position = 'absolute';
+          loadingDiv.style.top = '0';
+          loadingDiv.style.left = '0';
+          loadingDiv.style.width = '100%';
+          loadingDiv.style.height = '100%';
+          loadingDiv.style.display = 'flex';
+          loadingDiv.style.alignItems = 'center';
+          loadingDiv.style.justifyContent = 'center';
+          loadingDiv.style.backgroundColor = '#f9f9f9';
+          loadingDiv.innerHTML = '<p>Loading content...</p>';
+          
+          // Create fallback div (initially hidden)
+          const fallbackDiv = document.createElement('div');
+          fallbackDiv.className = 'mhc-fallback-link';
+          fallbackDiv.style.padding = '15px';
+          fallbackDiv.style.backgroundColor = '#f9f9f9';
+          fallbackDiv.style.position = 'absolute';
+          fallbackDiv.style.top = '0';
+          fallbackDiv.style.left = '0';
+          fallbackDiv.style.width = '100%';
+          fallbackDiv.style.height = '100%';
+          fallbackDiv.style.display = 'none'; // Initially hidden
+          
+          // Get domain for display
+          let domain;
+          try {
+            domain = new URL(url).hostname;
+          } catch (e) {
+            domain = url.split('/')[2] || 'website';
+          }
+          
+          fallbackDiv.innerHTML = `
+            <div style="display: flex; align-items: center;">
+              <span style="font-size: 24px; margin-right: 10px;">🔒</span>
+              <div>
+                <p style="margin: 0; font-weight: bold;">This content cannot be displayed in chat</p>
+                <p style="margin: 5px 0;">The website ${domain} doesn't allow embedding in other sites.</p>
+                <a href="${url}" target="_blank" rel="noopener noreferrer" 
+                   style="display: inline-block; margin-top: 5px; color: #0066cc; font-weight: bold;">
+                  Open in new tab →
+                </a>
+              </div>
+            </div>
+          `;
           
           // Enhanced pop-out button
           const popOutBtn = document.createElement('a');
@@ -2598,80 +2643,47 @@ void uploadToGitHub(DynamicJsonDocument doc, const char* url, String& lastSHA) {
           popOutBtn.style.textDecoration = 'none';
           popOutBtn.style.zIndex = '10';
           
-          // Append iframe and popout button
+          // Add everything to the container
+          iframeContainer.appendChild(loadingDiv);
           iframeContainer.appendChild(iframe);
+          iframeContainer.appendChild(fallbackDiv);
           iframeContainer.appendChild(popOutBtn);
-          contentContainer.appendChild(iframeContainer);
+          message.appendChild(iframeContainer);
           
-          // Handle X-Frame-Options error
-          iframe.onerror = function() {
-            handleFrameError();
-          };
-          
+          // Handle iframe load event
           iframe.onload = function() {
-            // This will trigger if iframe loads successfully
-            iframe.style.display = 'block';
-          };
-          
-          // Also add event listener for security errors
-          window.addEventListener('error', function(e) {
-            if (e.target === iframe) {
-              handleFrameError();
-            }
-          }, true);
-          
-          // Create a fallback handler function
-          const handleFrameError = () => {
-            // Remove iframe and replace with link
-            iframeContainer.innerHTML = '';
+            // Hide loading indicator when iframe is loaded
+            loadingDiv.style.display = 'none';
             
-            const fallbackDiv = document.createElement('div');
-            fallbackDiv.className = 'mhc-fallback-link';
-            fallbackDiv.style.padding = '15px';
-            fallbackDiv.style.backgroundColor = '#f9f9f9';
-            fallbackDiv.style.border = '1px solid #ddd';
-            fallbackDiv.style.borderRadius = '4px';
-            
-            // Get domain for display
-            let domain;
-            try {
-              domain = new URL(url).hostname;
-            } catch (e) {
-              domain = url.split('/')[2] || 'website';
-            }
-            
-            fallbackDiv.innerHTML = `
-              <div style="display: flex; align-items: center;">
-                <span style="font-size: 24px; margin-right: 10px;">🔒</span>
-                <div>
-                  <p style="margin: 0; font-weight: bold;">This content cannot be displayed in chat</p>
-                  <p style="margin: 5px 0;">The website ${domain} doesn't allow embedding in other sites.</p>
-                  <a href="${url}" target="_blank" rel="noopener noreferrer" 
-                     style="display: inline-block; margin-top: 5px; color: #0066cc; font-weight: bold;">
-                    Open in new tab →
-                  </a>
-                </div>
-              </div>
-            `;
-            
-            iframeContainer.appendChild(fallbackDiv);
-          };
-          
-          // Add a fallback timeout in case error event doesn't fire
-          setTimeout(() => {
-            // If after 3 seconds we can't access iframe content, assume X-Frame-Options block
-            try {
-              // This will throw an error if blocked by X-Frame-Options
-              const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-              if (!iframeDoc) {
-                handleFrameError();
+            // We need to check if iframe content loaded successfully
+            // This is a better approach than the previous ones
+            setTimeout(() => {
+              try {
+                // If we can access iframe height, it's likely loaded correctly
+                const iframeHeight = iframe.contentWindow.document.body.scrollHeight;
+                
+                // If we got here, iframe loaded successfully
+                console.log("Iframe loaded successfully, content height:", iframeHeight);
+                
+                // Adjust iframe height if possible
+                if (iframeHeight > 100) {
+                  iframe.style.height = (iframeHeight + 50) + 'px';
+                }
+              } catch (e) {
+                // If we can't access iframe content, it's likely blocked by X-Frame-Options
+                console.error("Cannot access iframe content:", e);
+                fallbackDiv.style.display = 'block';
+                iframe.style.display = 'none';
               }
-            } catch (e) {
-              handleFrameError();
-            }
-          }, 3000);
+            }, 500);
+          };
           
-          message.appendChild(contentContainer);
+          // Handle iframe error event
+          iframe.onerror = function() {
+            loadingDiv.style.display = 'none';
+            fallbackDiv.style.display = 'block';
+            iframe.style.display = 'none';
+          };
         } else {
           message.textContent = text;
         }
