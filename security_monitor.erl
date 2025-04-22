@@ -1,5 +1,5 @@
 -module(security_monitor).
--export([start/0, log_event/2, slack_alert/1]).  % Tambahkan ekspor fungsi
+-export([start/0, log_event/2, slack_alert/1]).
 
 start() ->
     spawn(fun() -> 
@@ -11,6 +11,20 @@ log_event(Type, Details) ->
     Timestamp = os:system_time(millisecond),
     ets:insert(security_events, {Timestamp, Type, Details}).
 
+%% Implementasi fungsi slack_alert/1 yang sebelumnya missing
+slack_alert(Message) ->
+    WebhookUrl = os:getenv("SLACK_WEBHOOK_URL"),
+    case WebhookUrl of
+        false ->
+            io:format("[SLACK] Alert suppressed (no webhook): ~s~n", [Message]);
+        _ ->
+            Body = io_lib:format("{\"text\":\"Security Alert: ~s\"}", [Message]),
+            httpc:request(post, 
+                {WebhookUrl, [], "application/json", Body},
+                [],
+                [])
+    end.
+
 monitor_loop() ->
     receive
         {analyze, From} ->
@@ -18,28 +32,9 @@ monitor_loop() ->
             From ! {analysis, length(Suspicious)},
             monitor_loop()
     after 5000 ->
-        % Auto-report setiap 5 detik
-        report_anomalies(),
+        case ets:info(security_events, size) > 100 of
+            true -> slack_alert("High activity detected!");
+            false -> ok
+        end,
         monitor_loop()
-    end.
-
-report_anomalies() ->
-    case ets:info(security_events, size) > 100 of
-        true -> 
-            % Kirim notifikasi ke Slack/Email
-            slack_alert("High activity detected!");
-        false -> ok
-    end.
-
-%% Tambahkan fungsi baru
-slack_alert(Message) ->
-    case os:getenv("SLACK_WEBHOOK_URL") of
-        false ->
-            io:format("[SLACK] Alert suppressed (no webhook): ~s~n", [Message]);
-        WebhookUrl ->
-            Body = io_lib:format("{\"text\":\"~s\"}", [Message]),
-            httpc:request(post, 
-                {WebhookUrl, [], "application/json", Body},
-                [],
-                [])
     end.
