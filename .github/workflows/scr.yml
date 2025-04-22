@@ -10,14 +10,19 @@ jobs:
       - name: Setup Erlang
         uses: erlef/setup-beam@v1
         with:
-          otp-version: '26.0'  # Gunakan versi terbaru
+          otp-version: '26.0'
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
 
       - name: Compile Erlang modules
-        run: |
-          erlc ip_blocker.erl security_monitor.erl mini_waf.erl
-          ls *.beam  # Verifikasi file beam terbuat
+        run: erlc ip_blocker.erl security_monitor.erl mini_waf.erl
 
       - name: Run Security Systems
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}  # Jika pakai Slack
         run: |
           erl -pa . -noshell -eval '
             application:start(crypto),
@@ -26,16 +31,13 @@ jobs:
             code:load_file(security_monitor),
             ip_blocker:start_link(),
             security_monitor:start(),
-            lists:foreach(fun(IP) -> ip_blocker:block_ip(IP) end, [
-                "1.1.1.1", "2.2.2.2"
-            ]),
-            timer:sleep(2000),  # Beri waktu untuk inisialisasi
+            lists:foreach(fun(IP) -> ip_blocker:block_ip(IP) end, ["1.1.1.1"]),
+            timer:sleep(2000),
             init:stop()
           '
 
-      - name: Deploy WAF Rules
+      - name: Deploy WAF Rules to Cloudflare
         run: |
-          # Tetap pertahankan bagian Cloudflare
           curl -X PUT "https://api.cloudflare.com/client/v4/zones/bab32fe292310337a52c8dbaac93e34a/firewall/rules" \
           -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_KEY }}" \
           -H "Content-Type: application/json" \
