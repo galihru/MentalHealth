@@ -38,7 +38,18 @@ jobs:
 
       - name: Deploy WAF Rules to Cloudflare
         run: |
-          curl -X PUT "https://api.cloudflare.com/client/v4/zones/bab32fe292310337a52c8dbaac93e34a/firewall/rules" \
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/bab32fe292310337a52c8dbaac93e34a/firewall/rules" \
           -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_KEY }}" \
           -H "Content-Type: application/json" \
-          --data '{"rules": [{"filter": {"expression": "(http.request.uri.path contains '\''/wp-admin'\'')"},"action": "block"}]}'
+          --data '[
+            {
+              "description": "Block Suspicious Requests",
+              "action": "block",
+              "priority": 1,
+              "filter": {
+                "expression": "(http.request.uri.path contains \"/wp-admin\") or (http.request.uri contains \"../\") or (http.request.uri contains \"union+select\")",
+                "paused": false
+              },
+              "paused": false
+            }
+          ]'
