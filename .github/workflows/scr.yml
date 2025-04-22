@@ -7,20 +7,19 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Setup Erlang/Elixir
+      - name: Setup Erlang
         uses: erlef/setup-beam@v1
         with:
-          otp-version: '26.0'  # Ganti dengan versi terbaru yang Anda butuhkan
-          # elixir-version: '1.15.4'  # Uncomment jika butuh Elixir
+          otp-version: '26.0'  # Gunakan versi terbaru
 
-      - name: Install dependencies
+      - name: Compile Erlang modules
         run: |
-          sudo apt-get update
-          sudo apt-get install -y curl
+          erlc ip_blocker.erl security_monitor.erl mini_waf.erl
+          ls *.beam  # Verifikasi file beam terbuat
 
       - name: Run Security Systems
         run: |
-          erl -noshell -eval '
+          erl -pa . -noshell -eval '
             application:start(crypto),
             application:start(inets),
             code:load_file(ip_blocker),
@@ -30,21 +29,14 @@ jobs:
             lists:foreach(fun(IP) -> ip_blocker:block_ip(IP) end, [
                 "1.1.1.1", "2.2.2.2"
             ]),
+            timer:sleep(2000),  # Beri waktu untuk inisialisasi
             init:stop()
           '
 
       - name: Deploy WAF Rules
         run: |
+          # Tetap pertahankan bagian Cloudflare
           curl -X PUT "https://api.cloudflare.com/client/v4/zones/bab32fe292310337a52c8dbaac93e34a/firewall/rules" \
           -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_API_KEY }}" \
           -H "Content-Type: application/json" \
-          --data '{
-            "rules": [{
-              "description": "Block wp-admin access",
-              "filter": {
-                "expression": "(http.request.uri.path contains \"/wp-admin\")"
-              },
-              "action": "block",
-              "enabled": true
-            }]
-          }'
+          --data '{"rules": [{"filter": {"expression": "(http.request.uri.path contains '\''/wp-admin'\'')"},"action": "block"}]}'
