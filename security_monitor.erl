@@ -1,5 +1,5 @@
 -module(security_monitor).
--export([start/0, log_event/2]).
+-export([start/0, log_event/2, slack_alert/1]).  % Tambahkan ekspor fungsi
 
 start() ->
     spawn(fun() -> 
@@ -29,4 +29,17 @@ report_anomalies() ->
             % Kirim notifikasi ke Slack/Email
             slack_alert("High activity detected!");
         false -> ok
+    end.
+
+%% Tambahkan fungsi baru
+slack_alert(Message) ->
+    case os:getenv("SLACK_WEBHOOK_URL") of
+        false ->
+            io:format("[SLACK] Alert suppressed (no webhook): ~s~n", [Message]);
+        WebhookUrl ->
+            Body = io_lib:format("{\"text\":\"~s\"}", [Message]),
+            httpc:request(post, 
+                {WebhookUrl, [], "application/json", Body},
+                [],
+                [])
     end.
