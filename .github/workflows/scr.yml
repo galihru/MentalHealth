@@ -53,3 +53,36 @@ jobs:
               "paused": false
             }
           ]'
+
+      - name: Deploy Cloudflare Worker
+        run: |
+          curl -X PUT "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/workers/scripts/security-headers" \
+          -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+          -H "Content-Type: application/javascript" \
+          --data-binary "@security-headers.js"
+
+      - name: Deploy Cloudflare Security Rules
+        run: |
+          # 1. Enable HSTS dengan includeSubDomains dan preload
+          curl -X PATCH "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/settings/security_header" \
+          -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          --data '{
+            "value": {
+              "strict_transport_security": {
+                "enabled": true,
+                "max_age": 63072000,
+                "include_subdomains": true,
+                "preload": true
+              }
+            }
+          }'
+
+          # 2. Deploy CSP dan COOP
+          curl -X PUT "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/workers/routes" \
+          -H "Authorization: Bearer ${{ secrets.CF_API_TOKEN }}" \
+          -H "Content-Type: application/json" \
+          --data '{
+            "pattern": "4211421036.github.io/*",
+            "script": "security-headers"
+          }'
