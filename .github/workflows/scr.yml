@@ -7,24 +7,32 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Setup Erlang
+      - name: Setup Erlang/Elixir
         uses: erlef/setup-beam@v1
-        
+        with:
+          otp-version: '26.0'  # Ganti dengan versi terbaru yang Anda butuhkan
+          # elixir-version: '1.15.4'  # Uncomment jika butuh Elixir
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y curl
+
       - name: Run Security Systems
         run: |
           erl -noshell -eval '
             application:start(crypto),
+            application:start(inets),
             code:load_file(ip_blocker),
             code:load_file(security_monitor),
             ip_blocker:start_link(),
             security_monitor:start(),
-            % Auto-block IPs dari daftar known bad actors
             lists:foreach(fun(IP) -> ip_blocker:block_ip(IP) end, [
-                "1.1.1.1", "2.2.2.2" % Contoh IP berbahaya
+                "1.1.1.1", "2.2.2.2"
             ]),
             init:stop()
           '
-          
+
       - name: Deploy WAF Rules
         run: |
           curl -X PUT "https://api.cloudflare.com/client/v4/zones/bab32fe292310337a52c8dbaac93e34a/firewall/rules" \
@@ -32,9 +40,11 @@ jobs:
           -H "Content-Type: application/json" \
           --data '{
             "rules": [{
+              "description": "Block wp-admin access",
               "filter": {
                 "expression": "(http.request.uri.path contains \"/wp-admin\")"
               },
-              "action": "block"
+              "action": "block",
+              "enabled": true
             }]
           }'
